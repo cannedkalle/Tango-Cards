@@ -1,10 +1,20 @@
-import Link from "next/link";
+import HomeSeriesGrid from "./components/HomeSeriesGrid";
 import Topbar from "./components/Topbar";
-import { allCards, bracketCount, countLabel, expectedCardsPerSeries, seriesList } from "../lib/cards";
+import { allCards, bracketCount, expectedCardsPerSeries, seriesList } from "../lib/cards";
 import { kofiUrl } from "../lib/support";
 
 export default function HomePage() {
   const incomplete = seriesList.filter((series) => series.cards.length !== expectedCardsPerSeries);
+  const seriesSummaries = seriesList.map((series, index) => ({
+    key: series.key,
+    label: series.label,
+    href: series.href,
+    order: index,
+    dateRank: index,
+    cardCount: series.cards.length,
+    expectedCount: expectedCardsPerSeries,
+    coverSrc: series.cards[0]?.src || "",
+  }));
 
   return (
     <>
@@ -24,25 +34,7 @@ export default function HomePage() {
             </div>
           ) : null}
 
-          <div className="home-grid">
-            {seriesList.map((series) => {
-              const cover = series.cards[0];
-              const isComplete = series.cards.length === expectedCardsPerSeries;
-
-              return (
-                <Link className="series-card" href={series.href} key={series.key}>
-                  {cover ? <img src={cover.src} alt="" loading="lazy" /> : <span className="missing-cover" />}
-                  <span className="series-card-copy">
-                    <span>
-                      <span className="series-title">{series.label}</span>
-                      <span className="series-action">Open gallery</span>
-                    </span>
-                    <span className={`series-count ${isComplete ? "" : "is-short"}`}>{countLabel(series.cards.length)}</span>
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
+          <HomeSeriesGrid series={seriesSummaries} />
         </section>
       </main>
     </>

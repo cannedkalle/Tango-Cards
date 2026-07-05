@@ -4,89 +4,147 @@ import Link from "next/link";
 import { useMemo, useRef, useState } from "react";
 import { bracketCount, countLabel } from "../../lib/cards";
 
-const ratingFilters = ["All", "Rated", "Unrated", "Favorites"];
-
-function readRatings() {
+function readBinder() {
   if (typeof window === "undefined") return {};
 
   try {
-    return JSON.parse(window.localStorage.getItem("tangoCardRatings") || "{}");
+    return JSON.parse(window.localStorage.getItem("tangoCardBinder") || "{}");
   } catch {
     return {};
   }
 }
 
-function Rating({ card, ratings, onRate, label = "Rate this card" }) {
-  const current = ratings[card.key] || 0;
+function getVisitorId() {
+  const key = "tangoCardsVisitorId";
+  let visitorId = window.localStorage.getItem(key);
+
+  if (!visitorId) {
+    visitorId = window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    window.localStorage.setItem(key, visitorId);
+  }
+
+  return visitorId;
+}
+
+function recordFeedbackEvent(event) {
+  if (typeof window === "undefined") return;
+
+  const payload = {
+    visitorId: getVisitorId(),
+    ...event,
+  };
+
+  fetch("/api/events", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+    keepalive: true,
+  }).catch(() => {});
+}
+
+function BinderButton({ card, binder, onToggle }) {
+  const inBinder = Boolean(binder[card.key]);
 
   return (
-    <span className="rating" role="group" aria-label={label}>
-      {[1, 2, 3, 4, 5].map((value) => (
-        <button
-          type="button"
-          className="star"
-          data-rate={value}
-          data-key={card.key}
-          aria-label={`${value} star${value === 1 ? "" : "s"}`}
-          aria-pressed={current === value}
-          title={`${value} star${value === 1 ? "" : "s"}`}
-          key={value}
-          onClick={() => onRate(card.key, value)}
-        >
-          {value <= current ? "★" : "☆"}
-        </button>
-      ))}
-    </span>
+    <button type="button" className="binder-button" aria-pressed={inBinder} onClick={() => onToggle(card.key)}>
+      <span aria-hidden="true">{inBinder ? "♥" : "♡"}</span>
+      {inBinder ? "In binder" : "Add to binder"}
+    </button>
   );
 }
 
 export default function GalleryClient({ series }) {
   const dialogRef = useRef(null);
-  const [ratingFilter, setRatingFilter] = useState("All");
+  const [viewMode, setViewMode] = useState("all");
   const [largeCards, setLargeCards] = useState(false);
-  const [ratings, setRatings] = useState({});
+  const [binder, setBinder] = useState({});
   const [previewCard, setPreviewCard] = useState(null);
-  const [didLoadRatings, setDidLoadRatings] = useState(false);
+  const [promptCopied, setPromptCopied] = useState(false);
+  const [didLoadBinder, setDidLoadBinder] = useState(false);
 
-  if (!didLoadRatings && typeof window !== "undefined") {
-    setRatings(readRatings());
-    setDidLoadRatings(true);
+  if (!didLoadBinder && typeof window !== "undefined") {
+    setBinder(readBinder());
+    setDidLoadBinder(true);
   }
 
+  const binderCount = series.cards.filter((card) => binder[card.key]).length;
   const visibleCards = useMemo(
-    () =>
-      series.cards.filter((card) => {
-        const rating = ratings[card.key] || 0;
-        return (
-          ratingFilter === "All" ||
-          (ratingFilter === "Rated" && rating > 0) ||
-          (ratingFilter === "Unrated" && rating === 0) ||
-          (ratingFilter === "Favorites" && rating === 5)
-        );
-      }),
-    [ratingFilter, ratings, series.cards],
+    () => series.cards.filter((card) => viewMode === "all" || binder[card.key]),
+    [binder, series.cards, viewMode],
   );
 
-  function setRating(key, value) {
-    setRatings((currentRatings) => {
-      const nextRatings = {
-        ...currentRatings,
-        [key]: currentRatings[key] === value ? 0 : value,
-      };
+  function toggleBinder(key) {
+    const card = series.cards.find((item) => item.key === key);
 
-      window.localStorage.setItem("tangoCardRatings", JSON.stringify(nextRatings));
-      return nextRatings;
+    setBinder((currentBinder) => {
+      const nextBinder = { ...currentBinder };
+      const isRemoving = Boolean(nextBinder[key]);
+
+      if (isRemoving) {
+        delete nextBinder[key];
+      } else {
+        nextBinder[key] = true;
+      }
+
+      window.localStorage.setItem("tangoCardBinder", JSON.stringify(nextBinder));
+
+      if (card) {
+        recordFeedbackEvent({
+          eventType: isRemoving ? "removed_from_binder" : "added_to_binder",
+          cardKey: card.key,
+          cardId: card.id,
+          seriesKey: series.key,
+          seriesLabel: series.label,
+        });
+      }
+
+      return nextBinder;
     });
   }
 
   function openPreview(card) {
     setPreviewCard(card);
+    setPromptCopied(false);
+    recordFeedbackEvent({
+      eventType: "card_previewed",
+      cardKey: card.key,
+      cardId: card.id,
+      seriesKey: series.key,
+      seriesLabel: series.label,
+    });
     window.requestAnimationFrame(() => dialogRef.current?.showModal());
   }
 
   function closePreview() {
     dialogRef.current?.close();
   }
+
+async function sharePrompt() {
+  if (!previewCard?.prompt) return;
+
+  const text = `${previewCard.title}\n\n${previewCard.prompt}`;
+  const shareEvent = {
+    eventType: "prompt_shared",
+    cardKey: previewCard.key,
+    cardId: previewCard.id,
+    seriesKey: series.key,
+    seriesLabel: series.label,
+  };
+
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: previewCard.title, text });
+      recordFeedbackEvent(shareEvent);
+      return;
+    } catch {
+      // Fall through to clipboard when native share is cancelled or unavailable.
+    }
+  }
+
+  await navigator.clipboard.writeText(text);
+  recordFeedbackEvent(shareEvent);
+  setPromptCopied(true);
+}
 
   return (
     <main>
@@ -99,18 +157,13 @@ export default function GalleryClient({ series }) {
         </div>
 
         <div className="controls" aria-label="Gallery controls">
-          <div className="segmented" aria-label="Rating filters">
-            {ratingFilters.map((filter) => (
-              <button
-                type="button"
-                data-rating-filter={filter}
-                aria-pressed={filter === ratingFilter}
-                key={filter}
-                onClick={() => setRatingFilter(filter)}
-              >
-                {filter}
-              </button>
-            ))}
+          <div className="segmented" aria-label="Binder view">
+            <button type="button" aria-pressed={viewMode === "all"} onClick={() => setViewMode("all")}>
+              All cards
+            </button>
+            <button type="button" aria-pressed={viewMode === "binder"} onClick={() => setViewMode("binder")}>
+              My binder [{binderCount}]
+            </button>
           </div>
           <div className="size-toggle" aria-label="Card size">
             <span className="size-toggle-label">Card size</span>
@@ -127,7 +180,7 @@ export default function GalleryClient({ series }) {
 
         <section className={`gallery ${largeCards ? "is-large" : ""}`}>
           {visibleCards.length === 0 ? (
-            <div className="empty">No cards match this view.</div>
+            <div className="empty">Your binder is empty for this series.</div>
           ) : (
             visibleCards.map((card) => (
               <article className="card" data-key={card.key} key={card.key}>
@@ -141,7 +194,7 @@ export default function GalleryClient({ series }) {
                     </span>
                   </span>
                 </button>
-                <Rating card={card} ratings={ratings} onRate={setRating} />
+                <BinderButton card={card} binder={binder} onToggle={toggleBinder} />
               </article>
             ))
           )}
@@ -174,10 +227,18 @@ export default function GalleryClient({ series }) {
                   <dd>{previewCard.status}</dd>
                 </div>
               </dl>
-              <Rating card={previewCard} ratings={ratings} onRate={setRating} label="Rate preview card" />
-              <a className="download-link" href={previewCard.src} download={`${previewCard.id}.jpg`}>
-                Download JPG
-              </a>
+              <BinderButton card={previewCard} binder={binder} onToggle={toggleBinder} />
+              {previewCard.prompt ? (
+                <div className="prompt-share">
+                  <label htmlFor="previewPrompt">Prompt</label>
+                  <textarea id="previewPrompt" readOnly value={previewCard.prompt} />
+                  <button className="share-prompt-button" type="button" onClick={sharePrompt}>
+                    {promptCopied ? "Prompt copied" : "Share prompt"}
+                  </button>
+                </div>
+              ) : (
+                <p className="prompt-missing">Prompt unavailable for this card.</p>
+              )}
             </aside>
           </div>
         ) : null}

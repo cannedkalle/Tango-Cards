@@ -13,7 +13,7 @@ export default function Topbar({ eyebrow, title, stats, supportUrl }) {
         </div>
         {supportUrl ? (
           <a className="support-link" href={supportUrl} target="_blank" rel="noreferrer">
-            Support Super Parent Project
+            Support Tango Cards
           </a>
         ) : null}
       </div>
