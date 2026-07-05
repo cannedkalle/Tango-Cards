@@ -23,6 +23,16 @@ Use these Vercel project settings:
 
 If Vercel says `No Next.js version detected`, check that the Vercel Root Directory points at the folder containing this `package.json`.
 
+### Ko-fi Link
+
+The header support link defaults to:
+
+```txt
+https://ko-fi.com/superparentproject
+```
+
+Set `NEXT_PUBLIC_KOFI_URL` in Vercel Project Settings if the Ko-fi URL should be different.
+
 ## Regenerate Display Assets
 
 From the project root, run:

@@ -112,15 +112,17 @@ export default function GalleryClient({ series }) {
               </button>
             ))}
           </div>
-          <button
-            className={`icon-button ${largeCards ? "is-active" : ""}`}
-            type="button"
-            aria-label="Toggle large cards"
-            title="Toggle large cards"
-            onClick={() => setLargeCards((current) => !current)}
-          >
-            <span aria-hidden="true">□</span>
-          </button>
+          <div className="size-toggle" aria-label="Card size">
+            <span className="size-toggle-label">Card size</span>
+            <span className="size-toggle-options">
+              <button type="button" aria-pressed={!largeCards} onClick={() => setLargeCards(false)}>
+                Small
+              </button>
+              <button type="button" aria-pressed={largeCards} onClick={() => setLargeCards(true)}>
+                Large
+              </button>
+            </span>
+          </div>
         </div>
 
         <section className={`gallery ${largeCards ? "is-large" : ""}`}>

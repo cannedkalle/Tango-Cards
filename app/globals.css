@@ -123,16 +123,38 @@ h1 {
   font-weight: 900;
 }
 
+.topbar-actions {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 10px;
+  justify-items: end;
+}
+
 .stats span,
 .segmented button,
-.icon-button,
-.back-button {
+.back-button,
+.support-link {
   min-height: 40px;
   border: 2px solid var(--line);
   border-radius: 999px;
   background: #fff4d1;
   padding: 9px 12px;
   box-shadow: 3px 4px 0 rgba(37, 32, 27, 0.14);
+}
+
+.support-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  color: white;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.support-link:hover {
+  background: var(--accent-dark);
 }
 
 main {
@@ -209,8 +231,9 @@ main {
 .series-card:focus-visible,
 .card-preview:focus-visible,
 .back-button:focus-visible,
-.icon-button:focus-visible,
+.support-link:focus-visible,
 .segmented button:focus-visible,
+.size-toggle button:focus-visible,
 .star:focus-visible {
   outline: 4px solid rgba(199, 62, 45, 0.28);
   outline-offset: 3px;
@@ -286,7 +309,7 @@ main {
 }
 
 .back-button,
-.icon-button {
+.back-button {
   color: var(--ink);
   cursor: pointer;
   font-weight: 900;
@@ -304,9 +327,9 @@ main {
   top: 0;
   z-index: 3;
   display: grid;
-  grid-template-columns: 1fr 44px;
-  gap: 10px;
-  align-items: end;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
   border: 2px solid rgba(37, 32, 27, 0.12);
   border-radius: 16px;
   padding: 12px;
@@ -322,15 +345,51 @@ main {
 }
 
 .segmented button,
-.icon-button {
+.size-toggle button {
   flex: 0 0 auto;
 }
 
 .segmented button[aria-pressed="true"],
-.icon-button.is-active {
+.size-toggle button[aria-pressed="true"] {
   border-color: var(--line);
   background: var(--accent);
   color: white;
+}
+
+.size-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  background: #fff4d1;
+  padding: 5px 6px 5px 12px;
+  box-shadow: 3px 4px 0 rgba(37, 32, 27, 0.14);
+  white-space: nowrap;
+}
+
+.size-toggle-label {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.size-toggle-options {
+  display: flex;
+  gap: 4px;
+}
+
+.size-toggle button {
+  min-height: 32px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 900;
+  padding: 5px 10px;
 }
 
 .gallery {
@@ -550,8 +609,8 @@ dd {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .icon-button {
-    width: 44px;
+  .size-toggle {
+    justify-content: space-between;
   }
 }
 

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Topbar from "./components/Topbar";
 import { allCards, bracketCount, countLabel, expectedCardsPerSeries, seriesList } from "../lib/cards";
+import { kofiUrl } from "../lib/support";
 
 export default function HomePage() {
   const incomplete = seriesList.filter((series) => series.cards.length !== expectedCardsPerSeries);
@@ -11,6 +12,7 @@ export default function HomePage() {
         eyebrow="Generated card gallery"
         title="Tango Cards"
         stats={[`${seriesList.length} series`, `${allCards().length} generated images`]}
+        supportUrl={kofiUrl}
       />
       <main>
         <section className="home" aria-live="polite">
