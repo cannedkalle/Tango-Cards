@@ -40,10 +40,10 @@ Series popularity is based on `added_to_binder` events from the last 30 days.
 To enable it on Vercel:
 
 1. Add a Postgres-compatible database integration to the Vercel project, such as Neon through the Vercel Marketplace.
-2. Make sure Vercel exposes `POSTGRES_URL` or `POSTGRES_PRISMA_URL` to the project.
+2. Make sure Vercel exposes `DATABASE_URL`, `POSTGRES_URL`, or `POSTGRES_PRISMA_URL` to the project.
 3. Redeploy normally with `npm run build`.
 
-The app records visitor interactions through `/api/events` and reads series popularity through `/api/series-popularity`. The database table is created automatically on first use.
+The app uses `@neondatabase/serverless` to record visitor interactions through `/api/events` and read series popularity through `/api/series-popularity`. The database table is created automatically on first use.
 
 If no Postgres environment variable is configured, the app keeps the default Series A-D order and still works locally. Event requests are accepted but not recorded.
 
