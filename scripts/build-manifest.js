@@ -1,8 +1,9 @@
 const fs = require("fs");
 const path = require("path");
 
-const root = "assets/cards";
+const root = "public/assets/cards";
 const base = path.join(process.cwd(), root);
+const dataDir = path.join(process.cwd(), "data");
 
 function titleCase(value) {
   return value
@@ -44,10 +45,10 @@ const files = canonicalFiles
   .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
 
 const cards = files.map((file, index) => {
-  const src = path.relative(process.cwd(), file).split(path.sep).join("/");
+  const src = `/${path.relative(path.join(process.cwd(), "public"), file).split(path.sep).join("/")}`;
   const parts = src.split("/");
-  const group = parts[2] || "Cards";
-  const subfolder = parts.length > 4 ? parts[3] : "";
+  const group = parts[3] || "Cards";
+  const subfolder = parts.length > 5 ? parts[4] : "";
   const id = path.basename(file, ".jpg");
   const key = src
     .replace(/[^a-z0-9]+/gi, "-")
@@ -80,5 +81,7 @@ const cards = files.map((file, index) => {
   };
 });
 
+fs.mkdirSync(dataDir, { recursive: true });
 fs.writeFileSync("cards-data.js", `window.TANGO_CARDS = ${JSON.stringify(cards, null, 2)};\n`);
-console.log(`Wrote ${cards.length} cards to cards-data.js`);
+fs.writeFileSync(path.join(dataDir, "cards.json"), `${JSON.stringify(cards, null, 2)}\n`);
+console.log(`Wrote ${cards.length} cards to cards-data.js and data/cards.json`);

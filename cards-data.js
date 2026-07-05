@@ -7,7 +7,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "01",
     "title": "Series A Card 01",
-    "src": "assets/cards/Series A/series-a-card-01.jpg"
+    "src": "/assets/cards/Series A/series-a-card-01.jpg"
   },
   {
     "key": "assets-cards-series-a-series-a-card-02-jpg",
@@ -17,7 +17,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "02",
     "title": "Series A Card 02",
-    "src": "assets/cards/Series A/series-a-card-02.jpg"
+    "src": "/assets/cards/Series A/series-a-card-02.jpg"
   },
   {
     "key": "assets-cards-series-a-series-a-card-03-jpg",
@@ -27,7 +27,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "03",
     "title": "Series A Card 03",
-    "src": "assets/cards/Series A/series-a-card-03.jpg"
+    "src": "/assets/cards/Series A/series-a-card-03.jpg"
   },
   {
     "key": "assets-cards-series-a-series-a-card-04-jpg",
@@ -37,7 +37,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "04",
     "title": "Series A Card 04",
-    "src": "assets/cards/Series A/series-a-card-04.jpg"
+    "src": "/assets/cards/Series A/series-a-card-04.jpg"
   },
   {
     "key": "assets-cards-series-a-series-a-card-05-jpg",
@@ -47,7 +47,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "05",
     "title": "Series A Card 05",
-    "src": "assets/cards/Series A/series-a-card-05.jpg"
+    "src": "/assets/cards/Series A/series-a-card-05.jpg"
   },
   {
     "key": "assets-cards-series-a-series-a-card-06-jpg",
@@ -57,7 +57,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "06",
     "title": "Series A Card 06",
-    "src": "assets/cards/Series A/series-a-card-06.jpg"
+    "src": "/assets/cards/Series A/series-a-card-06.jpg"
   },
   {
     "key": "assets-cards-series-a-series-a-card-07-jpg",
@@ -67,7 +67,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "07",
     "title": "Series A Card 07",
-    "src": "assets/cards/Series A/series-a-card-07.jpg"
+    "src": "/assets/cards/Series A/series-a-card-07.jpg"
   },
   {
     "key": "assets-cards-series-a-series-a-card-08-jpg",
@@ -77,7 +77,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "08",
     "title": "Series A Card 08",
-    "src": "assets/cards/Series A/series-a-card-08.jpg"
+    "src": "/assets/cards/Series A/series-a-card-08.jpg"
   },
   {
     "key": "assets-cards-series-a-series-a-card-09-jpg",
@@ -87,7 +87,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "09",
     "title": "Series A Card 09",
-    "src": "assets/cards/Series A/series-a-card-09.jpg"
+    "src": "/assets/cards/Series A/series-a-card-09.jpg"
   },
   {
     "key": "assets-cards-series-a-series-a-card-10-jpg",
@@ -97,7 +97,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "10",
     "title": "Series A Card 10",
-    "src": "assets/cards/Series A/series-a-card-10.jpg"
+    "src": "/assets/cards/Series A/series-a-card-10.jpg"
   },
   {
     "key": "assets-cards-series-a-series-a-card-11-jpg",
@@ -107,7 +107,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "11",
     "title": "Series A Card 11",
-    "src": "assets/cards/Series A/series-a-card-11.jpg"
+    "src": "/assets/cards/Series A/series-a-card-11.jpg"
   },
   {
     "key": "assets-cards-series-a-series-a-card-12-jpg",
@@ -117,7 +117,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "12",
     "title": "Series A Card 12",
-    "src": "assets/cards/Series A/series-a-card-12.jpg"
+    "src": "/assets/cards/Series A/series-a-card-12.jpg"
   },
   {
     "key": "assets-cards-series-a-series-a-card-13-jpg",
@@ -127,7 +127,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "13",
     "title": "Series A Card 13",
-    "src": "assets/cards/Series A/series-a-card-13.jpg"
+    "src": "/assets/cards/Series A/series-a-card-13.jpg"
   },
   {
     "key": "assets-cards-series-a-series-a-card-14-jpg",
@@ -137,7 +137,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "14",
     "title": "Series A Card 14",
-    "src": "assets/cards/Series A/series-a-card-14.jpg"
+    "src": "/assets/cards/Series A/series-a-card-14.jpg"
   },
   {
     "key": "assets-cards-series-a-series-a-card-15-jpg",
@@ -147,7 +147,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "15",
     "title": "Series A Card 15",
-    "src": "assets/cards/Series A/series-a-card-15.jpg"
+    "src": "/assets/cards/Series A/series-a-card-15.jpg"
   },
   {
     "key": "assets-cards-series-a-series-a-card-16-jpg",
@@ -157,7 +157,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "16",
     "title": "Series A Card 16",
-    "src": "assets/cards/Series A/series-a-card-16.jpg"
+    "src": "/assets/cards/Series A/series-a-card-16.jpg"
   },
   {
     "key": "assets-cards-series-a-series-a-card-17-jpg",
@@ -167,7 +167,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "17",
     "title": "Series A Card 17",
-    "src": "assets/cards/Series A/series-a-card-17.jpg"
+    "src": "/assets/cards/Series A/series-a-card-17.jpg"
   },
   {
     "key": "assets-cards-series-a-series-a-card-18-jpg",
@@ -177,7 +177,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "18",
     "title": "Series A Card 18",
-    "src": "assets/cards/Series A/series-a-card-18.jpg"
+    "src": "/assets/cards/Series A/series-a-card-18.jpg"
   },
   {
     "key": "assets-cards-series-a-series-a-card-19-jpg",
@@ -187,7 +187,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "19",
     "title": "Series A Card 19",
-    "src": "assets/cards/Series A/series-a-card-19.jpg"
+    "src": "/assets/cards/Series A/series-a-card-19.jpg"
   },
   {
     "key": "assets-cards-series-a-series-a-card-20-jpg",
@@ -197,7 +197,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "20",
     "title": "Series A Card 20",
-    "src": "assets/cards/Series A/series-a-card-20.jpg"
+    "src": "/assets/cards/Series A/series-a-card-20.jpg"
   },
   {
     "key": "assets-cards-series-b-series-b-card-01-jpg",
@@ -207,7 +207,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "01",
     "title": "Series B Card 01",
-    "src": "assets/cards/Series B/series-b-card-01.jpg"
+    "src": "/assets/cards/Series B/series-b-card-01.jpg"
   },
   {
     "key": "assets-cards-series-b-series-b-card-02-jpg",
@@ -217,7 +217,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "02",
     "title": "Series B Card 02",
-    "src": "assets/cards/Series B/series-b-card-02.jpg"
+    "src": "/assets/cards/Series B/series-b-card-02.jpg"
   },
   {
     "key": "assets-cards-series-b-series-b-card-03-jpg",
@@ -227,7 +227,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "03",
     "title": "Series B Card 03",
-    "src": "assets/cards/Series B/series-b-card-03.jpg"
+    "src": "/assets/cards/Series B/series-b-card-03.jpg"
   },
   {
     "key": "assets-cards-series-b-series-b-card-04-jpg",
@@ -237,7 +237,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "04",
     "title": "Series B Card 04",
-    "src": "assets/cards/Series B/series-b-card-04.jpg"
+    "src": "/assets/cards/Series B/series-b-card-04.jpg"
   },
   {
     "key": "assets-cards-series-b-series-b-card-05-jpg",
@@ -247,7 +247,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "05",
     "title": "Series B Card 05",
-    "src": "assets/cards/Series B/series-b-card-05.jpg"
+    "src": "/assets/cards/Series B/series-b-card-05.jpg"
   },
   {
     "key": "assets-cards-series-b-series-b-card-06-jpg",
@@ -257,7 +257,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "06",
     "title": "Series B Card 06",
-    "src": "assets/cards/Series B/series-b-card-06.jpg"
+    "src": "/assets/cards/Series B/series-b-card-06.jpg"
   },
   {
     "key": "assets-cards-series-b-series-b-card-07-jpg",
@@ -267,7 +267,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "07",
     "title": "Series B Card 07",
-    "src": "assets/cards/Series B/series-b-card-07.jpg"
+    "src": "/assets/cards/Series B/series-b-card-07.jpg"
   },
   {
     "key": "assets-cards-series-b-series-b-card-08-jpg",
@@ -277,7 +277,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "08",
     "title": "Series B Card 08",
-    "src": "assets/cards/Series B/series-b-card-08.jpg"
+    "src": "/assets/cards/Series B/series-b-card-08.jpg"
   },
   {
     "key": "assets-cards-series-b-series-b-card-09-jpg",
@@ -287,7 +287,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "09",
     "title": "Series B Card 09",
-    "src": "assets/cards/Series B/series-b-card-09.jpg"
+    "src": "/assets/cards/Series B/series-b-card-09.jpg"
   },
   {
     "key": "assets-cards-series-b-series-b-card-10-jpg",
@@ -297,7 +297,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "10",
     "title": "Series B Card 10",
-    "src": "assets/cards/Series B/series-b-card-10.jpg"
+    "src": "/assets/cards/Series B/series-b-card-10.jpg"
   },
   {
     "key": "assets-cards-series-b-series-b-card-11-jpg",
@@ -307,7 +307,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "11",
     "title": "Series B Card 11",
-    "src": "assets/cards/Series B/series-b-card-11.jpg"
+    "src": "/assets/cards/Series B/series-b-card-11.jpg"
   },
   {
     "key": "assets-cards-series-b-series-b-card-12-jpg",
@@ -317,7 +317,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "12",
     "title": "Series B Card 12",
-    "src": "assets/cards/Series B/series-b-card-12.jpg"
+    "src": "/assets/cards/Series B/series-b-card-12.jpg"
   },
   {
     "key": "assets-cards-series-b-series-b-card-13-jpg",
@@ -327,7 +327,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "13",
     "title": "Series B Card 13",
-    "src": "assets/cards/Series B/series-b-card-13.jpg"
+    "src": "/assets/cards/Series B/series-b-card-13.jpg"
   },
   {
     "key": "assets-cards-series-b-series-b-card-14-jpg",
@@ -337,7 +337,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "14",
     "title": "Series B Card 14",
-    "src": "assets/cards/Series B/series-b-card-14.jpg"
+    "src": "/assets/cards/Series B/series-b-card-14.jpg"
   },
   {
     "key": "assets-cards-series-b-series-b-card-15-jpg",
@@ -347,7 +347,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "15",
     "title": "Series B Card 15",
-    "src": "assets/cards/Series B/series-b-card-15.jpg"
+    "src": "/assets/cards/Series B/series-b-card-15.jpg"
   },
   {
     "key": "assets-cards-series-b-series-b-card-16-jpg",
@@ -357,7 +357,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "16",
     "title": "Series B Card 16",
-    "src": "assets/cards/Series B/series-b-card-16.jpg"
+    "src": "/assets/cards/Series B/series-b-card-16.jpg"
   },
   {
     "key": "assets-cards-series-b-series-b-card-17-jpg",
@@ -367,7 +367,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "17",
     "title": "Series B Card 17",
-    "src": "assets/cards/Series B/series-b-card-17.jpg"
+    "src": "/assets/cards/Series B/series-b-card-17.jpg"
   },
   {
     "key": "assets-cards-series-b-series-b-card-18-jpg",
@@ -377,7 +377,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "18",
     "title": "Series B Card 18",
-    "src": "assets/cards/Series B/series-b-card-18.jpg"
+    "src": "/assets/cards/Series B/series-b-card-18.jpg"
   },
   {
     "key": "assets-cards-series-b-series-b-card-19-jpg",
@@ -387,7 +387,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "19",
     "title": "Series B Card 19",
-    "src": "assets/cards/Series B/series-b-card-19.jpg"
+    "src": "/assets/cards/Series B/series-b-card-19.jpg"
   },
   {
     "key": "assets-cards-series-b-series-b-card-20-jpg",
@@ -397,7 +397,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "20",
     "title": "Series B Card 20",
-    "src": "assets/cards/Series B/series-b-card-20.jpg"
+    "src": "/assets/cards/Series B/series-b-card-20.jpg"
   },
   {
     "key": "assets-cards-series-c-series-c-card-01-jpg",
@@ -407,7 +407,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "01",
     "title": "Series C Card 01",
-    "src": "assets/cards/Series C/series-c-card-01.jpg"
+    "src": "/assets/cards/Series C/series-c-card-01.jpg"
   },
   {
     "key": "assets-cards-series-c-series-c-card-02-jpg",
@@ -417,7 +417,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "02",
     "title": "Series C Card 02",
-    "src": "assets/cards/Series C/series-c-card-02.jpg"
+    "src": "/assets/cards/Series C/series-c-card-02.jpg"
   },
   {
     "key": "assets-cards-series-c-series-c-card-03-jpg",
@@ -427,7 +427,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "03",
     "title": "Series C Card 03",
-    "src": "assets/cards/Series C/series-c-card-03.jpg"
+    "src": "/assets/cards/Series C/series-c-card-03.jpg"
   },
   {
     "key": "assets-cards-series-c-series-c-card-04-jpg",
@@ -437,7 +437,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "04",
     "title": "Series C Card 04",
-    "src": "assets/cards/Series C/series-c-card-04.jpg"
+    "src": "/assets/cards/Series C/series-c-card-04.jpg"
   },
   {
     "key": "assets-cards-series-c-series-c-card-05-jpg",
@@ -447,7 +447,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "05",
     "title": "Series C Card 05",
-    "src": "assets/cards/Series C/series-c-card-05.jpg"
+    "src": "/assets/cards/Series C/series-c-card-05.jpg"
   },
   {
     "key": "assets-cards-series-c-series-c-card-06-jpg",
@@ -457,7 +457,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "06",
     "title": "Series C Card 06",
-    "src": "assets/cards/Series C/series-c-card-06.jpg"
+    "src": "/assets/cards/Series C/series-c-card-06.jpg"
   },
   {
     "key": "assets-cards-series-c-series-c-card-07-jpg",
@@ -467,7 +467,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "07",
     "title": "Series C Card 07",
-    "src": "assets/cards/Series C/series-c-card-07.jpg"
+    "src": "/assets/cards/Series C/series-c-card-07.jpg"
   },
   {
     "key": "assets-cards-series-c-series-c-card-08-jpg",
@@ -477,7 +477,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "08",
     "title": "Series C Card 08",
-    "src": "assets/cards/Series C/series-c-card-08.jpg"
+    "src": "/assets/cards/Series C/series-c-card-08.jpg"
   },
   {
     "key": "assets-cards-series-c-series-c-card-09-jpg",
@@ -487,7 +487,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "09",
     "title": "Series C Card 09",
-    "src": "assets/cards/Series C/series-c-card-09.jpg"
+    "src": "/assets/cards/Series C/series-c-card-09.jpg"
   },
   {
     "key": "assets-cards-series-c-series-c-card-10-jpg",
@@ -497,7 +497,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "10",
     "title": "Series C Card 10",
-    "src": "assets/cards/Series C/series-c-card-10.jpg"
+    "src": "/assets/cards/Series C/series-c-card-10.jpg"
   },
   {
     "key": "assets-cards-series-c-series-c-card-11-jpg",
@@ -507,7 +507,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "11",
     "title": "Series C Card 11",
-    "src": "assets/cards/Series C/series-c-card-11.jpg"
+    "src": "/assets/cards/Series C/series-c-card-11.jpg"
   },
   {
     "key": "assets-cards-series-c-series-c-card-12-jpg",
@@ -517,7 +517,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "12",
     "title": "Series C Card 12",
-    "src": "assets/cards/Series C/series-c-card-12.jpg"
+    "src": "/assets/cards/Series C/series-c-card-12.jpg"
   },
   {
     "key": "assets-cards-series-c-series-c-card-13-jpg",
@@ -527,7 +527,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "13",
     "title": "Series C Card 13",
-    "src": "assets/cards/Series C/series-c-card-13.jpg"
+    "src": "/assets/cards/Series C/series-c-card-13.jpg"
   },
   {
     "key": "assets-cards-series-c-series-c-card-14-jpg",
@@ -537,7 +537,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "14",
     "title": "Series C Card 14",
-    "src": "assets/cards/Series C/series-c-card-14.jpg"
+    "src": "/assets/cards/Series C/series-c-card-14.jpg"
   },
   {
     "key": "assets-cards-series-c-series-c-card-15-jpg",
@@ -547,7 +547,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "15",
     "title": "Series C Card 15",
-    "src": "assets/cards/Series C/series-c-card-15.jpg"
+    "src": "/assets/cards/Series C/series-c-card-15.jpg"
   },
   {
     "key": "assets-cards-series-c-series-c-card-16-jpg",
@@ -557,7 +557,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "16",
     "title": "Series C Card 16",
-    "src": "assets/cards/Series C/series-c-card-16.jpg"
+    "src": "/assets/cards/Series C/series-c-card-16.jpg"
   },
   {
     "key": "assets-cards-series-c-series-c-card-17-jpg",
@@ -567,7 +567,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "17",
     "title": "Series C Card 17",
-    "src": "assets/cards/Series C/series-c-card-17.jpg"
+    "src": "/assets/cards/Series C/series-c-card-17.jpg"
   },
   {
     "key": "assets-cards-series-c-series-c-card-18-jpg",
@@ -577,7 +577,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "18",
     "title": "Series C Card 18",
-    "src": "assets/cards/Series C/series-c-card-18.jpg"
+    "src": "/assets/cards/Series C/series-c-card-18.jpg"
   },
   {
     "key": "assets-cards-series-c-series-c-card-19-jpg",
@@ -587,7 +587,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "19",
     "title": "Series C Card 19",
-    "src": "assets/cards/Series C/series-c-card-19.jpg"
+    "src": "/assets/cards/Series C/series-c-card-19.jpg"
   },
   {
     "key": "assets-cards-series-c-series-c-card-20-jpg",
@@ -597,7 +597,7 @@ window.TANGO_CARDS = [
     "status": "Main",
     "number": "20",
     "title": "Series C Card 20",
-    "src": "assets/cards/Series C/series-c-card-20.jpg"
+    "src": "/assets/cards/Series C/series-c-card-20.jpg"
   },
   {
     "key": "assets-cards-series-d-finalized-20-cards-series-d-card-01-banana-bird-jpg",
@@ -607,7 +607,7 @@ window.TANGO_CARDS = [
     "status": "Final",
     "number": "01",
     "title": "Banana Bird",
-    "src": "assets/cards/Series D/finalized-20-cards/series-d-card-01-banana-bird.jpg"
+    "src": "/assets/cards/Series D/finalized-20-cards/series-d-card-01-banana-bird.jpg"
   },
   {
     "key": "assets-cards-series-d-finalized-20-cards-series-d-card-02-blueberry-bird-jpg",
@@ -617,7 +617,7 @@ window.TANGO_CARDS = [
     "status": "Final",
     "number": "02",
     "title": "Blueberry Bird",
-    "src": "assets/cards/Series D/finalized-20-cards/series-d-card-02-blueberry-bird.jpg"
+    "src": "/assets/cards/Series D/finalized-20-cards/series-d-card-02-blueberry-bird.jpg"
   },
   {
     "key": "assets-cards-series-d-finalized-20-cards-series-d-card-03-avocado-bird-jpg",
@@ -627,7 +627,7 @@ window.TANGO_CARDS = [
     "status": "Final",
     "number": "03",
     "title": "Avocado Bird",
-    "src": "assets/cards/Series D/finalized-20-cards/series-d-card-03-avocado-bird.jpg"
+    "src": "/assets/cards/Series D/finalized-20-cards/series-d-card-03-avocado-bird.jpg"
   },
   {
     "key": "assets-cards-series-d-finalized-20-cards-series-d-card-04-carrot-bird-jpg",
@@ -637,7 +637,7 @@ window.TANGO_CARDS = [
     "status": "Final",
     "number": "04",
     "title": "Carrot Bird",
-    "src": "assets/cards/Series D/finalized-20-cards/series-d-card-04-carrot-bird.jpg"
+    "src": "/assets/cards/Series D/finalized-20-cards/series-d-card-04-carrot-bird.jpg"
   },
   {
     "key": "assets-cards-series-d-finalized-20-cards-series-d-card-05-watermelon-bird-jpg",
@@ -647,7 +647,7 @@ window.TANGO_CARDS = [
     "status": "Final",
     "number": "05",
     "title": "Watermelon Bird",
-    "src": "assets/cards/Series D/finalized-20-cards/series-d-card-05-watermelon-bird.jpg"
+    "src": "/assets/cards/Series D/finalized-20-cards/series-d-card-05-watermelon-bird.jpg"
   },
   {
     "key": "assets-cards-series-d-finalized-20-cards-series-d-card-06-lemon-bird-jpg",
@@ -657,7 +657,7 @@ window.TANGO_CARDS = [
     "status": "Final",
     "number": "06",
     "title": "Lemon Bird",
-    "src": "assets/cards/Series D/finalized-20-cards/series-d-card-06-lemon-bird.jpg"
+    "src": "/assets/cards/Series D/finalized-20-cards/series-d-card-06-lemon-bird.jpg"
   },
   {
     "key": "assets-cards-series-d-finalized-20-cards-series-d-card-07-pineapple-bird-jpg",
@@ -667,7 +667,7 @@ window.TANGO_CARDS = [
     "status": "Final",
     "number": "07",
     "title": "Pineapple Bird",
-    "src": "assets/cards/Series D/finalized-20-cards/series-d-card-07-pineapple-bird.jpg"
+    "src": "/assets/cards/Series D/finalized-20-cards/series-d-card-07-pineapple-bird.jpg"
   },
   {
     "key": "assets-cards-series-d-finalized-20-cards-series-d-card-08-tomato-bird-jpg",
@@ -677,7 +677,7 @@ window.TANGO_CARDS = [
     "status": "Final",
     "number": "08",
     "title": "Tomato Bird",
-    "src": "assets/cards/Series D/finalized-20-cards/series-d-card-08-tomato-bird.jpg"
+    "src": "/assets/cards/Series D/finalized-20-cards/series-d-card-08-tomato-bird.jpg"
   },
   {
     "key": "assets-cards-series-d-finalized-20-cards-series-d-card-09-grape-bird-jpg",
@@ -687,7 +687,7 @@ window.TANGO_CARDS = [
     "status": "Final",
     "number": "09",
     "title": "Grape Bird",
-    "src": "assets/cards/Series D/finalized-20-cards/series-d-card-09-grape-bird.jpg"
+    "src": "/assets/cards/Series D/finalized-20-cards/series-d-card-09-grape-bird.jpg"
   },
   {
     "key": "assets-cards-series-d-finalized-20-cards-series-d-card-10-strawberry-bird-jpg",
@@ -697,7 +697,7 @@ window.TANGO_CARDS = [
     "status": "Final",
     "number": "10",
     "title": "Strawberry Bird",
-    "src": "assets/cards/Series D/finalized-20-cards/series-d-card-10-strawberry-bird.jpg"
+    "src": "/assets/cards/Series D/finalized-20-cards/series-d-card-10-strawberry-bird.jpg"
   },
   {
     "key": "assets-cards-series-d-finalized-20-cards-series-d-card-11-eggplant-bird-jpg",
@@ -707,7 +707,7 @@ window.TANGO_CARDS = [
     "status": "Final",
     "number": "11",
     "title": "Eggplant Bird",
-    "src": "assets/cards/Series D/finalized-20-cards/series-d-card-11-eggplant-bird.jpg"
+    "src": "/assets/cards/Series D/finalized-20-cards/series-d-card-11-eggplant-bird.jpg"
   },
   {
     "key": "assets-cards-series-d-finalized-20-cards-series-d-card-12-mango-bird-jpg",
@@ -717,7 +717,7 @@ window.TANGO_CARDS = [
     "status": "Final",
     "number": "12",
     "title": "Mango Bird",
-    "src": "assets/cards/Series D/finalized-20-cards/series-d-card-12-mango-bird.jpg"
+    "src": "/assets/cards/Series D/finalized-20-cards/series-d-card-12-mango-bird.jpg"
   },
   {
     "key": "assets-cards-series-d-finalized-20-cards-series-d-card-13-corn-bird-jpg",
@@ -727,7 +727,7 @@ window.TANGO_CARDS = [
     "status": "Final",
     "number": "13",
     "title": "Corn Bird",
-    "src": "assets/cards/Series D/finalized-20-cards/series-d-card-13-corn-bird.jpg"
+    "src": "/assets/cards/Series D/finalized-20-cards/series-d-card-13-corn-bird.jpg"
   },
   {
     "key": "assets-cards-series-d-finalized-20-cards-series-d-card-14-apple-bird-jpg",
@@ -737,7 +737,7 @@ window.TANGO_CARDS = [
     "status": "Final",
     "number": "14",
     "title": "Apple Bird",
-    "src": "assets/cards/Series D/finalized-20-cards/series-d-card-14-apple-bird.jpg"
+    "src": "/assets/cards/Series D/finalized-20-cards/series-d-card-14-apple-bird.jpg"
   },
   {
     "key": "assets-cards-series-d-finalized-20-cards-series-d-card-15-broccoli-bird-jpg",
@@ -747,7 +747,7 @@ window.TANGO_CARDS = [
     "status": "Final",
     "number": "15",
     "title": "Broccoli Bird",
-    "src": "assets/cards/Series D/finalized-20-cards/series-d-card-15-broccoli-bird.jpg"
+    "src": "/assets/cards/Series D/finalized-20-cards/series-d-card-15-broccoli-bird.jpg"
   },
   {
     "key": "assets-cards-series-d-finalized-20-cards-series-d-card-16-kiwi-bird-jpg",
@@ -757,7 +757,7 @@ window.TANGO_CARDS = [
     "status": "Final",
     "number": "16",
     "title": "Kiwi Bird",
-    "src": "assets/cards/Series D/finalized-20-cards/series-d-card-16-kiwi-bird.jpg"
+    "src": "/assets/cards/Series D/finalized-20-cards/series-d-card-16-kiwi-bird.jpg"
   },
   {
     "key": "assets-cards-series-d-finalized-20-cards-series-d-card-17-cucumber-bird-jpg",
@@ -767,7 +767,7 @@ window.TANGO_CARDS = [
     "status": "Final",
     "number": "17",
     "title": "Cucumber Bird",
-    "src": "assets/cards/Series D/finalized-20-cards/series-d-card-17-cucumber-bird.jpg"
+    "src": "/assets/cards/Series D/finalized-20-cards/series-d-card-17-cucumber-bird.jpg"
   },
   {
     "key": "assets-cards-series-d-finalized-20-cards-series-d-card-18-pumpkin-bird-jpg",
@@ -777,7 +777,7 @@ window.TANGO_CARDS = [
     "status": "Final",
     "number": "18",
     "title": "Pumpkin Bird",
-    "src": "assets/cards/Series D/finalized-20-cards/series-d-card-18-pumpkin-bird.jpg"
+    "src": "/assets/cards/Series D/finalized-20-cards/series-d-card-18-pumpkin-bird.jpg"
   },
   {
     "key": "assets-cards-series-d-finalized-20-cards-series-d-card-19-durian-bird-jpg",
@@ -787,7 +787,7 @@ window.TANGO_CARDS = [
     "status": "Final",
     "number": "19",
     "title": "Durian Bird",
-    "src": "assets/cards/Series D/finalized-20-cards/series-d-card-19-durian-bird.jpg"
+    "src": "/assets/cards/Series D/finalized-20-cards/series-d-card-19-durian-bird.jpg"
   },
   {
     "key": "assets-cards-series-d-finalized-20-cards-series-d-card-20-pea-bird-jpg",
@@ -797,6 +797,6 @@ window.TANGO_CARDS = [
     "status": "Final",
     "number": "20",
     "title": "Pea Bird",
-    "src": "assets/cards/Series D/finalized-20-cards/series-d-card-20-pea-bird.jpg"
+    "src": "/assets/cards/Series D/finalized-20-cards/series-d-card-20-pea-bird.jpg"
   }
 ];

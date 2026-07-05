@@ -1,8 +1,27 @@
 # Tango Cards Gallery
 
-A static website for browsing the generated Tango Cards artwork.
+A Next.js website for browsing the generated Tango Cards artwork.
 
-Open `index.html` directly in a browser, or serve the folder with any static server.
+Run locally with:
+
+```sh
+npm install
+npm run dev
+```
+
+## Deploy on Vercel
+
+This is a Next.js app.
+
+Use these Vercel project settings:
+
+- Framework Preset: `Next.js`
+- Root Directory: repository root, or this folder if deploying from a larger repo
+- Build Command: `npm run build`
+- Output Directory: leave blank / default
+- Install Command: default is fine
+
+If Vercel says `No Next.js version detected`, check that the Vercel Root Directory points at the folder containing this `package.json`.
 
 ## Regenerate Display Assets
 
