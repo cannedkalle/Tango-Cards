@@ -151,6 +151,7 @@ export default function PacksClient({ packs, series, initialPackKey }) {
         chances: Math.max(0, current.chances - 1),
         collection,
         recentPull: pulledCards.map((card) => card.key),
+        recentPullPackLabel: selectedPack.label,
       };
 
       savePackState(nextState);
@@ -218,7 +219,7 @@ export default function PacksClient({ packs, series, initialPackKey }) {
             {recentCards.length > 0 ? (
               <>
                 <div className="pull-panel-header">
-                  <p className="eyebrow">Last pull</p>
+                  <p className="eyebrow">{state.recentPullPackLabel ? `Last pull · ${state.recentPullPackLabel}` : "Last pull"}</p>
                   <span>{recentCards.length} cards</span>
                 </div>
                 <div className="recent-pull" aria-live="polite">

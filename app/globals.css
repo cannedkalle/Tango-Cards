@@ -1063,9 +1063,32 @@ dd {
   }
 
   .pack-grid,
-  .pack-opener,
-  .recent-pull {
+  .pack-opener {
     grid-template-columns: 1fr;
+  }
+
+  .recent-pull {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    max-width: 100%;
+    padding: 0 0 10px;
+    scroll-snap-type: x proximity;
+  }
+
+  .pull-card {
+    flex: 0 0 132px;
+    padding: 8px;
+    scroll-snap-align: start;
+  }
+
+  .pull-card span {
+    font-size: 0.82rem;
+    line-height: 1.1;
+  }
+
+  .pull-card small {
+    font-size: 0.72rem;
   }
 
   .pack-status,
