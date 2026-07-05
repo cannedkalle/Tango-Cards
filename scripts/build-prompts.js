@@ -1,8 +1,35 @@
 const fs = require("fs");
 const path = require("path");
 
-const projectRoot = path.resolve(process.cwd(), "../..");
 const dataDir = path.join(process.cwd(), "data");
+const outputFile = path.join(dataDir, "prompts.json");
+
+function findSourceRoot() {
+  const candidates = process.env.TANGO_PROMPTS_SOURCE_ROOT
+    ? [process.env.TANGO_PROMPTS_SOURCE_ROOT]
+    : [
+        process.cwd(),
+        path.resolve(process.cwd(), ".."),
+        path.resolve(process.cwd(), "../.."),
+      ];
+
+  return candidates.find((candidate) =>
+    fs.existsSync(path.join(candidate, "prompts/card-prompts")) &&
+    fs.existsSync(path.join(candidate, "artifacts")),
+  );
+}
+
+const projectRoot = findSourceRoot();
+
+if (!projectRoot) {
+  if (fs.existsSync(outputFile)) {
+    console.log("Prompt source files not found; using existing data/prompts.json");
+    process.exit(0);
+  }
+
+  throw new Error("Prompt source files not found and data/prompts.json is missing");
+}
+
 const promptDir = path.join(projectRoot, "prompts/card-prompts");
 const artifactDir = path.join(projectRoot, "artifacts");
 
@@ -65,5 +92,5 @@ Object.entries(seriesD).forEach(([number, prompt]) => {
 });
 
 fs.mkdirSync(dataDir, { recursive: true });
-fs.writeFileSync(path.join(dataDir, "prompts.json"), `${JSON.stringify(prompts, null, 2)}\n`);
+fs.writeFileSync(outputFile, `${JSON.stringify(prompts, null, 2)}\n`);
 console.log(`Wrote ${Object.keys(prompts).length} prompts to data/prompts.json`);
