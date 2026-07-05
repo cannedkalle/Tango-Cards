@@ -1,4 +1,5 @@
 import HomeSeriesGrid from "./components/HomeSeriesGrid";
+import Link from "next/link";
 import Topbar from "./components/Topbar";
 import { allCards, bracketCount, expectedCardsPerSeries, seriesList } from "../lib/cards";
 import { kofiUrl } from "../lib/support";
@@ -33,6 +34,14 @@ export default function HomePage() {
                 .join(" ")}
             </div>
           ) : null}
+
+          <Link className="pack-entry" href="/packs">
+            <span>
+              <strong>Open expansion packs</strong>
+              <small>Pull digital cards, bank chances, and build a local collection.</small>
+            </span>
+            <b>Enter</b>
+          </Link>
 
           <HomeSeriesGrid series={seriesSummaries} />
         </section>

@@ -35,7 +35,7 @@ Set `NEXT_PUBLIC_KOFI_URL` in Vercel Project Settings if the Ko-fi URL should be
 
 ## Popularity Sorting
 
-Series popularity is based on `added_to_binder` events from the last 30 days.
+Series popularity is based on `added_to_binder` events from the last 30 days. The homepage can also sort by pack opens, based on `pack_opened` events from the last 30 days.
 
 To enable it on Vercel:
 
@@ -43,9 +43,21 @@ To enable it on Vercel:
 2. Make sure Vercel exposes `DATABASE_URL`, `POSTGRES_URL`, or `POSTGRES_PRISMA_URL` to the project.
 3. Redeploy normally with `npm run build`.
 
-The app uses `@neondatabase/serverless` to record visitor interactions through `/api/events` and read series popularity through `/api/series-popularity`. The database table is created automatically on first use.
+The app uses `@neondatabase/serverless` to record visitor interactions through `/api/events`, read series popularity through `/api/series-popularity`, and read pack-open counts through `/api/series-pack-opens`. The database table is created automatically on first use.
 
 If no Postgres environment variable is configured, the app keeps the default Series A-D order and still works locally. Event requests are accepted but not recorded.
+
+## Expansion Packs
+
+The `/packs` page lets visitors open local digital expansion packs by series. Collection progress is stored in the visitor's browser with `localStorage`.
+
+Pack rules:
+
+- 5 cards per pull.
+- 1 pull chance refreshes every 12 hours.
+- Pull chances bank up to 4.
+- Each pull guarantees at least one non-Common card.
+- Pull odds per card slot: Common 60%, Uncommon 25%, Rare 12%, Ultra Rare 3%.
 
 ## Regenerate Display Assets
 

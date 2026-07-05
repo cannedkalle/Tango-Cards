@@ -1,14 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { bracketCount, countLabel } from "../../lib/cards";
+import { formatRemaining, loadPackState, maxPullChances, pullIntervalMs, reconcilePackState, savePackState } from "../../lib/pack-state";
 
 function readBinder() {
   if (typeof window === "undefined") return {};
 
   try {
     return JSON.parse(window.localStorage.getItem("tangoCardBinder") || "{}");
+  } catch {
+    return {};
+  }
+}
+
+function readCollection() {
+  if (typeof window === "undefined") return {};
+
+  try {
+    return JSON.parse(window.localStorage.getItem("tangoCardCollection") || "{}").collection || {};
   } catch {
     return {};
   }
@@ -53,19 +64,77 @@ function BinderButton({ card, binder, onToggle }) {
   );
 }
 
+function GalleryPackLink({ series }) {
+  const [packState, setPackState] = useState(null);
+  const [now, setNow] = useState(Date.now());
+
+  useEffect(() => {
+    const nextState = loadPackState();
+    setPackState(nextState);
+    savePackState(nextState);
+
+    const timer = window.setInterval(() => {
+      const tickNow = Date.now();
+      setNow(tickNow);
+      setPackState((current) => {
+        const nextPackState = reconcilePackState(current || nextState, tickNow);
+        savePackState(nextPackState);
+        return nextPackState;
+      });
+    }, 1000);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const chances = packState?.chances || 0;
+  const isReady = chances > 0;
+  const remainingMs = packState ? packState.lastUpdatedAt + pullIntervalMs - now : 0;
+  const href = `/packs?pack=${series.key}-pack`;
+  const status = !packState
+    ? "Checking timer"
+    : isReady
+      ? `${chances}/${maxPullChances} chances ready`
+      : `Next in ${formatRemaining(remainingMs)}`;
+
+  return (
+    <Link className={`gallery-pack-link ${isReady ? "" : "is-waiting"}`} href={href} aria-disabled={!isReady}>
+      <span>
+        <strong>Open {series.label} pack</strong>
+        <small>{status}</small>
+      </span>
+    </Link>
+  );
+}
+
 export default function GalleryClient({ series }) {
   const dialogRef = useRef(null);
   const [viewMode, setViewMode] = useState("all");
   const [largeCards, setLargeCards] = useState(false);
   const [binder, setBinder] = useState({});
+  const [collection, setCollection] = useState({});
   const [previewCard, setPreviewCard] = useState(null);
   const [promptCopied, setPromptCopied] = useState(false);
   const [didLoadBinder, setDidLoadBinder] = useState(false);
 
   if (!didLoadBinder && typeof window !== "undefined") {
     setBinder(readBinder());
+    setCollection(readCollection());
     setDidLoadBinder(true);
   }
+
+  useEffect(() => {
+    function refreshCollection() {
+      setCollection(readCollection());
+    }
+
+    refreshCollection();
+    window.addEventListener("storage", refreshCollection);
+    window.addEventListener("focus", refreshCollection);
+    return () => {
+      window.removeEventListener("storage", refreshCollection);
+      window.removeEventListener("focus", refreshCollection);
+    };
+  }, []);
 
   const binderCount = series.cards.filter((card) => binder[card.key]).length;
   const visibleCards = useMemo(
@@ -119,6 +188,11 @@ export default function GalleryClient({ series }) {
     dialogRef.current?.close();
   }
 
+  function ownershipLabel(card) {
+    const count = collection[card.key]?.count || 0;
+    return count > 1 ? `Owned x${count}` : count === 1 ? "Owned" : "Not owned";
+  }
+
 async function sharePrompt() {
   if (!previewCard?.prompt) return;
 
@@ -154,6 +228,7 @@ async function sharePrompt() {
             Back
           </Link>
           <h2>{`${series.label} ${bracketCount(series.cards.length)}`}</h2>
+          <GalleryPackLink series={series} />
         </div>
 
         <div className="controls" aria-label="Gallery controls">
@@ -190,7 +265,7 @@ async function sharePrompt() {
                     <span className="card-title">{card.title}</span>
                     <span className="card-detail">
                       <span className="tag">{series.label}</span>
-                      {card.number ? ` · #${card.number}` : ""} · {card.status}
+                      {card.number ? ` · #${card.number}` : ""} · <span className={collection[card.key] ? "owned-status is-owned" : "owned-status"}>{ownershipLabel(card)}</span>
                     </span>
                   </span>
                 </button>
@@ -223,8 +298,8 @@ async function sharePrompt() {
                   <dd>{previewCard.number ? `#${previewCard.number}` : "Unnumbered"}</dd>
                 </div>
                 <div>
-                  <dt>Status</dt>
-                  <dd>{previewCard.status}</dd>
+                  <dt>Collection</dt>
+                  <dd>{ownershipLabel(previewCard)}</dd>
                 </div>
               </dl>
               <BinderButton card={previewCard} binder={binder} onToggle={toggleBinder} />

@@ -1,6 +1,6 @@
 import { feedbackStoreConfigured, recordFeedbackEvent } from "../../../lib/feedback-store";
 
-const allowedEvents = new Set(["added_to_binder", "removed_from_binder", "card_previewed", "prompt_shared"]);
+const allowedEvents = new Set(["added_to_binder", "removed_from_binder", "card_previewed", "prompt_shared", "pack_opened"]);
 
 export async function POST(request) {
   const body = await request.json().catch(() => null);
