@@ -51,26 +51,8 @@ function chooseCard(pack, cards) {
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
-function chooseNonCommonCard(pack, cards) {
-  const nonCommonOdds = pack.odds.filter((item) => item.rarity !== "common");
-  const totalRate = nonCommonOdds.reduce((sum, item) => sum + item.rate, 0);
-  const normalizedOdds = nonCommonOdds.map((item) => ({
-    ...item,
-    rate: item.rate / totalRate,
-  }));
-
-  return chooseCard({ ...pack, odds: normalizedOdds }, cards);
-}
-
 function pullCards(pack, cards) {
-  const pulledCards = Array.from({ length: cardsPerPull }, () => chooseCard(pack, cards));
-
-  if (pulledCards.some((card) => card.rarity !== "common")) {
-    return pulledCards;
-  }
-
-  const upgradeIndex = Math.floor(Math.random() * pulledCards.length);
-  return pulledCards.map((card, index) => (index === upgradeIndex ? chooseNonCommonCard(pack, cards) : card));
+  return Array.from({ length: cardsPerPull }, () => chooseCard(pack, cards));
 }
 
 export default function PacksClient({ packs, series, initialPackKey }) {
@@ -202,7 +184,7 @@ export default function PacksClient({ packs, series, initialPackKey }) {
           <div className="pack-copy">
             <p className="eyebrow">{selectedPack?.seriesLabel}</p>
             <h2>{selectedPack?.label}</h2>
-            <p>{cardsPerPull} digital cards per pull, with at least one non-Common card every time. Pull chances refresh every 12 hours and bank up to {maxPullChances}.</p>
+            <p>{cardsPerPull} digital cards per pull. Each card slot rolls independently. Pull chances refresh every 12 hours and bank up to {maxPullChances}.</p>
             <div className="odds-row" aria-label="Pack odds">
               {selectedPack?.odds.map((item) => (
                 <span className={`rarity-pill rarity-${item.rarity}`} key={item.rarity}>

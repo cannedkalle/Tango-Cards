@@ -53,10 +53,10 @@ The `/packs` page lets visitors open local digital expansion packs by series. Co
 
 Pack rules:
 
-- 5 cards per pull.
+- 2 cards per pull.
 - 1 pull chance refreshes every 12 hours.
 - Pull chances bank up to 4.
-- Each pull guarantees at least one non-Common card.
+- Each card slot rolls independently.
 - Pull odds per card slot: Common 60%, Uncommon 25%, Rare 12%, Ultra Rare 3%.
 
 ## Regenerate Display Assets
