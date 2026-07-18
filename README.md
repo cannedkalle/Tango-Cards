@@ -45,7 +45,7 @@ To enable it on Vercel:
 
 The app uses `@neondatabase/serverless` to record visitor interactions through `/api/events`, read series popularity through `/api/series-popularity`, and read pack-open counts through `/api/series-pack-opens`. The database table is created automatically on first use.
 
-If no Postgres environment variable is configured, the app keeps the default Series A-D order and still works locally. Event requests are accepted but not recorded.
+If no Postgres environment variable is configured, the app keeps the default series order and still works locally. Event requests are accepted but not recorded.
 
 ## Expansion Packs
 

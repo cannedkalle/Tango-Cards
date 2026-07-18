@@ -798,5 +798,205 @@
     "number": "20",
     "title": "Pea Bird",
     "src": "/assets/cards/Series D/finalized-20-cards/series-d-card-20-pea-bird.jpg"
+  },
+  {
+    "key": "assets-cards-series-d2-final-20-cards-series-d2-card-01-coconut-bird-jpg",
+    "id": "series-d2-card-01-coconut-bird",
+    "series": "Series D2 Final",
+    "group": "Series D2",
+    "status": "Final",
+    "number": "01",
+    "title": "Coconut Bird",
+    "src": "/assets/cards/Series D2/final-20-cards/series-d2-card-01-coconut-bird.jpg"
+  },
+  {
+    "key": "assets-cards-series-d2-final-20-cards-series-d2-card-02-pear-bird-jpg",
+    "id": "series-d2-card-02-pear-bird",
+    "series": "Series D2 Final",
+    "group": "Series D2",
+    "status": "Final",
+    "number": "02",
+    "title": "Pear Bird",
+    "src": "/assets/cards/Series D2/final-20-cards/series-d2-card-02-pear-bird.jpg"
+  },
+  {
+    "key": "assets-cards-series-d2-final-20-cards-series-d2-card-03-raspberry-bird-jpg",
+    "id": "series-d2-card-03-raspberry-bird",
+    "series": "Series D2 Final",
+    "group": "Series D2",
+    "status": "Final",
+    "number": "03",
+    "title": "Raspberry Bird",
+    "src": "/assets/cards/Series D2/final-20-cards/series-d2-card-03-raspberry-bird.jpg"
+  },
+  {
+    "key": "assets-cards-series-d2-final-20-cards-series-d2-card-04-cabbage-bird-jpg",
+    "id": "series-d2-card-04-cabbage-bird",
+    "series": "Series D2 Final",
+    "group": "Series D2",
+    "status": "Final",
+    "number": "04",
+    "title": "Cabbage Bird",
+    "src": "/assets/cards/Series D2/final-20-cards/series-d2-card-04-cabbage-bird.jpg"
+  },
+  {
+    "key": "assets-cards-series-d2-final-20-cards-series-d2-card-05-radish-bird-jpg",
+    "id": "series-d2-card-05-radish-bird",
+    "series": "Series D2 Final",
+    "group": "Series D2",
+    "status": "Final",
+    "number": "05",
+    "title": "Radish Bird",
+    "src": "/assets/cards/Series D2/final-20-cards/series-d2-card-05-radish-bird.jpg"
+  },
+  {
+    "key": "assets-cards-series-d2-final-20-cards-series-d2-card-06-onion-bird-jpg",
+    "id": "series-d2-card-06-onion-bird",
+    "series": "Series D2 Final",
+    "group": "Series D2",
+    "status": "Final",
+    "number": "06",
+    "title": "Onion Bird",
+    "src": "/assets/cards/Series D2/final-20-cards/series-d2-card-06-onion-bird.jpg"
+  },
+  {
+    "key": "assets-cards-series-d2-final-20-cards-series-d2-card-07-pomegranate-bird-jpg",
+    "id": "series-d2-card-07-pomegranate-bird",
+    "series": "Series D2 Final",
+    "group": "Series D2",
+    "status": "Final",
+    "number": "07",
+    "title": "Pomegranate Bird",
+    "src": "/assets/cards/Series D2/final-20-cards/series-d2-card-07-pomegranate-bird.jpg"
+  },
+  {
+    "key": "assets-cards-series-d2-final-20-cards-series-d2-card-08-dragon-fruit-bird-jpg",
+    "id": "series-d2-card-08-dragon-fruit-bird",
+    "series": "Series D2 Final",
+    "group": "Series D2",
+    "status": "Final",
+    "number": "08",
+    "title": "Dragon Fruit Bird",
+    "src": "/assets/cards/Series D2/final-20-cards/series-d2-card-08-dragon-fruit-bird.jpg"
+  },
+  {
+    "key": "assets-cards-series-d2-final-20-cards-series-d2-card-09-bell-pepper-bird-jpg",
+    "id": "series-d2-card-09-bell-pepper-bird",
+    "series": "Series D2 Final",
+    "group": "Series D2",
+    "status": "Final",
+    "number": "09",
+    "title": "Bell Pepper Bird",
+    "src": "/assets/cards/Series D2/final-20-cards/series-d2-card-09-bell-pepper-bird.jpg"
+  },
+  {
+    "key": "assets-cards-series-d2-final-20-cards-series-d2-card-10-artichoke-bird-jpg",
+    "id": "series-d2-card-10-artichoke-bird",
+    "series": "Series D2 Final",
+    "group": "Series D2",
+    "status": "Final",
+    "number": "10",
+    "title": "Artichoke Bird",
+    "src": "/assets/cards/Series D2/final-20-cards/series-d2-card-10-artichoke-bird.jpg"
+  },
+  {
+    "key": "assets-cards-series-d2-final-20-cards-series-d2-card-11-fig-bird-jpg",
+    "id": "series-d2-card-11-fig-bird",
+    "series": "Series D2 Final",
+    "group": "Series D2",
+    "status": "Final",
+    "number": "11",
+    "title": "Fig Bird",
+    "src": "/assets/cards/Series D2/final-20-cards/series-d2-card-11-fig-bird.jpg"
+  },
+  {
+    "key": "assets-cards-series-d2-final-20-cards-series-d2-card-12-asparagus-bird-jpg",
+    "id": "series-d2-card-12-asparagus-bird",
+    "series": "Series D2 Final",
+    "group": "Series D2",
+    "status": "Final",
+    "number": "12",
+    "title": "Asparagus Bird",
+    "src": "/assets/cards/Series D2/final-20-cards/series-d2-card-12-asparagus-bird.jpg"
+  },
+  {
+    "key": "assets-cards-series-d2-final-20-cards-series-d2-card-13-cherry-bird-jpg",
+    "id": "series-d2-card-13-cherry-bird",
+    "series": "Series D2 Final",
+    "group": "Series D2",
+    "status": "Final",
+    "number": "13",
+    "title": "Cherry Bird",
+    "src": "/assets/cards/Series D2/final-20-cards/series-d2-card-13-cherry-bird.jpg"
+  },
+  {
+    "key": "assets-cards-series-d2-final-20-cards-series-d2-card-14-papaya-bird-jpg",
+    "id": "series-d2-card-14-papaya-bird",
+    "series": "Series D2 Final",
+    "group": "Series D2",
+    "status": "Final",
+    "number": "14",
+    "title": "Papaya Bird",
+    "src": "/assets/cards/Series D2/final-20-cards/series-d2-card-14-papaya-bird.jpg"
+  },
+  {
+    "key": "assets-cards-series-d2-final-20-cards-series-d2-card-15-beet-bird-jpg",
+    "id": "series-d2-card-15-beet-bird",
+    "series": "Series D2 Final",
+    "group": "Series D2",
+    "status": "Final",
+    "number": "15",
+    "title": "Beet Bird",
+    "src": "/assets/cards/Series D2/final-20-cards/series-d2-card-15-beet-bird.jpg"
+  },
+  {
+    "key": "assets-cards-series-d2-final-20-cards-series-d2-card-16-lychee-bird-jpg",
+    "id": "series-d2-card-16-lychee-bird",
+    "series": "Series D2 Final",
+    "group": "Series D2",
+    "status": "Final",
+    "number": "16",
+    "title": "Lychee Bird",
+    "src": "/assets/cards/Series D2/final-20-cards/series-d2-card-16-lychee-bird.jpg"
+  },
+  {
+    "key": "assets-cards-series-d2-final-20-cards-series-d2-card-17-zucchini-bird-jpg",
+    "id": "series-d2-card-17-zucchini-bird",
+    "series": "Series D2 Final",
+    "group": "Series D2",
+    "status": "Final",
+    "number": "17",
+    "title": "Zucchini Bird",
+    "src": "/assets/cards/Series D2/final-20-cards/series-d2-card-17-zucchini-bird.jpg"
+  },
+  {
+    "key": "assets-cards-series-d2-final-20-cards-series-d2-card-18-leek-bird-jpg",
+    "id": "series-d2-card-18-leek-bird",
+    "series": "Series D2 Final",
+    "group": "Series D2",
+    "status": "Final",
+    "number": "18",
+    "title": "Leek Bird",
+    "src": "/assets/cards/Series D2/final-20-cards/series-d2-card-18-leek-bird.jpg"
+  },
+  {
+    "key": "assets-cards-series-d2-final-20-cards-series-d2-card-19-cauliflower-bird-jpg",
+    "id": "series-d2-card-19-cauliflower-bird",
+    "series": "Series D2 Final",
+    "group": "Series D2",
+    "status": "Final",
+    "number": "19",
+    "title": "Cauliflower Bird",
+    "src": "/assets/cards/Series D2/final-20-cards/series-d2-card-19-cauliflower-bird.jpg"
+  },
+  {
+    "key": "assets-cards-series-d2-final-20-cards-series-d2-card-20-starfruit-bird-jpg",
+    "id": "series-d2-card-20-starfruit-bird",
+    "series": "Series D2 Final",
+    "group": "Series D2",
+    "status": "Final",
+    "number": "20",
+    "title": "Starfruit Bird",
+    "src": "/assets/cards/Series D2/final-20-cards/series-d2-card-20-starfruit-bird.jpg"
   }
 ]

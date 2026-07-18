@@ -59,6 +59,40 @@ function parsePromptSheet(file) {
   return prompts;
 }
 
+function parseD2CardList(file) {
+  const text = read(file);
+  const prompts = {};
+  const styleSource = text.split("\n## Card List")[0] || "";
+  const styleBlock = styleSource
+    .replace(/^# Series D2 Prompts\s*/, "")
+    .trim()
+    .replace(/\n{3,}/g, "\n\n");
+  const pattern = /^(\d+)\. ([^-]+) - ([^-]+) - (.+)$/gm;
+  let match;
+
+  while ((match = pattern.exec(text))) {
+    const [, rawNumber, title, rarity, description] = match;
+    const number = rawNumber.padStart(2, "0");
+    const cardTitle = title.trim();
+    const rarityText = rarity.trim();
+    const nameBar = cardTitle.toLowerCase();
+
+    prompts[number] = `### ${number}/20 ${cardTitle}
+
+Create artwork for a finalized Series D2 Tango Card featuring ${nameBar} as the clear central specimen.
+
+${styleBlock}
+
+Card-specific content: ${description.trim()}
+
+Use fixed three top header boxes with exact text: SERIES D2, ${number}/20, and ${rarityText.toUpperCase()}. Show the bottom name bar text exactly as ${nameBar}. Keep the name bar, inner card border, and outer card border as separate visible outlined shapes with clear pale gaps between them.
+
+Rarity: ${rarityText}.`;
+  }
+
+  return prompts;
+}
+
 function addIndividualPromptFiles(prompts, seriesLetter) {
   const prefix = `series-${seriesLetter}-card-`;
   const files = fs
@@ -89,6 +123,13 @@ Object.entries(seriesD).forEach(([number, prompt]) => {
   const heading = prompt.split("\n", 1)[0] || "";
   const subject = heading.replace(/^### \d{2}\/20 /, "").replace(/\s+/g, "-").toLowerCase();
   prompts[`series-d-card-${number}-${subject}`] = prompt;
+});
+
+const seriesD2 = parseD2CardList(path.join(artifactDir, "series-d2-prompts.md"));
+Object.entries(seriesD2).forEach(([number, prompt]) => {
+  const heading = prompt.split("\n", 1)[0] || "";
+  const subject = heading.replace(/^### \d{2}\/20 /, "").replace(/\s+/g, "-").toLowerCase();
+  prompts[`series-d2-card-${number}-${subject}`] = prompt;
 });
 
 fs.mkdirSync(dataDir, { recursive: true });
