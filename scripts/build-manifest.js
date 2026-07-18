@@ -37,6 +37,26 @@ const canonicalFiles = [
   "Series D/finalized-20-cards/series-d-card-18-pumpkin-bird.jpg",
   "Series D/finalized-20-cards/series-d-card-19-durian-bird.jpg",
   "Series D/finalized-20-cards/series-d-card-20-pea-bird.jpg",
+  "Series D2/final-20-cards/series-d2-card-01-coconut-bird.jpg",
+  "Series D2/final-20-cards/series-d2-card-02-pear-bird.jpg",
+  "Series D2/final-20-cards/series-d2-card-03-raspberry-bird.jpg",
+  "Series D2/final-20-cards/series-d2-card-04-cabbage-bird.jpg",
+  "Series D2/final-20-cards/series-d2-card-05-radish-bird.jpg",
+  "Series D2/final-20-cards/series-d2-card-06-onion-bird.jpg",
+  "Series D2/final-20-cards/series-d2-card-07-pomegranate-bird.jpg",
+  "Series D2/final-20-cards/series-d2-card-08-dragon-fruit-bird.jpg",
+  "Series D2/final-20-cards/series-d2-card-09-bell-pepper-bird.jpg",
+  "Series D2/final-20-cards/series-d2-card-10-artichoke-bird.jpg",
+  "Series D2/final-20-cards/series-d2-card-11-fig-bird.jpg",
+  "Series D2/final-20-cards/series-d2-card-12-asparagus-bird.jpg",
+  "Series D2/final-20-cards/series-d2-card-13-cherry-bird.jpg",
+  "Series D2/final-20-cards/series-d2-card-14-papaya-bird.jpg",
+  "Series D2/final-20-cards/series-d2-card-15-beet-bird.jpg",
+  "Series D2/final-20-cards/series-d2-card-16-lychee-bird.jpg",
+  "Series D2/final-20-cards/series-d2-card-17-zucchini-bird.jpg",
+  "Series D2/final-20-cards/series-d2-card-18-leek-bird.jpg",
+  "Series D2/final-20-cards/series-d2-card-19-cauliflower-bird.jpg",
+  "Series D2/final-20-cards/series-d2-card-20-starfruit-bird.jpg",
 ];
 
 const files = canonicalFiles
@@ -56,12 +76,12 @@ const cards = files.map((file, index) => {
     .toLowerCase();
   const number = (id.match(/card-(\d+)/) || [])[1] || "";
   const rawTitle = id
-    .replace(/^series-[a-z]-card-\d+-?/, "")
-    .replace(/^series-[a-z]-card-\d+/, "")
+    .replace(/^series-[a-z0-9]+-card-\d+-?/, "")
+    .replace(/^series-[a-z0-9]+-card-\d+/, "")
     .replace(/-v\d.*$/, "")
     .replace(/-lettering-test$/, "")
     .replace(/-diversity$/, "");
-  const isFinal = subfolder === "final" || subfolder === "finalized-20-cards";
+  const isFinal = subfolder === "finalized-20-cards" || subfolder === "final-20-cards";
   const status =
     isFinal
       ? "Final"
