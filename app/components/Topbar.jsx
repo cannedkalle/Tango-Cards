@@ -1,6 +1,8 @@
-export default function Topbar({ eyebrow, title, stats, supportUrl }) {
+import Link from "next/link";
+
+export default function Topbar({ eyebrow, title, stats }) {
   return (
-    <header className="topbar">
+    <header className="topbar app-topbar">
       <div>
         <p className="eyebrow">{eyebrow}</p>
         <h1>{title}</h1>
@@ -11,11 +13,11 @@ export default function Topbar({ eyebrow, title, stats, supportUrl }) {
             <span key={stat}>{stat}</span>
           ))}
         </div>
-        {supportUrl ? (
-          <a className="support-link" href={supportUrl} target="_blank" rel="noreferrer">
-            Support Tango Cards
-          </a>
-        ) : null}
+        <nav className="app-nav" aria-label="App navigation">
+          <Link className="portal-source-link portal-home-link" href="/">
+            Back to Portal
+          </Link>
+        </nav>
       </div>
     </header>
   );

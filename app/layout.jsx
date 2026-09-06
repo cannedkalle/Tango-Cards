@@ -1,8 +1,8 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Tango Cards",
-  description: "Browse and rate generated Tango Cards.",
+  title: "Kids Play Portal",
+  description: "A polished portal for kids play apps including Tango Cards and Marble Battles.",
 };
 
 export default function RootLayout({ children }) {

@@ -1,6 +1,30 @@
-# Tango Cards Gallery
+# Kids Play Portal
 
-A Next.js website for browsing the generated Tango Cards artwork.
+A Next.js portal for polished kids play apps, starting with Tango Cards and Marble Battles.
+
+## Project Role
+
+Kids Play Portal owns the art and design layer for the play ecosystem. It should make each app feel visually curated, polished, and easy to launch.
+
+App-specific projects own their functionality and native experiences: rules, simulations, game mechanics, galleries, card data, state, and core interactions. For example, the Tango Cards gallery belongs to Tango Cards. Kids Play Portal owns how that gallery is represented on the portal: the app tile, preview art, surrounding copy, route wiring, typography, layout, and launch experience.
+
+Every app added to the portal should have two-way navigation: the portal links into the app, and the app experience links back to the portal. Shared shell elements should feel consistent, while the app interior can keep the visual details needed for its own play pattern.
+
+## Locked Visual Elements
+
+Use these as the portal house style so new apps do not drift into generic generated UI:
+
+- Warm paper/doodle background from `assets/site-art/tango-paper-doodles.jpg`
+- Heavy ink borders using `--portal-border`
+- Rounded-but-not-pill app cards using `--portal-radius`
+- Sticker-tab labels for metadata and navigation
+- Offset block shadows using `--portal-shadow`
+- Hand-cut app preview art inside each portal card
+- Two-way navigation on every app shell
+
+Avoid default SaaS cards, glassmorphism, purple-blue gradient blobs, generic feature sections, and explanatory marketing layouts. The portal should feel tactile, kid-made, and curated.
+
+See `docs/visual-style.md` for the locked shape, font, and app-ownership controls. See `docs/art-styles.md` for the named art styles and anti-styles. See `docs/content-style.md` for naming, labels, helper text, and app-shell wording. See `docs/art-direction-prompt.md` for the shared image-generation prompt used by portal-owned app preview art.
 
 Run locally with:
 
@@ -8,6 +32,12 @@ Run locally with:
 npm install
 npm run dev
 ```
+
+## GitHub and Vercel Publishing
+
+Repository: https://github.com/cannedkalle/Tango-Cards
+
+Import this GitHub repository into Vercel to publish the portal website.
 
 ## Deploy on Vercel
 
@@ -25,13 +55,23 @@ If Vercel says `No Next.js version detected`, check that the Vercel Root Directo
 
 ### Ko-fi Link
 
-The `Support Tango Cards` header link defaults to:
+The portal homepage `Support Creator` link defaults to:
 
 ```txt
 https://ko-fi.com/cannedkalle
 ```
 
 Set `NEXT_PUBLIC_KOFI_URL` in Vercel Project Settings if the Ko-fi URL should be different.
+
+### Contact Creator Link
+
+The `Contact Creator` header link defaults to:
+
+```txt
+https://github.com/cannedkalle
+```
+
+Set `NEXT_PUBLIC_CONTACT_URL` in Vercel Project Settings to use an email form, profile page, or other contact destination.
 
 ## Popularity Sorting
 
