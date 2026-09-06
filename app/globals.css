@@ -220,7 +220,7 @@ main {
   width: 100%;
   height: 100vh;
   border: 0;
-  background: #101312;
+  background: var(--portal-paper-warm);
 }
 
 .home {
