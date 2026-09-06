@@ -234,15 +234,7 @@ main {
 
 .kids-portal {
   display: grid;
-<<<<<<< HEAD
-<<<<<<< HEAD
   grid-template-columns: repeat(2, minmax(260px, 420px));
-=======
-  grid-template-columns: repeat(2, minmax(260px, 440px));
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
-  grid-template-columns: repeat(2, minmax(260px, 440px));
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
   justify-content: center;
   gap: clamp(18px, 4vw, 34px);
   min-height: calc(100vh - 220px);
@@ -254,8 +246,6 @@ main {
   display: grid;
   gap: 18px;
   min-height: 390px;
-<<<<<<< HEAD
-<<<<<<< HEAD
   border: var(--portal-border);
   border-radius: var(--portal-card-radius);
   color: var(--ink);
@@ -263,25 +253,10 @@ main {
   text-decoration: none;
   box-shadow: var(--shadow);
   background: var(--portal-paper-fill);
-=======
-=======
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-  border: 3px solid var(--line);
-  border-radius: 18px;
-  color: var(--ink);
-  padding: clamp(18px, 3vw, 28px);
-  text-decoration: none;
-  box-shadow: var(--shadow);
-<<<<<<< HEAD
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
   overflow: hidden;
   transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 .kids-app-card::before {
   content: "";
   position: absolute;
@@ -293,28 +268,12 @@ main {
 .kids-app-card:hover {
   transform: translate(-2px, -2px);
   box-shadow: var(--portal-shadow-hover);
-=======
-.kids-app-card:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 12px 14px 0 rgba(37, 32, 27, 0.16);
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
-.kids-app-card:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 12px 14px 0 rgba(37, 32, 27, 0.16);
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
 }
 
 .kids-app-card strong {
   display: block;
   margin-bottom: 8px;
-<<<<<<< HEAD
-<<<<<<< HEAD
   font-family: var(--font-display);
-=======
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
   font-size: clamp(2.1rem, 5vw, 3.6rem);
   line-height: 0.95;
   text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.6);
@@ -331,8 +290,6 @@ main {
 .kids-app-card b {
   justify-self: start;
   align-self: end;
-<<<<<<< HEAD
-<<<<<<< HEAD
   border-bottom: 3px solid var(--line);
   color: rgba(37, 32, 27, 0.82);
   font-family: var(--font-ui);
@@ -390,50 +347,6 @@ main {
   background: var(--portal-paper-warm);
   box-shadow: 7px 8px 0 rgba(37, 32, 27, 0.18);
   object-fit: cover;
-=======
-=======
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-  min-height: 42px;
-  border: 2px solid var(--line);
-  border-radius: 999px;
-  background: white;
-  padding: 10px 16px;
-  box-shadow: 3px 4px 0 rgba(37, 32, 27, 0.14);
-}
-
-.tango-app-card {
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.68), transparent 52%),
-    linear-gradient(145deg, #ffcf56, #ff7ab8 56%, #c99bff);
-}
-
-.marble-app-card {
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.64), transparent 50%),
-    linear-gradient(145deg, #54e6c1, #d5f76f 55%, #48d1ff);
-}
-
-.kids-app-art {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  width: min(100%, 250px);
-}
-
-.kids-app-art span {
-  aspect-ratio: 1;
-  border: 3px solid rgba(37, 32, 27, 0.42);
-  border-radius: 12px;
-  background: rgba(255, 250, 240, 0.75);
-  box-shadow: 0 14px 24px rgba(37, 32, 27, 0.18);
-}
-
-.marble-app-art span {
-  border-radius: 50%;
-<<<<<<< HEAD
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
 }
 
 .warning {
@@ -1340,8 +1253,6 @@ dd {
 
   .kids-portal {
     grid-template-columns: 1fr;
-<<<<<<< HEAD
-<<<<<<< HEAD
   }
 
   .topbar-actions,
@@ -1352,10 +1263,6 @@ dd {
   }
 
   .kids-portal {
-=======
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
     min-height: auto;
   }
 
@@ -1414,8 +1321,6 @@ dd {
   }
 
   .kids-app-art {
-<<<<<<< HEAD
-<<<<<<< HEAD
     width: min(100%, 190px);
   }
 
@@ -1430,12 +1335,6 @@ dd {
 
   .card {
     padding: 8px;
-=======
-    width: 170px;
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
-    width: 170px;
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
   }
 
   .home-grid {

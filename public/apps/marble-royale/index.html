@@ -3,63 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<<<<<<< HEAD
-<<<<<<< HEAD
     <title>Marble Battles</title>
-=======
-    <title>Marble Royale</title>
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
-    <title>Marble Royale</title>
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <main class="app-shell">
-<<<<<<< HEAD
-<<<<<<< HEAD
       <section class="stage-band" aria-label="Marble Battles arena">
-=======
-      <section class="stage-band" aria-label="Marble Royale arena">
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
-      <section class="stage-band" aria-label="Marble Royale arena">
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
         <canvas id="arena" width="1280" height="720"></canvas>
         <div class="scoreboard" id="scoreboard"></div>
       </section>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
       <aside class="control-panel" aria-label="Game controls">
         <div class="panel-header">
           <div>
             <p class="eyebrow">Marble Battles</p>
-=======
-=======
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-      <aside class="control-panel" aria-label="Simulation controls">
-        <div class="panel-header">
-          <div>
-            <p class="eyebrow">Marble Royale</p>
-<<<<<<< HEAD
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
             <h1>Multiply / Release</h1>
           </div>
           <button id="pauseButton" class="icon-button" type="button" title="Pause or resume">Pause</button>
         </div>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
         <a class="back-link" href="/">Back to Kids Play Portal</a>
-=======
-        <a class="back-link" href="/">Back to Portal</a>
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
-        <a class="back-link" href="/">Back to Portal</a>
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
 
         <label>
           Preset
@@ -68,25 +31,11 @@
 
         <div class="button-row">
           <button id="restartButton" type="button">Restart</button>
-<<<<<<< HEAD
-<<<<<<< HEAD
           <button id="shuffleButton" type="button">Mix Colors</button>
         </div>
 
         <section class="control-section">
           <h2>Board</h2>
-=======
-=======
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-          <button id="shuffleButton" type="button">Shuffle Colors</button>
-        </div>
-
-        <section class="control-section">
-          <h2>Map/Grid Settings</h2>
-<<<<<<< HEAD
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
           <div class="control-grid">
             <label>
               Teams
@@ -101,30 +50,14 @@
               <input id="gridSize" type="range" min="24" max="72" step="6" />
             </label>
             <label>
-<<<<<<< HEAD
-<<<<<<< HEAD
               <span class="control-label">Tiles per level <output data-for="levelUpEvery"></output></span>
-=======
-              <span class="control-label">Converted Tiles / Level <output data-for="levelUpEvery"></output></span>
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
-              <span class="control-label">Converted Tiles / Level <output data-for="levelUpEvery"></output></span>
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
               <input id="levelUpEvery" type="range" min="25" max="250" step="5" />
             </label>
           </div>
         </section>
 
         <section class="control-section">
-<<<<<<< HEAD
-<<<<<<< HEAD
           <h2>Look</h2>
-=======
-          <h2>Cosmetic Settings</h2>
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
-          <h2>Cosmetic Settings</h2>
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
           <div class="control-grid">
             <label>
               <span class="control-label">Marble Size <output data-for="ballRadius"></output></span>
@@ -138,30 +71,14 @@
         </section>
 
         <section class="control-section">
-<<<<<<< HEAD
-<<<<<<< HEAD
           <h2>Pins and marbles</h2>
-=======
-          <h2>Pinboard and Pinball Settings</h2>
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
-          <h2>Pinboard and Pinball Settings</h2>
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
           <div class="control-grid">
             <label>
               Starting Number
               <input id="startingReserve" type="number" min="1" max="200" step="1" />
             </label>
             <label>
-<<<<<<< HEAD
-<<<<<<< HEAD
               <span class="control-label">Marbles at once <output data-for="concurrentPinballs"></output></span>
-=======
-              <span class="control-label">Concurrent Pinballs <output data-for="concurrentPinballs"></output></span>
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
-              <span class="control-label">Concurrent Pinballs <output data-for="concurrentPinballs"></output></span>
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
               <input id="concurrentPinballs" type="range" min="1" max="6" step="1" />
             </label>
             <label>
@@ -176,15 +93,7 @@
         </section>
 
         <section class="control-section">
-<<<<<<< HEAD
-<<<<<<< HEAD
           <h2>Launchers</h2>
-=======
-          <h2>Cannon and Marble Settings</h2>
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
-          <h2>Cannon and Marble Settings</h2>
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
           <div class="control-grid">
             <label>
               <span class="control-label">Marble Power <output data-for="marblePower"></output></span>
@@ -203,15 +112,7 @@
               <input id="cannonTurnSpeed" type="range" min="0" max="3" step="0.05" />
             </label>
             <label>
-<<<<<<< HEAD
-<<<<<<< HEAD
               <span class="control-label">Marble limit <output data-for="maxActiveMarbles"></output></span>
-=======
-              <span class="control-label">Active Limit <output data-for="maxActiveMarbles"></output></span>
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
-              <span class="control-label">Active Limit <output data-for="maxActiveMarbles"></output></span>
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
               <input id="maxActiveMarbles" type="range" min="100" max="700" step="20" />
             </label>
           </div>

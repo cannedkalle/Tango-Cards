@@ -79,27 +79,12 @@ export class ControlPanel {
 
     this.elements.statusStrip.innerHTML = [
       ["Elapsed", `${state.elapsed.toFixed(1)}s`],
-<<<<<<< HEAD
-<<<<<<< HEAD
       ["Marbles moving", state.marbles.length],
       ["Marbles waiting", state.teams.reduce((sum, team) => sum + team.reserve, 0)],
       ["Launchers awake", state.teams.filter((team) => team.active).length],
       ["Team levels", state.teams.map(formatTeamLevel).join(" ")],
       ["Slots", formatSlotSummary(state.config)],
       ["Upgrade cards", state.config.upgradeDeck.map((upgrade) => upgrade.label).join(" ")],
-=======
-=======
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-      ["Active Marbles", state.marbles.length],
-      ["Total Counter", state.teams.reduce((sum, team) => sum + team.reserve, 0)],
-      ["Active Cannons", state.teams.filter((team) => team.active).length],
-      ["Team Levels", state.teams.map(formatTeamLevel).join(" ")],
-      ["Slots", formatSlotSummary(state.config)],
-      ["Upgrade Deck", state.config.upgradeDeck.map((upgrade) => upgrade.label).join(" ")],
-<<<<<<< HEAD
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
       ["Winner", state.winner ? state.winner.name : "Pending"]
     ]
       .map(([label, value]) => `<div class="status-line"><span>${label}</span><strong>${value}</strong></div>`)

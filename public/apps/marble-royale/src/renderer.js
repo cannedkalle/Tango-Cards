@@ -22,23 +22,10 @@ export class CanvasRenderer {
 
 function drawTable(ctx, width, height) {
   ctx.save();
-<<<<<<< HEAD
-<<<<<<< HEAD
   ctx.fillStyle = "#fff4d1";
   ctx.fillRect(0, 0, width, height);
 
   ctx.strokeStyle = "rgba(37, 32, 27, 0.08)";
-=======
-=======
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-  ctx.fillStyle = "#101312";
-  ctx.fillRect(0, 0, width, height);
-
-  ctx.strokeStyle = "rgba(255,255,255,0.08)";
-<<<<<<< HEAD
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
   ctx.lineWidth = 1;
   for (let x = 0; x < width; x += 40) {
     ctx.beginPath();
@@ -52,8 +39,6 @@ function drawTable(ctx, width, height) {
     ctx.lineTo(width, y);
     ctx.stroke();
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
   ctx.strokeStyle = "rgba(47, 111, 145, 0.18)";
   ctx.lineWidth = 5;
   ctx.beginPath();
@@ -62,10 +47,6 @@ function drawTable(ctx, width, height) {
     ctx.quadraticCurveTo(x + 28, height - 38, x + 58, height - 70);
   }
   ctx.stroke();
-=======
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
   ctx.restore();
 }
 
@@ -173,18 +154,8 @@ function drawLanes(ctx, state) {
     const lane = denormalize(team.slot.lane, width, height);
 
     ctx.save();
-<<<<<<< HEAD
-<<<<<<< HEAD
     ctx.fillStyle = blend(team.color, "#fff4d1", 0.28);
     ctx.strokeStyle = "rgba(37, 32, 27, 0.72)";
-=======
-    ctx.fillStyle = blend(team.color, "#101312", 0.42);
-    ctx.strokeStyle = "rgba(255,255,255,0.7)";
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
-    ctx.fillStyle = blend(team.color, "#101312", 0.42);
-    ctx.strokeStyle = "rgba(255,255,255,0.7)";
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
     ctx.lineWidth = 4;
     roundRect(ctx, lane.x, lane.y, lane.w, lane.h, 10);
     ctx.fill();
@@ -202,15 +173,7 @@ function drawLanes(ctx, state) {
 }
 
 function drawPegs(ctx, lane) {
-<<<<<<< HEAD
-<<<<<<< HEAD
   ctx.fillStyle = "rgba(255,250,240,0.86)";
-=======
-  ctx.fillStyle = "rgba(255,255,255,0.82)";
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
-  ctx.fillStyle = "rgba(255,255,255,0.82)";
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
   const columns = 5;
   const rows = 6;
   const pegRadius = 3.5;
@@ -238,15 +201,7 @@ function drawLaneLabels(ctx, lane, team, config) {
   const gateDeck = team.settings.gateDeck;
   const band = getSlotBand(lane, config, gateDeck);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   ctx.strokeStyle = "rgba(37, 32, 27, 0.22)";
-=======
-  ctx.strokeStyle = "rgba(255,255,255,0.28)";
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
-  ctx.strokeStyle = "rgba(255,255,255,0.28)";
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
   ctx.lineWidth = 1;
   let cursor = band.x;
   for (let i = 1; i < gateDeck.length; i += 1) {
@@ -270,15 +225,7 @@ function drawLaneLabels(ctx, lane, team, config) {
     cursor += slotW;
   }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   ctx.fillStyle = "#fffaf0";
-=======
-  ctx.fillStyle = "#f8fff9";
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
-  ctx.fillStyle = "#f8fff9";
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
   ctx.font = "800 28px system-ui";
   ctx.fillText(team.active ? String(team.reserve) : "KO", lane.x + lane.w / 2, lane.y + 34);
   ctx.font = "700 12px system-ui";
@@ -302,21 +249,9 @@ function drawUpgradeSummary(ctx, lane, team, config) {
 
   ctx.save();
   ctx.globalAlpha = team.active ? 1 : 0.54;
-<<<<<<< HEAD
-<<<<<<< HEAD
   ctx.fillStyle = "rgba(255, 250, 240, 0.9)";
   ctx.strokeStyle = "rgba(37, 32, 27, 0.55)";
   ctx.lineWidth = 2;
-=======
-  ctx.fillStyle = "rgba(10, 14, 13, 0.78)";
-  ctx.strokeStyle = "rgba(255,255,255,0.22)";
-  ctx.lineWidth = 1;
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
-  ctx.fillStyle = "rgba(10, 14, 13, 0.78)";
-  ctx.strokeStyle = "rgba(255,255,255,0.22)";
-  ctx.lineWidth = 1;
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
   roundRect(ctx, x, y, summaryW, summaryH, 6);
   ctx.fill();
   ctx.stroke();
@@ -326,39 +261,17 @@ function drawUpgradeSummary(ctx, lane, team, config) {
   ctx.fillStyle = team.color;
   ctx.font = "800 12px system-ui";
   ctx.fillText(`Lv ${team.level}`, x + 8, y + 7);
-<<<<<<< HEAD
-<<<<<<< HEAD
   ctx.fillStyle = "#25201b";
   ctx.font = "700 11px system-ui";
   ctx.fillText(`Next ${progress}`, x + 48, y + 8);
 
   ctx.fillStyle = "rgba(37, 32, 27, 0.68)";
-=======
-=======
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-  ctx.fillStyle = "#f6faf7";
-  ctx.font = "700 11px system-ui";
-  ctx.fillText(`Next ${progress}`, x + 48, y + 8);
-
-  ctx.fillStyle = "#cfd8d2";
-<<<<<<< HEAD
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
   ctx.font = "700 10px system-ui";
   ctx.fillText(`P +${team.upgrades.concurrentPinballs}`, x + 8, y + 27);
   ctx.fillText(`Start +${team.upgrades.startingReserve}`, x + 48, y + 27);
   ctx.fillText(`Power +${team.upgrades.marblePower}`, x + 8, y + 43);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   ctx.fillStyle = "#25201b";
-=======
-  ctx.fillStyle = "#eef3ee";
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
-  ctx.fillStyle = "#eef3ee";
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
   ctx.font = "800 10px system-ui";
   ctx.fillText(slotText, x + 8, y + 62);
   ctx.restore();
@@ -382,15 +295,7 @@ function drawEliminatedLane(ctx, lane) {
 
 function drawDropChute(ctx, lane) {
   ctx.save();
-<<<<<<< HEAD
-<<<<<<< HEAD
   ctx.strokeStyle = "rgba(37, 32, 27, 0.38)";
-=======
-  ctx.strokeStyle = "rgba(255,255,255,0.55)";
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
-=======
-  ctx.strokeStyle = "rgba(255,255,255,0.55)";
->>>>>>> c08131e62e2aef320c0fa689408867b93e593317
   ctx.lineWidth = 2;
   ctx.beginPath();
   ctx.moveTo(lane.x + lane.w * 0.38, lane.y + 8);
