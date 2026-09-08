@@ -2,7 +2,7 @@ import "./globals.css";
 
 export const metadata = {
   title: "Kids Play Portal",
-  description: "A polished portal for kids play apps including Tango Cards and Marble Battles.",
+  description: "A polished portal for kids play apps including Tango Cards, Marble Battles, and Guess the Name.",
 };
 
 export default function RootLayout({ children }) {

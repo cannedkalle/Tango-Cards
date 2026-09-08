@@ -46,6 +46,18 @@ export default function KidsPortalPage() {
             </span>
             <b>Game</b>
           </Link>
+
+          <Link className="kids-app-card name-app-card" href="/guess-the-name">
+            <span className="app-label">Word game</span>
+            <span className="kids-app-art name-app-art" aria-hidden="true">
+              <img className="app-preview-image" src="/portal-art/guess-the-name-preview.png" alt="" />
+            </span>
+            <span>
+              <strong>Guess the Name</strong>
+              <small>Hear a name, pick its kind, and keep the streak going.</small>
+            </span>
+            <b>Play</b>
+          </Link>
         </section>
       </main>
     </>

@@ -234,7 +234,7 @@ main {
 
 .kids-portal {
   display: grid;
-  grid-template-columns: repeat(2, minmax(260px, 420px));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 360px));
   justify-content: center;
   gap: clamp(18px, 4vw, 34px);
   min-height: calc(100vh - 220px);
@@ -324,6 +324,10 @@ main {
   --app-accent: #94d7c2;
 }
 
+.name-app-card {
+  --app-accent: #d94a33;
+}
+
 .kids-app-art {
   display: block;
   width: min(100%, 270px);
@@ -335,6 +339,10 @@ main {
 }
 
 .marble-app-art {
+  transform: none;
+}
+
+.name-app-art {
   transform: none;
 }
 
@@ -1345,4 +1353,37 @@ dd {
     grid-template-columns: 92px 1fr;
     align-items: center;
   }
+}
+
+.external-app-route {
+  width: 100%;
+  min-height: 100vh;
+  padding: 0;
+}
+
+.external-app-frame {
+  display: block;
+  width: 100%;
+  height: 100vh;
+  border: 0;
+  background: var(--portal-paper-warm);
+}
+
+.external-app-missing {
+  display: grid;
+  gap: 16px;
+  align-content: center;
+  justify-items: start;
+  width: min(720px, calc(100vw - 36px));
+  min-height: calc(100vh - 56px);
+  margin-inline: auto;
+  padding: clamp(20px, 5vw, 44px);
+}
+
+.external-app-missing p:not(.eyebrow) {
+  max-width: 48ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.45;
 }

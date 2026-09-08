@@ -17,7 +17,7 @@ Avoid default tone: "Discover an immersive experience designed to unlock creativ
 
 ## Naming Rules
 
-- Use clear app names as the main anchor: `Tango Cards`, `Marble Battles`.
+- Use clear app names as the main anchor: `Tango Cards`, `Marble Battles`, `Guess the Name`.
 - Use the public site title only at the portal level: `Whimsical Play Ideas`.
 - Use `Presented by CannedKalle and sons.` as the creator line.
 - Use app type labels only when they help choose: `Gallery app`, `Game app`, `Card gallery`.
