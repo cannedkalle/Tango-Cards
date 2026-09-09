@@ -1,3 +1,4 @@
+import { APP_NAMES } from "../../lib/names";
 import HomeSeriesGrid from "../components/HomeSeriesGrid";
 import Link from "next/link";
 import Topbar from "../components/Topbar";
@@ -20,7 +21,7 @@ export default function HomePage() {
     <>
       <Topbar
         eyebrow="Card gallery"
-        title="Tango Cards"
+        title={APP_NAMES.tangoCards}
         stats={[`${seriesList.length} series`, `${allCards().length} cards`]}
       />
       <main>

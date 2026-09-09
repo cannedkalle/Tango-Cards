@@ -1,10 +1,11 @@
+import { APP_NAMES, pageTitle } from "../../lib/names";
 import PacksClient from "../components/PacksClient";
 import Topbar from "../components/Topbar";
 import { expansionPacks, oddsLabel } from "../../lib/packs";
 import { seriesList } from "../../lib/cards";
 
 export const metadata = {
-  title: "Expansion Packs - Tango Cards",
+  title: pageTitle("Expansion Packs - " + APP_NAMES.tangoCards),
 };
 
 export default async function PacksPage({ searchParams }) {

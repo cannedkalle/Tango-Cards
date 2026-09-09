@@ -73,9 +73,9 @@ https://github.com/cannedkalle
 
 Set `NEXT_PUBLIC_CONTACT_URL` in Vercel Project Settings to use an email form, profile page, or other contact destination.
 
-### Guess the Name Link
+### Name Quest Link
 
-Set `NEXT_PUBLIC_GUESS_THE_NAME_URL` in Vercel Project Settings after the Guess the Name app has its own public URL. In local development, the wrapper uses `http://localhost:3000` when no URL is configured.
+Set `NEXT_PUBLIC_NAME_QUEST_URL` in Vercel Project Settings after the Name Quest app has its own public URL. In local development, the wrapper uses `http://localhost:3000` when no URL is configured.
 
 
 ## Popularity Sorting

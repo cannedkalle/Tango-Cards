@@ -17,8 +17,15 @@ Avoid default tone: "Discover an immersive experience designed to unlock creativ
 
 ## Naming Rules
 
-- Use clear app names as the main anchor: `Tango Cards`, `Marble Battles`, `Guess the Name`.
-- Use the public site title only at the portal level: `Whimsical Play Ideas`.
+Use these names consistently by context:
+
+- Public site name: `Whimsical Play Ideas`. This appears in the homepage title, browser metadata, and back links.
+- Internal project name: `Kids Play Portal`. This is for the repository, package, README, and implementation notes only.
+- App names: `Tango Cards`, `Marble Battles`, and `Name Quest`. These appear on app cards, app shells, and page metadata.
+- Legacy URL redirects belong in `next.config.js`, not mismatched public route folders.
+- Environment variables should use the current app slug, such as `NEXT_PUBLIC_NAME_QUEST_URL`.
+
+- Public UI may say `play ideas`, `apps`, `cards`, `game`, or `gallery`, but not the internal project name.
 - Use `Presented by CannedKalle and sons.` as the creator line.
 - Use app type labels only when they help choose: `Gallery app`, `Game app`, `Card gallery`.
 - Avoid internal project names, route names, repository names, deployment language, or build-process words in public UI.
@@ -51,8 +58,7 @@ App shell copy should bridge from the portal into the app without taking over th
 
 - Keep topbar eyebrow short: `Card gallery`, `Marble board`, `Pack table`.
 - Keep stats plain: `5 series`, `100 cards`, `4/4 chances`.
-- Use `Back to Portal` for Next.js shell pages.
-- Use `Back to Kids Play Portal` only inside embedded standalone app files when the full destination name helps.
+- Use `Back to Whimsical Play Ideas` for app shell pages and embedded apps.
 - Prefer play-object words over technical words.
 
 Good:

@@ -59,8 +59,7 @@ Compatible directions for later refinement:
 - Preview art inside app cards.
 - App type labels.
 - Topbar framing.
-- Back-to-portal links.
-- GitHub/Vercel publishing link.
+- Back links labeled with the public site name: `Back to Whimsical Play Ideas`.
 - Cross-app spacing, borders, shadows, and typography.
 
 ## App-Owned Elements

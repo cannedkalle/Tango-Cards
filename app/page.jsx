@@ -1,12 +1,13 @@
 import Link from "next/link";
+import { APP_NAMES, SITE_NAME } from "../lib/names";
 import { creatorContactUrl, kofiUrl } from "../lib/support";
 
-export default function KidsPortalPage() {
+export default function HomePage() {
   return (
     <>
       <header className="topbar portal-topbar">
         <div>
-          <h1>Whimsical Play Ideas</h1>
+          <h1>{SITE_NAME}</h1>
           <p className="portal-subtitle">
             Presented by CannedKalle and sons.
           </p>
@@ -22,14 +23,14 @@ export default function KidsPortalPage() {
       </header>
 
       <main>
-        <section className="kids-portal" aria-label="Kids app portal">
+        <section className="kids-portal" aria-label="Play idea list">
           <Link className="kids-app-card tango-app-card" href="/tango-cards">
             <span className="app-label">Gallery app</span>
             <span className="kids-app-art tango-app-art" aria-hidden="true">
               <img className="app-preview-image" src="/portal-art/tango-cards-preview.jpg" alt="" />
             </span>
             <span>
-              <strong>Tango Cards</strong>
+              <strong>{APP_NAMES.tangoCards}</strong>
               <small>Browse bright collectible cards and open expansion packs.</small>
             </span>
             <b>Gallery</b>
@@ -41,20 +42,20 @@ export default function KidsPortalPage() {
               <img className="app-preview-image" src="/portal-art/marble-battles-preview.jpg" alt="" />
             </span>
             <span>
-              <strong>Marble Battles</strong>
+              <strong>{APP_NAMES.marbleBattles}</strong>
               <small>Launch marbles, claim tiles, and watch the board shift.</small>
             </span>
             <b>Game</b>
           </Link>
 
-          <Link className="kids-app-card name-app-card" href="/guess-the-name">
+          <Link className="kids-app-card name-app-card" href="/name-quest">
             <span className="app-label">Word game</span>
             <span className="kids-app-art name-app-art" aria-hidden="true">
-              <img className="app-preview-image" src="/portal-art/guess-the-name-preview.png" alt="" />
+              <img className="app-preview-image" src="/portal-art/name-quest-preview.png" alt="" />
             </span>
             <span>
-              <strong>Guess the Name</strong>
-              <small>Hear a name, pick its kind, and keep the streak going.</small>
+              <strong>{APP_NAMES.nameQuest}</strong>
+              <small>Spot what a name belongs to, then keep the streak going.</small>
             </span>
             <b>Play</b>
           </Link>

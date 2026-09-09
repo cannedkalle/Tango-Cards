@@ -1,15 +1,16 @@
+import { APP_NAMES, pageTitle, SITE_NAME } from "../../lib/names";
 export const metadata = {
-  title: "Marble Battles | Kids Play Portal",
-  description: "Play the Marble Battles cannon and territory simulator.",
+  title: pageTitle(APP_NAMES.marbleBattles),
+  description: "Play " + APP_NAMES.marbleBattles + " from " + SITE_NAME + ".",
 };
 
 export default function MarbleBattlesPage() {
   return (
     <main className="marble-route">
       <iframe
-        title="Marble Battles"
+        title={APP_NAMES.marbleBattles}
         className="marble-frame"
-        src="/apps/marble-royale/index.html"
+        src="/apps/marble-battles/index.html"
       />
     </main>
   );

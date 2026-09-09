@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BACK_TO_SITE_LABEL } from "../../lib/names";
 
 export default function Topbar({ eyebrow, title, stats }) {
   return (
@@ -15,7 +16,7 @@ export default function Topbar({ eyebrow, title, stats }) {
         </div>
         <nav className="app-nav" aria-label="App navigation">
           <Link className="portal-source-link portal-home-link" href="/">
-            Back to Portal
+            {BACK_TO_SITE_LABEL}
           </Link>
         </nav>
       </div>

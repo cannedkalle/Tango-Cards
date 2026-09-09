@@ -36,7 +36,7 @@ Current assets:
 
 - `public/portal-art/tango-cards-preview.jpg`
 - `public/portal-art/marble-battles-preview.jpg`
-- `public/portal-art/guess-the-name-preview.png`
+- `public/portal-art/name-quest-preview.png`
 
 ## Style Option: App Accent Board
 
