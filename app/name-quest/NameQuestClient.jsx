@@ -142,7 +142,7 @@ const normalize = (value) =>
   value
     .toLowerCase()
     .replace(/[^a-z0-9 ]/g, " ")
-    .replace(/s+/g, " ")
+    .replace(/\s+/g, " ")
     .trim();
 
 const isConfusingDistractor = (answer, option) => {
@@ -335,6 +335,10 @@ export default function NameQuestClient() {
 
   const judgeAnswer = useCallback(
     (answer) => {
+      if (result !== "idle") {
+        return;
+      }
+
       const normalized = normalize(answer);
       if (!normalized) return;
 
@@ -377,7 +381,7 @@ export default function NameQuestClient() {
       const answerLine = nextResult === "miss" ? "Good guess. It is " + current.category.toLowerCase() + "." : "Yes. " + current.explanation;
       finishRound(nextResult, answerLine, nextResult !== "miss");
     },
-    [current, mode, pairCurrent],
+    [current, mode, pairCurrent, result],
   );
 
   const finishRound = (nextResult, answerLine, counted) => {
@@ -386,8 +390,7 @@ export default function NameQuestClient() {
     setRounds((value) => value + 1);
     setScore((value) => value + (counted ? 1 : 0));
     setStreak((value) => (counted ? value + 1 : 0));
-    speak(answerLine + " Next one.");
-    window.setTimeout(nextRound, 1500);
+    speak(answerLine);
   };
 
   useEffect(() => {
@@ -447,11 +450,14 @@ export default function NameQuestClient() {
             <button type="button" className="spoken-name" onClick={() => speak(promptName)}>{promptName}</button>
             <small>{promptPronunciation}</small>
             <strong className={"round-feedback " + result} aria-live="polite">{feedback}</strong>
+            {result !== "idle" ? (
+              <button type="button" className="next-round-button" onClick={nextRound}>Next</button>
+            ) : null}
           </div>
 
           <div className="choice-grid">
             {choices.map((choice) => (
-              <button key={choice} type="button" onClick={() => judgeAnswer(choice)}>{choice}</button>
+              <button key={choice} type="button" disabled={result !== "idle"} onClick={() => judgeAnswer(choice)}>{choice}</button>
             ))}
           </div>
         </section>
