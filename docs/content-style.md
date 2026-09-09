@@ -23,7 +23,6 @@ Use these names consistently by context:
 - Internal project name: `Kids Play Portal`. This is for the repository, package, README, and implementation notes only.
 - App names: `Tango Cards`, `Marble Battles`, and `Name Quest`. These appear on app cards, app shells, and page metadata.
 - Legacy URL redirects belong in `next.config.js`, not mismatched public route folders.
-- Environment variables should use the current app slug, such as `NEXT_PUBLIC_NAME_QUEST_URL`.
 
 - Public UI may say `play ideas`, `apps`, `cards`, `game`, or `gallery`, but not the internal project name.
 - Use `Presented by CannedKalle and sons.` as the creator line.

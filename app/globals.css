@@ -1355,35 +1355,295 @@ dd {
   }
 }
 
-.external-app-route {
-  width: 100%;
-  min-height: 100vh;
-  padding: 0;
-}
 
-.external-app-frame {
-  display: block;
-  width: 100%;
-  height: 100vh;
-  border: 0;
-  background: var(--portal-paper-warm);
-}
-
-.external-app-missing {
+.name-quest-page {
   display: grid;
-  gap: 16px;
-  align-content: center;
-  justify-items: start;
-  width: min(720px, calc(100vw - 36px));
-  min-height: calc(100vh - 56px);
-  margin-inline: auto;
-  padding: clamp(20px, 5vw, 44px);
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 330px);
+  gap: clamp(18px, 3vw, 30px);
+  align-items: stretch;
+  max-width: 1220px;
+  margin: 0 auto;
 }
 
-.external-app-missing p:not(.eyebrow) {
-  max-width: 48ch;
+.name-quest-topbar h1 {
+  max-width: 12ch;
+}
+
+.name-quest-controls,
+.level-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.name-quest-controls button,
+.level-row button,
+.choice-grid button,
+.typed-panel button {
+  min-height: 42px;
+  border: 2px solid var(--line);
+  border-radius: var(--portal-control-radius);
+  background: var(--portal-paper-warm);
+  color: var(--ink);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-weight: 900;
+  box-shadow: 3px 4px 0 rgba(37, 32, 27, 0.14);
+}
+
+.name-quest-controls button,
+.level-row button {
+  padding: 8px 11px;
+}
+
+.name-quest-controls button[aria-pressed="true"],
+.level-row button[aria-pressed="true"] {
+  background: var(--accent);
+  color: white;
+}
+
+.name-quest-board,
+.name-quest-side > section {
+  border: var(--portal-border);
+  border-radius: var(--portal-card-radius);
+  background: var(--portal-paper-fill);
+  box-shadow: var(--portal-shadow);
+}
+
+.name-quest-board {
+  display: grid;
+  grid-template-rows: auto minmax(360px, 1fr) auto;
+  gap: clamp(16px, 3vw, 24px);
+  min-height: min(680px, calc(100vh - 220px));
+  padding: clamp(16px, 3vw, 24px);
+}
+
+.name-quest-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.name-quest-badges span {
+  border: 2px solid rgba(37, 32, 27, 0.5);
+  border-radius: var(--portal-control-radius);
+  background: rgba(255, 250, 240, 0.82);
+  padding: 6px 10px;
+  color: rgba(37, 32, 27, 0.78);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.name-card-stage {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 14px;
+  min-height: 360px;
+  border: 3px solid rgba(37, 32, 27, 0.42);
+  border-radius: var(--portal-radius);
+  background:
+    linear-gradient(180deg, rgba(255, 250, 240, 0.9), rgba(255, 244, 209, 0.88)),
+    radial-gradient(circle at 24px 24px, rgba(217, 74, 51, 0.16) 2px, transparent 3px) 0 0 / 42px 42px;
+  padding: clamp(18px, 4vw, 42px);
+  text-align: center;
+}
+
+.name-card-stage p {
   margin: 0;
   color: var(--muted);
-  font-size: 1.05rem;
-  line-height: 1.45;
+  font-size: 0.82rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.spoken-name {
+  max-width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--accent-dark);
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 9vw, 7.8rem);
+  font-weight: 900;
+  line-height: 0.94;
+  overflow-wrap: anywhere;
+  text-shadow: 3px 3px 0 #ffffff;
+}
+
+.name-card-stage small {
+  color: var(--muted);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+}
+
+.round-feedback {
+  display: block;
+  min-height: 2.8em;
+  max-width: 50ch;
+  color: var(--ink);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.35;
+}
+
+.round-feedback.correct,
+.round-feedback.close {
+  color: var(--mint);
+}
+
+.round-feedback.miss {
+  color: var(--accent-dark);
+}
+
+.choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.choice-grid button {
+  min-height: 68px;
+  padding: 12px;
+  background: #fffaf0;
+  font-size: clamp(1rem, 2vw, 1.18rem);
+}
+
+.choice-grid button:hover,
+.typed-panel button:hover,
+.name-quest-controls button:hover,
+.level-row button:hover {
+  transform: translate(-1px, -1px);
+}
+
+.name-quest-side {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+}
+
+.name-quest-side > section {
+  padding: 16px;
+}
+
+.score-panel {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  text-align: center;
+}
+
+.score-panel div:not(.progress-track) {
+  display: grid;
+  gap: 4px;
+}
+
+.score-panel strong {
+  color: var(--sky);
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.score-panel span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.progress-track {
+  grid-column: 1 / -1;
+  height: 14px;
+  border: 2px solid var(--line);
+  border-radius: var(--portal-control-radius);
+  background: #fff4d1;
+  overflow: hidden;
+}
+
+.progress-track span {
+  display: block;
+  height: 100%;
+  background: var(--mint);
+}
+
+.typed-panel {
+  display: grid;
+  gap: 12px;
+}
+
+.typed-panel label {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.typed-panel form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.typed-panel input {
+  min-width: 0;
+  min-height: 42px;
+  border: 2px solid var(--line);
+  border-radius: var(--portal-control-radius);
+  background: #fffaf0;
+  color: var(--ink);
+  padding: 8px 10px;
+  font-weight: 900;
+}
+
+.typed-panel button {
+  padding: 8px 12px;
+}
+
+.name-quest-controls button:focus-visible,
+.level-row button:focus-visible,
+.choice-grid button:focus-visible,
+.typed-panel button:focus-visible,
+.spoken-name:focus-visible,
+.typed-panel input:focus-visible {
+  outline: 4px solid var(--portal-focus);
+  outline-offset: 3px;
+}
+
+@media (max-width: 860px) {
+  .name-quest-page {
+    grid-template-columns: 1fr;
+  }
+
+  .name-quest-board {
+    min-height: auto;
+  }
+
+  .name-card-stage {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 560px) {
+  .name-quest-topbar h1 {
+    max-width: none;
+  }
+
+  .name-quest-controls,
+  .level-row {
+    justify-content: stretch;
+  }
+
+  .name-quest-controls button,
+  .level-row button {
+    flex: 1 1 135px;
+  }
+
+  .choice-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .typed-panel form {
+    grid-template-columns: 1fr;
+  }
 }
