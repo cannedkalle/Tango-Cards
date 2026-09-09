@@ -152,12 +152,17 @@ const getPronunciationDisplay = (entry) => {
 
 const pronunciationForSpeech = (pronunciation) =>
   pronunciation
+    .toLowerCase()
     .replace(/[()]/g, " ")
     .replace(/-/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 
 const getEntrySpokenPrompt = (entry) => {
+  if (entry.speechPronunciation?.trim()) {
+    return entry.speechPronunciation.trim();
+  }
+
   const pronunciation = getPronunciationDisplay(entry);
   return pronunciation ? pronunciationForSpeech(pronunciation) : entry.name;
 };
@@ -313,6 +318,7 @@ export default function NameQuestClient() {
       if (!voiceOn || typeof window === "undefined" || !("speechSynthesis" in window)) return;
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "en-US";
       utterance.rate = 0.94;
       utterance.pitch = 1.06;
       window.speechSynthesis.speak(utterance);

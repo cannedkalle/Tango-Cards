@@ -2335,7 +2335,8 @@
     "difficulty": 1,
     "ambiguity": "none",
     "commonName": "none",
-    "pronunciation": "SY-duck",
+    "pronunciation": "SIGH-duck",
+    "speechPronunciation": "sigh duck",
     "explanation": "Psyduck is a duck-like Pokemon.",
     "wordForm": "single"
   },
@@ -26396,7 +26397,8 @@
     "difficulty": 3,
     "ambiguity": "none",
     "commonName": "none",
-    "pronunciation": "FO-cac-cia",
+    "pronunciation": "foh-KAH-chuh",
+    "speechPronunciation": "foh kah chuh",
     "explanation": "Focaccia is a flat Italian bread.",
     "id": "focaccia",
     "wordForm": "single"
