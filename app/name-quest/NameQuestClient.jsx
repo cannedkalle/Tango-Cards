@@ -145,6 +145,23 @@ const normalize = (value) =>
     .replace(/\s+/g, " ")
     .trim();
 
+const getPronunciationDisplay = (entry) => {
+  const pronunciation = entry.pronunciation?.trim();
+  return pronunciation || "";
+};
+
+const pronunciationForSpeech = (pronunciation) =>
+  pronunciation
+    .replace(/[()]/g, " ")
+    .replace(/-/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+const getEntrySpokenPrompt = (entry) => {
+  const pronunciation = getPronunciationDisplay(entry);
+  return pronunciation ? pronunciationForSpeech(pronunciation) : entry.name;
+};
+
 const isConfusingDistractor = (answer, option) => {
   if (answer === option) return true;
   const pairKey = [answer, option].sort().join("|");
@@ -286,7 +303,8 @@ export default function NameQuestClient() {
   }, [current, mode, pairCurrent.choices]);
 
   const promptName = mode === "realAnimal" ? "Which is " + pairCurrent.target + "?" : current.name;
-  const promptPronunciation = mode === "realAnimal" ? "Pick the matching name." : current.pronunciation;
+  const promptPronunciation = mode === "realAnimal" ? "Pick the matching name." : getPronunciationDisplay(current);
+  const spokenPrompt = mode === "realAnimal" ? "Which is " + pairCurrent.target + "?" : getEntrySpokenPrompt(current);
   const progressTotal = mode === "realAnimal" ? pairPrompts.length : pool.length;
   const progressValue = progressTotal ? Math.min(100, (usedIds.size / progressTotal) * 100) : 0;
 
@@ -330,7 +348,7 @@ export default function NameQuestClient() {
     setResult("idle");
     setFeedback(mode === "pokemon" ? "Pokemon or not?" : "Pick the kind of name.");
     setTypedAnswer("");
-    speak(next.name);
+    speak(getEntrySpokenPrompt(next));
   }, [current.id, mode, pool, speak, usedIds]);
 
   const judgeAnswer = useCallback(
@@ -394,8 +412,8 @@ export default function NameQuestClient() {
   };
 
   useEffect(() => {
-    speak(promptName);
-  }, [promptName, speak]);
+    speak(spokenPrompt);
+  }, [spokenPrompt, speak]);
 
   const resetGame = (nextLevel = level, nextMode = mode) => {
     const nextPool = getPool(nextLevel, nextMode);
@@ -412,7 +430,7 @@ export default function NameQuestClient() {
     setScore(0);
     setRounds(0);
     setStreak(0);
-    speak(nextMode === "realAnimal" ? "Which is " + nextPair.target + "?" : next?.name ?? current.name);
+    speak(nextMode === "realAnimal" ? "Which is " + nextPair.target + "?" : getEntrySpokenPrompt(next ?? current));
   };
 
   return (
@@ -447,7 +465,7 @@ export default function NameQuestClient() {
 
           <div className="name-card-stage">
             <p>Round {rounds + 1}</p>
-            <button type="button" className="spoken-name" onClick={() => speak(promptName)}>{promptName}</button>
+            <button type="button" className="spoken-name" onClick={() => speak(spokenPrompt)}>{promptName}</button>
             <small>{promptPronunciation}</small>
             <strong className={"round-feedback " + result} aria-live="polite">{feedback}</strong>
             {result !== "idle" ? (
@@ -473,8 +491,8 @@ export default function NameQuestClient() {
           <section className="typed-panel">
             <label htmlFor="typed-answer">Type an answer</label>
             <form onSubmit={(event) => { event.preventDefault(); judgeAnswer(typedAnswer); }}>
-              <input id="typed-answer" value={typedAnswer} onChange={(event) => setTypedAnswer(event.target.value)} placeholder={mode === "realAnimal" ? "type one option" : mode === "pokemon" ? "pokemon or not pokemon" : "place, food, game..."} />
-              <button type="submit">Go</button>
+              <input id="typed-answer" value={typedAnswer} onChange={(event) => setTypedAnswer(event.target.value)} disabled={result !== "idle"} placeholder={mode === "realAnimal" ? "type one option" : mode === "pokemon" ? "pokemon or not pokemon" : "place, food, game..."} />
+              <button type="submit" disabled={result !== "idle"}>Go</button>
             </form>
           </section>
 
