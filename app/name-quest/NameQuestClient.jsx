@@ -150,21 +150,13 @@ const getPronunciationDisplay = (entry) => {
   return pronunciation || "";
 };
 
-const pronunciationForSpeech = (pronunciation) =>
-  pronunciation
-    .toLowerCase()
-    .replace(/[()]/g, " ")
-    .replace(/-/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
 
 const getEntrySpokenPrompt = (entry) => {
   if (entry.speechPronunciation?.trim()) {
     return entry.speechPronunciation.trim();
   }
 
-  const pronunciation = getPronunciationDisplay(entry);
-  return pronunciation ? pronunciationForSpeech(pronunciation) : entry.name;
+  return entry.name;
 };
 
 const isConfusingDistractor = (answer, option) => {
