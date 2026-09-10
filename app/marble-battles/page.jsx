@@ -10,7 +10,7 @@ export default function MarbleBattlesPage() {
       <iframe
         title={APP_NAMES.marbleBattles}
         className="marble-frame"
-        src="/apps/marble-battles/index.html"
+        src="/apps/marble-battles"
       />
     </main>
   );
