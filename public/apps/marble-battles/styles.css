@@ -1,18 +1,18 @@
 :root {
   color-scheme: light;
   font-family: "Trebuchet MS", "Avenir Next", ui-rounded, system-ui, sans-serif;
-  --portal-ink: #25201b;
-  --portal-paper: #fff4d1;
-  --portal-panel: #fffaf0;
-  --portal-accent: #d94a33;
-  --portal-sun: #f7bc45;
-  --portal-mint: #94d7c2;
-  --portal-sky: #2f6f91;
-  --portal-line: #25201b;
-  --portal-radius: 8px 6px 10px 7px;
-  --portal-shadow: 5px 6px 0 rgba(37, 32, 27, 0.16);
+  --lab-ink: #25201b;
+  --lab-paper: #fff4d1;
+  --lab-panel: #fffaf0;
+  --lab-accent: #d94a33;
+  --lab-sun: #f7bc45;
+  --lab-mint: #94d7c2;
+  --lab-sky: #2f6f91;
+  --lab-line: #25201b;
+  --lab-radius: 8px 6px 10px 7px;
+  --lab-shadow: 5px 6px 0 rgba(37, 32, 27, 0.16);
   background: #f5ecd8;
-  color: var(--portal-ink);
+  color: var(--lab-ink);
 }
 
 html {
@@ -67,10 +67,10 @@ select {
   min-height: 0;
   height: auto;
   aspect-ratio: 16 / 9;
-  border: 3px solid var(--portal-line);
-  border-radius: var(--portal-radius);
-  background: var(--portal-paper);
-  box-shadow: var(--portal-shadow);
+  border: 3px solid var(--lab-line);
+  border-radius: var(--lab-radius);
+  background: var(--lab-paper);
+  box-shadow: var(--lab-shadow);
 }
 
 .scoreboard {
@@ -90,9 +90,9 @@ select {
   min-height: 34px;
   padding: 6px 10px;
   border: 2px solid rgba(37, 32, 27, 0.7);
-  border-radius: var(--portal-radius);
+  border-radius: var(--lab-radius);
   background: rgba(255, 250, 240, 0.88);
-  color: var(--portal-ink);
+  color: var(--lab-ink);
   box-shadow: 2px 3px 0 rgba(37, 32, 27, 0.1);
 }
 
@@ -118,10 +118,10 @@ select {
   height: 100vh;
   height: 100dvh;
   padding: 24px;
-  border-left: 3px solid var(--portal-line);
+  border-left: 3px solid var(--lab-line);
   background:
     linear-gradient(180deg, rgba(255, 244, 209, 0.8), rgba(255, 250, 240, 0.96)),
-    var(--portal-panel);
+    var(--lab-panel);
   overflow-y: auto;
   overflow-x: hidden;
   overscroll-behavior: contain;
@@ -137,7 +137,7 @@ select {
 
 .eyebrow {
   margin: 0 0 6px;
-  color: var(--portal-sky);
+  color: var(--lab-sky);
   font-size: 0.78rem;
   font-weight: 900;
   text-transform: uppercase;
@@ -168,7 +168,7 @@ label {
 output {
   min-width: 34px;
   text-align: right;
-  color: var(--portal-ink);
+  color: var(--lab-ink);
   font-variant-numeric: tabular-nums;
 }
 
@@ -177,26 +177,26 @@ input {
   width: 100%;
   min-height: 38px;
   border: 2px solid rgba(37, 32, 27, 0.7);
-  border-radius: var(--portal-radius);
+  border-radius: var(--lab-radius);
   padding: 7px 9px;
   background: #fffdf7;
-  color: var(--portal-ink);
+  color: var(--lab-ink);
   box-shadow: 2px 3px 0 rgba(37, 32, 27, 0.08);
 }
 
 input[type="range"] {
   padding-inline: 0;
   box-shadow: none;
-  accent-color: var(--portal-sky);
+  accent-color: var(--lab-sky);
 }
 
 button {
   min-height: 38px;
-  border: 2px solid var(--portal-line);
-  border-radius: var(--portal-radius);
+  border: 2px solid var(--lab-line);
+  border-radius: var(--lab-radius);
   padding: 8px 12px;
-  background: var(--portal-sun);
-  color: var(--portal-ink);
+  background: var(--lab-sun);
+  color: var(--lab-ink);
   font-weight: 900;
   cursor: pointer;
   box-shadow: 3px 4px 0 rgba(37, 32, 27, 0.14);
@@ -222,21 +222,21 @@ button:hover {
   justify-content: center;
   min-height: 36px;
   border: 2px solid rgba(37, 32, 27, 0.92);
-  border-radius: var(--portal-radius);
-  background: var(--portal-paper);
-  color: var(--portal-ink);
+  border-radius: var(--lab-radius);
+  background: var(--lab-paper);
+  color: var(--lab-ink);
   font-weight: 900;
   text-decoration: none;
   box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.24);
 }
 
 .back-link:hover {
-  background: var(--portal-sun);
+  background: var(--lab-sun);
   filter: brightness(1.02);
 }
 
 .button-row button:last-child {
-  background: var(--portal-mint);
+  background: var(--lab-mint);
 }
 
 .control-grid {
@@ -258,7 +258,7 @@ button:hover {
 
 .control-section h2 {
   margin: 0;
-  color: var(--portal-sky);
+  color: var(--lab-sky);
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0;
@@ -317,6 +317,6 @@ button:hover {
     max-height: none;
     overflow: visible;
     border-left: 0;
-    border-top: 3px solid var(--portal-line);
+    border-top: 3px solid var(--lab-line);
   }
 }

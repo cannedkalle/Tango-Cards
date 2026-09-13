@@ -1,10 +1,10 @@
-# Kids Play Portal Content Style
+# Whimsical Kids AI Lab Content Style
 
 Use this guide for names, labels, buttons, helper text, and app descriptions. The writing should match the visual style: simple, personal, concrete, and playful without sounding like marketing or generated filler.
 
 ## Voice
 
-The portal voice is an authored family play index.
+The lab voice is an authored family play index.
 
 - Warm, plain, and specific.
 - Short enough for kids to scan.
@@ -19,8 +19,8 @@ Avoid default tone: "Discover an immersive experience designed to unlock creativ
 
 Use these names consistently by context:
 
-- Public site name: `Whimsical Play Ideas`. This appears in the homepage title, browser metadata, and back links.
-- Internal project name: `Kids Play Portal`. This is for the repository, package, README, and implementation notes only.
+- Public site name: `Whimsical Kids AI Lab`. This appears in the homepage title, browser metadata, and back links.
+- Internal project name: `Whimsical Kids AI Lab`. This is for the repository, package, README, and implementation notes only.
 - App names: `Tango Cards`, `Marble Battles`, and `Name Quest`. These appear on app cards, app shells, and page metadata.
 - Legacy URL redirects belong in `next.config.js`, not mismatched public route folders.
 
@@ -29,9 +29,9 @@ Use these names consistently by context:
 - Use app type labels only when they help choose: `Gallery app`, `Game app`, `Card gallery`.
 - Avoid internal project names, route names, repository names, deployment language, or build-process words in public UI.
 
-## Portal Copy
+## Lab Copy
 
-Portal copy should help a visitor choose where to go.
+Lab copy should help a visitor choose where to go.
 
 - App card title: app name.
 - App card description: one concrete sentence about the play action.
@@ -53,11 +53,11 @@ Avoid:
 
 ## App Shell Copy
 
-App shell copy should bridge from the portal into the app without taking over the app.
+App shell copy should bridge from the lab into the app without taking over the app.
 
 - Keep topbar eyebrow short: `Card gallery`, `Marble board`, `Pack table`.
 - Keep stats plain: `5 series`, `100 cards`, `4/4 chances`.
-- Use `Back to Whimsical Play Ideas` for app shell pages and embedded apps.
+- Use `Back to Whimsical Kids AI Lab` for app shell pages and embedded apps.
 - Prefer play-object words over technical words.
 
 Good:
@@ -83,7 +83,7 @@ Avoid:
 
 ## Control Labels
 
-Controls can be more functional than portal cards, but should still sound like a game table.
+Controls can be more functional than lab cards, but should still sound like a game table.
 
 - Use short labels.
 - Use title case for visible button and section labels.
@@ -108,7 +108,7 @@ Preferred replacements:
 Counts should be useful, not braggy.
 
 - Use counts when they explain inventory or current state.
-- Do not use counts as decorative badges on the portal.
+- Do not use counts as decorative badges on the lab.
 - Avoid analytics-facing copy unless the user selected a sorting mode where it matters.
 
 Good:

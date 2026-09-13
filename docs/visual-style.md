@@ -1,6 +1,6 @@
-# Kids Play Portal Visual Style Controls
+# Whimsical Kids AI Lab Visual Style Controls
 
-Kids Play Portal should feel like a small authored web place: simple, playful, direct, and clearly made by a person. The portal owns app representation and art direction. Individual apps own their mechanics and native experience.
+Whimsical Kids AI Lab should feel like a small authored web place: simple, playful, direct, and clearly made by a person. The lab owns app representation and art direction. Individual apps own their mechanics and native experience.
 
 Use `docs/art-styles.md` as the named reference for style families, anti-styles, and future art-direction decisions. Use `docs/content-style.md` for naming, labels, helper text, and app-shell wording.
 
@@ -26,15 +26,15 @@ Compatible directions for later refinement:
 
 ## Shape
 
-- Use heavy ink borders for portal-owned surfaces: `--portal-border`.
-- Use irregular sticker corners for cards: `--portal-card-radius`.
-- Use small uneven corners for buttons, labels, and navigation: `--portal-control-radius`.
-- Lock fixed-format play objects with aspect ratios. Tango Cards images use `5 / 7`; Marble Battles arena uses `16 / 9`; portal app previews use `4 / 3`.
-- Avoid AI-like rounded buttons. Do not use pill buttons for portal navigation, app labels, or metadata.
+- Use heavy ink borders for lab-owned surfaces: `--lab-border`.
+- Use irregular sticker corners for cards: `--lab-card-radius`.
+- Use small uneven corners for buttons, labels, and navigation: `--lab-control-radius`.
+- Lock fixed-format play objects with aspect ratios. Tango Cards images use `5 / 7`; Marble Battles arena uses `16 / 9`; lab app previews use `4 / 3`.
+- Avoid AI-like rounded buttons. Do not use pill buttons for lab navigation, app labels, or metadata.
 - Public app cards should not need separate CTA buttons. The whole card is the link; use a tiny underlined type label such as `Gallery` or `Game` when useful.
-- Do not show internal publishing, repository, or roadmap metadata on the public portal unless it helps a visitor choose an app.
+- Do not show internal publishing, repository, or roadmap metadata on the public lab unless it helps a visitor choose an app.
 - True circles are allowed only when the content calls for them, such as marbles, counters, or game pieces.
-- Use offset shadows instead of soft floating shadows: `--portal-shadow` and `--portal-shadow-hover`.
+- Use offset shadows instead of soft floating shadows: `--lab-shadow` and `--lab-shadow-hover`.
 
 ## Fonts
 
@@ -53,13 +53,13 @@ Compatible directions for later refinement:
 - Use app-entry backgrounds as quiet support surfaces. Prefer paper-colored cards with small app accent areas over full solid-color cards.
 - Keep app preview images straight by default. Use only subtle rotation when the specific composition benefits from a pasted-photo feeling.
 
-## Portal-Owned Elements
+## Lab-Owned Elements
 
 - Homepage app cards.
 - Preview art inside app cards.
 - App type labels.
 - Topbar framing.
-- Back links labeled with the public site name: `Back to Whimsical Play Ideas`.
+- Back links labeled with the public site name: `Back to Whimsical Kids AI Lab`.
 - Cross-app spacing, borders, shadows, and typography.
 
 ## App-Owned Elements
@@ -70,4 +70,4 @@ Compatible directions for later refinement:
 
 ## Keep It Simple
 
-The portal should behave like a memorable index of play apps, not a product landing page. Prefer one strong visual idea, direct labels, and useful launch cards over decorative filler.
+The lab should behave like a memorable index of play apps, not a product landing page. Prefer one strong visual idea, direct labels, and useful launch cards over decorative filler.

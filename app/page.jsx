@@ -5,10 +5,10 @@ import { creatorContactUrl, kofiUrl } from "../lib/support";
 export default function HomePage() {
   return (
     <>
-      <header className="topbar portal-topbar">
+      <header className="topbar lab-topbar">
         <div>
           <h1>{SITE_NAME}</h1>
-          <p className="portal-subtitle">
+          <p className="lab-subtitle">
             Presented by CannedKalle and sons.
           </p>
         </div>
@@ -23,11 +23,11 @@ export default function HomePage() {
       </header>
 
       <main>
-        <section className="kids-portal" aria-label="Play idea list">
+        <section className="lab-app-grid" aria-label="Play idea list">
           <Link className="kids-app-card tango-app-card" href="/tango-cards">
             <span className="app-label">Gallery app</span>
             <span className="kids-app-art tango-app-art" aria-hidden="true">
-              <img className="app-preview-image" src="/portal-art/tango-cards-preview.jpg" alt="" />
+              <img className="app-preview-image" src="/lab-art/tango-cards-preview.jpg" alt="" />
             </span>
             <span>
               <strong>{APP_NAMES.tangoCards}</strong>
@@ -39,7 +39,7 @@ export default function HomePage() {
           <Link className="kids-app-card marble-app-card" href="/marble-battles">
             <span className="app-label">Game app</span>
             <span className="kids-app-art marble-app-art" aria-hidden="true">
-              <img className="app-preview-image" src="/portal-art/marble-battles-preview.jpg" alt="" />
+              <img className="app-preview-image" src="/lab-art/marble-battles-preview.jpg" alt="" />
             </span>
             <span>
               <strong>{APP_NAMES.marbleBattles}</strong>
@@ -51,7 +51,7 @@ export default function HomePage() {
           <Link className="kids-app-card name-app-card" href="/name-quest">
             <span className="app-label">Word game</span>
             <span className="kids-app-art name-app-art" aria-hidden="true">
-              <img className="app-preview-image" src="/portal-art/name-quest-preview.png" alt="" />
+              <img className="app-preview-image" src="/lab-art/name-quest-preview.png" alt="" />
             </span>
             <span>
               <strong>{APP_NAMES.nameQuest}</strong>

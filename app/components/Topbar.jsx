@@ -15,7 +15,7 @@ export default function Topbar({ eyebrow, title, stats }) {
           ))}
         </div>
         <nav className="app-nav" aria-label="App navigation">
-          <Link className="portal-source-link portal-home-link" href="/">
+          <Link className="lab-source-link lab-home-link" href="/">
             {BACK_TO_SITE_LABEL}
           </Link>
         </nav>

@@ -440,7 +440,7 @@ export default function NameQuestClient() {
         </div>
         <div className="topbar-actions">
           <nav className="app-nav" aria-label="App navigation">
-            <a className="portal-source-link portal-home-link" href="/">{BACK_TO_SITE_LABEL}</a>
+            <a className="lab-source-link lab-home-link" href="/">{BACK_TO_SITE_LABEL}</a>
           </nav>
           <div className="name-quest-controls" aria-label="Game modes">
             {Object.keys(modeLabels).map((nextMode) => (

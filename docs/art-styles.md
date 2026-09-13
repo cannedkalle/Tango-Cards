@@ -1,6 +1,6 @@
-# Kids Play Portal Art Styles
+# Whimsical Kids AI Lab Art Styles
 
-Use this as the shared vocabulary for future portal and app-shell design. The portal should feel like a small authored web place for family-made play apps: simple, visual, tactile, and direct.
+Use this as the shared vocabulary for future lab and app-shell design. The lab should feel like a small authored web place for family-made play apps: simple, visual, tactile, and direct.
 
 ## Reference Sites
 
@@ -11,7 +11,7 @@ Use this as the shared vocabulary for future portal and app-shell design. The po
 
 ## Recommended Default: Paper Toy Index
 
-This is the house style for the public portal.
+This is the house style for the public lab.
 
 - Use warm paper as the main surface.
 - Let app preview images provide most of the color and detail.
@@ -20,11 +20,11 @@ This is the house style for the public portal.
 - Keep app preview images straight or almost straight. Use no more than a very subtle rotation when the image needs a physical pasted-photo feeling.
 - Prefer sparse layouts: title, creator line, creator actions, app entries.
 
-Why this is best: it matches the one-person-site references. The portal feels authored and distinctive, but it does not become a loud product grid or generated toy catalogue.
+Why this is best: it matches the one-person-site references. The lab feels authored and distinctive, but it does not become a loud product grid or generated toy catalogue.
 
 ## Style Option: Cut-Paper Preview Art
 
-Use for portal-owned app thumbnails and occasional app-shell hero art.
+Use for lab-owned app thumbnails and occasional app-shell hero art.
 
 - Show the app's play object clearly: cards for Tango Cards, a board and marbles for Marble Battles.
 - Use cut-paper forms, visible marker outlines, imperfect collage edges, and warm paper texture.
@@ -34,9 +34,9 @@ Use for portal-owned app thumbnails and occasional app-shell hero art.
 
 Current assets:
 
-- `public/portal-art/tango-cards-preview.jpg`
-- `public/portal-art/marble-battles-preview.jpg`
-- `public/portal-art/name-quest-preview.png`
+- `public/lab-art/tango-cards-preview.jpg`
+- `public/lab-art/marble-battles-preview.jpg`
+- `public/lab-art/name-quest-preview.png`
 
 ## Style Option: App Accent Board
 
@@ -50,7 +50,7 @@ Decision: move away from full solid app-entry backgrounds. Keep accent colors sm
 
 ## Style Option: Pasted Photo
 
-Use when a preview image should feel like a physical object placed onto the portal.
+Use when a preview image should feel like a physical object placed onto the lab.
 
 - Good: subtle border, paper shadow, small tape mark, tiny imperfection.
 - Risky: obvious rotation on every image. If the generated image already has perspective, extra CSS tilt can feel forced.
@@ -63,18 +63,18 @@ Decision: default to straight previews. Use at most `0.5deg` to `1deg` of rotati
 Use for creator links, back links, app type labels, filters, and game controls.
 
 - Use compact, square-ish bordered controls.
-- Use `--portal-control-radius`, not pill radii.
+- Use `--lab-control-radius`, not pill radii.
 - Use offset shadows instead of soft floating shadows.
 - Use body/UI font sizing that fits the box without looking like SaaS navigation.
 - Keep controls functional and quiet. They should not compete with app art.
 
 ## Style Option: Full App Interior
 
-Use inside an individual app route when this portal wraps an app.
+Use inside an individual app route when this lab wraps an app.
 
-- Keep shared shell elements consistent: topbar, back-to-portal link, spacing, border language.
+- Keep shared shell elements consistent: topbar, back-to-lab link, spacing, border language.
 - Let the app own its mechanics, gameplay layout, gallery structure, state, and dense interaction surfaces.
-- Only apply portal art direction where the app needs a frame, launch surface, or visual bridge back to the portal.
+- Only apply lab art direction where the app needs a frame, launch surface, or visual bridge back to the lab.
 
 ## Anti-Styles
 
@@ -89,7 +89,7 @@ These are known wrong directions for this project.
 
 ## Quick Decision Rules
 
-- If an element helps launch or return from an app, the portal owns its style.
+- If an element helps launch or return from an app, the lab owns its style.
 - If an element is the app's core gameplay or gallery mechanic, the app owns it.
 - If an image is only decoration, remove it or make it app-specific.
 - If a color fills a large surface, ask whether it is supporting the preview art or competing with it.
