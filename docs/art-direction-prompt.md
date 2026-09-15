@@ -1,6 +1,6 @@
 # Lab App Preview Art Prompt
 
-Use this shared prompt as the style lock for Whimsical Kids AI Lab app preview images.
+Use this shared prompt as the style lock for Kids Play Portal app preview images.
 
 ## House Style
 

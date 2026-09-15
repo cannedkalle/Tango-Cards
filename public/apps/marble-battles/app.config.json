@@ -1,0 +1,13 @@
+{
+  "id": "marble-battles",
+  "name": "Marble Battles",
+  "kind": "simulation-game",
+  "entry": "index.html",
+  "data": {
+    "presets": "src/config.js"
+  },
+  "release": {
+    "type": "static",
+    "portalPublicPath": "/apps/marble-battles"
+  }
+}

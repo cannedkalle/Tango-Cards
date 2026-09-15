@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { APP_NAMES, SITE_NAME } from "../lib/names";
+import { PLAY_APPS } from "../lib/apps";
+import { SITE_NAME } from "../lib/names";
 import { creatorContactUrl, kofiUrl } from "../lib/support";
 
 export default function HomePage() {
@@ -24,41 +25,19 @@ export default function HomePage() {
 
       <main>
         <section className="lab-app-grid" aria-label="Play idea list">
-          <Link className="kids-app-card tango-app-card" href="/tango-cards">
-            <span className="app-label">Gallery app</span>
-            <span className="kids-app-art tango-app-art" aria-hidden="true">
-              <img className="app-preview-image" src="/lab-art/tango-cards-preview.jpg" alt="" />
-            </span>
-            <span>
-              <strong>{APP_NAMES.tangoCards}</strong>
-              <small>Browse bright collectible cards and open expansion packs.</small>
-            </span>
-            <b>Gallery</b>
-          </Link>
-
-          <Link className="kids-app-card marble-app-card" href="/marble-battles">
-            <span className="app-label">Game app</span>
-            <span className="kids-app-art marble-app-art" aria-hidden="true">
-              <img className="app-preview-image" src="/lab-art/marble-battles-preview.jpg" alt="" />
-            </span>
-            <span>
-              <strong>{APP_NAMES.marbleBattles}</strong>
-              <small>Launch marbles, claim tiles, and watch the board shift.</small>
-            </span>
-            <b>Game</b>
-          </Link>
-
-          <Link className="kids-app-card name-app-card" href="/name-quest">
-            <span className="app-label">Word game</span>
-            <span className="kids-app-art name-app-art" aria-hidden="true">
-              <img className="app-preview-image" src="/lab-art/name-quest-preview.png" alt="" />
-            </span>
-            <span>
-              <strong>{APP_NAMES.nameQuest}</strong>
-              <small>Spot what a name belongs to, then keep the streak going.</small>
-            </span>
-            <b>Play</b>
-          </Link>
+          {PLAY_APPS.map((app) => (
+            <Link className={`kids-app-card ${app.cardClassName}`} href={app.route} key={app.id}>
+              <span className="app-label">{app.label}</span>
+              <span className={`kids-app-art ${app.previewClassName}`} aria-hidden="true">
+                <img className="app-preview-image" src={app.previewImage} alt="" />
+              </span>
+              <span>
+                <strong>{app.name}</strong>
+                <small>{app.description}</small>
+              </span>
+              <b>{app.actionLabel}</b>
+            </Link>
+          ))}
         </section>
       </main>
     </>

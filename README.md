@@ -1,14 +1,30 @@
-# Whimsical Kids AI Lab
+# Kids Play Portal
 
-A Next.js lab for polished kids play apps, starting with Tango Cards and Marble Battles.
+A Next.js website for polished kids play apps. This repository is published from GitHub/Vercel and is wired to `https://github.com/cannedkalle/Tango-Cards`.
 
 ## Project Role
 
-Whimsical Kids AI Lab owns the art and design layer for the play ecosystem. It should make each app feel visually curated, polished, and easy to launch.
+Kids Play Portal owns the art, design, publishing, and launch layer for the play ecosystem. It should make each app feel visually curated, polished, and easy to launch.
 
-App-specific projects own their functionality and native experiences: rules, simulations, game mechanics, galleries, card data, state, and core interactions. For example, the Tango Cards gallery belongs to Tango Cards. Whimsical Kids AI Lab owns how that gallery is represented on the lab: the app tile, preview art, surrounding copy, route wiring, typography, layout, and launch experience.
+The sibling `../Kids Play Portal Apps` workspace owns local app experimentation and app-specific source where practical: rules, simulations, game mechanics, datasets, state, and core interactions. This portal owns how those apps are represented on the site: app registry entries, preview art, route wiring, typography, layout, and launch experience.
 
-Every app added to the lab should have two-way navigation: the lab links into the app, and the app experience links back to the lab. Shared shell elements should feel consistent, while the app interior can keep the visual details needed for its own play pattern.
+Every app added to the portal should have two-way navigation: the portal links into the app, and the app experience links back to the portal. Shared shell elements should feel consistent, while the app interior can keep the visual details needed for its own play pattern.
+
+## Two-Folder Workflow
+
+- `Kids Play Portal` is the GitHub/Vercel website repository.
+- `Kids Play Portal Apps` is the local app lab for testing AI-assisted playful app ideas.
+- App inventory for the website lives in `lib/apps.js`.
+- Local app inventory and release wiring lives in `../Kids Play Portal Apps/app-manifest.json`.
+- Static app exports are imported into this website with `npm run apps:import`.
+
+The current app set is:
+
+- `tango-cards`: portal-integrated AI-assisted collectible card gallery.
+- `marble-battles`: static simulation app sourced from `../Kids Play Portal Apps/apps/marble-battles`.
+- `name-quest`: portal-integrated AI-assisted categorization game with mirrored local data in `../Kids Play Portal Apps/apps/name-quest/data`.
+
+For a scalable app catalog, add new app ideas under `../Kids Play Portal Apps/apps/<app-id>` and register publishable apps in both the Apps manifest and this portal's `lib/apps.js`. Keep app-specific data inside the app folder, and move only genuinely shared utilities into `../Kids Play Portal Apps/shared`.
 
 ## Locked Visual Elements
 
@@ -22,7 +38,7 @@ Use these as the lab house style so new apps do not drift into generic generated
 - Hand-cut app preview art inside each lab card
 - Two-way navigation on every app shell
 
-Avoid default SaaS cards, glassmorphism, purple-blue gradient blobs, generic feature sections, and explanatory marketing layouts. The lab should feel tactile, kid-made, and curated.
+Avoid default SaaS cards, glassmorphism, purple-blue gradient blobs, generic feature sections, and explanatory marketing layouts. The portal should feel tactile, kid-made, and curated.
 
 See `docs/visual-style.md` for the locked shape, font, and app-ownership controls. See `docs/art-styles.md` for the named art styles and anti-styles. See `docs/content-style.md` for naming, labels, helper text, and app-shell wording. See `docs/art-direction-prompt.md` for the shared image-generation prompt used by lab-owned app preview art.
 
@@ -38,6 +54,8 @@ npm run dev
 Repository: https://github.com/cannedkalle/Tango-Cards
 
 Import this GitHub repository into Vercel to publish the lab website.
+
+Use a small README-only commit when testing GitHub push access.
 
 ## Deploy on Vercel
 

@@ -1,6 +1,6 @@
-# Whimsical Kids AI Lab Visual Style Controls
+# Kids Play Portal Visual Style Controls
 
-Whimsical Kids AI Lab should feel like a small authored web place: simple, playful, direct, and clearly made by a person. The lab owns app representation and art direction. Individual apps own their mechanics and native experience.
+Kids Play Portal should feel like a small authored web place: simple, playful, direct, and clearly made by a person. The portal owns app representation and art direction. Individual apps own their mechanics and native experience.
 
 Use `docs/art-styles.md` as the named reference for style families, anti-styles, and future art-direction decisions. Use `docs/content-style.md` for naming, labels, helper text, and app-shell wording.
 
@@ -59,7 +59,7 @@ Compatible directions for later refinement:
 - Preview art inside app cards.
 - App type labels.
 - Topbar framing.
-- Back links labeled with the public site name: `Back to Whimsical Kids AI Lab`.
+- Back links labeled with the public site name: `Back to Kids Play Portal`.
 - Cross-app spacing, borders, shadows, and typography.
 
 ## App-Owned Elements

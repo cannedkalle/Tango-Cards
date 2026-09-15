@@ -1,9 +1,10 @@
 {
-  "name": "whimsical-kids-ai-lab",
+  "name": "kids-play-portal",
   "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "apps:import": "node scripts/import-apps.js",
     "build": "node scripts/build-manifest.js && node scripts/build-prompts.js && next build",
     "start": "next start",
     "serve": "python3 -m http.server 4173"

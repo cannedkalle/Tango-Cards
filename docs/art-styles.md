@@ -1,4 +1,4 @@
-# Whimsical Kids AI Lab Art Styles
+# Kids Play Portal Art Styles
 
 Use this as the shared vocabulary for future lab and app-shell design. The lab should feel like a small authored web place for family-made play apps: simple, visual, tactile, and direct.
 

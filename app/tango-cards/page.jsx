@@ -1,4 +1,4 @@
-import { APP_NAMES } from "../../lib/names";
+import { APP_NAMES } from "../../lib/apps";
 import HomeSeriesGrid from "../components/HomeSeriesGrid";
 import Link from "next/link";
 import Topbar from "../components/Topbar";

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
-import { APP_NAMES, pageTitle } from "../../lib/names";
+import { APP_NAMES } from "../../lib/apps";
+import { pageTitle } from "../../lib/names";
 import GalleryClient from "../components/GalleryClient";
 import Topbar from "../components/Topbar";
 import { bracketCount, countLabel, getSeriesByKey, seriesList } from "../../lib/cards";

@@ -1,5 +1,6 @@
 import "./globals.css";
-import { APP_NAMES, SITE_NAME } from "../lib/names";
+import { APP_NAMES } from "../lib/apps";
+import { SITE_NAME } from "../lib/names";
 
 export const metadata = {
   title: SITE_NAME,

@@ -1,4 +1,5 @@
-import { APP_NAMES, pageTitle } from "../../lib/names";
+import { APP_NAMES } from "../../lib/apps";
+import { pageTitle } from "../../lib/names";
 import PacksClient from "../components/PacksClient";
 import Topbar from "../components/Topbar";
 import { expansionPacks, oddsLabel } from "../../lib/packs";

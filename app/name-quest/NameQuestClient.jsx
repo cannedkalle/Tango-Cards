@@ -1,9 +1,10 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { APP_NAMES } from "../../lib/apps";
 import nameBank from "../../lib/name-quest/name-bank.json";
 import pokemonAnimalPairs from "../../lib/name-quest/pokemon-animal-pairs.json";
-import { APP_NAMES, BACK_TO_SITE_LABEL } from "../../lib/names";
+import { BACK_TO_SITE_LABEL } from "../../lib/names";
 
 const entries = nameBank;
 const animalPairs = pokemonAnimalPairs;
