@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Animal Outsider preview">
+  <rect width="640" height="480" fill="#eef4e6"/>
+  <path d="M0 70c86 28 147 4 213-18 92-30 156 6 226 33 75 29 130 18 201-16v411H0Z" fill="#d8edf5"/>
+  <path d="M0 310c72-34 139-39 205-16 71 24 133 26 198 0 83-33 155-31 237 7v179H0Z" fill="#fffaf0"/>
+  <g fill="none" stroke="#24302c" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M320 376V112"/>
+    <path d="M320 202C250 202 214 162 178 118"/>
+    <path d="M320 202c70 0 105-40 142-84"/>
+    <path d="M320 286c-80 0-126 35-174 88"/>
+    <path d="M320 286c80 0 126 35 174 88"/>
+  </g>
+  <g stroke="#24302c" stroke-width="8">
+    <circle cx="178" cy="118" r="42" fill="#f5b84b"/>
+    <circle cx="462" cy="118" r="42" fill="#f5b84b"/>
+    <circle cx="146" cy="374" r="42" fill="#2f7d5a"/>
+    <circle cx="494" cy="374" r="42" fill="#d8edf5"/>
+    <circle cx="320" cy="202" r="22" fill="#fffaf0"/>
+    <circle cx="320" cy="286" r="22" fill="#fffaf0"/>
+  </g>
+  <g fill="#24302c" font-family="Trebuchet MS, Avenir Next, Arial, sans-serif" font-weight="900" text-anchor="middle">
+    <text x="178" y="130" font-size="30">A</text>
+    <text x="462" y="130" font-size="30">B</text>
+    <text x="146" y="386" font-size="30">C</text>
+    <text x="494" y="386" font-size="30">?</text>
+    <text x="320" y="64" font-size="42">Animal Outsider</text>
+  </g>
+</svg>

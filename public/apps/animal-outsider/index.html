@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Animal Outsider</title>
+    <link rel="stylesheet" href="/apps/animal-outsider/styles.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <section class="play-area" aria-label="Animal Outsider quiz">
+        <header class="top-bar">
+          <div>
+            <p class="eyebrow">Animal Outsider</p>
+            <h1>Which animal branched off earlier?</h1>
+          </div>
+          <div class="score-box" aria-label="Score">
+            <span><strong id="answeredCount">0</strong> answered</span>
+            <span><strong id="correctCount">0</strong> correct</span>
+            <span><strong id="streakCount">0</strong> streak</span>
+          </div>
+        </header>
+
+        <section class="prompt-card">
+          <div>
+            <p id="roundLabel">Round 1</p>
+            <h2>Which one is the outsider?</h2>
+          </div>
+        </section>
+
+        <section class="animal-grid" id="animalCards" aria-label="Answer choices"></section>
+
+        <section class="answer-panel" id="answerPanel" aria-live="polite"></section>
+      </section>
+
+      <aside class="learning-panel" id="learningPanel" aria-label="Taxonomy explorer">
+        <div class="panel-section">
+          <div class="panel-heading">
+            <p class="eyebrow">Explore</p>
+            <h2>Family Tree</h2>
+          </div>
+          <select id="animalExplorer" aria-label="Choose an animal to explore"></select>
+          <div id="taxonomyTrail" class="taxonomy-trail"></div>
+        </div>
+
+        <div class="panel-section">
+          <div class="panel-heading">
+            <p class="eyebrow">Discoveries</p>
+            <h2>New Branches</h2>
+          </div>
+          <div id="discoveryList" class="discovery-list"></div>
+        </div>
+
+        <div class="panel-section">
+          <div class="panel-heading">
+            <p class="eyebrow">Root Words</p>
+            <h2>Decode Names</h2>
+          </div>
+          <div id="rootList" class="root-list"></div>
+        </div>
+      </aside>
+    </main>
+
+    <script type="module" src="/apps/animal-outsider/src/main.js"></script>
+  </body>
+</html>
