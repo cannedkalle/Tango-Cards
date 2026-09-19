@@ -24,7 +24,7 @@ Build previews on a 480×300 viewBox with comfortable internal margins. Keep the
 | App | Identity | Use |
 | --- | --- | --- |
 | Tango Cards | Coral; a stack of cards | Flat three-card stack with the shared fox on the front; real artwork inside the gallery |
-| Marble Battles | Blue; board and marbles | Flat territory fills, rounded white lanes with team-color borders, numbered team badges, simple circular launchers and outlined marbles; detailed stats live in controls, no glow or miniature floating panels |
+| Marble Battles | Blue; board and marbles | Flat territory fills, rounded white lanes with team-color borders, numbered team badges, simple circular launchers and outlined marbles; team level, capture progress, earned upgrades and slot widths live in expandable team summaries below the arena, no glow or miniature floating panels |
 | Name Quest | Violet; talking face and choices | Small guide plus clear word-first game surface |
 | Animal Outsider | Coral, blue, gold animal trio | Welcoming header; named choices preserve the full taxonomy dataset |
 
@@ -43,3 +43,11 @@ Portal owns `public/design-system/`, integrated Name Quest/Tango screens, and th
 Before accepting an app: use the shared stylesheet and palette; reuse or construct matching SVG art; verify the asset paths with `npm run design:check`; build; inspect the homepage and interior at desktop and phone widths; exercise a real action and return navigation. A new illustration must pass the same silhouette, palette, geometry and no-effects rules. Do not change the grammar for one app.
 
 Return navigation is always the shared `pf-back` control: a hidden decorative left arrow plus “Back to all apps”, linking to `/`, in the top `pf-portal-nav` row before the app heading. React apps use `PortalNav`; static apps use equivalent markup and the shared CSS. Do not add duplicate return links inside app controls.
+
+Marble Battles team summaries keep territory, HP and level visible when collapsed. Use native details/summary controls and update values in place; live rendering must not replace disclosure nodes or discard their open state or keyboard focus. Keep per-team settings and upgrades out of the canvas and out of the global control status list.
+
+Slot weight percentages describe physical width, never landing probability. Peg collisions, launch positions, velocity and board geometry determine landings. Only measured or modeled results may be presented as landing estimates, with their basis stated.
+
+Arena layout uses uniform presentation transforms in `makeArenaView`: a central board with adjacent lanes for 2/4 teams, and a board beside a two-column lane grid for 8 teams. Do not reserve gutters for removed stat panels. Presentation scaling must leave simulation coordinates, peg collision geometry and physical slot widths unchanged.
+
+Board team identifiers use small translucent outline numerals without a filled badge or backing. Keep underlying territory visible; solid numbered badges belong on peg lanes and team summaries, not over playable tiles.

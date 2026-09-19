@@ -12,14 +12,78 @@ export class CanvasRenderer {
 
     ctx.clearRect(0, 0, width, height);
     drawTable(ctx, width, height);
-    drawLanes(ctx, state);
+    const view = makeArenaView(state, width, height);
+    // Presentation transforms only: collision positions and slot widths stay intact.
+    ctx.save();
+    const board = state.layout.board;
+    ctx.translate(view.board.x, view.board.y);
+    ctx.scale(view.board.size / board.size, view.board.size / board.size);
+    ctx.translate(-board.x, -board.y);
     drawBoard(ctx, state);
     drawCannons(ctx, state);
     drawMarbles(ctx, state);
-    drawGateEvents(ctx, state);
+    ctx.restore();
+
+    for (const team of state.teams) {
+      const source = denormalize(team.slot.lane, width, height);
+      const target = view.lanes[team.id];
+      ctx.save();
+      ctx.translate(target.x, target.y);
+      ctx.scale(target.scale, target.scale);
+      ctx.translate(-source.x, -source.y);
+      drawLanes(ctx, { ...state, teams: [team] });
+      drawGateEvents(ctx, { ...state, events: state.events.filter(event => event.teamId === team.id) });
+      ctx.restore();
+    }
 
     if (state.winner) drawWinner(ctx, width, height, state.winner);
   }
+}
+
+// Pack the visual components around the board instead of retaining the
+// simulation's legacy gutters. Uniform scaling keeps circles circular.
+function makeArenaView(state, width, height) {
+  const padding = 28;
+  const gap = 24;
+  const boardSize = Math.min(height - padding * 2 - 36, width * 0.54);
+  const source = denormalize(state.teams[0].slot.lane, width, height);
+  const lanes = {};
+  if (state.teams.length === 8) {
+    const laneScale = Math.min(
+      (height - padding * 2 - gap * 3) / (4 * source.h),
+      (width - padding * 2 - boardSize - 60 - gap) / (2 * source.w)
+    );
+    const laneW = source.w * laneScale;
+    const laneH = source.h * laneScale;
+    const groupW = boardSize + 60 + 2 * laneW + gap;
+    const left = (width - groupW) / 2;
+    for (const team of state.teams) {
+      lanes[team.id] = {
+        x: left + boardSize + 60 + (team.id % 2) * (laneW + gap),
+        y: padding + Math.floor(team.id / 2) * (laneH + gap),
+        scale: laneScale
+      };
+    }
+    return { board: { x: left, y: (height - boardSize) / 2, size: boardSize }, lanes };
+  }
+  const rows = state.teams.length / 2;
+  const laneScale = Math.min(
+    (width - padding * 2 - boardSize - 72) / (2 * source.w),
+    (height - padding * 2 - gap * (rows - 1)) / (rows * source.h)
+  );
+  const laneW = source.w * laneScale;
+  const laneH = source.h * laneScale;
+  const groupW = laneW * 2 + boardSize + 72;
+  const left = (width - groupW) / 2;
+  const top = (height - (laneH * rows + gap * (rows - 1))) / 2;
+  for (const team of state.teams) {
+    lanes[team.id] = {
+      x: team.id % 2 ? left + laneW + boardSize + 72 : left,
+      y: top + Math.floor(team.id / 2) * (laneH + gap),
+      scale: laneScale
+    };
+  }
+  return { board: { x: left + laneW + 36, y: (height - boardSize) / 2, size: boardSize }, lanes };
 }
 
 function drawTable(ctx, width, height) {
@@ -98,17 +162,21 @@ function drawBases(ctx, state, tileSize) {
 }
 
 function drawTeamMarks(ctx, state) {
+  // A quiet, hollow identifier: territory colors stay visible through the glyph.
+  const board = state.layout.board;
+  ctx.save();
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.font = '800 24px "Avenir Next", "Trebuchet MS", sans-serif';
+  ctx.font = `700 ${board.size * 0.18}px "Avenir Next", "Trebuchet MS", sans-serif`;
+  ctx.strokeStyle = colors.ink;
+  ctx.globalAlpha = 0.46;
+  ctx.lineWidth = Math.max(1.5, board.size * 0.003);
+  ctx.lineJoin = "round";
   for (const team of state.teams) {
-    const p = getTeamLabelPosition(team.id, state.config.teams, state.layout.board);
-    ctx.fillStyle = colors.paper;
-    roundRect(ctx, p.x - 23, p.y - 23, 46, 46, 16);
-    ctx.fill();
-    ctx.fillStyle = colors.ink;
-    ctx.fillText(String(team.id + 1), p.x, p.y + 1);
+    const p = getTeamLabelPosition(team.id, state.config.teams, board);
+    ctx.strokeText(String(team.id + 1), p.x, p.y);
   }
+  ctx.restore();
 }
 
 function drawLanes(ctx, state) {
@@ -330,7 +398,7 @@ function drawGateEvents(ctx, state) {
     const alpha = Math.max(0, event.life / event.maxLife);
     ctx.globalAlpha = alpha;
     ctx.fillStyle = colors.ink;
-    ctx.fillText(event.label, lane.x + lane.w / 2, lane.y - 22);
+    ctx.fillText(event.label, lane.x + lane.w / 2, lane.y + lane.h - 58);
   }
   ctx.restore();
 }

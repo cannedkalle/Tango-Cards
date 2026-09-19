@@ -91,8 +91,9 @@ export class ControlPanel {
             </dl>
             <h3>Upgrades earned</h3><p data-stat="upgrades"></p>
             <h3>Latest upgrade</h3><p data-stat="latest"></p>
-            <h3>Current slots</h3><p class="team-slot-list" data-stat="slots"></p>
+            <h3>Slot widths · left to right</h3><p class="team-slot-list" data-stat="slots"></p>
             <p class="team-slot-key">S = shoot waiting marbles · R = reset to starting number</p>
+            <p class="team-slot-key">Widths are not landing odds. Peg bounces and the drop position affect where marbles land.</p>
           </div>
         </details>`).join("") + '<p class="neutral-summary"></p>';
       this.teamViews = new Map(state.teams.map(team => {
@@ -145,7 +146,7 @@ export class ControlPanel {
       ["Marbles moving", state.marbles.length],
       ["Marbles waiting", state.teams.reduce((sum, team) => sum + team.reserve, 0)],
       ["Launchers awake", state.teams.filter((team) => team.active).length],
-      ["Slots", formatSlotSummary(state.config)],
+      ["Starting slot widths", formatSlotSummary(state.config)],
       ["Upgrade cards", state.config.upgradeDeck.map((upgrade) => upgrade.label).join(" ")],
       ["Winner", state.winner ? state.winner.name : "Pending"]
     ]
@@ -161,8 +162,8 @@ function formatGateToken(gate) {
 function formatSlotSummary(config) {
   const totalWeight = config.gateDeck.reduce((sum, gate) => sum + gate.weight, 0);
   const slots = config.gateDeck
-    .map((gate) => `${gate.label} ${(gate.weight / totalWeight * 100).toFixed(1)}%`)
-    .join(" ");
+    .map((gate) => `${gate.label} ${(gate.weight / totalWeight * 100).toFixed(1)}% wide`)
+    .join(" · ");
   return slots;
 }
 
