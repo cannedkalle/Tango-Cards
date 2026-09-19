@@ -465,6 +465,7 @@ export default function NameQuestClient() {
           <div className="name-card-stage">
             <p>Round {rounds + 1}</p>
             <button type="button" className="spoken-name" onClick={() => speak(spokenPrompt)}>{promptName}</button>
+            <span className="listen-hint">Tap the name to hear it</span>
             <small>{promptPronunciation}</small>
             <strong className={"round-feedback " + result} aria-live="polite">{feedback}</strong>
             {result !== "idle" ? (
@@ -488,6 +489,7 @@ export default function NameQuestClient() {
           </section>
 
           <section className="typed-panel">
+            <img className="quest-guide" src="/design-system/name-quest.svg" alt="" />
             <label htmlFor="typed-answer">Type an answer</label>
             <form onSubmit={(event) => { event.preventDefault(); judgeAnswer(typedAnswer); }}>
               <input id="typed-answer" value={typedAnswer} onChange={(event) => setTypedAnswer(event.target.value)} disabled={result !== "idle"} placeholder={mode === "realAnimal" ? "type one option" : mode === "pokemon" ? "pokemon or not pokemon" : "place, food, game..."} />

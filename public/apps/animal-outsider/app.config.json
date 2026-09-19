@@ -9,7 +9,7 @@
     "taxa": "src/taxa.js"
   },
   "release": {
-    "type": "static",
-    "portalPublicPath": "/apps/animal-outsider/index.html"
+    "type": "local-wip",
+    "route": "/animal-outsider"
   }
 }

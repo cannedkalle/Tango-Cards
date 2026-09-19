@@ -1,0 +1,28 @@
+:root {
+  --pf-canvas: #f7f8fa;
+  --pf-surface: #fff;
+  --pf-ink: #202630;
+  --pf-muted: #596575;
+  --pf-line: #dce1e8;
+  --pf-control-line: #788493;
+  --pf-action: #3158d5;
+  --pf-action-hover: #2445b0;
+  --pf-apricot: #ffbb91;
+  --pf-blue: #a8c8ff;
+  --pf-violet: #cebefa;
+  --pf-mint: #a9ddc5;
+  --pf-success: #216b4f;
+  --pf-error: #a83240;
+  --pf-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --pf-space-1: 4px;
+  --pf-space-2: 8px;
+  --pf-space-3: 12px;
+  --pf-space-4: 16px;
+  --pf-space-6: 24px;
+  --pf-space-8: 32px;
+  --pf-space-12: 48px;
+  --pf-space-16: 64px;
+  --pf-radius-field: 8px;
+  --pf-radius-control: 12px;
+  --pf-radius-card: 20px;
+}

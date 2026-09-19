@@ -1,13 +1,6 @@
-export const palette = [
-  "#ff5d4d",
-  "#ffcf56",
-  "#67e25f",
-  "#48d1ff",
-  "#c99bff",
-  "#ff7ab8",
-  "#ff9f43",
-  "#54e6c1"
-];
+import { teamColors } from "/design-system/palette.js";
+
+export const palette = teamColors;
 
 export const presets = {
   royale: {

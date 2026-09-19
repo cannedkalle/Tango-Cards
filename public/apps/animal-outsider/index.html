@@ -4,15 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Animal Outsider</title>
+    <link rel="icon" href="/design-system/brand.svg" />
     <link rel="stylesheet" href="/apps/animal-outsider/styles.css" />
   </head>
   <body>
     <main class="game-shell">
       <section class="play-area" aria-label="Animal Outsider quiz">
+        <nav class="portal-nav" aria-label="Portal navigation"><a class="pf-brand" href="/"><img src="/design-system/brand.svg" alt="" />Kids Play Portal</a><a class="pf-back" href="/">← All games</a></nav>
         <header class="top-bar">
           <div>
             <p class="eyebrow">Animal Outsider</p>
-            <h1>Which animal branched off earlier?</h1>
+            <h1>Who’s the distant cousin?</h1>
           </div>
           <div class="score-box" aria-label="Score">
             <span><strong id="answeredCount">0</strong> answered</span>
@@ -25,7 +27,9 @@
           <div>
             <p id="roundLabel">Round 1</p>
             <h2>Which one is the outsider?</h2>
+            <p>Two are closer relatives. Choose the animal that branched off earlier.</p>
           </div>
+          <img src="/design-system/animal-outsider.svg" alt="" />
         </section>
 
         <section class="animal-grid" id="animalCards" aria-label="Answer choices"></section>

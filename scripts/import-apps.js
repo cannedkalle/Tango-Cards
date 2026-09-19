@@ -34,6 +34,7 @@ function validateRelease(app) {
 }
 
 function main() {
+  require("./sync-design-system.js");
   if (!fs.existsSync(manifestPath)) {
     throw new Error(`Apps manifest not found: ${manifestPath}`);
   }

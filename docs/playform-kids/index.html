@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Playform Kids · Animal Outsider demo</title>
+<style>
+:root{--ink:#24352f;--muted:#59695f;--paper:#fffdf6;--green:#276044;--edge:#183f2c;--lime:#d9ef89;--line:#d9ded2;--coral:#fa8869;--blue:#85b9e0;--gold:#f6ca62}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.5 ui-rounded,"Avenir Next","Trebuchet MS",system-ui,sans-serif}button{font:inherit;cursor:pointer;color:inherit}button:focus-visible,a:focus-visible{outline:3px solid #265ec7;outline-offset:5px}button:disabled{cursor:default}svg{display:block;width:100%;height:100%}[hidden]{display:none!important}.symbols{position:absolute;width:0;height:0;overflow:hidden}main{max-width:1080px;margin:auto;padding:24px 40px 40px}header{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:8px 0 24px;border-bottom:1px solid var(--line)}.brand{border:0;background:none;padding:4px 0;display:flex;gap:12px;align-items:center;font-size:20px;font-weight:800;letter-spacing:-.5px}.brand-mark{width:30px;height:30px;display:grid;grid-template-columns:1fr 1fr;gap:3px}.brand-mark i{background:var(--green);border-radius:4px}.brand-mark i:last-child{background:var(--coral);border-radius:50%}.demo-label{font-size:12px;color:var(--muted)}h1,h2,p{margin:0}h1{font-size:clamp(34px,5vw,52px);line-height:1.08;letter-spacing:-1.7px;font-weight:800}h2{font-size:36px;line-height:1.1;letter-spacing:-1px}.intro{padding:36px 0 28px}.intro p{margin-top:12px;color:var(--muted)}.feature{display:grid;grid-template-columns:1.15fr 1fr;align-items:center;background:#edf3df;border-radius:28px;overflow:hidden;min-height:350px}.feature-art{position:relative;display:flex;align-items:center;justify-content:center;padding:36px 16px;height:320px}.feature-art svg{width:37%;height:230px;margin:0 -8px}.feature-art svg:nth-child(2){align-self:flex-end}.feature-copy{padding:32px 36px}.eyebrow{font-size:13px;font-weight:800;letter-spacing:.2px;color:var(--green);margin-bottom:12px}.feature-copy p{color:var(--muted);margin:16px 0 24px;max-width:29ch}.primary{display:inline-flex;align-items:center;justify-content:center;gap:16px;border:0;border-radius:16px;min-height:54px;padding:12px 24px;background:var(--green);color:#fff;font-weight:800;box-shadow:0 4px 0 var(--edge);transition:transform 120ms,box-shadow 120ms,background 120ms}.primary:hover{background:#204f38}.primary:active{transform:translateY(3px);box-shadow:0 1px 0 var(--edge)}.small-note{font-size:13px;color:var(--muted);margin:22px 0}.game-top{display:flex;align-items:center;justify-content:space-between;margin:26px 0 22px}.back{border:0;background:none;padding:8px 0;font-weight:700;font-size:15px;color:var(--green)}.round{font-size:13px;color:var(--muted)}.question{text-align:center;margin-bottom:26px}.question .eyebrow{margin-bottom:10px}.question h1{font-size:clamp(30px,4vw,42px);letter-spacing:-1.2px}.question p{color:var(--muted);margin-top:12px}.answers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.answer{position:relative;display:flex;flex-direction:column;align-items:center;gap:12px;border:2px solid var(--line);border-bottom-width:5px;border-radius:24px;background:#fff;padding:20px 18px 18px;min-height:264px;transition:border-color 150ms,transform 150ms,background 150ms}.answer:hover:not(:disabled){border-color:#839e81;transform:translateY(-3px)}.answer:active:not(:disabled){transform:translateY(2px)}.animal-stage{width:100%;height:174px;display:grid;place-items:center}.animal-stage svg{width:180px;max-width:100%}.answer-name{font-size:20px;font-weight:800}.answer.selected{border-color:var(--green);background:#eff7d8}.answer.tried{border-color:#b77a28;background:#fff5dd}.check{position:absolute;right:14px;top:12px;width:26px;height:26px;border-radius:50%;background:var(--green);color:white;font-size:17px;display:grid;place-items:center;visibility:hidden}.selected .check{visibility:visible}.feedback{margin-top:24px;min-height:96px;display:flex;align-items:center;gap:20px;padding:18px 24px;border-radius:20px;background:#f0f2eb}.feedback.success{background:#e9f3cd}.feedback.retry{background:#fff0d6}.feedback-copy{flex:1}.feedback strong{display:block;font-size:18px;margin-bottom:4px}.feedback p{font-size:15px;max-width:64ch;color:var(--muted)}.feedback .primary{flex-shrink:0;min-height:48px;font-size:15px}.hint-icon{width:36px;height:36px;border-radius:50%;background:white;display:grid;place-items:center;font-weight:800;color:var(--green);flex-shrink:0}.footer{display:flex;justify-content:space-between;gap:20px;margin-top:28px;color:var(--muted);font-size:12px}.footer a{color:var(--green)}.pop{animation:pop 280ms ease-out}@keyframes pop{50%{transform:translateY(-7px) rotate(-3deg)}100%{transform:none}}@media(max-width:700px){main{padding:16px 20px 28px}.feature{grid-template-columns:1fr}.feature-art{height:230px;padding:20px}.feature-art svg{height:170px}.feature-copy{padding:12px 28px 32px}.intro{padding-top:28px}.answers{gap:8px}.answer{padding:14px 5px;min-height:200px;border-radius:18px}.animal-stage{height:122px}.animal-stage svg{width:125px}.answer-name{font-size:17px}.question p{font-size:15px}.feedback{padding:16px;gap:12px;flex-wrap:wrap}.feedback-copy{flex-basis:75%}.feedback .primary{margin-left:48px}.game-top{margin:18px 0}.demo-label{max-width:65px;text-align:right}.footer{flex-direction:column;gap:8px}.brand{font-size:18px}}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head>
+<body>
+<svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+<symbol id="fox" viewBox="0 0 200 200">
+<path d="M111 148c44 15 72-18 60-49 25 20 28 67-11 79-23 7-42 0-49-8Z" fill="#df674d"/>
+<path d="M171 99c11 9 18 23 19 36l-23-2c9-12 10-22 4-34Z" fill="#fff0cd"/>
+<path d="M52 144q4-47 46-44 45-2 49 44v34H52Z" fill="#fa8869"/>
+<path d="M72 173v11m51-11v11" stroke="#24352f" stroke-width="10" stroke-linecap="round"/>
+<path d="M43 84 37 24q0-8 7-3l43 33h27l40-33q7-6 6 4l-7 59q-5 43-54 47-49-7-56-47Z" fill="#fa8869"/>
+<path d="m48 39 5 37 25-15Zm100 0-5 37-23-15Z" fill="#b74739"/>
+<path d="M49 84q24 0 49 23 21-23 49-23-7 34-49 44-40-9-49-44" fill="#fff0cd"/>
+<ellipse cx="74" cy="81" rx="5" ry="8" fill="#24352f"/><ellipse cx="124" cy="81" rx="5" ry="8" fill="#24352f"/>
+<path d="M88 102q10-6 20 0l-10 10Z" fill="#24352f"/><path d="M98 111v6q8 6 14-1" fill="none" stroke="#24352f" stroke-width="3.5" stroke-linecap="round"/>
+</symbol>
+<symbol id="bear" viewBox="0 0 200 200">
+<ellipse cx="103" cy="143" rx="50" ry="39" fill="#74abd5"/>
+<rect x="59" y="151" width="31" height="34" rx="14" fill="#558bb9"/><rect x="117" y="151" width="31" height="34" rx="14" fill="#558bb9"/>
+<circle cx="58" cy="44" r="23" fill="#85b9e0"/><circle cx="145" cy="44" r="23" fill="#85b9e0"/>
+<circle cx="58" cy="44" r="11" fill="#558bb9"/><circle cx="145" cy="44" r="11" fill="#558bb9"/>
+<rect x="42" y="39" width="118" height="97" rx="44" fill="#85b9e0"/>
+<ellipse cx="77" cy="78" rx="5" ry="8" fill="#24352f"/><ellipse cx="127" cy="78" rx="5" ry="8" fill="#24352f"/>
+<ellipse cx="102" cy="108" rx="27" ry="21" fill="#dff0f3"/>
+<rect x="90" y="93" width="24" height="14" rx="7" fill="#24352f"/>
+<path d="M102 107v9m-10-1q10 10 20 0" fill="none" stroke="#24352f" stroke-width="3.5" stroke-linecap="round"/>
+<path d="m52 133-10 20m109-20 10 20" stroke="#74abd5" stroke-width="18" stroke-linecap="round"/>
+</symbol>
+<symbol id="owl" viewBox="0 0 200 200">
+<path d="M79 177v10m42-10v10" stroke="#24352f" stroke-width="8" stroke-linecap="round"/>
+<path d="M43 77V28q0-7 6-3l25 19q26-8 52 0l25-19q6-4 6 3v49q20 94-57 105-77-11-57-105Z" fill="#f6ca62"/>
+<path d="M44 101q-18 31 11 55l15-37Z" fill="#d8973e"/><path d="M156 101q18 31-11 55l-15-37Z" fill="#d8973e"/>
+<circle cx="76" cy="84" r="26" fill="#fff7df"/><circle cx="125" cy="84" r="26" fill="#fff7df"/>
+<ellipse cx="82" cy="83" rx="7" ry="10" fill="#24352f"/><ellipse cx="130" cy="83" rx="7" ry="10" fill="#24352f"/>
+<path d="m91 108 9 13 10-13Z" fill="#b46b27"/>
+<path d="m82 138 5 5 5-5m17 0 5 5 5-5m-22 15 5 5 5-5" fill="none" stroke="#b46b27" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</symbol>
+</defs></svg>
+<main>
+<header><button class="brand" id="home" aria-label="Kids Play Portal home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Kids Play Portal</button><span class="demo-label">Playform Kids<br>Design demo</span></header>
+<div id="landing">
+<div class="intro"><h1>A little curious?<br>Come play.</h1><p>Small games for big questions.</p></div>
+<article class="feature"><div class="feature-art" aria-label="A geometric coral fox, blue bear, and golden owl" role="img"><svg aria-hidden="true"><use href="#fox"/></svg><svg aria-hidden="true"><use href="#bear"/></svg><svg aria-hidden="true"><use href="#owl"/></svg></div><div class="feature-copy"><div class="eyebrow">Look closer</div><h2>Animal<br>Outsider</h2><p>Three animals. Two closer cousins. Can you spot the outsider?</p><button class="primary" id="start">Let's play <span aria-hidden="true">→</span></button></div></article>
+<p class="small-note">Made for curious kids and their grown-ups.</p>
+</div>
+<div id="game" hidden>
+<div class="game-top"><button class="back" id="back">← All games</button><span class="round">One-round demo</span></div>
+<div class="question"><div class="eyebrow">Animal Outsider</div><h1 id="question" tabindex="-1">Who's the distant cousin?</h1><p>Two animals share a closer family. Tap the outsider.</p></div>
+<div class="answers" role="group" aria-labelledby="question">
+<button class="answer" data-animal="Fox" aria-pressed="false"><span class="check" aria-hidden="true">✓</span><span class="animal-stage"><svg aria-hidden="true"><use href="#fox"/></svg></span><span class="answer-name">Fox</span></button>
+<button class="answer" data-animal="Bear" aria-pressed="false"><span class="check" aria-hidden="true">✓</span><span class="animal-stage"><svg aria-hidden="true"><use href="#bear"/></svg></span><span class="answer-name">Bear</span></button>
+<button class="answer" data-animal="Owl" aria-pressed="false"><span class="check" aria-hidden="true">✓</span><span class="animal-stage"><svg aria-hidden="true"><use href="#owl"/></svg></span><span class="answer-name">Owl</span></button>
+</div>
+<div class="feedback" id="feedback"><span class="hint-icon" id="feedback-icon" aria-hidden="true">?</span><div class="feedback-copy" role="status" aria-live="polite" aria-atomic="true"><strong id="feedback-title">Take a good look.</strong><p id="feedback-text">Think about their animal families, not their colors.</p></div><button class="primary" id="again" hidden>Play again <span aria-hidden="true">↻</span></button></div>
+</div>
+<footer class="footer"><span>Flat shapes. A little personality. Room to play.</span><a href="../playform/index.html">Compare the earlier icon study ↗</a></footer>
+</main>
+<script>
+const landing=document.getElementById('landing'),game=document.getElementById('game'),question=document.getElementById('question'),feedback=document.getElementById('feedback'),title=document.getElementById('feedback-title'),message=document.getElementById('feedback-text'),icon=document.getElementById('feedback-icon'),again=document.getElementById('again'),answers=[...document.querySelectorAll('.answer')];
+function reset(){answers.forEach(b=>{b.disabled=false;b.classList.remove('selected','tried');b.setAttribute('aria-pressed','false');b.querySelector('svg').classList.remove('pop')});feedback.className='feedback';title.textContent='Take a good look.';message.textContent='Think about their animal families, not their colors.';icon.textContent='?';again.hidden=true;}
+function showHome(){game.hidden=true;landing.hidden=false;reset();document.getElementById('start').focus();}
+document.getElementById('start').addEventListener('click',()=>{landing.hidden=true;game.hidden=false;reset();question.focus();});
+document.getElementById('home').addEventListener('click',showHome);document.getElementById('back').addEventListener('click',showHome);
+again.addEventListener('click',()=>{reset();answers[0].focus()});
+answers.forEach(button=>button.addEventListener('click',()=>{answers.forEach(b=>{b.classList.remove('selected','tried');b.setAttribute('aria-pressed','false')});button.setAttribute('aria-pressed','true');if(button.dataset.animal==='Owl'){button.classList.add('selected');button.querySelector('svg').classList.add('pop');feedback.className='feedback success';icon.textContent='✓';title.textContent='You spotted it!';message.textContent='The fox and bear are mammals and closer relatives. The owl is a bird on a more distant branch of the family tree.';again.hidden=false;answers.forEach(b=>b.disabled=true);again.focus();}else{button.classList.add('tried');feedback.className='feedback retry';icon.textContent='↗';title.textContent='Try another cousin.';message.textContent='The fox and bear both belong to the mammal family. Which animal has feathers?';}}));
+</script></body></html>

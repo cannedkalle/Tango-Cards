@@ -1,3 +1,5 @@
+import { colors } from "/design-system/palette.js";
+
 export class CanvasRenderer {
   constructor(canvas) {
     this.canvas = canvas;
@@ -22,31 +24,8 @@ export class CanvasRenderer {
 
 function drawTable(ctx, width, height) {
   ctx.save();
-  ctx.fillStyle = "#fff4d1";
+  ctx.fillStyle = colors["blue-soft"];
   ctx.fillRect(0, 0, width, height);
-
-  ctx.strokeStyle = "rgba(37, 32, 27, 0.08)";
-  ctx.lineWidth = 1;
-  for (let x = 0; x < width; x += 40) {
-    ctx.beginPath();
-    ctx.moveTo(x, 0);
-    ctx.lineTo(x, height);
-    ctx.stroke();
-  }
-  for (let y = 0; y < height; y += 40) {
-    ctx.beginPath();
-    ctx.moveTo(0, y);
-    ctx.lineTo(width, y);
-    ctx.stroke();
-  }
-  ctx.strokeStyle = "rgba(47, 111, 145, 0.18)";
-  ctx.lineWidth = 5;
-  ctx.beginPath();
-  ctx.moveTo(24, height - 72);
-  for (let x = 24; x < width - 24; x += 80) {
-    ctx.quadraticCurveTo(x + 28, height - 38, x + 58, height - 70);
-  }
-  ctx.stroke();
   ctx.restore();
 }
 
@@ -56,14 +35,14 @@ function drawBoard(ctx, state) {
   const tileSize = bounds.size / board.length;
 
   ctx.save();
-  ctx.fillStyle = "#f4f4ee";
+  ctx.fillStyle = colors["paper"];
   roundRect(ctx, bounds.x - 18, bounds.y - 18, bounds.size + 36, bounds.size + 36, 8);
   ctx.fill();
 
   for (let y = 0; y < board.length; y += 1) {
     for (let x = 0; x < board.length; x += 1) {
       const cell = board[y][x];
-      ctx.fillStyle = cell.teamId === null ? "#dfe4dd" : teams[cell.teamId].color;
+      ctx.fillStyle = cell.teamId === null ? colors["line"] : teams[cell.teamId].color;
       ctx.globalAlpha = 0.72 + Math.min(cell.strength, 5) * 0.04;
       ctx.fillRect(bounds.x + x * tileSize, bounds.y + y * tileSize, tileSize + 0.2, tileSize + 0.2);
       if (cell.levelUp) drawLevelUpTile(ctx, bounds, tileSize, x, y);
@@ -98,11 +77,11 @@ function drawLevelUpTile(ctx, bounds, tileSize, x, y) {
   ctx.globalAlpha = 1;
   ctx.fillStyle = "rgba(255, 255, 255, 0.82)";
   ctx.fillRect(px + tileSize * 0.2, py + tileSize * 0.2, tileSize * 0.6, tileSize * 0.6);
-  ctx.strokeStyle = "#101312";
+  ctx.strokeStyle = colors["ink"];
   ctx.lineWidth = Math.max(1, tileSize * 0.08);
   ctx.strokeRect(px + tileSize * 0.2, py + tileSize * 0.2, tileSize * 0.6, tileSize * 0.6);
   if (tileSize >= 8) {
-    ctx.fillStyle = "#101312";
+    ctx.fillStyle = colors["ink"];
     ctx.font = `800 ${Math.max(6, tileSize * 0.5)}px system-ui`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
@@ -119,7 +98,7 @@ function drawBases(ctx, state, tileSize) {
     const base = getBaseRect(team.id, config.teams, config.gridSize, b, tileSize);
     ctx.save();
     ctx.globalAlpha = team.active ? 1 : 0.58;
-    ctx.strokeStyle = team.active ? "#ffffff" : "rgba(255,255,255,0.45)";
+    ctx.strokeStyle = team.active ? colors["surface"] : "rgba(255,255,255,0.45)";
     ctx.lineWidth = 3;
     ctx.strokeRect(base.x + 1.5, base.y + 1.5, base.size - 3, base.size - 3);
 
@@ -154,7 +133,7 @@ function drawLanes(ctx, state) {
     const lane = denormalize(team.slot.lane, width, height);
 
     ctx.save();
-    ctx.fillStyle = blend(team.color, "#fff4d1", 0.28);
+    ctx.fillStyle = blend(team.color, colors["paper"], 0.28);
     ctx.strokeStyle = "rgba(37, 32, 27, 0.72)";
     ctx.lineWidth = 4;
     roundRect(ctx, lane.x, lane.y, lane.w, lane.h, 10);
@@ -220,12 +199,12 @@ function drawLaneLabels(ctx, lane, team, config) {
     const slotW = getSlotWidth(gate, band);
     ctx.fillStyle = slotColor(gate.label);
     ctx.fillRect(cursor + 4, bottom - 12, Math.max(2, slotW - 8), 24);
-    ctx.fillStyle = "#101312";
+    ctx.fillStyle = colors["ink"];
     ctx.fillText(gate.label, cursor + slotW / 2, bottom);
     cursor += slotW;
   }
 
-  ctx.fillStyle = "#fffaf0";
+  ctx.fillStyle = colors["ink"];
   ctx.font = "800 28px system-ui";
   ctx.fillText(team.active ? String(team.reserve) : "KO", lane.x + lane.w / 2, lane.y + 34);
   ctx.font = "700 12px system-ui";
@@ -261,7 +240,7 @@ function drawUpgradeSummary(ctx, lane, team, config) {
   ctx.fillStyle = team.color;
   ctx.font = "800 12px system-ui";
   ctx.fillText(`Lv ${team.level}`, x + 8, y + 7);
-  ctx.fillStyle = "#25201b";
+  ctx.fillStyle = colors["ink"];
   ctx.font = "700 11px system-ui";
   ctx.fillText(`Next ${progress}`, x + 48, y + 8);
 
@@ -271,7 +250,7 @@ function drawUpgradeSummary(ctx, lane, team, config) {
   ctx.fillText(`Start +${team.upgrades.startingReserve}`, x + 48, y + 27);
   ctx.fillText(`Power +${team.upgrades.marblePower}`, x + 8, y + 43);
 
-  ctx.fillStyle = "#25201b";
+  ctx.fillStyle = colors["ink"];
   ctx.font = "800 10px system-ui";
   ctx.fillText(slotText, x + 8, y + 62);
   ctx.restore();
@@ -355,24 +334,23 @@ function drawSinglePinball(ctx, team, ball) {
 
   ctx.globalAlpha = 1;
   ctx.shadowColor = team.color;
-  ctx.shadowBlur = 14;
+  ctx.shadowBlur = 0;
   ctx.fillStyle = team.color;
   ctx.beginPath();
   ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
   ctx.fill();
 
-  ctx.fillStyle = "#ffffff";
-  ctx.beginPath();
-  ctx.arc(ball.x - ball.radius * 0.32, ball.y - ball.radius * 0.32, ball.radius * 0.35, 0, Math.PI * 2);
-  ctx.fill();
+  ctx.strokeStyle = colors["ink"];
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
   ctx.restore();
 }
 
 function slotColor(label) {
-  if (label.includes("x")) return "#d5f76f";
-  if (label.startsWith("+")) return "#94d7c2";
-  if (label === "R") return "#ff8f7f";
-  return "#c99bff";
+  if (label.includes("x")) return colors["lime"];
+  if (label.startsWith("+")) return colors["mint"];
+  if (label === "R") return colors["coral"];
+  return colors["violet"];
 }
 
 function drawCannons(ctx, state) {
@@ -395,11 +373,11 @@ function drawCannons(ctx, state) {
     ctx.lineWidth = 2;
     ctx.stroke();
 
-    ctx.fillStyle = "#1a1d1b";
+    ctx.fillStyle = colors["ink"];
     roundRect(ctx, 12, -5, 26, 10, 5);
     ctx.fill();
 
-    ctx.fillStyle = "#f8fff9";
+    ctx.fillStyle = colors["paper"];
     ctx.beginPath();
     ctx.arc(-7, 0, 7, 0, Math.PI * 2);
     ctx.fill();
@@ -412,7 +390,7 @@ function drawMarbles(ctx, state) {
     const team = state.teams[marble.teamId];
     ctx.save();
     ctx.shadowColor = team.color;
-    ctx.shadowBlur = 9;
+    ctx.shadowBlur = 0;
 
     ctx.fillStyle = "rgba(0,0,0,0.82)";
     ctx.beginPath();
@@ -424,15 +402,6 @@ function drawMarbles(ctx, state) {
     ctx.arc(marble.x, marble.y, marble.radius, 0, Math.PI * 2);
     ctx.fill();
 
-    ctx.fillStyle = "rgba(255,255,255,0.62)";
-    ctx.beginPath();
-    ctx.arc(marble.x - marble.radius * 0.28, marble.y - marble.radius * 0.28, Math.max(1.5, marble.radius * 0.36), 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.shadowBlur = 0;
-    ctx.strokeStyle = "rgba(255,255,255,0.92)";
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
     ctx.restore();
   }
 }
@@ -462,7 +431,7 @@ function drawWinner(ctx, width, height, winner) {
   ctx.textAlign = "center";
   ctx.font = "800 56px system-ui";
   ctx.fillText(`${winner.name} Wins`, width / 2, height / 2);
-  ctx.fillStyle = "#f6faf7";
+  ctx.fillStyle = colors["paper"];
   ctx.font = "600 20px system-ui";
   ctx.fillText("All other cannon bases were eliminated", width / 2, height / 2 + 42);
   ctx.restore();

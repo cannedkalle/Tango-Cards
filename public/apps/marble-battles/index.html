@@ -4,13 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Marble Battles</title>
+    <link rel="icon" href="/design-system/brand.svg" />
     <link rel="stylesheet" href="/apps/marble-battles/styles.css" />
   </head>
   <body>
     <main class="app-shell">
       <section class="stage-band" aria-label="Marble Battles arena">
+        <nav class="arena-header" aria-label="Portal navigation"><a class="pf-brand" href="/"><img src="/design-system/brand.svg" alt="" />Kids Play Portal</a><a class="pf-back" href="/">← All games</a></nav>
         <canvas id="arena" width="1280" height="720"></canvas>
         <div class="scoreboard" id="scoreboard"></div>
+        <p class="arena-note">Follow the marbles. Watch the territory change.</p>
       </section>
 
       <aside class="control-panel" aria-label="Game controls">

@@ -5,9 +5,11 @@
   "scripts": {
     "dev": "next dev",
     "apps:import": "node scripts/import-apps.js",
-    "build": "node scripts/build-manifest.js && node scripts/build-prompts.js && next build",
+    "design:sync": "node scripts/sync-design-system.js",
+    "build": "npm run design:check && node scripts/build-manifest.js && node scripts/build-prompts.js && next build",
     "start": "next start",
-    "serve": "python3 -m http.server 4173"
+    "serve": "python3 -m http.server 4173",
+    "design:check": "node scripts/check-design.js"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

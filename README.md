@@ -22,25 +22,20 @@ The current app set is:
 
 - `tango-cards`: portal-integrated AI-assisted collectible card gallery.
 - `marble-battles`: static simulation app sourced from `../Kids Play Portal Apps/apps/marble-battles`.
+- `animal-outsider`: static taxonomy game sourced from `../Kids Play Portal Apps/apps/animal-outsider`.
 - `name-quest`: portal-integrated AI-assisted categorization game with mirrored local data in `../Kids Play Portal Apps/apps/name-quest/data`.
 
 For a scalable app catalog, add new app ideas under `../Kids Play Portal Apps/apps/<app-id>` and register publishable apps in both the Apps manifest and this portal's `lib/apps.js`. Keep app-specific data inside the app folder, and move only genuinely shared utilities into `../Kids Play Portal Apps/shared`.
 
-## Locked Visual Elements
+## Playform Kids visual system
 
-Use these as the lab house style so new apps do not drift into generic generated UI:
+The approved house style is Playform Kids, for ages 6–10: flat geometric characters, recognizable play objects, warm cream surfaces, dark green type and controls, and a restrained shared palette. All four apps use the same typography, focus treatment, spacing, and shapes. Original collectible card artwork remains content inside this visual system.
 
-- Warm paper/doodle background from `assets/site-art/tango-paper-doodles.jpg`
-- Heavy ink borders using `--lab-border`
-- Rounded-but-not-pill app cards using `--lab-radius`
-- Sticker-tab labels for metadata and navigation
-- Offset block shadows using `--lab-shadow`
-- Hand-cut app preview art inside each lab card
-- Two-way navigation on every app shell
+The canonical rules are in `docs/visual-style.md`; asset construction is in `docs/art-direction-prompt.md`. Tokens and reusable SVG art live in `public/design-system/`.
 
-Avoid default SaaS cards, glassmorphism, purple-blue gradient blobs, generic feature sections, and explanatory marketing layouts. The portal should feel tactile, kid-made, and curated.
+After changing shared art or tokens, run `npm run apps:import`. This generates the canvas palette, syncs the design system into the sibling Apps workspace, and imports its released apps. Edit Animal Outsider and Marble Battles at their sibling source, never only the generated copies in `public/apps/`.
 
-See `docs/visual-style.md` for the locked shape, font, and app-ownership controls. See `docs/art-styles.md` for the named art styles and anti-styles. See `docs/content-style.md` for naming, labels, helper text, and app-shell wording. See `docs/art-direction-prompt.md` for the shared image-generation prompt used by lab-owned app preview art.
+Run `npm run design:check` for asset and token consistency; `npm run build` includes this check. The build does not require the sibling workspace.
 
 Run locally with:
 

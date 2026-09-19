@@ -1,0 +1,72 @@
+/* Playform Kids. Canonical tokens and controls; sync copies with npm run design:sync. */
+:root {
+  color-scheme: light;
+  --pf-ink: #24352f;
+  --pf-muted: #59695f;
+  --pf-paper: #fffdf6;
+  --pf-surface: #ffffff;
+  --pf-line: #d9ded2;
+  --pf-control-line: #7a8c7c;
+  --pf-green: #276044;
+  --pf-green-hover: #204f38;
+  --pf-green-edge: #183f2c;
+  --pf-lime: #d9ef89;
+  --pf-coral: #fa8869;
+  --pf-blue: #85b9e0;
+  --pf-gold: #f6ca62;
+  --pf-violet: #b9a4e4;
+  --pf-mint: #aedac3;
+  --pf-rose: #e99bb7;
+  --pf-orange: #e5a55a;
+  --pf-teal: #64c4b8;
+  --pf-peach-soft: #fff0e6;
+  --pf-blue-soft: #eaf3fb;
+  --pf-violet-soft: #f2edfb;
+  --pf-leaf-soft: #edf3df;
+  --pf-error: #a13b36;
+  --pf-focus: #265ec7;
+  --pf-radius-small: 12px;
+  --pf-radius-control: 16px;
+  --pf-radius-card: 24px;
+  --pf-space-1: 4px;
+  --pf-space-2: 8px;
+  --pf-space-3: 12px;
+  --pf-space-4: 16px;
+  --pf-space-6: 24px;
+  --pf-space-8: 32px;
+  --pf-space-12: 48px;
+  --pf-space-16: 64px;
+  --pf-font: "Avenir Next", "Trebuchet MS", ui-rounded, system-ui, sans-serif;
+  /* Compatibility names for existing app components. */
+  --ink: var(--pf-ink); --muted: var(--pf-muted); --line: var(--pf-line);
+  --paper: var(--pf-paper); --paper-deep: var(--pf-line); --panel: var(--pf-surface);
+  --accent: var(--pf-green); --accent-dark: var(--pf-green-hover);
+  --mint: var(--pf-green); --sky: #326b94; --sun: var(--pf-gold);
+  --font-display: var(--pf-font); --font-body: var(--pf-font); --font-ui: var(--pf-font);
+  --lab-border: 1px solid var(--pf-line); --lab-radius: var(--pf-radius-card);
+  --lab-control-radius: var(--pf-radius-control); --lab-card-radius: var(--pf-radius-card);
+  --lab-shadow: none; --lab-shadow-hover: none; --shadow: none;
+  --lab-paper-fill: var(--pf-surface); --lab-paper-warm: var(--pf-leaf-soft);
+  --lab-focus: var(--pf-focus);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--pf-paper); color: var(--pf-ink); font: 400 16px/1.5 var(--pf-font); }
+button, input, select, textarea { font: inherit; }
+button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+button { cursor: pointer; }
+button:disabled { cursor: default; }
+:where(button, a, input, select, textarea, summary):focus-visible { outline: 3px solid var(--pf-focus); outline-offset: 4px; }
+button { touch-action: manipulation; }
+img { max-width: 100%; }
+a { color: var(--pf-green); }
+h1, h2, h3 { color: var(--pf-ink); line-height: 1.15; font-weight: 800; }
+.pf-brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 800; font-size: 20px; color: var(--pf-ink); text-decoration: none; letter-spacing: -.5px; }
+.pf-brand img { width: 32px; height: 32px; }
+.pf-primary { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 52px; padding: 12px 22px; border: 0; border-radius: var(--pf-radius-control); background: var(--pf-green); color: white; font-weight: 800; text-decoration: none; box-shadow: 0 3px 0 var(--pf-green-edge); }
+.pf-primary:hover { background: var(--pf-green-hover); }
+.pf-primary:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--pf-green-edge); }
+.pf-back { display: inline-flex; align-items: center; min-height: 44px; color: var(--pf-green); font-size: 14px; font-weight: 700; text-decoration: none; }
+.pf-back:hover { text-decoration: underline; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

@@ -65,10 +65,11 @@ function chooseRound() {
 
 function renderCards() {
   const isRevealed = Boolean(state.selectedId);
-  elements.animalCards.innerHTML = state.current.choices.map((animal) => `
+  elements.animalCards.innerHTML = state.current.choices.map((animal, index) => `
     <button class="animal-card" type="button" data-animal-id="${animal.id}">
+      <span class="choice-number" aria-hidden="true">${index + 1}</span>
       <strong>${animal.commonName}</strong>
-      ${isRevealed ? `<span>${animal.scientificName}</span>` : `<span class="hidden-detail">Scientific name hidden</span>`}
+      ${isRevealed ? `<span class="scientific-name">${animal.scientificName}</span>` : `<span class="hidden-detail">Tap to choose</span>`}
     </button>
   `).join("");
 

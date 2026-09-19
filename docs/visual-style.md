@@ -1,73 +1,43 @@
-# Kids Play Portal Visual Style Controls
+# Playform Kids — canonical visual rules
 
-Kids Play Portal should feel like a small authored web place: simple, playful, direct, and clearly made by a person. The portal owns app representation and art direction. Individual apps own their mechanics and native experience.
+Approved direction for Kids Play Portal, ages 6–10. This supersedes the Paper Toy Index and adult Playform studies. The demo in `docs/playform-kids/` records the direction; production tokens and assets in `public/design-system/` are authoritative.
 
-Use `docs/art-styles.md` as the named reference for style families, anti-styles, and future art-direction decisions. Use `docs/content-style.md` for naming, labels, helper text, and app-shell wording.
+## Foundations
 
-## Reference Notes
+- Use the exact `--pf-*` tokens in `public/design-system/playform.css`. Cream page, white surfaces, dark green ink and primary actions. Coral, blue, gold, violet and mint identify play objects; pale tints support them.
+- Use the shared rounded system font stack. Short bold headings, readable regular body copy; no decorative lettering or all-caps paragraphs.
+- Use spacing from the 4–64px token scale and symmetric 12/16/24px corners. Use circles for faces, marbles and counters.
+- Surfaces use quiet 1px borders. Stronger borders communicate input and selection. Only pressable controls use the small solid bottom edge; no floating shadows.
+- Primary choices and navigation should offer at least 44px targets. Keep text labels beside unfamiliar icons. Show keyboard focus and honor reduced motion.
+- Use the main green for actions, with text and symbols as well as color for outcomes. Do not use a decorative accent as small text on white.
 
-- `neal.fun` keeps the index direct and project-first: a short personal line, then web experiments.
-- `ncase.me` groups playful work by what visitors can do: play, read, watch.
-- `worrydream.com` shows that a personal site can be mostly an index and still feel authored through voice, rhythm, and restraint.
+## Art grammar
 
-## Font Lock
+Flat SVG, a clear silhouette, one recognizable subject and at most three supporting pieces. Use circles, rounded rectangles, triangles and simple paths. Two dot eyes and a small mouth provide warmth. Reuse the exact fox, bear and owl geometry from `characters.svg`; change poses deliberately, not randomly. A character is a guide, never a decoration on every surface.
 
-Use three roles, even when the underlying fallback stack overlaps:
+Use broad areas of solid color and dark ink for small functional details. No photographic material, 3D lighting, gloss, gradients, texture noise, fuzzy outlines, fake paper, tape or decorative wallpaper. Do not mix emoji or unrelated icon libraries with the house art. Labels stay in HTML, not in SVG images.
 
-- Display: `--font-display` for the site title, app names, and rare large celebratory words. It should feel direct, friendly, and personal-web poster-like.
-- Body: `--font-body` for descriptions, page text, and game/help copy. It should stay readable and informal, with enough warmth for a kids project.
-- UI: `--font-ui` for labels, small navigation, counters, controls, and compact actions. It should be sturdy, short, and legible in bordered elements.
+Build previews on a 480×300 viewBox with comfortable internal margins. Keep the essential object readable at thumbnail size. Standalone animal portraits use their supplied square viewBox. Use empty alt text when an adjacent label already communicates the same information.
 
-Compatible directions for later refinement:
+## App mapping
 
-- Keep now: `Trebuchet MS` as the primary display/body/UI face, with `Arial Rounded MT Bold` only as a display fallback and `Avenir Next` as a body/UI fallback.
-- If adding bundled webfonts later: use a hand-lettered display face only for headings, paired with a plain rounded sans for body.
-- Avoid: generic geometric SaaS fonts, thin modern grotesks, novelty fonts for paragraphs, and fonts that make buttons look like generated product UI.
+| App | Identity | Use |
+| --- | --- | --- |
+| Tango Cards | Coral; a stack of cards | Real collection cards on the homepage; flat card-stack fallback |
+| Marble Battles | Blue; board and marbles | Flat canvas fills, consistent palette, dark outlines, no glow |
+| Name Quest | Violet; talking face and choices | Small guide plus clear word-first game surface |
+| Animal Outsider | Coral, blue, gold animal trio | Welcoming header; named choices preserve the full taxonomy dataset |
 
-## Shape
+Original collectible cards are content, not interface assets; keep their art and 5:7 format. Do not substitute arbitrary mascot drawings for named species or leak hidden taxonomy through choice decoration.
 
-- Use heavy ink borders for lab-owned surfaces: `--lab-border`.
-- Use irregular sticker corners for cards: `--lab-card-radius`.
-- Use small uneven corners for buttons, labels, and navigation: `--lab-control-radius`.
-- Lock fixed-format play objects with aspect ratios. Tango Cards images use `5 / 7`; Marble Battles arena uses `16 / 9`; lab app previews use `4 / 3`.
-- Avoid AI-like rounded buttons. Do not use pill buttons for lab navigation, app labels, or metadata.
-- Public app cards should not need separate CTA buttons. The whole card is the link; use a tiny underlined type label such as `Gallery` or `Game` when useful.
-- Do not show internal publishing, repository, or roadmap metadata on the public lab unless it helps a visitor choose an app.
-- True circles are allowed only when the content calls for them, such as marbles, counters, or game pieces.
-- Use offset shadows instead of soft floating shadows: `--lab-shadow` and `--lab-shadow-hover`.
+## Layout and states
 
-## Fonts
+The homepage is an index of four things to play: brand, brief invitation, large illustrated links. Interiors retain the space their mechanics need. Shared back navigation, typography and controls tie them together. Keep artwork away from dense choices, scientific explanations and collection grids.
 
-- Display font: `--font-display`.
-- Body font: `--font-body`.
-- UI font: `--font-ui`.
-- Keep the current rounded/system stack until there is a specific reason to add webfont loading. It feels informal and hand-made without relying on trendy AI-site typography.
-- Avoid geometric SaaS fonts, ultra-smooth hero type, tiny uppercase nav systems, and over-polished marketing typography.
+Check narrow phones, tablets and desktop. Controls wrap instead of overflowing. Selection, correct, wrong, disabled, empty, loading and keyboard-focus states must remain distinguishable without color alone. Avoid pressure, streaks or decorative metrics added merely to fill space.
 
-## Image Art Lock
+## Ownership and acceptance
 
-- App preview images must be generated from `docs/art-direction-prompt.md` or an app-specific extension of it.
-- Each app preview should show the app's play object, not abstract decoration. Tango Cards uses collectible card art; Marble Battles uses a handmade territory board with marbles.
-- Do not use cheap placeholder geometry for app entry art.
-- Do not include readable text inside generated preview images; the site provides labels outside the artwork.
-- Use app-entry backgrounds as quiet support surfaces. Prefer paper-colored cards with small app accent areas over full solid-color cards.
-- Keep app preview images straight by default. Use only subtle rotation when the specific composition benefits from a pasted-photo feeling.
+Portal owns `public/design-system/`, integrated Name Quest/Tango screens, and this rulebook. The sibling Apps workspace owns Marble Battles and Animal Outsider source. Run `npm run apps:import` after edits to sync shared tokens and import source apps. `palette.js` is generated from CSS; canvas colors must come from it.
 
-## Lab-Owned Elements
-
-- Homepage app cards.
-- Preview art inside app cards.
-- App type labels.
-- Topbar framing.
-- Back links labeled with the public site name: `Back to Kids Play Portal`.
-- Cross-app spacing, borders, shadows, and typography.
-
-## App-Owned Elements
-
-- Tango Cards gallery views, card data, packs, and gallery mechanics.
-- Marble Battles simulation, controls, canvas rendering, and game mechanics.
-- Any future app's core rules, state, and interaction model.
-
-## Keep It Simple
-
-The lab should behave like a memorable index of play apps, not a product landing page. Prefer one strong visual idea, direct labels, and useful launch cards over decorative filler.
+Before accepting an app: use the shared stylesheet and palette; reuse or construct matching SVG art; verify the asset paths with `npm run design:check`; build; inspect the homepage and interior at desktop and phone widths; exercise a real action and return navigation. A new illustration must pass the same silhouette, palette, geometry and no-effects rules. Do not change the grammar for one app.
