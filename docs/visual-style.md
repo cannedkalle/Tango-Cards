@@ -23,8 +23,8 @@ Build previews on a 480×300 viewBox with comfortable internal margins. Keep the
 
 | App | Identity | Use |
 | --- | --- | --- |
-| Tango Cards | Coral; a stack of cards | Real collection cards on the homepage; flat card-stack fallback |
-| Marble Battles | Blue; board and marbles | Flat canvas fills, consistent palette, dark outlines, no glow |
+| Tango Cards | Coral; a stack of cards | Flat three-card stack with the shared fox on the front; real artwork inside the gallery |
+| Marble Battles | Blue; board and marbles | Flat territory fills, rounded white lanes with team-color borders, numbered team badges, simple circular launchers and outlined marbles; detailed stats live in controls, no glow or miniature floating panels |
 | Name Quest | Violet; talking face and choices | Small guide plus clear word-first game surface |
 | Animal Outsider | Coral, blue, gold animal trio | Welcoming header; named choices preserve the full taxonomy dataset |
 
@@ -41,3 +41,5 @@ Check narrow phones, tablets and desktop. Controls wrap instead of overflowing. 
 Portal owns `public/design-system/`, integrated Name Quest/Tango screens, and this rulebook. The sibling Apps workspace owns Marble Battles and Animal Outsider source. Run `npm run apps:import` after edits to sync shared tokens and import source apps. `palette.js` is generated from CSS; canvas colors must come from it.
 
 Before accepting an app: use the shared stylesheet and palette; reuse or construct matching SVG art; verify the asset paths with `npm run design:check`; build; inspect the homepage and interior at desktop and phone widths; exercise a real action and return navigation. A new illustration must pass the same silhouette, palette, geometry and no-effects rules. Do not change the grammar for one app.
+
+Return navigation is always the shared `pf-back` control: a hidden decorative left arrow plus “Back to all apps”, linking to `/`, in the top `pf-portal-nav` row before the app heading. React apps use `PortalNav`; static apps use equivalent markup and the shared CSS. Do not add duplicate return links inside app controls.

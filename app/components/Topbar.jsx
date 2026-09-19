@@ -1,8 +1,9 @@
-import Link from "next/link";
-import { BACK_TO_SITE_LABEL } from "../../lib/names";
+import PortalNav from "./PortalNav";
 
 export default function Topbar({ eyebrow, title, stats }) {
   return (
+    <>
+    <PortalNav />
     <header className="topbar app-topbar">
       <div>
         <p className="eyebrow">{eyebrow}</p>
@@ -14,12 +15,8 @@ export default function Topbar({ eyebrow, title, stats }) {
             <span key={stat}>{stat}</span>
           ))}
         </div>
-        <nav className="app-nav" aria-label="App navigation">
-          <Link className="lab-source-link lab-home-link" href="/">
-            {BACK_TO_SITE_LABEL}
-          </Link>
-        </nav>
       </div>
     </header>
+    </>
   );
 }

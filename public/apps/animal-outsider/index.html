@@ -10,7 +10,7 @@
   <body>
     <main class="game-shell">
       <section class="play-area" aria-label="Animal Outsider quiz">
-        <nav class="portal-nav" aria-label="Portal navigation"><a class="pf-brand" href="/"><img src="/design-system/brand.svg" alt="" />Kids Play Portal</a><a class="pf-back" href="/">← All games</a></nav>
+        <nav class="pf-portal-nav" aria-label="Portal navigation"><a class="pf-brand" href="/"><img src="/design-system/brand.svg" alt="" />Kids Play Portal</a><a class="pf-back" href="/"><span aria-hidden="true">←</span>Back to all apps</a></nav>
         <header class="top-bar">
           <div>
             <p class="eyebrow">Animal Outsider</p>
@@ -23,6 +23,14 @@
           </div>
         </header>
 
+        <section class="difficulty-picker" aria-label="Difficulty">
+          <div class="difficulty-options" role="group" aria-label="Choose difficulty">
+            <button type="button" data-difficulty="easy" aria-pressed="true">Easy</button>
+            <button type="button" data-difficulty="standard" aria-pressed="false">Standard</button>
+          </div>
+          <p id="difficultyHint" aria-live="polite"></p>
+        </section>
+
         <section class="prompt-card">
           <div>
             <p id="roundLabel">Round 1</p>
@@ -33,6 +41,8 @@
         </section>
 
         <section class="animal-grid" id="animalCards" aria-label="Answer choices"></section>
+
+        <button id="nextButton" class="next-button" type="button" hidden>Next round <span aria-hidden="true">→</span></button>
 
         <section class="answer-panel" id="answerPanel" aria-live="polite"></section>
       </section>

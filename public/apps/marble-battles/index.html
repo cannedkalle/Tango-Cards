@@ -10,8 +10,8 @@
   <body>
     <main class="app-shell">
       <section class="stage-band" aria-label="Marble Battles arena">
-        <nav class="arena-header" aria-label="Portal navigation"><a class="pf-brand" href="/"><img src="/design-system/brand.svg" alt="" />Kids Play Portal</a><a class="pf-back" href="/">← All games</a></nav>
-        <canvas id="arena" width="1280" height="720"></canvas>
+        <nav class="pf-portal-nav" aria-label="Portal navigation"><a class="pf-brand" href="/"><img src="/design-system/brand.svg" alt="" />Kids Play Portal</a><a class="pf-back" href="/"><span aria-hidden="true">←</span>Back to all apps</a></nav>
+        <canvas id="arena" width="1280" height="720" aria-label="Live marble arena. Numbered lanes match the teams on the board and scoreboard."></canvas>
         <div class="scoreboard" id="scoreboard"></div>
         <p class="arena-note">Follow the marbles. Watch the territory change.</p>
       </section>
@@ -25,7 +25,6 @@
           <button id="pauseButton" class="icon-button" type="button" title="Pause or resume">Pause</button>
         </div>
 
-        <a class="back-link" href="/">Back to Kids Play Portal</a>
 
         <label>
           Preset

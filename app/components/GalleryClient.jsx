@@ -224,9 +224,6 @@ async function sharePrompt() {
     <main>
       <section className="gallery-section" aria-live="polite">
         <div className="gallery-header">
-          <Link className="back-button" href="/">
-            Back
-          </Link>
           <h2>{`${series.label} ${bracketCount(series.cards.length)}`}</h2>
           <GalleryPackLink series={series} />
         </div>

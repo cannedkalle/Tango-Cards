@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { cardsPerPull, maxPullChances, pullIntervalMs } from "../../lib/packs";
 import { emptyPackState, formatRemaining, loadPackState, reconcilePackState, savePackState } from "../../lib/pack-state";
@@ -149,9 +148,6 @@ export default function PacksClient({ packs, series, initialPackKey }) {
     <main>
       <section className="packs-layout">
         <div className="pack-status">
-          <Link className="back-button" href="/">
-            Back
-          </Link>
           <div>
             <p className="eyebrow">Digital pulls</p>
             <h2>Expansion Packs</h2>

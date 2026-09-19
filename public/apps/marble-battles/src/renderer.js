@@ -36,34 +36,20 @@ function drawBoard(ctx, state) {
 
   ctx.save();
   ctx.fillStyle = colors["paper"];
-  roundRect(ctx, bounds.x - 18, bounds.y - 18, bounds.size + 36, bounds.size + 36, 8);
+  roundRect(ctx, bounds.x - 18, bounds.y - 18, bounds.size + 36, bounds.size + 36, 24);
   ctx.fill();
 
   for (let y = 0; y < board.length; y += 1) {
     for (let x = 0; x < board.length; x += 1) {
       const cell = board[y][x];
       ctx.fillStyle = cell.teamId === null ? colors["line"] : teams[cell.teamId].color;
-      ctx.globalAlpha = 0.72 + Math.min(cell.strength, 5) * 0.04;
+      ctx.globalAlpha = 0.80 + Math.min(cell.strength, 5) * 0.04;
       ctx.fillRect(bounds.x + x * tileSize, bounds.y + y * tileSize, tileSize + 0.2, tileSize + 0.2);
       if (cell.levelUp) drawLevelUpTile(ctx, bounds, tileSize, x, y);
     }
   }
 
   ctx.globalAlpha = 1;
-  ctx.strokeStyle = "rgba(0,0,0,0.28)";
-  ctx.lineWidth = 1;
-  for (let x = 0; x <= board.length; x += 4) {
-    ctx.beginPath();
-    ctx.moveTo(bounds.x + x * tileSize, bounds.y);
-    ctx.lineTo(bounds.x + x * tileSize, bounds.y + bounds.size);
-    ctx.stroke();
-  }
-  for (let y = 0; y <= board.length; y += 4) {
-    ctx.beginPath();
-    ctx.moveTo(bounds.x, bounds.y + y * tileSize);
-    ctx.lineTo(bounds.x + bounds.size, bounds.y + y * tileSize);
-    ctx.stroke();
-  }
 
   drawBases(ctx, state, tileSize);
   drawTeamMarks(ctx, state);
@@ -112,16 +98,16 @@ function drawBases(ctx, state, tileSize) {
 }
 
 function drawTeamMarks(ctx, state) {
-  const { layout, config, teams } = state;
-  const b = layout.board;
-
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.font = config.teams > 4 ? "800 42px system-ui" : "800 72px system-ui";
-  for (const team of teams) {
-    const position = getTeamLabelPosition(team.id, config.teams, b);
-    ctx.fillStyle = "rgba(0,0,0,0.24)";
-    ctx.fillText(team.name[0], position.x, position.y);
+  ctx.font = '800 24px "Avenir Next", "Trebuchet MS", sans-serif';
+  for (const team of state.teams) {
+    const p = getTeamLabelPosition(team.id, state.config.teams, state.layout.board);
+    ctx.fillStyle = colors.paper;
+    roundRect(ctx, p.x - 23, p.y - 23, 46, 46, 16);
+    ctx.fill();
+    ctx.fillStyle = colors.ink;
+    ctx.fillText(String(team.id + 1), p.x, p.y + 1);
   }
 }
 
@@ -133,18 +119,16 @@ function drawLanes(ctx, state) {
     const lane = denormalize(team.slot.lane, width, height);
 
     ctx.save();
-    ctx.fillStyle = blend(team.color, colors["paper"], 0.28);
-    ctx.strokeStyle = "rgba(37, 32, 27, 0.72)";
+    ctx.fillStyle = colors.surface;
+    ctx.strokeStyle = team.color;
     ctx.lineWidth = 4;
-    roundRect(ctx, lane.x, lane.y, lane.w, lane.h, 10);
+    roundRect(ctx, lane.x, lane.y, lane.w, lane.h, 22);
     ctx.fill();
     ctx.stroke();
 
-    drawDropChute(ctx, lane);
     drawSlotHighlight(ctx, lane, team, config);
     drawPegs(ctx, lane);
     drawLaneLabels(ctx, lane, team, config);
-    drawUpgradeSummary(ctx, lane, team, config);
     drawPinball(ctx, team);
     if (!team.active) drawEliminatedLane(ctx, lane);
     ctx.restore();
@@ -152,7 +136,7 @@ function drawLanes(ctx, state) {
 }
 
 function drawPegs(ctx, lane) {
-  ctx.fillStyle = "rgba(255,250,240,0.86)";
+  ctx.fillStyle = colors.line;
   const columns = 5;
   const rows = 6;
   const pegRadius = 3.5;
@@ -179,87 +163,38 @@ function drawLaneLabels(ctx, lane, team, config) {
   const bottom = lane.y + lane.h - 24;
   const gateDeck = team.settings.gateDeck;
   const band = getSlotBand(lane, config, gateDeck);
-
-  ctx.strokeStyle = "rgba(37, 32, 27, 0.22)";
-  ctx.lineWidth = 1;
-  let cursor = band.x;
-  for (let i = 1; i < gateDeck.length; i += 1) {
-    cursor += getSlotWidth(gateDeck[i - 1], band);
-    ctx.beginPath();
-    ctx.moveTo(cursor, lane.y + lane.h - 52);
-    ctx.lineTo(cursor, lane.y + lane.h - 8);
-    ctx.stroke();
-  }
-
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.font = "800 15px system-ui";
-  cursor = band.x;
+  ctx.font = '800 17px "Avenir Next", "Trebuchet MS", sans-serif';
+  let cursor = band.x;
   for (const gate of gateDeck) {
     const slotW = getSlotWidth(gate, band);
     ctx.fillStyle = slotColor(gate.label);
-    ctx.fillRect(cursor + 4, bottom - 12, Math.max(2, slotW - 8), 24);
-    ctx.fillStyle = colors["ink"];
-    ctx.fillText(gate.label, cursor + slotW / 2, bottom);
+    roundRect(ctx, cursor + 3, bottom - 15, Math.max(2, slotW - 6), 30, Math.min(6, slotW / 4));
+    ctx.fill();
+    ctx.fillStyle = colors.ink;
+    ctx.fillText(gate.label, cursor + slotW / 2, bottom, Math.max(2, slotW - 6));
     cursor += slotW;
   }
-
-  ctx.fillStyle = colors["ink"];
-  ctx.font = "800 28px system-ui";
-  ctx.fillText(team.active ? String(team.reserve) : "KO", lane.x + lane.w / 2, lane.y + 34);
-  ctx.font = "700 12px system-ui";
-  const stats = `Lv${team.level} P${team.settings.concurrentPinballs} S${team.settings.startingReserve} M${team.settings.marblePower}`;
-  ctx.fillText(team.active ? stats : "eliminated", lane.x + lane.w / 2, lane.y + lane.h - 62);
-  const activity = team.lastUpgradeLife > 0 && team.lastUpgrade
-    ? team.lastUpgrade.label
-    : (team.lastGate ? `last ${team.lastGate.label}` : "ready");
-  ctx.fillText(team.active ? activity : "", lane.x + lane.w / 2, lane.y + lane.h - 46);
-}
-
-function drawUpgradeSummary(ctx, lane, team, config) {
-  const summaryW = 92;
-  const summaryH = 82;
-  const gap = 8;
-  const onRight = lane.x + lane.w + summaryW + gap < ctx.canvas.width - 10;
-  const x = onRight ? lane.x + lane.w + gap : lane.x - summaryW - gap;
-  const y = Math.max(10, Math.min(ctx.canvas.height - summaryH - 10, lane.y + 12));
-  const progress = Math.max(0, team.nextLevelAt - team.captures);
-  const slotText = team.settings.gateDeck.map((gate) => gate.label).join(" ");
-
-  ctx.save();
-  ctx.globalAlpha = team.active ? 1 : 0.54;
-  ctx.fillStyle = "rgba(255, 250, 240, 0.9)";
-  ctx.strokeStyle = "rgba(37, 32, 27, 0.55)";
-  ctx.lineWidth = 2;
-  roundRect(ctx, x, y, summaryW, summaryH, 6);
-  ctx.fill();
-  ctx.stroke();
-
-  ctx.textAlign = "left";
-  ctx.textBaseline = "top";
+  // Team number links each lane to its board launcher and scoreboard.
   ctx.fillStyle = team.color;
-  ctx.font = "800 12px system-ui";
-  ctx.fillText(`Lv ${team.level}`, x + 8, y + 7);
-  ctx.fillStyle = colors["ink"];
-  ctx.font = "700 11px system-ui";
-  ctx.fillText(`Next ${progress}`, x + 48, y + 8);
+  roundRect(ctx, lane.x + 10, lane.y + 10, 32, 32, 10);
+  ctx.fill();
+  ctx.fillStyle = colors.ink;
+  ctx.font = '800 20px "Avenir Next", "Trebuchet MS", sans-serif';
+  ctx.fillText(String(team.id + 1), lane.x + 26, lane.y + 27);
+  ctx.textAlign = "right";
+  ctx.fillText(team.active ? String(team.reserve) : "Out", lane.x + lane.w - 12, lane.y + 27);
+  ctx.textAlign = "center";
+  ctx.font = '700 16px "Avenir Next", "Trebuchet MS", sans-serif';
 
-  ctx.fillStyle = "rgba(37, 32, 27, 0.68)";
-  ctx.font = "700 10px system-ui";
-  ctx.fillText(`P +${team.upgrades.concurrentPinballs}`, x + 8, y + 27);
-  ctx.fillText(`Start +${team.upgrades.startingReserve}`, x + 48, y + 27);
-  ctx.fillText(`Power +${team.upgrades.marblePower}`, x + 8, y + 43);
-
-  ctx.fillStyle = colors["ink"];
-  ctx.font = "800 10px system-ui";
-  ctx.fillText(slotText, x + 8, y + 62);
-  ctx.restore();
 }
+
 
 function drawEliminatedLane(ctx, lane) {
   ctx.save();
   ctx.fillStyle = "rgba(0,0,0,0.48)";
-  roundRect(ctx, lane.x, lane.y, lane.w, lane.h, 10);
+  roundRect(ctx, lane.x, lane.y, lane.w, lane.h, 22);
   ctx.fill();
   ctx.strokeStyle = "rgba(255,255,255,0.46)";
   ctx.lineWidth = 3;
@@ -272,18 +207,6 @@ function drawEliminatedLane(ctx, lane) {
   ctx.restore();
 }
 
-function drawDropChute(ctx, lane) {
-  ctx.save();
-  ctx.strokeStyle = "rgba(37, 32, 27, 0.38)";
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(lane.x + lane.w * 0.38, lane.y + 8);
-  ctx.lineTo(lane.x + lane.w * 0.38, lane.y + 34);
-  ctx.moveTo(lane.x + lane.w * 0.62, lane.y + 8);
-  ctx.lineTo(lane.x + lane.w * 0.62, lane.y + 34);
-  ctx.stroke();
-  ctx.restore();
-}
 
 function drawSlotHighlight(ctx, lane, team, config) {
   if (team.lastSlotLife <= 0 || team.lastSlotIndex == null) return;
@@ -333,8 +256,6 @@ function drawSinglePinball(ctx, team, ball) {
   }
 
   ctx.globalAlpha = 1;
-  ctx.shadowColor = team.color;
-  ctx.shadowBlur = 0;
   ctx.fillStyle = team.color;
   ctx.beginPath();
   ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
@@ -357,29 +278,22 @@ function drawCannons(ctx, state) {
   for (const team of state.teams) {
     const cannon = getCannon(team.id, state.layout.board, state.config);
     ctx.save();
-    ctx.globalAlpha = team.active ? 1 : 0.36;
+    ctx.globalAlpha = team.active ? 1 : 0.4;
     ctx.translate(cannon.x, cannon.y);
     ctx.rotate(team.cannon.angle);
-
-    ctx.fillStyle = "rgba(0,0,0,0.32)";
-    ctx.beginPath();
-    ctx.ellipse(0, 0, 24, 16, 0, 0, Math.PI * 2);
+    ctx.fillStyle = colors.ink;
+    roundRect(ctx, 0, -8, 36, 16, 8);
     ctx.fill();
-
+    ctx.beginPath();
+    ctx.arc(0, 0, 17, 0, Math.PI * 2);
     ctx.fillStyle = team.color;
-    roundRect(ctx, -8, -9, 34, 18, 6);
     ctx.fill();
-    ctx.strokeStyle = "rgba(255,255,255,0.9)";
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = colors.paper;
+    ctx.lineWidth = 4;
     ctx.stroke();
-
-    ctx.fillStyle = colors["ink"];
-    roundRect(ctx, 12, -5, 26, 10, 5);
-    ctx.fill();
-
-    ctx.fillStyle = colors["paper"];
     ctx.beginPath();
-    ctx.arc(-7, 0, 7, 0, Math.PI * 2);
+    ctx.arc(0, 0, 5, 0, Math.PI * 2);
+    ctx.fillStyle = colors.ink;
     ctx.fill();
     ctx.restore();
   }
@@ -389,10 +303,8 @@ function drawMarbles(ctx, state) {
   for (const marble of state.marbles) {
     const team = state.teams[marble.teamId];
     ctx.save();
-    ctx.shadowColor = team.color;
-    ctx.shadowBlur = 0;
 
-    ctx.fillStyle = "rgba(0,0,0,0.82)";
+    ctx.fillStyle = colors.ink;
     ctx.beginPath();
     ctx.arc(marble.x, marble.y, marble.radius + 2.5, 0, Math.PI * 2);
     ctx.fill();
@@ -417,7 +329,7 @@ function drawGateEvents(ctx, state) {
     const lane = denormalize(team.slot.lane, width, height);
     const alpha = Math.max(0, event.life / event.maxLife);
     ctx.globalAlpha = alpha;
-    ctx.fillStyle = team.color;
+    ctx.fillStyle = colors.ink;
     ctx.fillText(event.label, lane.x + lane.w / 2, lane.y - 22);
   }
   ctx.restore();
@@ -425,15 +337,21 @@ function drawGateEvents(ctx, state) {
 
 function drawWinner(ctx, width, height, winner) {
   ctx.save();
-  ctx.fillStyle = "rgba(0,0,0,0.58)";
+  ctx.fillStyle = "rgba(36,53,47,0.3)";
   ctx.fillRect(0, 0, width, height);
+  ctx.fillStyle = colors.paper;
+  roundRect(ctx, width / 2 - 260, height / 2 - 100, 520, 200, 32);
+  ctx.fill();
   ctx.fillStyle = winner.color;
+  ctx.beginPath();
+  ctx.arc(width / 2, height / 2 - 50, 18, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = colors.ink;
   ctx.textAlign = "center";
-  ctx.font = "800 56px system-ui";
-  ctx.fillText(`${winner.name} Wins`, width / 2, height / 2);
-  ctx.fillStyle = colors["paper"];
-  ctx.font = "600 20px system-ui";
-  ctx.fillText("All other cannon bases were eliminated", width / 2, height / 2 + 42);
+  ctx.font = '800 42px "Avenir Next", "Trebuchet MS", sans-serif';
+  ctx.fillText(`${winner.name} wins!`, width / 2, height / 2 + 15);
+  ctx.font = '600 20px "Avenir Next", "Trebuchet MS", sans-serif';
+  ctx.fillText("Press Restart to play again", width / 2, height / 2 + 58);
   ctx.restore();
 }
 
@@ -517,15 +435,4 @@ function roundRect(ctx, x, y, w, h, r) {
   ctx.lineTo(x, y + r);
   ctx.quadraticCurveTo(x, y, x + r, y);
   ctx.closePath();
-}
-
-function blend(hex, target, amount) {
-  const a = parseHex(hex);
-  const b = parseHex(target);
-  const mix = a.map((value, index) => Math.round(value + (b[index] - value) * amount));
-  return `rgb(${mix[0]}, ${mix[1]}, ${mix[2]})`;
-}
-
-function parseHex(hex) {
-  return [1, 3, 5].map((start) => Number.parseInt(hex.slice(start, start + 2), 16));
 }

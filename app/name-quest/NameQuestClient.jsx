@@ -1,10 +1,10 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { APP_NAMES } from "../../lib/apps";
 import nameBank from "../../lib/name-quest/name-bank.json";
 import pokemonAnimalPairs from "../../lib/name-quest/pokemon-animal-pairs.json";
-import { BACK_TO_SITE_LABEL } from "../../lib/names";
+import PortalNav from "../components/PortalNav";
 
 const entries = nameBank;
 const animalPairs = pokemonAnimalPairs;
@@ -146,20 +146,6 @@ const normalize = (value) =>
     .replace(/\s+/g, " ")
     .trim();
 
-const getPronunciationDisplay = (entry) => {
-  const pronunciation = entry.pronunciation?.trim();
-  return pronunciation || "";
-};
-
-
-const getEntrySpokenPrompt = (entry) => {
-  if (entry.speechPronunciation?.trim()) {
-    return entry.speechPronunciation.trim();
-  }
-
-  return entry.name;
-};
-
 const isConfusingDistractor = (answer, option) => {
   if (answer === option) return true;
   const pairKey = [answer, option].sort().join("|");
@@ -291,7 +277,6 @@ export default function NameQuestClient() {
   const [score, setScore] = useState(0);
   const [rounds, setRounds] = useState(0);
   const [streak, setStreak] = useState(0);
-  const [voiceOn, setVoiceOn] = useState(true);
 
   const pool = useMemo(() => getPool(level, mode), [level, mode]);
   const choices = useMemo(() => {
@@ -301,23 +286,8 @@ export default function NameQuestClient() {
   }, [current, mode, pairCurrent.choices]);
 
   const promptName = mode === "realAnimal" ? "Which is " + pairCurrent.target + "?" : current.name;
-  const promptPronunciation = mode === "realAnimal" ? "Pick the matching name." : getPronunciationDisplay(current);
-  const spokenPrompt = mode === "realAnimal" ? "Which is " + pairCurrent.target + "?" : getEntrySpokenPrompt(current);
   const progressTotal = mode === "realAnimal" ? pairPrompts.length : pool.length;
   const progressValue = progressTotal ? Math.min(100, (usedIds.size / progressTotal) * 100) : 0;
-
-  const speak = useCallback(
-    (text) => {
-      if (!voiceOn || typeof window === "undefined" || !("speechSynthesis" in window)) return;
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "en-US";
-      utterance.rate = 0.94;
-      utterance.pitch = 1.06;
-      window.speechSynthesis.speak(utterance);
-    },
-    [voiceOn],
-  );
 
   const nextRound = useCallback(() => {
     if (mode === "realAnimal") {
@@ -332,7 +302,7 @@ export default function NameQuestClient() {
       setResult("idle");
       setFeedback("Pick the " + next.target + ".");
       setTypedAnswer("");
-      speak("Which is " + next.target + "?");
+
       return;
     }
 
@@ -347,8 +317,8 @@ export default function NameQuestClient() {
     setResult("idle");
     setFeedback(mode === "pokemon" ? "Pokemon or not?" : "Pick the kind of name.");
     setTypedAnswer("");
-    speak(getEntrySpokenPrompt(next));
-  }, [current.id, mode, pool, speak, usedIds]);
+
+  }, [current.id, mode, pool, usedIds]);
 
   const judgeAnswer = useCallback(
     (answer) => {
@@ -407,12 +377,9 @@ export default function NameQuestClient() {
     setRounds((value) => value + 1);
     setScore((value) => value + (counted ? 1 : 0));
     setStreak((value) => (counted ? value + 1 : 0));
-    speak(answerLine);
+
   };
 
-  useEffect(() => {
-    speak(spokenPrompt);
-  }, [spokenPrompt, speak]);
 
   const resetGame = (nextLevel = level, nextMode = mode) => {
     const nextPool = getPool(nextLevel, nextMode);
@@ -429,20 +396,18 @@ export default function NameQuestClient() {
     setScore(0);
     setRounds(0);
     setStreak(0);
-    speak(nextMode === "realAnimal" ? "Which is " + nextPair.target + "?" : getEntrySpokenPrompt(next ?? current));
+
   };
 
   return (
     <>
+      <PortalNav />
       <header className="topbar app-topbar name-quest-topbar">
         <div>
           <p className="eyebrow">{APP_NAMES.nameQuest}</p>
           <h1>{mode === "pokemon" ? "Pokemon or not?" : mode === "realAnimal" ? "Which one is it?" : "What kind of name is this?"}</h1>
         </div>
         <div className="topbar-actions">
-          <nav className="app-nav" aria-label="App navigation">
-            <a className="lab-source-link lab-home-link" href="/">{BACK_TO_SITE_LABEL}</a>
-          </nav>
           <div className="name-quest-controls" aria-label="Game modes">
             {Object.keys(modeLabels).map((nextMode) => (
               <button key={nextMode} type="button" aria-pressed={nextMode === mode} onClick={() => resetGame(level, nextMode)}>
@@ -464,9 +429,7 @@ export default function NameQuestClient() {
 
           <div className="name-card-stage">
             <p>Round {rounds + 1}</p>
-            <button type="button" className="spoken-name" onClick={() => speak(spokenPrompt)}>{promptName}</button>
-            <span className="listen-hint">Tap the name to hear it</span>
-            <small>{promptPronunciation}</small>
+            <h2 className="quest-name">{promptName}</h2>
             <strong className={"round-feedback " + result} aria-live="polite">{feedback}</strong>
             {result !== "idle" ? (
               <button type="button" className="next-round-button" onClick={nextRound}>Next</button>
@@ -506,7 +469,6 @@ export default function NameQuestClient() {
               </div>
             ) : null}
             <div className="level-row">
-              <button type="button" aria-pressed={voiceOn} onClick={() => setVoiceOn((value) => !value)}>{voiceOn ? "Voice On" : "Voice Off"}</button>
               <button type="button" onClick={() => resetGame()}>Restart</button>
             </div>
           </section>

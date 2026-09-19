@@ -1,10 +1,12 @@
 import { animals } from "./animals.js";
+import { getAnimalPool } from "./difficulty.js";
 import { rootWords, taxonInfo } from "./taxa.js";
 
 const byId = new Map(animals.map((animal) => [animal.id, animal]));
 const taxonExamples = buildTaxonExamples();
 const taxonRanks = buildTaxonRanks();
 const state = {
+  difficulty: "easy",
   round: 0,
   answered: 0,
   correct: 0,
@@ -26,6 +28,7 @@ const taxonomyRanks = ["kingdom", "phylum", "class", "order", "family", "genus",
 
 const elements = {
   animalCards: document.querySelector("#animalCards"),
+  nextButton: document.querySelector("#nextButton"),
   answerPanel: document.querySelector("#answerPanel"),
   roundLabel: document.querySelector("#roundLabel"),
   answeredCount: document.querySelector("#answeredCount"),
@@ -41,6 +44,25 @@ const elements = {
 boot();
 
 function boot() {
+  for (const button of document.querySelectorAll('[data-difficulty]')) {
+    button.addEventListener('click', () => {
+      if (state.difficulty === button.dataset.difficulty) return;
+      state.difficulty = button.dataset.difficulty;
+      state.round = state.answered = state.correct = state.streak = 0;
+      state.recentRoundKeys = [];
+      state.discoveredAnimals.clear();
+      state.discoveredTaxa.clear();
+      updateDifficulty();
+      populateExplorer();
+      startRound();
+    });
+  }
+  elements.animalExplorer.addEventListener("change", () => renderExplorer(elements.animalExplorer.value));
+  updateDifficulty();
+  elements.nextButton.addEventListener("click", () => {
+    startRound();
+    elements.animalCards.querySelector("button").focus({ preventScroll: true });
+  });
   populateExplorer();
   renderRoots();
   startRound();
@@ -52,9 +74,23 @@ function startRound() {
   state.current = chooseRound();
   elements.roundLabel.textContent = `Round ${state.round}`;
   elements.answerPanel.innerHTML = "";
+  elements.nextButton.hidden = true;
   renderCards();
   renderLockedLearningPanel();
   renderScore();
+}
+
+function activeAnimals() {
+  return getAnimalPool(animals, state.difficulty);
+}
+
+function updateDifficulty() {
+  for (const button of document.querySelectorAll('[data-difficulty]')) {
+    button.setAttribute('aria-pressed', String(button.dataset.difficulty === state.difficulty));
+  }
+  document.querySelector('#difficultyHint').textContent = state.difficulty === 'easy'
+    ? `${activeAnimals().length} familiar animals. Switching difficulty starts a fresh score.`
+    : `All ${animals.length} animals. Switching difficulty starts a fresh score.`;
 }
 
 function chooseRound() {
@@ -69,7 +105,7 @@ function renderCards() {
     <button class="animal-card" type="button" data-animal-id="${animal.id}">
       <span class="choice-number" aria-hidden="true">${index + 1}</span>
       <strong>${animal.commonName}</strong>
-      ${isRevealed ? `<span class="scientific-name">${animal.scientificName}</span>` : `<span class="hidden-detail">Tap to choose</span>`}
+      <span class="choice-status">${!isRevealed ? "Tap to choose" : animal.id === state.current.outsider.id ? "✓ Outsider" : animal.id === state.selectedId ? "Your choice" : "Closer cousin"}</span>
     </button>
   `).join("");
 
@@ -100,7 +136,9 @@ function answer(animalId) {
     button.classList.toggle("is-wrong", id === animalId && !wasCorrect);
   }
 
+  elements.nextButton.hidden = false;
   renderAnswer(wasCorrect);
+  elements.nextButton.focus({ preventScroll: true });
   renderScore();
   renderDiscoveries();
 }
@@ -152,10 +190,8 @@ function renderAnswer(wasCorrect) {
         <summary>Explore the family tree</summary>
         ${renderComparisonTrail(pair, outsider)}
       </details>
-      <button id="nextButton" class="next-button" type="button">Next</button>
     </div>
   `;
-  document.querySelector("#nextButton").addEventListener("click", startRound);
   renderUnlockedLearningPanel();
 }
 
@@ -171,12 +207,11 @@ function renderComparisonTrail(pair, outsider) {
 }
 
 function populateExplorer() {
-  elements.animalExplorer.innerHTML = animals
+  elements.animalExplorer.innerHTML = activeAnimals()
     .slice()
     .sort((a, b) => a.commonName.localeCompare(b.commonName))
     .map((animal) => `<option value="${animal.id}">${animal.commonName}</option>`)
     .join("");
-  elements.animalExplorer.addEventListener("change", () => renderExplorer(elements.animalExplorer.value));
 }
 
 function renderExplorer(id) {
@@ -299,20 +334,22 @@ function generateRoundFromPool() {
 }
 
 function randomTripleFromPool() {
-  const first = randomItem(animals);
-  let second = randomItem(animals);
-  let third = randomItem(animals);
-  while (second.id === first.id) second = randomItem(animals);
-  while (third.id === first.id || third.id === second.id) third = randomItem(animals);
+  const pool = activeAnimals();
+  const first = randomItem(pool);
+  let second = randomItem(pool);
+  let third = randomItem(pool);
+  while (second.id === first.id) second = randomItem(pool);
+  while (third.id === first.id || third.id === second.id) third = randomItem(pool);
   return [first, second, third];
 }
 
 function buildCandidatePool() {
+  const pool = activeAnimals();
   const candidates = [];
-  for (let i = 0; i < animals.length - 2; i += 1) {
-    for (let j = i + 1; j < animals.length - 1; j += 1) {
-      for (let k = j + 1; k < animals.length; k += 1) {
-        const candidate = buildCandidateRound([animals[i], animals[j], animals[k]]);
+  for (let i = 0; i < pool.length - 2; i += 1) {
+    for (let j = i + 1; j < pool.length - 1; j += 1) {
+      for (let k = j + 1; k < pool.length; k += 1) {
+        const candidate = buildCandidateRound([pool[i], pool[j], pool[k]]);
         if (!candidate) continue;
         if (isRecentRound(candidate)) continue;
         candidates.push(candidate);

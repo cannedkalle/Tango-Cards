@@ -27,7 +27,7 @@ export default function HomePage() {
           {PLAY_APPS.map((app) => (
             <Link className={`kids-app-card ${app.cardClassName}`} href={app.route} key={app.id}>
               <span className={`kids-app-art ${app.previewClassName}`} aria-hidden="true">
-                {app.previewCards ? <span className="tango-stack">{app.previewCards.map((src) => <img key={src} src={src} alt="" />)}</span> : <img className="app-preview-image" src={app.previewImage} alt="" />}
+                <img className="app-preview-image" src={app.previewImage} alt="" />
               </span>
               <span className="app-copy">
                 <strong><span className="app-label">{app.label}</span>{app.name}</strong>

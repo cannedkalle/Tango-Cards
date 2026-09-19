@@ -57,7 +57,7 @@ App shell copy should bridge from the lab into the app without taking over the a
 
 - Keep topbar eyebrow short: `Card gallery`, `Marble board`, `Pack table`.
 - Keep stats plain: `5 series`, `100 cards`, `4/4 chances`.
-- Use `Back to Kids Play Portal` or the compact `All games` for return navigation.
+- Use `Back to all apps` for return navigation.
 - Prefer play-object words over technical words.
 
 Good:
@@ -166,3 +166,5 @@ Avoid:
 - If the text sounds like a pitch deck, rewrite it as an object or action.
 - If the text repeats what the image already shows, shorten it.
 - If a control label is long, make it a noun phrase first.
+
+Return navigation is always the shared `pf-back` control: a hidden decorative left arrow plus “Back to all apps”, linking to `/`, in the top `pf-portal-nav` row before the app heading. React apps use `PortalNav`; static apps use equivalent markup and the shared CSS. Do not add duplicate return links inside app controls.
