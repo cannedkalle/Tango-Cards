@@ -16,3 +16,8 @@
 .pick{min-height:250px}.choice-letter{border-color:var(--pf-control-line);color:var(--pf-green);border-radius:var(--pf-radius-small)}.object-art{filter:none}.definition-toggle{background:var(--pf-paper);border-top-color:var(--pf-line)}.definition{background:var(--pf-paper)}
 .reveal{border-radius:var(--pf-radius-card);box-shadow:none}.fact{background:var(--pf-gold);border-radius:var(--pf-radius-control)}.next{border-radius:var(--pf-radius-control)}
 @media(max-width:600px){.shell{padding:20px}.masthead .pf-portal-nav{padding-bottom:16px}.game{margin-top:24px}}
+@media(max-width:420px){
+  .pick,.choice-card:has(.pick:disabled) .pick{min-height:128px;padding:17px 18px;display:grid;grid-template-columns:85px minmax(0,1fr);grid-template-rows:1fr auto;column-gap:12px;text-align:left}
+  .object-art,.choice-card:has(.pick:disabled) .object-art{grid-row:1/3;width:80px;height:78px;margin:0;font-size:54px}
+  .object-name{font-size:23px;align-self:end}.choice-status{margin-top:7px;align-self:start}
+}
