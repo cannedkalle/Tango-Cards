@@ -1,0 +1,669 @@
+Build a simple, polished, kid-friendly web game called “Which Came First?”
+
+The game is intended primarily for children and families to play together, especially during car rides. The core question is extremely simple:
+
+“Which came first?”
+
+The player sees or hears two familiar things, such as:
+
+🚂 Train vs. ☎️ Telephone
+🎈 Hot-air balloon vs. ✈️ Airplane
+👓 Eyeglasses vs. 🕶️ Sunglasses
+📻 Radio vs. 📺 Television
+
+The player guesses which existed first.
+
+IMPORTANT: Do NOT rely on an LLM to generate historical facts, invention dates, answers, or explanations during gameplay. Build a reliable, curated database that serves as the source of truth.
+
+==================================================
+1. CORE GAMEPLAY
+==================================================
+
+Each round:
+
+1. Present two objects.
+2. Ask: “Which came first?”
+3. Player selects one.
+4. Reveal whether the answer is correct.
+5. Show the approximate date/year for BOTH objects.
+6. Give one short, interesting, kid-friendly fun fact.
+7. Player presses “Next” for another question.
+
+Example:
+
+WHICH CAME FIRST?
+
+[ ☎️ Telephone ]     [ 🚗 Car ]
+
+Player chooses Telephone.
+
+✅ Correct!
+
+☎️ Telephone
+1876
+
+🚗 Practical gasoline car
+1885–1886
+
+FUN FACT:
+They were invented only about 10 years apart!
+
+[ NEXT ]
+
+Keep the interaction extremely fast. A round should take only a few seconds.
+
+==================================================
+2. THE DATABASE IS THE CORE OF THE GAME
+==================================================
+
+Create a structured local “history of things” database.
+
+Do NOT call an LLM every round.
+
+Normal gameplay should work entirely from the database and ideally work offline after the app has loaded.
+
+Each object should contain approximately:
+
+{
+  id,
+  name,
+  aliases,
+  emoji_or_icon,
+  category,
+
+  kid_definition,
+
+  year,
+  date_display,
+  date_basis,
+
+  familiarity_age,
+  difficulty,
+
+  fun_facts: [],
+
+  sources: [],
+
+  confidence,
+  date_ambiguity_notes
+}
+
+Example:
+
+{
+  id: "telephone",
+  name: "Telephone",
+  emoji_or_icon: "☎️",
+  category: "communication",
+
+  kid_definition:
+    "A device that lets people talk to someone far away.",
+
+  year: 1876,
+  date_display: "1876",
+
+  date_basis:
+    "Bell's successful telephone patent and demonstration",
+
+  familiarity_age: 5,
+
+  fun_facts: [
+    "...",
+    "...",
+    "..."
+  ],
+
+  sources: [
+    ...
+  ],
+
+  confidence: "high"
+}
+
+Historical dates can be surprisingly ambiguous. Do not pretend that every invention has one objectively correct invention year.
+
+For example, distinguish things like:
+
+“first known version”
+“first patent”
+“first practical version”
+“first commercially successful version”
+
+The date_basis field must explain what the displayed date means.
+
+If an object's date is highly disputed, either avoid using it in close comparisons or phrase the result appropriately, such as:
+
+“Practical versions appeared around 1890.”
+
+==================================================
+3. RELIABLE CONTENT, NOT AI HALLUCINATIONS
+==================================================
+
+Accuracy is especially important.
+
+Research the initial dataset using reliable historical/reference sources.
+
+Every historical date and factual claim should have a source stored in the database.
+
+Prefer authoritative sources such as:
+
+- Smithsonian
+- Library of Congress
+- museums
+- universities
+- Britannica
+- government historical resources
+- reputable scientific/historical organizations
+
+Do not use an LLM-generated statement as a historical source.
+
+An LLM may be used during DEVELOPMENT to propose candidate objects, pairings, or fun facts, but factual information must be checked before becoming production data.
+
+The production game itself should not need an LLM.
+
+==================================================
+4. BUILD A LARGE STARTER DATABASE
+==================================================
+
+Do not build only a 20-question demo.
+
+Seed the database with roughly 300–500 child-recognizable things if practical.
+
+Prioritize things elementary-school children are likely to know.
+
+Categories can include:
+
+Transportation
+Communication
+Household objects
+Food
+Toys
+Games
+Clothing
+Medicine
+Science
+Tools
+School objects
+Music
+Entertainment
+Sports
+Buildings
+Navigation
+Ancient technology
+Modern technology
+Computers
+Space
+Photography
+
+Examples of useful objects include:
+
+train
+telephone
+car
+airplane
+submarine
+hot-air balloon
+parachute
+bicycle
+motorcycle
+skateboard
+roller skates
+elevator
+escalator
+umbrella
+raincoat
+eyeglasses
+sunglasses
+pocket watch
+wristwatch
+thermometer
+stethoscope
+toothbrush
+pencil
+eraser
+pencil sharpener
+fountain pen
+ballpoint pen
+paper clip
+stapler
+battery
+flashlight
+electric fan
+air conditioner
+radio
+television
+camera
+digital camera
+Polaroid camera
+microwave oven
+electric kettle
+washing machine
+vacuum cleaner
+zipper
+Velcro
+abacus
+calculator
+calculator watch
+smartphone
+satellite phone
+credit card
+ATM
+email
+text messaging
+DVD
+video game
+Rubik's Cube
+hula hoop
+pogo stick
+light bulb
+electric toaster
+
+These are examples, not the complete database.
+
+Research and add many more.
+
+==================================================
+5. CURATED PAIRINGS
+==================================================
+
+Do NOT simply randomly select any two objects.
+
+Create a separate pairing system/table such as:
+
+{
+  object_a,
+  object_b,
+  difficulty,
+  interestingness,
+  minimum_age,
+  notes
+}
+
+Good comparisons should make a child stop and think.
+
+Examples:
+
+train vs telephone
+submarine vs airplane
+parachute vs airplane
+hot-air balloon vs airplane
+radio vs television
+pocket watch vs wristwatch
+eyeglasses vs sunglasses
+fountain pen vs ballpoint pen
+roller skates vs skateboard
+bicycle vs motorcycle
+battery vs flashlight
+electric fan vs air conditioner
+zipper vs Velcro
+abacus vs calculator
+credit card vs ATM
+
+A comparison doesn't necessarily need similar objects.
+
+Unexpected cross-category comparisons can be especially fun:
+
+telephone vs car
+toothbrush vs pencil
+thermometer vs bicycle
+camera vs telephone
+
+The goal is:
+
+“Hmmm... I know both of these, but I'm not sure which came first!”
+
+Avoid questions that require obscure specialist knowledge.
+
+==================================================
+6. DIFFICULTY
+==================================================
+
+Support approximately three difficulty levels:
+
+EASY
+TRICKY
+SUPER TRICKY
+
+Difficulty should consider:
+
+- familiarity of the objects
+- difference between the two dates
+- whether the intuitive answer is misleading
+- child's likely knowledge
+
+Easy questions can have very large date gaps.
+
+Harder questions can involve objects invented within decades of one another.
+
+Do NOT create “trick” questions where historians disagree about which came first.
+
+==================================================
+7. “WHAT IS THIS?” FEATURE
+==================================================
+
+Children may not recognize an object.
+
+Every object should have a small:
+
+“What’s this?”
+
+option.
+
+Example:
+
+ABACUS
+
+“What’s this?”
+
+→ “A counting tool with beads that slide along rods.”
+
+DVD
+
+→ “A shiny disc that can store movies.”
+
+Calculator watch
+
+→ “A digital watch with tiny buttons that let you do math.”
+
+The definition must NOT reveal its invention date or otherwise give away the answer.
+
+==================================================
+8. FUN FACTS
+==================================================
+
+Fun facts are an important part of the experience.
+
+Each object should ideally have 2–5 verified fun facts.
+
+Keep them SHORT.
+
+A child should understand them immediately.
+
+Good fun facts might explain:
+
+- what the earliest version looked like
+- why somebody invented it
+- something surprising about how it worked
+- how different it was from today's version
+- how quickly it became popular
+- a surprising relationship between the two objects
+
+Also support pair-specific facts.
+
+Example:
+
+Telephone — 1876
+Practical gasoline car — 1885/1886
+
+Pair fact:
+“These inventions are only about a decade apart.”
+
+When possible, prioritize pair-specific facts because they make the comparison more meaningful.
+
+Rotate facts so seeing the same object again does not always produce exactly the same explanation.
+
+==================================================
+9. QUESTION SELECTION ENGINE
+==================================================
+
+The game should track which questions the player has already encountered.
+
+Avoid repeating the same pair until a substantial portion of the question pool has been used.
+
+Selection can consider:
+
+- previously seen questions
+- difficulty
+- categories recently shown
+- player performance
+- familiarity
+- interestingness
+- date difference
+
+Do not repeatedly ask extremely similar questions.
+
+For example, avoid:
+
+airplane vs helicopter
+airplane vs submarine
+airplane vs car
+airplane vs balloon
+
+four rounds in a row.
+
+Mix categories.
+
+==================================================
+10. ADAPTIVE DIFFICULTY
+==================================================
+
+Keep lightweight local statistics.
+
+If the player repeatedly answers easy questions correctly, gradually introduce harder questions.
+
+If the player struggles, give easier comparisons.
+
+Potentially track performance by category.
+
+For example:
+
+Transportation: strong
+Ancient inventions: weak
+Modern technology: strong
+
+Use this information only for question selection.
+
+No LLM is necessary.
+
+==================================================
+11. CAR-RIDE MODE
+==================================================
+
+This game should work particularly well during a car ride.
+
+Add an optional Car Ride Mode.
+
+The parent should need very little visual interaction.
+
+Use browser text-to-speech where available.
+
+Example flow:
+
+App says:
+
+“Which came first: the submarine or the airplane?”
+
+Child answers verbally to the parent or the parent taps the child's choice.
+
+App says:
+
+“The submarine came first! Early working submarines appeared long before the airplane. The airplane first flew in 1903.”
+
+Then:
+
+“Next question.”
+
+Make buttons very large so the parent can operate the game with minimal interaction.
+
+Do NOT require typing.
+
+Do not make voice recognition necessary for the MVP.
+
+Text-to-speech is enough.
+
+==================================================
+12. UI / VISUAL DESIGN
+==================================================
+
+Keep the interface extremely simple.
+
+Main screen should essentially be:
+
+          WHICH CAME FIRST?
+
+     ┌───────────────┐
+     │      🚂       │
+     │     TRAIN     │
+     └───────────────┘
+
+              OR
+
+     ┌───────────────┐
+     │      ☎️       │
+     │   TELEPHONE   │
+     └───────────────┘
+
+Large cards.
+Large text.
+Large tap targets.
+
+Avoid clutter.
+
+Use playful but restrained animation.
+
+When the answer is revealed, animate the two objects onto a tiny timeline if practical:
+
+1804                         1876
+ 🚂---------------------------☎️
+Train                     Telephone
+
+This visual timeline can help children develop an intuitive understanding of historical time.
+
+==================================================
+13. GAME FEEL
+==================================================
+
+This is NOT supposed to feel like school homework.
+
+The desired feeling is:
+
+“Oh! I didn't know that!”
+
+rather than:
+
+“Memorize these invention dates.”
+
+Do not overemphasize exact years.
+
+The dates provide context; the interesting comparison is the game.
+
+Keep explanations conversational, short, and surprising.
+
+==================================================
+14. SCORE
+==================================================
+
+Keep scoring lightweight.
+
+For example:
+
+🔥 5 correct in a row
+Score: 8 / 11
+
+Do not punish incorrect answers heavily.
+
+Getting something wrong often produces the most interesting historical reveal.
+
+Potentially celebrate surprising wrong guesses:
+
+“Good guess — this one's surprising!”
+
+==================================================
+15. DATA MODEL SHOULD SUPPORT FUTURE FEATURES
+==================================================
+
+Design the data layer so we can later add:
+
+- player profiles
+- age selection
+- category selection
+- historical timelines
+- daily challenges
+- multiplayer family mode
+- streaks
+- achievements
+- “Which came first?” tournaments
+- user-created collections
+- additional languages
+- audio-only gameplay
+
+But do NOT overbuild these now.
+
+==================================================
+16. TECHNICAL PRIORITIES
+==================================================
+
+Priority order:
+
+1. Historical accuracy
+2. Excellent question database
+3. Fun pair selection
+4. Very fast gameplay
+5. Kid-friendly explanations
+6. Car-ride usability
+7. Visual polish
+
+Keep architecture simple.
+
+Prefer local structured data / SQLite / JSON or another lightweight solution appropriate to the chosen stack.
+
+Separate:
+
+OBJECT DATA
+PAIR DATA
+GAME LOGIC
+UI
+
+so content can be expanded without changing game logic.
+
+==================================================
+17. IMPORTANT QUALITY REQUIREMENT
+==================================================
+
+Do not blindly populate hundreds of entries with low-quality AI-generated dates just to hit a database-size target.
+
+A smaller set of well-researched objects is preferable initially.
+
+Build the database so it can scale to 300–500+ objects, but if researching all of them properly would compromise accuracy, start with approximately 100 high-quality objects and make expansion straightforward.
+
+For each historical object, preserve enough sourcing metadata that a developer can later audit:
+
+“What source did this date come from?”
+
+==================================================
+18. MVP DELIVERABLE
+==================================================
+
+Build a functioning MVP, not merely a mockup.
+
+It should include:
+
+- polished playable UI
+- responsive mobile design
+- large touch targets
+- curated historical database
+- sourced dates
+- kid definitions
+- fun facts
+- curated pairings
+- randomized/non-repetitive question selection
+- score/streak
+- difficulty system
+- answer reveal
+- timeline visualization
+- “What’s this?” definitions
+- optional browser text-to-speech
+- local game progress
+
+Populate enough real content that I can actually play the game for a long car ride without immediately encountering repeated questions.
+
+Before considering the task complete, play/test many rounds and specifically check for:
+- repeated questions
+- incorrect chronology
+- ambiguous invention dates
+- definitions that accidentally reveal answers
+- boring pairings
+- facts that are too long for children
+- mobile usability problems
+
+The database—not an LLM—should be the game's source of truth.

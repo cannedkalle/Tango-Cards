@@ -1,0 +1,482 @@
+[
+  {
+    "id": "balloon--airplane",
+    "objectAId": "balloon",
+    "objectBId": "airplane",
+    "earlierObjectId": "balloon",
+    "funFact": "A sheep, a duck, and a rooster rode in a balloon before people did!",
+    "factSourceIds": [
+      "balloon"
+    ]
+  },
+  {
+    "id": "train--telephone",
+    "objectAId": "train",
+    "objectBId": "telephone",
+    "earlierObjectId": "train",
+    "funFact": "One of Trevithick’s locomotives was named “Catch Me Who Can.”",
+    "factSourceIds": [
+      "train"
+    ]
+  },
+  {
+    "id": "telephone--car",
+    "objectAId": "telephone",
+    "objectBId": "car",
+    "earlierObjectId": "telephone",
+    "funFact": "Benz’s first gasoline car had three wheels!",
+    "factSourceIds": [
+      "car"
+    ]
+  },
+  {
+    "id": "dishwasher--airplane",
+    "objectAId": "dishwasher",
+    "objectBId": "airplane",
+    "earlierObjectId": "dishwasher",
+    "funFact": "Cochran designed separate wire spaces to hold plates, cups, and saucers.",
+    "factSourceIds": [
+      "dishwasher"
+    ]
+  },
+  {
+    "id": "aircon--airplane",
+    "objectAId": "aircon",
+    "objectBId": "airplane",
+    "earlierObjectId": "aircon",
+    "funFact": "Carrier’s first air-conditioning installation helped a printing factory.",
+    "factSourceIds": [
+      "aircon"
+    ]
+  },
+  {
+    "id": "slinky--microwave",
+    "objectAId": "slinky",
+    "objectBId": "microwave",
+    "earlierObjectId": "slinky",
+    "funFact": "The Slinky began with springs meant to keep equipment steady on ships.",
+    "factSourceIds": [
+      "slinky"
+    ]
+  },
+  {
+    "id": "cube--camera",
+    "objectAId": "cube",
+    "objectBId": "camera",
+    "earlierObjectId": "cube",
+    "funFact": "Sasson’s digital camera used 16 batteries!",
+    "factSourceIds": [
+      "camera"
+    ]
+  },
+  {
+    "id": "satellite--lego",
+    "objectAId": "satellite",
+    "objectBId": "lego",
+    "earlierObjectId": "satellite",
+    "funFact": "The first space satellite was about the size of a beach ball.",
+    "factSourceIds": [
+      "satellite"
+    ]
+  },
+  {
+    "id": "mouse--cube",
+    "objectAId": "mouse",
+    "objectBId": "cube",
+    "earlierObjectId": "mouse",
+    "funFact": "The Rubik’s Cube was first called the “Magic Cube.”",
+    "factSourceIds": [
+      "cube"
+    ]
+  },
+  {
+    "id": "velcro--satellite",
+    "objectAId": "velcro",
+    "objectBId": "satellite",
+    "earlierObjectId": "velcro",
+    "funFact": "Clingy plant burrs inspired the tiny hooks in Velcro.",
+    "factSourceIds": [
+      "velcro"
+    ]
+  },
+  {
+    "id": "battery--telephone",
+    "objectAId": "battery",
+    "objectBId": "telephone",
+    "earlierObjectId": "battery",
+    "funFact": "The first electric battery was called a “pile.”",
+    "factSourceIds": [
+      "battery"
+    ]
+  },
+  {
+    "id": "phonograph--bulb",
+    "objectAId": "phonograph",
+    "objectBId": "bulb",
+    "earlierObjectId": "phonograph",
+    "funFact": "Recording sound and playing it back were once two different challenges!",
+    "factSourceIds": [
+      "phonograph"
+    ]
+  },
+  {
+    "id": "balloon--train",
+    "objectAId": "balloon",
+    "objectBId": "train",
+    "earlierObjectId": "balloon",
+    "funFact": "A sheep, a duck, and a rooster rode in a balloon before people did!",
+    "factSourceIds": [
+      "balloon"
+    ]
+  },
+  {
+    "id": "train--car",
+    "objectAId": "train",
+    "objectBId": "car",
+    "earlierObjectId": "train",
+    "funFact": "Benz’s first gasoline car had three wheels!",
+    "factSourceIds": [
+      "car"
+    ]
+  },
+  {
+    "id": "car--airplane",
+    "objectAId": "car",
+    "objectBId": "airplane",
+    "earlierObjectId": "car",
+    "funFact": "The Wright brothers made four flights on their big day.",
+    "factSourceIds": [
+      "airplane"
+    ]
+  },
+  {
+    "id": "telephone--bulb",
+    "objectAId": "telephone",
+    "objectBId": "bulb",
+    "earlierObjectId": "telephone",
+    "funFact": "Edison’s team tried hundreds of experiments while working on their light bulb.",
+    "factSourceIds": [
+      "bulb"
+    ]
+  },
+  {
+    "id": "dishwasher--microwave",
+    "objectAId": "dishwasher",
+    "objectBId": "microwave",
+    "earlierObjectId": "dishwasher",
+    "funFact": "Cochran designed separate wire spaces to hold plates, cups, and saucers.",
+    "factSourceIds": [
+      "dishwasher"
+    ]
+  },
+  {
+    "id": "aircon--microwave",
+    "objectAId": "aircon",
+    "objectBId": "microwave",
+    "earlierObjectId": "aircon",
+    "funFact": "Carrier’s first air-conditioning installation helped a printing factory.",
+    "factSourceIds": [
+      "aircon"
+    ]
+  },
+  {
+    "id": "slinky--lego",
+    "objectAId": "slinky",
+    "objectBId": "lego",
+    "earlierObjectId": "slinky",
+    "funFact": "The Slinky began with springs meant to keep equipment steady on ships.",
+    "factSourceIds": [
+      "slinky"
+    ]
+  },
+  {
+    "id": "lego--cube",
+    "objectAId": "lego",
+    "objectBId": "cube",
+    "earlierObjectId": "lego",
+    "funFact": "The tubes underneath a LEGO brick help it grip other bricks.",
+    "factSourceIds": [
+      "lego"
+    ]
+  },
+  {
+    "id": "mouse--camera",
+    "objectAId": "mouse",
+    "objectBId": "camera",
+    "earlierObjectId": "mouse",
+    "funFact": "Sasson’s digital camera used 16 batteries!",
+    "factSourceIds": [
+      "camera"
+    ]
+  },
+  {
+    "id": "microwave--satellite",
+    "objectAId": "microwave",
+    "objectBId": "satellite",
+    "earlierObjectId": "microwave",
+    "funFact": "The first space satellite was about the size of a beach ball.",
+    "factSourceIds": [
+      "satellite"
+    ]
+  },
+  {
+    "id": "velcro--lego",
+    "objectAId": "velcro",
+    "objectBId": "lego",
+    "earlierObjectId": "velcro",
+    "funFact": "Clingy plant burrs inspired the tiny hooks in Velcro.",
+    "factSourceIds": [
+      "velcro"
+    ]
+  },
+  {
+    "id": "phonograph--telephone",
+    "objectAId": "phonograph",
+    "objectBId": "telephone",
+    "earlierObjectId": "telephone",
+    "funFact": "Bell’s famous early telephone message asked his assistant to come to him.",
+    "factSourceIds": [
+      "telephone"
+    ]
+  },
+  {
+    "id": "battery--bulb",
+    "objectAId": "battery",
+    "objectBId": "bulb",
+    "earlierObjectId": "battery",
+    "funFact": "The first electric battery was called a “pile.”",
+    "factSourceIds": [
+      "battery"
+    ]
+  },
+  {
+    "id": "bulb--car",
+    "objectAId": "bulb",
+    "objectBId": "car",
+    "earlierObjectId": "bulb",
+    "funFact": "Edison’s team tried hundreds of experiments while working on their light bulb.",
+    "factSourceIds": [
+      "bulb"
+    ]
+  },
+  {
+    "id": "dishwasher--aircon",
+    "objectAId": "dishwasher",
+    "objectBId": "aircon",
+    "earlierObjectId": "dishwasher",
+    "funFact": "Cochran designed separate wire spaces to hold plates, cups, and saucers.",
+    "factSourceIds": [
+      "dishwasher"
+    ]
+  },
+  {
+    "id": "airplane--microwave",
+    "objectAId": "airplane",
+    "objectBId": "microwave",
+    "earlierObjectId": "airplane",
+    "funFact": "The Wright brothers made four flights on their big day.",
+    "factSourceIds": [
+      "airplane"
+    ]
+  },
+  {
+    "id": "battery--dishwasher",
+    "objectAId": "battery",
+    "objectBId": "dishwasher",
+    "earlierObjectId": "battery",
+    "funFact": "The first electric battery was called a “pile.”",
+    "factSourceIds": [
+      "battery"
+    ]
+  },
+  {
+    "id": "mouse--satellite",
+    "objectAId": "mouse",
+    "objectBId": "satellite",
+    "earlierObjectId": "satellite",
+    "funFact": "The first computer mouse had a wooden shell and just one button.",
+    "factSourceIds": [
+      "mouse"
+    ]
+  },
+  {
+    "id": "lego--camera",
+    "objectAId": "lego",
+    "objectBId": "camera",
+    "earlierObjectId": "lego",
+    "funFact": "The tubes underneath a LEGO brick help it grip other bricks.",
+    "factSourceIds": [
+      "lego"
+    ]
+  },
+  {
+    "id": "cube--velcro",
+    "objectAId": "cube",
+    "objectBId": "velcro",
+    "earlierObjectId": "velcro",
+    "funFact": "The Rubik’s Cube was first called the “Magic Cube.”",
+    "factSourceIds": [
+      "cube"
+    ]
+  },
+  {
+    "id": "balloon--battery",
+    "objectAId": "balloon",
+    "objectBId": "battery",
+    "earlierObjectId": "balloon",
+    "funFact": "A sheep, a duck, and a rooster rode in a balloon before people did!",
+    "factSourceIds": [
+      "balloon"
+    ]
+  },
+  {
+    "id": "phonograph--car",
+    "objectAId": "phonograph",
+    "objectBId": "car",
+    "earlierObjectId": "phonograph",
+    "funFact": "Recording sound and playing it back were once two different challenges!",
+    "factSourceIds": [
+      "phonograph"
+    ]
+  },
+  {
+    "id": "telephone--dishwasher",
+    "objectAId": "telephone",
+    "objectBId": "dishwasher",
+    "earlierObjectId": "telephone",
+    "funFact": "Bell’s famous early telephone message asked his assistant to come to him.",
+    "factSourceIds": [
+      "telephone"
+    ]
+  },
+  {
+    "id": "aircon--slinky",
+    "objectAId": "aircon",
+    "objectBId": "slinky",
+    "earlierObjectId": "aircon",
+    "funFact": "Carrier’s first air-conditioning installation helped a printing factory.",
+    "factSourceIds": [
+      "aircon"
+    ]
+  },
+  {
+    "id": "airplane--slinky",
+    "objectAId": "airplane",
+    "objectBId": "slinky",
+    "earlierObjectId": "airplane",
+    "funFact": "The Wright brothers made four flights on their big day.",
+    "factSourceIds": [
+      "airplane"
+    ]
+  },
+  {
+    "id": "microwave--lego",
+    "objectAId": "microwave",
+    "objectBId": "lego",
+    "earlierObjectId": "microwave",
+    "funFact": "The first microwave oven was given the name “Radarange.”",
+    "factSourceIds": [
+      "microwave"
+    ]
+  },
+  {
+    "id": "microwave--mouse",
+    "objectAId": "microwave",
+    "objectBId": "mouse",
+    "earlierObjectId": "microwave",
+    "funFact": "The first microwave oven was given the name “Radarange.”",
+    "factSourceIds": [
+      "microwave"
+    ]
+  },
+  {
+    "id": "satellite--cube",
+    "objectAId": "satellite",
+    "objectBId": "cube",
+    "earlierObjectId": "satellite",
+    "funFact": "The first space satellite was about the size of a beach ball.",
+    "factSourceIds": [
+      "satellite"
+    ]
+  },
+  {
+    "id": "velcro--camera",
+    "objectAId": "velcro",
+    "objectBId": "camera",
+    "earlierObjectId": "velcro",
+    "funFact": "Clingy plant burrs inspired the tiny hooks in Velcro.",
+    "factSourceIds": [
+      "velcro"
+    ]
+  },
+  {
+    "id": "lego--mouse",
+    "objectAId": "lego",
+    "objectBId": "mouse",
+    "earlierObjectId": "lego",
+    "funFact": "The first computer mouse had a wooden shell and just one button.",
+    "factSourceIds": [
+      "mouse"
+    ]
+  },
+  {
+    "id": "train--bulb",
+    "objectAId": "train",
+    "objectBId": "bulb",
+    "earlierObjectId": "train",
+    "funFact": "One of Trevithick’s locomotives was named “Catch Me Who Can.”",
+    "factSourceIds": [
+      "train"
+    ]
+  },
+  {
+    "id": "battery--phonograph",
+    "objectAId": "battery",
+    "objectBId": "phonograph",
+    "earlierObjectId": "battery",
+    "funFact": "The first electric battery was called a “pile.”",
+    "factSourceIds": [
+      "battery"
+    ]
+  },
+  {
+    "id": "dishwasher--phonograph",
+    "objectAId": "dishwasher",
+    "objectBId": "phonograph",
+    "earlierObjectId": "phonograph",
+    "funFact": "Cochran designed separate wire spaces to hold plates, cups, and saucers.",
+    "factSourceIds": [
+      "dishwasher"
+    ]
+  },
+  {
+    "id": "car--aircon",
+    "objectAId": "car",
+    "objectBId": "aircon",
+    "earlierObjectId": "car",
+    "funFact": "Benz’s first gasoline car had three wheels!",
+    "factSourceIds": [
+      "car"
+    ]
+  },
+  {
+    "id": "slinky--cube",
+    "objectAId": "slinky",
+    "objectBId": "cube",
+    "earlierObjectId": "slinky",
+    "funFact": "The Rubik’s Cube was first called the “Magic Cube.”",
+    "factSourceIds": [
+      "cube"
+    ]
+  },
+  {
+    "id": "microwave--camera",
+    "objectAId": "microwave",
+    "objectBId": "camera",
+    "earlierObjectId": "microwave",
+    "funFact": "Sasson’s digital camera used 16 batteries!",
+    "factSourceIds": [
+      "camera"
+    ]
+  }
+]

@@ -23,13 +23,14 @@ The current app set is:
 - `tango-cards`: portal-integrated AI-assisted collectible card gallery.
 - `marble-battles`: static simulation app sourced from `../Kids Play Portal Apps/apps/marble-battles`.
 - `animal-outsider`: static taxonomy game sourced from `../Kids Play Portal Apps/apps/animal-outsider`.
+- `before-the-bulb`: static invention-history quiz sourced from `../Kids Play Portal Apps/apps/before-the-bulb`.
 - `name-quest`: portal-integrated AI-assisted categorization game with mirrored local data in `../Kids Play Portal Apps/apps/name-quest/data`.
 
 For a scalable app catalog, add new app ideas under `../Kids Play Portal Apps/apps/<app-id>` and register publishable apps in both the Apps manifest and this portal's `lib/apps.js`. Keep app-specific data inside the app folder, and move only genuinely shared utilities into `../Kids Play Portal Apps/shared`.
 
 ## Playform Kids visual system
 
-The approved house style is Playform Kids, for ages 6–10: flat geometric characters, recognizable play objects, warm cream surfaces, dark green type and controls, and a restrained shared palette. All four apps use the same typography, focus treatment, spacing, and shapes. Original collectible card artwork remains content inside this visual system.
+The approved house style is Playform Kids, for ages 6–10: flat geometric characters, recognizable play objects, warm cream surfaces, dark green type and controls, and a restrained shared palette. All five apps use the same typography, focus treatment, spacing, and shapes. Original collectible card artwork remains content inside this visual system.
 
 The canonical rules are in `docs/visual-style.md`; asset construction is in `docs/art-direction-prompt.md`. Tokens and reusable SVG art live in `public/design-system/`.
 

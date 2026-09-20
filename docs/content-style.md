@@ -21,7 +21,7 @@ Use these names consistently by context:
 
 - Public site name: `Kids Play Portal`. This appears in the homepage title, browser metadata, and back links.
 - Internal project name: `Kids Play Portal`. This is for the repository, package, README, and implementation notes only.
-- App names: `Tango Cards`, `Marble Battles`, `Name Quest`, and `Animal Outsider`. These appear on app cards, app shells, and page metadata.
+- App names: `Tango Cards`, `Marble Battles`, `Name Quest`, `Animal Outsider`, and `Before the Bulb`. These appear on app cards, app shells, and page metadata.
 - Legacy URL redirects belong in `next.config.js`, not mismatched public route folders.
 
 - Public UI may say `play ideas`, `apps`, `cards`, `game`, or `gallery`.

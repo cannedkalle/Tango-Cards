@@ -18,3 +18,4 @@ h1,h2,h3,p{margin:0}h1{font-size:clamp(30px,4vw,44px);letter-spacing:-1.2px}h2{f
 .portal-page-nav{max-width:1176px;margin:24px auto 0}.portal-page-nav + .app-topbar{margin-top:0}
 @media(max-width:1240px){.portal-page-nav{width:auto;margin-left:32px;margin-right:32px}}
 @media(max-width:760px){.portal-page-nav{margin:20px 20px 0}.portal-page-nav + .app-topbar{padding-top:24px}}
+.before-app-card{--app-surface:var(--pf-gold-soft)}
