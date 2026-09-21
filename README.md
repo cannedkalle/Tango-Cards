@@ -77,12 +77,12 @@ https://ko-fi.com/cannedkalle
 
 Set `NEXT_PUBLIC_KOFI_URL` in Vercel Project Settings if the Ko-fi URL should be different.
 
-### Contact Creator Link
+### Project on GitHub Link
 
-The `Contact Creator` header link defaults to:
+The `Project on GitHub` header link defaults to the portal repository:
 
 ```txt
-https://github.com/cannedkalle
+https://github.com/cannedkalle/Tango-Cards
 ```
 
 Set `NEXT_PUBLIC_CONTACT_URL` in Vercel Project Settings to use an email form, profile page, or other contact destination.

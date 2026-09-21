@@ -10,7 +10,7 @@ export default function HomePage() {
         <Link className="pf-brand" href="/"><img src="/design-system/brand.svg" alt="" />{SITE_NAME}</Link>
         <div className="topbar-actions">
           <a className="support-link contact-link" href={creatorContactUrl} target="_blank" rel="noreferrer">
-            Contact Creator
+            Project on GitHub
           </a>
           <a className="support-link" href={kofiUrl} target="_blank" rel="noreferrer">
             Support Creator
