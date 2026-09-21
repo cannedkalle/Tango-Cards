@@ -4,7 +4,7 @@
 
 Build a simple, polished game for elementary-school children and families. Each round asks which of two familiar inventions came first. The feeling should be “Oh! I didn't know that!” rather than a history test. Keep the path from one question to the next fast and friendly.
 
-Implementation status: the core loop is playable with 209 inventions and 454 curated comparisons. The larger content target below remains future expansion; see `../README.md` for current scope.
+Implementation status: the core loop is playable with 210 inventions and 455 curated comparisons. The larger content target below remains future expansion; see `../README.md` for current scope.
 
 This brief replaces the MVP scope in the original ChatGPT summary. The original is context, not an additional feature checklist.
 

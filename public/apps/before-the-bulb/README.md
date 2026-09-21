@@ -17,12 +17,12 @@ Open [Before the Bulb](http://127.0.0.1:4175/apps/before-the-bulb/). Serve the w
 - Two large answer cards with separate “What's this?” definitions.
 - One locked-in guess, encouraging feedback, both dates, and one sourced fun fact.
 - Expandable source links and explanations of historical milestones.
-- Two game modes: Curated runs the 454 hand-picked comparisons; Wild runs every clearly ordered pair in the pool, including unexpected contrasts.
+- Two game modes: Curated runs the 455 hand-picked comparisons; Wild runs every clearly ordered pair in the pool, including unexpected contrasts.
 - Session score, restart, randomized card order, and no repeats until the selected pool is exhausted.
 - Responsive layouts, keyboard controls, focus management, and reduced-motion support.
 - Bundled local content; no accounts, backend, LLM, or gameplay API calls.
 
-The starter content contains **209 inventions, 454 curated comparisons, and 211 reference sources**. It is a playable core MVP, not the larger 100-object content release proposed in the brief. Facts may recur when an invention appears in another pairing. Progress resets when the page reloads. Once loaded, a session runs without the server; opening source links and reloading still require connectivity.
+The starter content contains **210 inventions, 455 curated comparisons, and 212 reference sources**. It is a playable core MVP, not the larger 100-object content release proposed in the brief. Facts may recur when an invention appears in another pairing. Progress resets when the page reloads. Once loaded, a session runs without the server; opening source links and reloading still require connectivity.
 
 Content planning and future audits use [`docs/content-taxonomy.md`](docs/content-taxonomy.md), which checks domain coverage and separates ancient ancestors from recognizable modern forms.
 

@@ -25,6 +25,27 @@ const broadTeachingClades = new Set(["Animalia", "Chordata", "Tetrapoda", "Amnio
 const tooBroadOutsiderClades = new Set(["Animalia", "Chordata"]);
 const tooBroadContextClades = new Set(["Animalia", "Chordata", "Tetrapoda", "Amniota"]);
 const taxonomyRanks = ["kingdom", "phylum", "class", "order", "family", "genus", "species"];
+const formalRankScales = new Map([
+  ["Kingdom", "broadest formal rank in this game"],
+  ["Phylum", "below kingdom, above class-level groups"],
+  ["Subphylum", "below phylum, above class-level groups"],
+  ["Superclass", "below phylum, above class"],
+  ["Class", "below phylum, above order-level groups"],
+  ["Subclass", "below class, above order-level groups"],
+  ["Infraclass", "below class, above order-level groups"],
+  ["Superorder", "below class, above order"],
+  ["Order", "below class, above family-level groups"],
+  ["Suborder", "below order, above family-level groups"],
+  ["Infraorder", "below order, above family-level groups"],
+  ["Parvorder", "below order, above family-level groups"],
+  ["Superfamily", "below order, above family"],
+  ["Family", "below order, above genus-level groups"],
+  ["Subfamily", "below family, above genus-level groups"],
+  ["Tribe", "below family, above genus-level groups"],
+  ["Genus", "below family, above species"],
+  ["Species", "most specific formal rank in this game"]
+]);
+const taxonContexts = buildTaxonContexts();
 
 const elements = {
   animalCards: document.querySelector("#animalCards"),
@@ -155,7 +176,7 @@ function renderAnswer(wasCorrect) {
       <p class="result-kicker">${wasCorrect ? "Nice reasoning!" : "Good guess. This one teaches a twist."}</p>
       <h2>${outsider.commonName} is the outsider.</h2>
       <p class="latin-reveal"><strong>${outsider.scientificName}</strong> branched away earlier than the closest pair.</p>
-      <p><strong>${pair[0].commonName} + ${pair[1].commonName}</strong> are closer relatives. They share ${renderSharedCladeSentence(state.current.sharedClade, shared)}</p>
+      <p><strong>${pair[0].commonName} + ${pair[1].commonName}</strong> are closer relatives. Their most specific shared group is ${renderSharedCladeSentence(state.current.sharedClade, shared)}</p>
       <div class="relationship-card">
         <div class="relationship-row closest-pair">
           <span class="row-label">Closest pair</span>
@@ -168,7 +189,7 @@ function renderAnswer(wasCorrect) {
           <div class="branch-columns">
             <section class="branch-card closest-branch">
               <span class="branch-label">Closest pair branch</span>
-              <p>${pair[0].commonName} and ${pair[1].commonName} sit on this newer branch together.</p>
+              <p>${pair[0].commonName} and ${pair[1].commonName} meet at this newer, more specific group.</p>
               ${renderTaxonSummary(state.current.sharedClade, shared)}
             </section>
             <section class="branch-card outsider-branch-card">
@@ -181,7 +202,7 @@ function renderAnswer(wasCorrect) {
         <div class="relationship-row outsider-branch">
           <span class="row-label">Where both paths rejoin</span>
           <div class="relationship-value">
-            <span>${outsider.commonName} is not on ${renderInlineTaxon(state.current.sharedClade, shared)}. It rejoins the closest pair earlier, at ${renderInlineTaxon(outsiderJoin, outsiderJoinInfo)}.</span>
+            <span>${outsider.commonName} is not on ${renderInlineTaxon(state.current.sharedClade, shared)}. It rejoins the closest pair farther back, at ${renderInlineTaxon(outsiderJoin, outsiderJoinInfo)}.</span>
             <div class="parallel-branch">${renderTaxonSummary(outsiderJoin, outsiderJoinInfo)}</div>
           </div>
         </div>
@@ -202,7 +223,7 @@ function renderComparisonTrail(pair, outsider) {
     <ol class="tree-list">
       ${sharedPath.map((clade) => renderTaxonStep(clade)).join("")}
     </ol>
-    <p class="tree-note">${outsider.commonName} only meets them around <strong>${outsiderJoin}</strong>, so it split away earlier than the close pair.</p>
+    <p class="tree-note">${outsider.commonName} only rejoins them around <strong>${outsiderJoin}</strong>, so the closest pair has the more recent shared group.</p>
   `;
 }
 
@@ -242,7 +263,7 @@ function renderLockedLearningPanel() {
   elements.taxonomyTrail.innerHTML = `
     <div class="locked-note">
       <h3>Pick an outsider first</h3>
-      <p>Scientific names, clades, taxonomy paths, and root-word clues unlock after your answer.</p>
+      <p>Scientific names, classification groups, taxonomy paths, and root-word clues unlock after your answer.</p>
     </div>
   `;
   elements.discoveryList.innerHTML = "<p>Discoveries update after each round.</p>";
@@ -263,7 +284,7 @@ function renderTaxonStep(clade) {
   return `
     <li>
       <strong>${clade}</strong>
-      <span><strong>Rank:</strong> ${info.rank}</span>
+      ${renderTaxonMeta(clade, info)}
       <span><strong>Name origin:</strong> "${info.literalMeaning}"</span>
       <span><strong>Typical traits:</strong> ${info.kidExplanation}</span>
       <span><strong>Examples:</strong> ${examplesForTaxon(clade, info).join(", ")}</span>
@@ -272,10 +293,15 @@ function renderTaxonStep(clade) {
 }
 
 function renderSpeciesStep(animal) {
+  const speciesInfo = {
+    rank: "Species",
+    rankStatus: "formal rank",
+    scale: "most specific formal rank in this game"
+  };
   return `
     <li>
       <strong>${animal.taxonomy.species}</strong>
-      <span><strong>Rank:</strong> Species</span>
+      ${renderTaxonMeta(animal.taxonomy.species, speciesInfo)}
       <span><strong>Name origin:</strong> "scientific species name"</span>
       <span><strong>Typical traits:</strong> The species entry for ${animal.commonName} in this game.</span>
       <span><strong>Examples:</strong> ${animal.commonName}</span>
@@ -636,7 +662,7 @@ function renderSharedCladeSentence(clade, info) {
 function renderTaxonSummary(clade, info) {
   return `
     <strong>${clade}</strong>
-    <span><strong>Rank:</strong> ${info.rank}</span>
+    ${renderTaxonMeta(clade, info)}
     <span><strong>Name origin:</strong> "${info.literalMeaning}"</span>
     <span><strong>Typical traits:</strong> ${info.kidExplanation}</span>
     <span><strong>Examples:</strong> ${examplesForTaxon(clade, info).join(", ")}</span>
@@ -644,15 +670,43 @@ function renderTaxonSummary(clade, info) {
 }
 
 function renderInlineTaxon(clade, info) {
-  return `<strong>${clade}</strong> (${info.rank.toLowerCase()}, "${info.literalMeaning}")`;
+  const details = taxonDetails(clade, info);
+  return `<strong>${clade}</strong> (${details.rankLabel.toLowerCase()}, ${details.scaleLabel})`;
+}
+
+function renderTaxonMeta(name, info) {
+  const details = taxonDetails(name, info);
+  return `
+    <span><strong>Rank:</strong> ${details.rankLabel}</span>
+    <span><strong>Rank status:</strong> ${details.rankStatus}</span>
+    <span><strong>Scale:</strong> ${details.scaleLabel}</span>
+  `;
+}
+
+function taxonDetails(name, info) {
+  const context = taxonContexts.get(name);
+  const rank = info.rank ?? context?.rank ?? "Branch";
+  const isGenericClade = rank === "Clade";
+  const isFallbackBranch = rank === "Branch";
+  const rankLabel = isGenericClade ? "Unranked clade" : isFallbackBranch ? "Inferred branch" : rank;
+  const rankStatus = info.rankStatus
+    ?? (isGenericClade ? "unranked clade" : isFallbackBranch ? "inferred from this game tree" : "formal taxonomic rank");
+  const scaleLabel = info.scale
+    ?? context?.scale
+    ?? formalRankScales.get(rank)
+    ?? "position inferred from this game tree";
+  return { rankLabel, rankStatus, scaleLabel };
 }
 
 function inferredTaxonInfo(name) {
   const examples = taxonExamples.get(name) ?? [];
   const rank = taxonRanks.get(name) ?? "Branch";
+  const context = taxonContexts.get(name);
   const exampleText = examples.length ? sampleExamples(examples).join(", ") : "animals in this branch";
   return {
     rank,
+    rankStatus: rank === "Branch" ? "inferred from this game tree" : undefined,
+    scale: context?.scale,
     literalMeaning: "scientific branch name",
     kidExplanation: `A taxonomy branch used here to group ${exampleText}.`,
     examples: examples.length ? examples : ["Animals in this branch"]
@@ -692,6 +746,58 @@ function buildTaxonRanks() {
     ranks.set(name, info.rank);
   }
   return ranks;
+}
+
+function buildTaxonContexts() {
+  const contexts = new Map();
+  for (const animal of animals) {
+    const rankedPositions = taxonomyRanks
+      .map((rank) => ({
+        rank: titleCase(rank),
+        name: animal.taxonomy[rank],
+        index: animal.clades.indexOf(animal.taxonomy[rank])
+      }))
+      .filter((item) => item.name && item.index !== -1);
+
+    for (const [index, name] of animal.clades.entries()) {
+      const context = contexts.get(name) ?? { before: new Map(), after: new Map() };
+      const before = [...rankedPositions].reverse().find((item) => item.index < index);
+      const after = rankedPositions.find((item) => item.index > index);
+      if (before) addContextVote(context.before, `${before.rank} ${before.name}`);
+      if (after) addContextVote(context.after, `${after.rank} ${after.name}`);
+      contexts.set(name, context);
+    }
+  }
+
+  const resolved = new Map();
+  for (const [name, context] of contexts.entries()) {
+    const before = mostCommonContext(context.before);
+    const after = mostCommonContext(context.after);
+    resolved.set(name, {
+      scale: scaleFromContext(before, after)
+    });
+  }
+  return resolved;
+}
+
+function addContextVote(map, key) {
+  map.set(key, (map.get(key) ?? 0) + 1);
+}
+
+function mostCommonContext(map) {
+  return [...map.entries()].sort((left, right) => right[1] - left[1])[0]?.[0] ?? "";
+}
+
+function scaleFromContext(before, after) {
+  if (before && after) return `below ${before}, above ${rankLevel(after)}`;
+  if (before) return `below ${before}`;
+  if (after) return `above ${rankLevel(after)}`;
+  return "position inferred from this game tree";
+}
+
+function rankLevel(value) {
+  const rank = value.split(" ")[0].toLowerCase();
+  return `${rank}-level groups`;
 }
 
 function taxonomyNamesForAnimal(animal) {
