@@ -81,6 +81,26 @@ export function buildFunComparisonCandidates(objects) {
   return candidates;
 }
 
+/** Build every clearly ordered pair for Wild mode, including oddball contrasts. */
+export function buildWildComparisonPairs(objects) {
+  const pairs = [];
+  for (let i = 0; i < objects.length; i++) {
+    for (let j = i + 1; j < objects.length; j++) {
+      const a = objects[i], b = objects[j];
+      const earlierObjectId = a.yearEnd < b.yearStart ? a.id : b.yearEnd < a.yearStart ? b.id : null;
+      if (earlierObjectId) {
+        pairs.push({
+          id: `wild-${a.id}--${b.id}`,
+          objectAId: a.id,
+          objectBId: b.id,
+          earlierObjectId
+        });
+      }
+    }
+  }
+  return pairs;
+}
+
 export function validateContent({ objects, pairs, sources }) {
   function index(items, label) {
     if (!Array.isArray(items) || !items.length) throw new Error(`Missing ${label}`);

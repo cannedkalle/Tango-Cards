@@ -1,4 +1,4 @@
-import { createGame, validateContent } from './game.mjs';
+import { buildWildComparisonPairs, createGame, validateContent } from './game.mjs';
 
 const $ = id => document.getElementById(id);
 function element(tag, className, text) {
@@ -19,10 +19,47 @@ async function boot() {
     const pairs = [...basePairs, ...expansion.pairs];
     const sources = [...baseSources, ...expansion.sources];
     const { objectMap, sourceMap } = validateContent({ objects, pairs, sources });
-    const game = createGame(pairs);
+    const wildPairs = buildWildComparisonPairs(objects);
+    const modes = {
+      curated: {
+        pairs,
+        title: 'Curated mode',
+        description: 'Hand-picked matchups with a bright little fact.',
+        roundLabel: 'Discovery',
+        poolLabel: `${objects.length} inventions · ${pairs.length} curated discoveries`
+      },
+      wild: {
+        pairs: wildPairs,
+        title: 'Wild mode',
+        description: 'Every clear date pairing. Expect oddball surprises!',
+        roundLabel: 'Wild card',
+        poolLabel: `${objects.length} inventions · ${wildPairs.length} wild possibilities`
+      }
+    };
+    let mode = 'curated';
+    let game = createGame(modes[mode].pairs);
     $('loading').hidden = true;
     $('restart').hidden = false;
-    $('pool').textContent = `${objects.length} inventions · ${pairs.length} discoveries`;
+    updateModeUI();
+
+    function updateModeUI() {
+      const activeMode = modes[mode];
+      $('mode-title').textContent = activeMode.title;
+      $('mode-description').textContent = activeMode.description;
+      $('pool').textContent = activeMode.poolLabel;
+      for (const button of document.querySelectorAll('[data-mode]')) {
+        const selected = button.dataset.mode === mode;
+        button.setAttribute('aria-pressed', String(selected));
+      }
+    }
+
+    function switchMode(nextMode) {
+      if (nextMode === mode) return;
+      mode = nextMode;
+      game = createGame(modes[mode].pairs);
+      updateModeUI();
+      showQuestion(game.next(), true);
+    }
 
     function updateScore(state) {
       $('score').replaceChildren(document.createTextNode(`${state.correct} `), element('span', '', `/ ${state.answered} correct`));
@@ -34,9 +71,9 @@ async function boot() {
       $('source-details').open = false;
       $('reassurance').hidden = false;
       $('announcement').textContent = '';
-      $('round').textContent = `Discovery ${state.answered + 1}`;
+      $('round').textContent = `${modes[mode].roundLabel} ${state.answered + 1}`;
       $('instruction').textContent = state.cycle > 1 && state.position === 1
-        ? 'You explored them all! Let’s try a fresh shuffle.'
+        ? `You explored every ${mode === 'curated' ? 'curated discovery' : 'wild possibility'}! Let’s try a fresh shuffle.`
         : 'Two bright ideas. Tap the one that came earlier.';
       updateScore(state);
       $('choices').replaceChildren(...state.choices.map((id, index) => {
@@ -102,17 +139,21 @@ async function boot() {
         block.append(element('span', 'label', isEarlier ? 'Came first' : 'Came later'), element('strong', '', object.dateDisplay), element('h3', '', object.name), element('p', '', object.dateBasis));
         return block;
       }));
-      $('fact').textContent = pair.funFact;
+      $('fact-heading').textContent = pair.funFact ? 'A bright little fact' : 'A wild little thought';
+      $('fact').textContent = pair.funFact || 'A wild time-travel matchup! Check the dates to see how far apart these ideas are.';
       const sourceNodes = [earlier, later].map(object => {
         const item = element('div', 'source-item');
         item.append(element('strong', '', `${object.name}: ${object.dateDisplay}`), element('p', '', object.ambiguityNotes));
         for (const id of object.dateSourceIds) item.append(sourceLink(sourceMap.get(id)));
         return item;
       });
-      const factSources = element('div', 'source-item');
-      factSources.append(element('strong', '', 'Fun fact source'));
-      for (const id of pair.factSourceIds) factSources.append(sourceLink(sourceMap.get(id)));
-      $('sources').replaceChildren(...sourceNodes, factSources);
+      if (pair.factSourceIds?.length) {
+        const factSources = element('div', 'source-item');
+        factSources.append(element('strong', '', 'Fun fact source'));
+        for (const id of pair.factSourceIds) factSources.append(sourceLink(sourceMap.get(id)));
+        sourceNodes.push(factSources);
+      }
+      $('sources').replaceChildren(...sourceNodes);
       $('reveal').hidden = false;
       $('reassurance').hidden = true;
       $('announcement').textContent = `${isCorrect ? 'Correct!' : 'Good guess!'} ${earlier.name} came first. ${earlier.dateDisplay}; ${later.name}, ${later.dateDisplay}. ${pair.funFact}`;
@@ -132,6 +173,9 @@ async function boot() {
 
     $('next').addEventListener('click', () => showQuestion(game.next(), true));
     $('restart').addEventListener('click', () => showQuestion(game.reset(), true));
+    for (const button of document.querySelectorAll('[data-mode]')) {
+      button.addEventListener('click', () => switchMode(button.dataset.mode));
+    }
     showQuestion(game.next());
   } catch (error) {
     console.error('Before the Bulb could not start:', error);

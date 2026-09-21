@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { buildFunComparisonCandidates, comparisonScore, createGame, isFunComparison, validateContent } from '../src/game.mjs';
+import { buildFunComparisonCandidates, buildWildComparisonPairs, comparisonScore, createGame, isFunComparison, validateContent } from '../src/game.mjs';
 const base = Object.fromEntries(await Promise.all(['objects','pairs','sources'].map(async name => [name, JSON.parse(await readFile(new URL(`../data/${name}.json`, import.meta.url), 'utf8'))])));
 const expansion = JSON.parse(await readFile(new URL('../data/expansion.json', import.meta.url), 'utf8'));
 const content = { objects: [...base.objects, ...expansion.objects], pairs: [...base.pairs, ...expansion.pairs], sources: [...base.sources, ...expansion.sources] };
@@ -91,4 +91,13 @@ test('future matching rule favors related ideas and rejects disconnected matches
   const candidates = buildFunComparisonCandidates([paper, laptop, piano, keyboard]);
   assert.ok(candidates.some(pair => pair.objectAId === 'piano' && pair.objectBId === 'electronic-keyboard'));
   assert.ok(!candidates.some(pair => pair.objectAId === 'paper' && pair.objectBId === 'laptop'));
+});
+
+test('wild mode includes every clearly ordered pair, including oddball contrasts', () => {
+  const wildPairs = buildWildComparisonPairs(content.objects);
+  assert.ok(wildPairs.length > pairs.length);
+  const paperLaptop = wildPairs.find(pair => pair.objectAId === 'paper' && pair.objectBId === 'laptop');
+  assert.ok(paperLaptop);
+  assert.equal(paperLaptop.earlierObjectId, 'paper');
+  assert.ok(!wildPairs.some(pair => pair.objectAId === 'paper' && pair.objectBId === 'paper'));
 });

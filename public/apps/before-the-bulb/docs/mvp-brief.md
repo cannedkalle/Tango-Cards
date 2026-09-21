@@ -4,7 +4,7 @@
 
 Build a simple, polished game for elementary-school children and families. Each round asks which of two familiar inventions came first. The feeling should be “Oh! I didn't know that!” rather than a history test. Keep the path from one question to the next fast and friendly.
 
-Implementation status: the core loop is playable with 181 inventions and 426 curated comparisons. The larger content target below remains future expansion; see `../README.md` for current scope.
+Implementation status: the core loop is playable with 209 inventions and 454 curated comparisons. The larger content target below remains future expansion; see `../README.md` for current scope.
 
 This brief replaces the MVP scope in the original ChatGPT summary. The original is context, not an additional feature checklist.
 
@@ -22,7 +22,7 @@ Keep a simple session score: correct answers / answered questions. No streak sys
 
 ## Question selection
 
-Use one curated pool of accessible comparisons. Shuffle the pair IDs and consume the shuffled list without repeats until the pool is exhausted. Randomize which object appears on each side. When starting another cycle, avoid immediately repeating the last pair if alternatives exist.
+Curated mode uses one reviewed pool of accessible comparisons. Wild mode builds every clearly ordered pair from the sourced object dates, including surprising cross-category contrasts; it does not invent a pair-specific fact. Shuffle the selected pool and consume it without repeats until exhausted. Randomize which object appears on each side. When starting another cycle, avoid immediately repeating the last pair if alternatives exist.
 
 Track only the current session in memory. Do not implement performance-based selection, age filtering, category balancing, player statistics, or persistent progress yet.
 
