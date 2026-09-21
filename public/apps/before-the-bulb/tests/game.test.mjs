@@ -101,3 +101,34 @@ test('wild mode includes every clearly ordered pair, including oddball contrasts
   assert.equal(paperLaptop.earlierObjectId, 'paper');
   assert.ok(!wildPairs.some(pair => pair.objectAId === 'paper' && pair.objectBId === 'paper'));
 });
+
+test('all 93 reviewed additions have facts, related curated matchups, and wild coverage', async () => {
+  const review = JSON.parse(await readFile(new URL('../data/expansion-review.json', import.meta.url), 'utf8'));
+  assert.equal(review.expectedAddedCount, 93);
+  assert.equal(new Set(review.objectIds).size, 93);
+  const objects = new Map(content.objects.map(object => [object.id, object]));
+  const sourceIds = new Set(content.sources.map(source => source.id));
+  const wild = buildWildComparisonPairs(content.objects);
+  const wildKeys = new Set(wild.map(pair => [pair.objectAId, pair.objectBId].sort().join('|')));
+  for (const id of review.objectIds) {
+    const object = objects.get(id);
+    assert.ok(object, `Missing requested addition: ${id}`);
+    assert.ok(object.ambiguityNotes && object.funFact, id);
+    assert.ok(object.factSourceIds?.length && object.factSourceIds.every(source => sourceIds.has(source)), id);
+    const curated = pairs.filter(pair => pair.objectAId === id || pair.objectBId === id);
+    assert.ok(curated.length >= 2, `Not enough curated appearances: ${id}`);
+    for (const pair of curated) {
+      assert.ok(isFunComparison(objects.get(pair.objectAId), objects.get(pair.objectBId)), pair.id);
+      assert.ok(wildKeys.has([pair.objectAId, pair.objectBId].sort().join('|')), pair.id);
+    }
+    // Audit every possible matchup involving a new item, including ties/ranges.
+    for (const other of content.objects) {
+      if (other.id === id) continue;
+      const ordered = object.yearEnd < other.yearStart || other.yearEnd < object.yearStart;
+      assert.equal(wildKeys.has([id, other.id].sort().join('|')), ordered, `${id}/${other.id}`);
+    }
+  }
+  assert.equal(objects.get('smartphone').yearStart, 1994);
+  assert.equal(objects.get('multi-touch-smartphone').yearStart, 2007);
+  assert.ok(wildKeys.has(['smartphone', 'multi-touch-smartphone'].sort().join('|')));
+});
