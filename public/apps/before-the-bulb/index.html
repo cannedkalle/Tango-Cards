@@ -5,14 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#fffdf6">
   <title>Before the Bulb · Which came first?</title>
-  <link rel="icon" href="/design-system/brand.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/apps/before-the-bulb/styles.css">
+  <link rel="icon" href="../../design-system/brand.svg" type="image/svg+xml">
+  <script>
+    window.beforeBulbAssetBase = window.location.protocol === "file:" ? "./" : "/apps/before-the-bulb/";
+    document.write(`<link rel="stylesheet" href="${window.beforeBulbAssetBase}styles.css">`);
+  </script>
 </head>
 <body>
   <main class="shell">
     <header class="masthead">
       <nav class="pf-portal-nav" aria-label="Portal navigation">
-        <a class="pf-brand" href="/"><img src="/design-system/brand.svg" alt="">Kids Play Portal</a>
+        <a class="pf-brand" href="/"><img src="../../design-system/brand.svg" alt="">Kids Play Portal</a>
         <a class="pf-back" href="/"><span aria-hidden="true">←</span>Back to all apps</a>
       </nav>
       <div class="game-brand-row">
@@ -37,6 +40,8 @@
     <footer><span>Made for curious minds <span aria-hidden="true">✦</span></span><span id="pool"></span></footer>
     <noscript><p>This game needs JavaScript enabled to show its invention cards.</p></noscript>
   </main>
-  <script type="module" src="/apps/before-the-bulb/src/main.mjs"></script>
+  <script type="module">
+    import(`${window.beforeBulbAssetBase}src/main.mjs`);
+  </script>
 </body>
 </html>
