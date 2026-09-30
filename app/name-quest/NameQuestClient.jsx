@@ -107,14 +107,14 @@ const categoryAliases = {
 
 const levelLabels = {
   easy: "Easy",
-  standard: "Standard",
+  standard: "Balanced",
   challenge: "Challenge",
 };
 
 const modeLabels = {
-  category: "Categories",
-  pokemon: "Pokemon or Not",
-  realAnimal: "Real Animal",
+  category: "Name types",
+  pokemon: "Pokemon or not",
+  realAnimal: "Real or Pokemon",
 };
 
 function normalizePairId(value) {
@@ -273,7 +273,6 @@ export default function NameQuestClient() {
   const [usedIds, setUsedIds] = useState(() => new Set([getPool("standard", "category")[0].id]));
   const [result, setResult] = useState("idle");
   const [feedback, setFeedback] = useState("Pick the kind of name.");
-  const [typedAnswer, setTypedAnswer] = useState("");
   const [score, setScore] = useState(0);
   const [rounds, setRounds] = useState(0);
   const [streak, setStreak] = useState(0);
@@ -301,7 +300,7 @@ export default function NameQuestClient() {
       });
       setResult("idle");
       setFeedback("Pick the " + next.target + ".");
-      setTypedAnswer("");
+      setRounds((value) => value + 1);
 
       return;
     }
@@ -316,7 +315,7 @@ export default function NameQuestClient() {
     });
     setResult("idle");
     setFeedback(mode === "pokemon" ? "Pokemon or not?" : "Pick the kind of name.");
-    setTypedAnswer("");
+    setRounds((value) => value + 1);
 
   }, [current.id, mode, pool, usedIds]);
 
@@ -374,7 +373,6 @@ export default function NameQuestClient() {
   const finishRound = (nextResult, answerLine, counted) => {
     setResult(nextResult);
     setFeedback(answerLine);
-    setRounds((value) => value + 1);
     setScore((value) => value + (counted ? 1 : 0));
     setStreak((value) => (counted ? value + 1 : 0));
 
@@ -392,7 +390,6 @@ export default function NameQuestClient() {
     setUsedIds(new Set([nextMode === "realAnimal" ? nextPair.answer.id : next?.id ?? current.id]));
     setResult("idle");
     setFeedback(nextMode === "realAnimal" ? "Pick the " + nextPair.target + "." : nextMode === "pokemon" ? "Pokemon or not?" : "Pick the kind of name.");
-    setTypedAnswer("");
     setScore(0);
     setRounds(0);
     setStreak(0);
@@ -410,8 +407,8 @@ export default function NameQuestClient() {
         <div className="topbar-actions">
           <div className="name-quest-controls" aria-label="Game modes">
             {Object.keys(modeLabels).map((nextMode) => (
-              <button key={nextMode} type="button" aria-pressed={nextMode === mode} onClick={() => resetGame(level, nextMode)}>
-                {modeLabels[nextMode]}
+              <button key={nextMode} type="button" className={nextMode === "category" ? "name-quest-category-control" : ""} aria-label={modeLabels[nextMode]} aria-pressed={nextMode === mode} onClick={() => resetGame(level, nextMode)}>
+                {nextMode === "category" ? "✦" : modeLabels[nextMode]}
               </button>
             ))}
           </div>
@@ -420,13 +417,6 @@ export default function NameQuestClient() {
 
       <main className="name-quest-page">
         <section className="name-quest-board" aria-label="Name Quest round">
-          <div className="name-quest-badges">
-            <span>{modeLabels[mode]}</span>
-            {mode === "category" ? <span>{levelLabels[level]}</span> : null}
-            {mode !== "realAnimal" ? <span>Difficulty {current.difficulty}</span> : null}
-            {result !== "idle" && mode !== "realAnimal" ? <span>{current.subcategory}</span> : null}
-          </div>
-
           <div className="name-card-stage">
             <p>Round {rounds + 1}</p>
             <h2 className="quest-name">{promptName}</h2>
@@ -447,22 +437,13 @@ export default function NameQuestClient() {
           <section className="score-panel">
             <div><strong>{score}</strong><span>Score</span></div>
             <div><strong>{streak}</strong><span>Streak</span></div>
-            <div><strong>{progressTotal}</strong><span>Names</span></div>
+            <div><strong>{progressTotal}</strong><span>Items</span></div>
             <div className="progress-track" aria-label="Progress"><span style={{ width: progressValue + "%" }} /></div>
           </section>
 
-          <section className="typed-panel">
-            <img className="quest-guide" src="/design-system/name-quest.svg" alt="" />
-            <label htmlFor="typed-answer">Type an answer</label>
-            <form onSubmit={(event) => { event.preventDefault(); judgeAnswer(typedAnswer); }}>
-              <input id="typed-answer" value={typedAnswer} onChange={(event) => setTypedAnswer(event.target.value)} disabled={result !== "idle"} placeholder={mode === "realAnimal" ? "type one option" : mode === "pokemon" ? "pokemon or not pokemon" : "place, food, game..."} />
-              <button type="submit" disabled={result !== "idle"}>Go</button>
-            </form>
-          </section>
-
-          <section className="typed-panel">
+          <section className="quest-controls-panel">
             {mode === "category" ? (
-              <div className="level-row" aria-label="Difficulty">
+              <div className="level-row" aria-label="Choose challenge level">
                 {Object.keys(levelLabels).map((nextLevel) => (
                   <button key={nextLevel} type="button" aria-pressed={nextLevel === level} onClick={() => resetGame(nextLevel, mode)}>{levelLabels[nextLevel]}</button>
                 ))}

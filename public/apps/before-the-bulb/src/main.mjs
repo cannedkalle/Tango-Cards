@@ -22,18 +22,10 @@ async function boot() {
     const wildPairs = buildWildComparisonPairs(objects);
     const modes = {
       curated: {
-        pairs,
-        title: 'Curated mode',
-        description: 'Hand-picked matchups with a bright little fact.',
-        roundLabel: 'Discovery',
-        poolLabel: `${objects.length} inventions · ${pairs.length} curated discoveries`
+        pairs
       },
       wild: {
-        pairs: wildPairs,
-        title: 'Wild mode',
-        description: 'Every clear date pairing. Expect oddball surprises!',
-        roundLabel: 'Wild card',
-        poolLabel: `${objects.length} inventions · ${wildPairs.length} wild possibilities`
+        pairs: wildPairs
       }
     };
     let mode = 'curated';
@@ -43,10 +35,6 @@ async function boot() {
     updateModeUI();
 
     function updateModeUI() {
-      const activeMode = modes[mode];
-      $('mode-title').textContent = activeMode.title;
-      $('mode-description').textContent = activeMode.description;
-      $('pool').textContent = activeMode.poolLabel;
       for (const button of document.querySelectorAll('[data-mode]')) {
         const selected = button.dataset.mode === mode;
         button.setAttribute('aria-pressed', String(selected));
@@ -71,9 +59,8 @@ async function boot() {
       $('source-details').open = false;
       $('reassurance').hidden = false;
       $('announcement').textContent = '';
-      $('round').textContent = `${modes[mode].roundLabel} ${state.answered + 1}`;
       $('instruction').textContent = state.cycle > 1 && state.position === 1
-        ? `You explored every ${mode === 'curated' ? 'curated discovery' : 'wild possibility'}! Let’s try a fresh shuffle.`
+        ? `You explored every question in this set! Let’s try a fresh shuffle.`
         : 'Two bright ideas. Tap the one that came earlier.';
       updateScore(state);
       $('choices').replaceChildren(...state.choices.map((id, index) => {
@@ -109,7 +96,6 @@ async function boot() {
         return card;
       }));
       if (focus) $('question').focus({ preventScroll: true });
-      if (focus) $('round').scrollIntoView({ block: 'start', behavior: 'instant' });
     }
 
     function showAnswer(state) {
