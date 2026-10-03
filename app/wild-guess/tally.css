@@ -1,0 +1,18 @@
+.wg-tally {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.wg-tally > div { padding: 12px 14px; border-radius: 14px; background: var(--pf-leaf-soft); }
+.wg-tally > div:nth-child(2) { background: var(--pf-blue-soft); }
+.wg-tally > div:nth-child(3) { background: var(--pf-peach-soft); }
+.wg-tally span { display: block; font-size: 13px; font-weight: 700; color: var(--pf-muted); }
+.wg-tally strong { display: block; font-size: 28px; line-height: 1.1; margin-top: 4px; }
+
+@media (max-width: 400px) {
+  .wg-tally { gap: 6px; }
+  .wg-tally > div { padding: 10px; }
+  .wg-tally strong { font-size: 24px; }
+}

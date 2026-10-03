@@ -127,3 +127,7 @@ Then regenerate `cards-data.js` from inside this website folder:
 ```sh
 node scripts/build-manifest.js
 ```
+
+## Balls in the Ballpark
+
+Database-backed estimation game at `/wild-guess`, with 38 seeded thought experiments in an endless random stream. Run `npm run wild-guess:setup` before first play, then `npm run dev`. See [database evaluation and setup](docs/wild-guess.md) for the local SQLite database, hosted Postgres setup, scaling thresholds and validation.
