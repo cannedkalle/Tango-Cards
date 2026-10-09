@@ -22,7 +22,7 @@ Open [Before the Bulb](http://127.0.0.1:4175/apps/before-the-bulb/). Serve the w
 - Responsive layouts, keyboard controls, focus management, and reduced-motion support.
 - Bundled local content; no accounts, backend, LLM, or gameplay API calls.
 
-The starter content contains **317 items, 650 curated comparisons, and 319 reference sources**. The latest expansion adds all 93 requested candidates; see the [entry-by-entry review](docs/expansion-review-2026-09.md). Facts may recur when an invention appears in another pairing. Progress resets when the page reloads. Once loaded, a session runs without the server; opening source links and reloading still require connectivity.
+The starter content contains **335 items, 671 curated comparisons, and 337 reference sources**. The latest expansion adds the verified Nobel Prize, Game Night, and Movie Night entries; see the [entry-by-entry review](docs/expansion-review-2026-09.md). Facts may recur when an invention appears in another pairing. Progress resets when the page reloads. Once loaded, a session runs without the server; opening source links and reloading still require connectivity.
 
 Content planning and future audits use [`docs/content-taxonomy.md`](docs/content-taxonomy.md), which checks domain coverage and separates ancient ancestors from recognizable modern forms.
 
