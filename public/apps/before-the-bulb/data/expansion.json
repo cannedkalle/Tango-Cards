@@ -391,6 +391,7 @@
     {"id":"guitar--soccer","objectAId":"guitar","objectBId":"soccer","earlierObjectId":"guitar","funFact":"The familiar guitar form came before soccer’s first organized rules.","factSourceIds":["guitar"]},
     {"id":"guitar--tennis","objectAId":"guitar","objectBId":"tennis","earlierObjectId":"guitar","funFact":"Modern guitars were taking shape before lawn tennis was marketed.","factSourceIds":["guitar"]},
     {"id":"guitar--television","objectAId":"guitar","objectBId":"television","earlierObjectId":"guitar","funFact":"The modern guitar came long before electronic television.","factSourceIds":["guitar"]},
+    {"id":"elevator--escalator","objectAId":"elevator","objectBId":"escalator","earlierObjectId":"elevator","funFact":"The safety elevator came before the moving staircase we now call an escalator.","factSourceIds":["elevator","escalator"]},
     {"id":"elevator--soccer","objectAId":"elevator","objectBId":"soccer","earlierObjectId":"elevator","funFact":"The safety elevator came before the Football Association’s soccer rules.","factSourceIds":["elevator"]},
     {"id":"elevator--football","objectAId":"elevator","objectBId":"football","earlierObjectId":"elevator","funFact":"Passenger elevators came before modern American football rules.","factSourceIds":["elevator"]},
     {"id":"elevator--basketball","objectAId":"elevator","objectBId":"basketball","earlierObjectId":"elevator","funFact":"The safety elevator was carrying people before basketball was invented.","factSourceIds":["elevator"]},
