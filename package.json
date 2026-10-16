@@ -11,7 +11,10 @@
     "serve": "python3 -m http.server 4173",
     "design:check": "node scripts/check-design.js",
     "wild-guess:setup": "node --env-file-if-exists=.env.local scripts/setup-wild-guess.mjs",
-    "wild-guess:test": "node --test tests/wild-guess.test.mjs"
+    "wild-guess:test": "node --test tests/wild-guess.test.mjs",
+    "wild-guess:audit": "node scripts/audit-wild-guess-subjects.mjs",
+    "wild-guess:proposals": "node scripts/export-wild-guess-proposals.mjs",
+    "wild-guess:subjects": "node scripts/export-wild-guess-subjects.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

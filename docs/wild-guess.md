@@ -1,57 +1,53 @@
-# Balls in the Ballpark: database evaluation and MVP
+# Balls in the Ballpark: comparison database and MVP
 
 ## Product decision
 
-An endless stream of estimation puzzles, each answered by selecting an order of magnitude such as thousands, millions, or billions. The exact number is intentionally not part of play. Each reveal is counted as In the ballpark (right scale), Almost there (one scale away), or A long shot. Each reveal shows the approximate answer and a brief framing note, without step-by-step calculations. No account, timer, public leaderboard, or personal information. The catalog uses playful thought experiments where needed; the termite scenario, for example, is deliberately imaginary rather than a biological prediction. Only the golf-ball diameter is externally sourced (USGA link included in its reveal).
+The player sees two possibilities and picks which is bigger. There is no typing, arithmetic, or magnitude vocabulary before the choice. Each reveal says “Around,” shows the order of magnitude prominently, and follows it with one short sentence describing a reasonable range. Play continues as an endless random stream and records only choices and whether they were correct.
 
-### Question bar
+The curated runtime database contains 94 reusable subjects across count, duration, weight, frequency, length, area, volume, and speed. The game can generate 581 valid matchups by pairing any two subjects in the same category whose conservative ranges do not overlap. The smaller pool is intentional: a strict independent review retired ambiguous, repetitive, arithmetic-like, and trivia-like records. See the [subject database](wild-guess-subject-database.csv), the [editorial pipeline](wild-guess-editorial-pipeline.md), and the [original numbered proposal sheet](wild-guess-comparison-proposals.md).
 
-Every question must meet all of these rules before entering the pool:
+### Editorial bar
 
-- A child can picture the objects and scale without specialist knowledge.
-- The question sounds curious and natural on its own; it is not a disguised calculation exercise.
-- The answer is a broad order-of-magnitude bucket, never a demand for a precise number.
-- A surprising result is a bonus, especially when it makes the player rethink an everyday object.
+Every comparison must meet all of these rules before publication:
 
-## Why a relational database
+- A child can picture both sides without specialist knowledge.
+- The wording is natural and contains no conversion exercise or unnecessary conditions.
+- Both sides have independently defensible order-of-magnitude ranges.
+- Conservative ranges do not overlap; a plausible change of assumptions cannot reverse the winner.
+- The result rewards intuition and is ideally surprising.
+- The scale is hidden inside a familiar object, body, creature, or process rather than recalled from a specification sheet.
 
-The catalog is small and read-heavy; play records grow with every session. Separate immutable question versions from sessions and per-round answers. A corrected answer must not change a game already in progress. Sessions pin exact question versions. A relational database provides foreign keys, transactional game creation and conditional writes that prevent duplicate scoring across tabs/retries. Browser storage cannot provide these guarantees or durable shared content.
+All current records remain proposals. Generated pairs pass the mechanical non-overlap test, but editorial approval and source validation are still required before publication. A mechanically valid pair may still be dull or awkward, so future curation can add pair-level exclusions without returning to a hardcoded question list.
 
-Keep the existing Next.js + Neon/Postgres architecture for hosted use. SQLite is a real file-backed local development database, not the production scaling strategy. No hosted database credentials were available during implementation; the local database is initialized and the Postgres adapter/schema are implemented, but the hosted path still needs integration validation against a configured Neon database. Node 22.16+ is required for the local SQLite driver; Node 24+ is recommended.
+## Database design
 
-## Schema
+The relational model separates reusable measurements, generated matchups, and anonymous play history:
 
-- `wg_questions`: composite `(id, version)` key, unique ordering slot, active flag, versioned JSON content stored as text. Content contains the prompt, unit, broad answer range, display target, reveal caveat, and optional source links. A new revision receives a new slot and version; the prior version is retired from selection without deletion. The seeder never overwrites an existing version.
-- `wg_sessions`: cryptographically random bearer identifier, creation and expiry timestamps. Seven-day anonymous sessions; HttpOnly, SameSite=Strict cookies, Secure in production. No names or contact details.
-- `wg_rounds`: one appended question at a time per session, composite primary key `(session_id, position)`, pinned question version, nullable magnitude/score/answer time. Magnitude is an integer from 0 (ones) through 9 (billions), so every displayed choice, including ones, can persist. This is both assignment and one-attempt record. The session tally counts In the ballpark, Almost there, and A long shot rows.
+- `wg_subjects`: one versioned row per measurable subject. Typed columns hold its category, label, emoji, central magnitude, conservative low/high magnitudes, kid-friendly scale label, editorial note, and source URLs. Active subjects are indexed by category and range for pairing.
+- `wg_matchup_rounds`: stores the two subject versions selected for a round, their randomized screen order, the binary choice, correctness, and answer time. The pair exists only as a played round; questions are generated rather than stored as fixed content.
+- `wg_comparisons`: retains the original 100 authored proposals as editorial provenance. Runtime selection no longer depends on this table.
+- Counts use items, weights use kilograms, lengths use meters, areas use square meters, volumes use cubic meters, and speeds use meters per second internally. Reveals translate those values into natural scales such as kilometers, square kilometers, liters, centimeters per year, or meters per day. Durations use seconds internally but reveal natural spans such as days, years, or centuries. Frequency stores events per second so the larger value identifies the shorter gap.
+- `wg_sessions`: random bearer identifier plus creation and expiry timestamps. Sessions contain no names or contact information.
 
-A session begins with one question. A conditional UPDATE records the first selected scale only, then appends a fresh question; repeat submissions do not append another one. Scores and answer keys stay server-side until that round is answered. Players choose an order of magnitude from ones through billions; the stored selection is its scale index rather than a claimed exact answer. Current game reads one pending round and a small aggregate tally. Session and question primary keys support these joins; `(active, slot)` supports catalog selection; expiry has an index for retention cleanup.
+Subject versions are never overwritten, so a content correction cannot change a matchup already assigned to a player. Removed subjects are retired from selection while retained rounds can still resolve them. Left/right orientation is stored per round so the larger answer cannot develop a visible position pattern.
 
-## Scale evaluation
-
-At 10,000 games/day, five rounds produce 50,000 round rows/day, or roughly 1.5 million/month before retention. Actual storage depends on indexes and engine overhead: measure rather than promise a fixed capacity. Start with one managed Postgres database and stateless web instances. Request work is bounded to five rounds; no whole-history reads, cached in-memory scores, or per-request schema creation.
-
-The MVP catalog picker uses an indexed ordered walk from a random OFFSET and wraps, then shuffles the five picks. This is appropriate for a small curated catalog but gives correlated sets and OFFSET work grows with catalog size. At tens of thousands of active questions, move to a compact published slot catalog with indexed random-slot seeks (or prebuilt shuffled decks), plus category/difficulty columns and indexes only when filtering is added. Do not sort the full question table randomly on each request.
-
-Sessions expire logically after seven days. Before public production, schedule bounded deletion batches of expired sessions (cascades delete their rounds), or explicitly select a longer analytics retention policy. Do not delete pinned questions while retained rounds reference them. For high sustained write volume, monitor database latency, connection/request rates, row growth, and index size; archive or time-partition attempts only when measurements justify it. Store future art in object storage, not database rows. Add edge rate limits/bot protection before public traffic: the anonymous cookie is isolation, not an abuse-proof identity. No public leaderboard is included.
+SQLite remains the persistent local development database. Hosted use is implemented for Neon-compatible Postgres. At larger catalog sizes, replace random OFFSET selection with indexed random-slot seeks or prebuilt category decks. Play-history growth is one compact row per answer; schedule bounded deletion of expired sessions before public traffic.
 
 ## Run locally
 
-```
+```sh
 npm run wild-guess:setup
+npm run wild-guess:proposals
+npm run wild-guess:subjects
 npm run dev
 ```
 
-Open `/wild-guess` (also listed on the portal). The default database is `.local/wild-guess.sqlite`, ignored by Git. `WILD_GUESS_DB_PATH` selects another persistent local path. The game resumes through a seven-day server cookie, including after reload/restart. Clearing cookies loses access to that anonymous game.
+Open `/wild-guess`. The local database defaults to `.local/wild-guess.sqlite`. `WILD_GUESS_DB_PATH` selects another persistent path.
 
 ## Hosted database setup
 
-Set `DATABASE_URL` (or the portal's existing `POSTGRES_URL`, `POSTGRES_PRISMA_URL`, `POSTGRES_URL_NON_POOLING`) to a Neon-compatible Postgres endpoint. The setup command reads `.env.local` when present. Run `npm run wild-guess:setup` once against that database before deploying through the portal's existing Vercel pipeline. Setup is idempotent: it preserves an existing question version and promotes a newly supplied higher version while retiring the old one. Use a migration-capable role for setup and a least-privilege runtime role for serving traffic.
-
-No local-file fallback is allowed on Vercel or in production without an explicitly configured local database path. Missing database setup produces a recoverable unavailable state rather than pretending guesses were saved. Keep credentials in environment secrets, never source control.
+Set `DATABASE_URL` (or `POSTGRES_URL`, `POSTGRES_PRISMA_URL`, `POSTGRES_URL_NON_POOLING`) to a Neon-compatible Postgres endpoint, then run `npm run wild-guess:setup` once with that environment before deployment. Use a migration-capable role for setup and a least-privilege runtime role for requests. Production deliberately has no implicit local-file fallback.
 
 ## Verification
 
-`npm run wild-guess:test` covers magnitude scoring, the zero/ones selection, seed integrity/idempotency, persistence across processes, answer-key concealment, round ordering, replay/concurrency safety, isolation, expiry, and foreign keys. `npm run build` includes the portal's visual token/asset checks. Browser interaction/visual QA and a real hosted Postgres test remain separate checks; neither is implied by a passing build.
-
-Technical references: [Node SQLite](https://nodejs.org/download/release/v25.1.0/docs/api/sqlite.html), [Neon driver](https://github.com/neondatabase/serverless/blob/main/CONFIG.md).
+`npm run wild-guess:test` verifies the curated subject pool, every generated non-overlapping pair, removal of retired trivia subjects, canonical concept uniqueness, rejection of ambiguous size adjectives, frequency-theme diversity, readable magnitude labels, answer concealment, endless next-question flow, replay protection, idempotent seeding, and foreign keys. `npm run build` runs the portal’s visual checks and production compilation. The CSV exposes which records still need source review. A real hosted Postgres smoke test remains required before publication.

@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import { createGame, readGame, submitMagnitude } from '../../../lib/wild-guess/game.mjs';
+import { createGame, readGame, submitChoice } from '../../../lib/wild-guess/game.mjs';
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
 const respond=(body,status=200)=>Response.json(body,{status,headers:{'Cache-Control':'no-store'}});
@@ -13,7 +13,7 @@ export async function POST(request){
   if(!sameOrigin) return respond({error:'Please play from this website.'},403);
   if(Number(request.headers.get('content-length') || 0)>2048) return respond({error:'Request too large.'},413);
   let body;try {const text=await request.text();if(text.length>2048)return respond({error:'Request too large.'},413);body=JSON.parse(text);}catch{return respond({error:'Invalid request.'},400);}
-  if(!body || !['start','guess'].includes(body.action))return respond({error:'Choose a game action.'},400);
+  if(!body || !['start','choose'].includes(body.action))return respond({error:'Choose a game action.'},400);
   try {
     const jar=await cookies();let id=jar.get('wg_session')?.value;
     if(body.action==='start'){
@@ -25,7 +25,7 @@ export async function POST(request){
       return respond({game:await readGame(id)});
     }
     if(!/^[a-f0-9]{64}$/.test(id || '')) return respond({error:'Start a game first.'},401);
-    if(!Number.isInteger(body.magnitude)||body.magnitude<0||body.magnitude>9||!Number.isInteger(body.position)||body.position<0)return respond({error:'Choose one of the available scales.'},400);
-    return respond(await submitMagnitude(id,body.position,body.magnitude));
+    if(![0,1].includes(body.choice)||!Number.isInteger(body.position)||body.position<0)return respond({error:'Choose one of the two answers.'},400);
+    return respond(await submitChoice(id,body.position,body.choice));
   }catch{return respond({error:'We could not save your game. Please try again.'},503);}
 }

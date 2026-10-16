@@ -130,4 +130,4 @@ node scripts/build-manifest.js
 
 ## Balls in the Ballpark
 
-Database-backed estimation game at `/wild-guess`, with 38 seeded thought experiments in an endless random stream. Run `npm run wild-guess:setup` before first play, then `npm run dev`. See [database evaluation and setup](docs/wild-guess.md) for the local SQLite database, hosted Postgres setup, scaling thresholds and validation.
+Database-backed comparison game at `/wild-guess`, with generated matchups across count, duration, weight, frequency, length, area, volume, and speed. The original 100 authored proposals remain available for editorial review. Run `npm run wild-guess:setup` before first play, then `npm run dev`. See [database evaluation and setup](docs/wild-guess.md), the [editorial pipeline](docs/wild-guess-editorial-pipeline.md), and the [numbered proposal review sheet](docs/wild-guess-comparison-proposals.md).
