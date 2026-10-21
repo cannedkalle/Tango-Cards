@@ -6065,6 +6065,25 @@
       "factSourceIds": [
         "burj-khalifa"
       ]
+    },
+    {
+      "id": "world-cup",
+      "name": "FIFA World Cup",
+      "icon": "⚽",
+      "category": "Sports",
+      "kidDefinition": "A global football tournament where national teams compete to become world champions.",
+      "yearStart": 1930,
+      "yearEnd": 1930,
+      "dateDisplay": "1930",
+      "dateBasis": "Uruguay hosts the first FIFA World Cup in July 1930.",
+      "ambiguityNotes": "This date marks the first FIFA men’s World Cup tournament, not earlier international football competitions.",
+      "dateSourceIds": [
+        "world-cup"
+      ],
+      "funFact": "Thirteen national teams played in the first World Cup, and host nation Uruguay won.",
+      "factSourceIds": [
+        "world-cup"
+      ]
     }
   ],
   "pairs": [
@@ -12474,6 +12493,17 @@
         "transistor",
         "optical-fiber"
       ]
+    },
+    {
+      "id": "modern-olympics--world-cup",
+      "objectAId": "modern-olympics",
+      "objectBId": "world-cup",
+      "earlierObjectId": "modern-olympics",
+      "funFact": "The modern Olympic Games began 34 years before the first FIFA World Cup.",
+      "factSourceIds": [
+        "modern-olympics",
+        "world-cup"
+      ]
     }
   ],
   "sources": [
@@ -15012,6 +15042,14 @@
       "url": "https://www.burjkhalifa.ae/the-tower/making/",
       "accessedOn": "2026-09-20",
       "claimSupported": "Burj Khalifa is officially inaugurated on January 4, 2010. Burj Khalifa opened in Dubai in January 2010."
+    },
+    {
+      "id": "world-cup",
+      "title": "Milestone matches at the FIFA World Cup",
+      "publisher": "FIFA",
+      "url": "https://www.fifa.com/en/articles/milestone-landmark-matches-first",
+      "accessedOn": "2026-10-19",
+      "claimSupported": "The inaugural FIFA World Cup opened in Uruguay on 13 July 1930; thirteen national teams participated and Uruguay won the tournament."
     }
   ]
 }
