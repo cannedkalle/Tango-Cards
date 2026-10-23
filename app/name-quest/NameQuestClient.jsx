@@ -30,6 +30,12 @@ const categories = [
   "Famous Person",
   "Game",
   "Language",
+  "Dog Breed",
+  "Cheese",
+  "Board Game",
+  "Cloud Type",
+  "Dance Style",
+  "Musical Instrument",
 ];
 
 const categoryFamilies = {
@@ -55,12 +61,27 @@ const categoryFamilies = {
   "App or Website": "modern-thing",
   "Famous Person": "person",
   Language: "culture",
+  "Dog Breed": "living-thing",
+  Cheese: "food-culture",
+  "Board Game": "fictional-work",
+  "Cloud Type": "concept",
+  "Dance Style": "culture",
+  "Musical Instrument": "culture",
 };
 
 const confusingCategoryPairs = new Set(
   [
     ["Dinosaur", "Animal"],
     ["Plant", "Dish"],
+    ["Plant", "Cheese"],
+    ["Dish", "Brand or Store"],
+    ["Dog Breed", "Place"],
+    ["Cheese", "Place"],
+    ["Board Game", "Place"],
+    ["Dance Style", "Place"],
+    ["Dance Style", "Dish"],
+    ["Dance Style", "Brand or Store"],
+    ["Cloud Type", "Plant"],
     ["Brand or Store", "App or Website"],
     ["Movie, Show, or Book", "Character"],
     ["Movie, Show, or Book", "Game"],
@@ -103,6 +124,12 @@ const categoryAliases = {
   "Famous Person": ["person", "famous person", "singer", "athlete", "actor"],
   Game: ["game", "video game"],
   Language: ["language"],
+  "Dog Breed": ["dog breed", "dog", "animal"],
+  Cheese: ["cheese", "food"],
+  "Board Game": ["board game", "game"],
+  "Cloud Type": ["cloud type", "cloud", "weather"],
+  "Dance Style": ["dance style", "dance"],
+  "Musical Instrument": ["musical instrument", "instrument"],
 };
 
 const levelLabels = {

@@ -36827,5 +36827,2009 @@
     "classicPlayable": false,
     "id": "fregola",
     "wordForm": "single"
+  },
+  {
+    "id": "thesaurus",
+    "name": "Thesaurus",
+    "category": "Movie, Show, or Book",
+    "subcategory": "Reference book",
+    "acceptedAnswers": [
+      "book",
+      "reference book",
+      "thesaurus"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "thih-SOR-us",
+    "explanation": "A thesaurus is a reference book that groups words with similar meanings.",
+    "wordForm": "single"
+  },
+  {
+    "id": "vegemite",
+    "name": "Vegemite",
+    "category": "Dish",
+    "subcategory": "Food spread",
+    "acceptedAnswers": [
+      "food",
+      "spread",
+      "food spread",
+      "brand"
+    ],
+    "difficulty": 3,
+    "ambiguity": "medium",
+    "commonName": "none",
+    "pronunciation": "VEJ-uh-myte",
+    "explanation": "Vegemite is a savory yeast-extract spread from Australia.",
+    "wordForm": "single"
+  },
+  {
+    "id": "poodle",
+    "name": "Poodle",
+    "category": "Dog Breed",
+    "subcategory": "Dog breed",
+    "acceptedAnswers": [
+      "dog breed",
+      "dog",
+      "animal"
+    ],
+    "difficulty": 1,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "POO-dul",
+    "explanation": "A poodle is a dog breed known for its curly coat.",
+    "wordForm": "single"
+  },
+  {
+    "id": "borzoi",
+    "name": "Borzoi",
+    "category": "Dog Breed",
+    "subcategory": "Sighthound",
+    "acceptedAnswers": [
+      "dog breed",
+      "dog",
+      "animal"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "BOR-zoy",
+    "explanation": "A borzoi is a large, long-haired sighthound dog breed.",
+    "wordForm": "single"
+  },
+  {
+    "id": "xoloitzcuintli",
+    "name": "Xoloitzcuintli",
+    "category": "Dog Breed",
+    "subcategory": "Mexican dog breed",
+    "acceptedAnswers": [
+      "dog breed",
+      "dog",
+      "animal",
+      "xolo"
+    ],
+    "difficulty": 5,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "show-low-eets-KWEENT-lee",
+    "explanation": "The Xoloitzcuintli is a Mexican dog breed with hairless and coated varieties.",
+    "wordForm": "single"
+  },
+  {
+    "id": "cheddar",
+    "name": "Cheddar",
+    "category": "Cheese",
+    "subcategory": "Hard cheese",
+    "acceptedAnswers": [
+      "cheese",
+      "food"
+    ],
+    "difficulty": 1,
+    "ambiguity": "low",
+    "commonName": "none",
+    "pronunciation": "CHED-er",
+    "explanation": "Cheddar is a firm cheese made from cow's milk.",
+    "wordForm": "single"
+  },
+  {
+    "id": "taleggio",
+    "name": "Taleggio",
+    "category": "Cheese",
+    "subcategory": "Soft cheese",
+    "acceptedAnswers": [
+      "cheese",
+      "food"
+    ],
+    "difficulty": 4,
+    "ambiguity": "low",
+    "commonName": "none",
+    "pronunciation": "tah-LEJ-oh",
+    "explanation": "Taleggio is a soft Italian cheese made from cow's milk.",
+    "wordForm": "single"
+  },
+  {
+    "id": "chess",
+    "name": "Chess",
+    "category": "Board Game",
+    "subcategory": "Strategy board game",
+    "acceptedAnswers": [
+      "board game",
+      "game"
+    ],
+    "difficulty": 1,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "CHESS",
+    "explanation": "Chess is a strategy board game played by two people.",
+    "wordForm": "single"
+  },
+  {
+    "id": "catan",
+    "name": "Catan",
+    "category": "Board Game",
+    "subcategory": "Strategy board game",
+    "acceptedAnswers": [
+      "board game",
+      "game"
+    ],
+    "difficulty": 2,
+    "ambiguity": "low",
+    "commonName": "none",
+    "pronunciation": "kuh-TAHN",
+    "explanation": "Catan is a board game about gathering resources, trading, and building settlements.",
+    "wordForm": "single"
+  },
+  {
+    "id": "cumulus",
+    "name": "Cumulus",
+    "category": "Cloud Type",
+    "subcategory": "Cloud genus",
+    "acceptedAnswers": [
+      "cloud type",
+      "cloud",
+      "weather"
+    ],
+    "difficulty": 2,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "KYOO-myuh-lus",
+    "explanation": "Cumulus clouds are puffy clouds that often have flat bases.",
+    "wordForm": "single"
+  },
+  {
+    "id": "mammatus",
+    "name": "Mammatus",
+    "category": "Cloud Type",
+    "subcategory": "Cloud feature",
+    "acceptedAnswers": [
+      "cloud type",
+      "cloud",
+      "cloud feature",
+      "weather"
+    ],
+    "difficulty": 4,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "muh-MAT-us",
+    "explanation": "Mammatus describes pouch-shaped features hanging beneath a cloud.",
+    "wordForm": "single"
+  },
+  {
+    "id": "lenticular",
+    "name": "Lenticular",
+    "category": "Cloud Type",
+    "subcategory": "Cloud shape",
+    "acceptedAnswers": [
+      "cloud type",
+      "cloud",
+      "lenticular cloud",
+      "weather"
+    ],
+    "difficulty": 4,
+    "ambiguity": "medium",
+    "commonName": "none",
+    "pronunciation": "len-TIK-yuh-ler",
+    "explanation": "Lenticular clouds have a smooth, lens-like shape and often form near mountains.",
+    "wordForm": "single"
+  },
+  {
+    "id": "bachata",
+    "name": "Bachata",
+    "category": "Dance Style",
+    "subcategory": "Dominican dance",
+    "acceptedAnswers": [
+      "dance style",
+      "dance",
+      "music"
+    ],
+    "difficulty": 3,
+    "ambiguity": "low",
+    "commonName": "none",
+    "pronunciation": "bah-CHAH-tah",
+    "explanation": "Bachata is a style of music and partner dance from the Dominican Republic.",
+    "wordForm": "single"
+  },
+  {
+    "id": "kizomba",
+    "name": "Kizomba",
+    "category": "Dance Style",
+    "subcategory": "Angolan dance",
+    "acceptedAnswers": [
+      "dance style",
+      "dance",
+      "music"
+    ],
+    "difficulty": 4,
+    "ambiguity": "low",
+    "commonName": "none",
+    "pronunciation": "kee-ZOM-bah",
+    "explanation": "Kizomba is a style of music and partner dance from Angola.",
+    "wordForm": "single"
+  },
+  {
+    "id": "ocarina",
+    "name": "Ocarina",
+    "category": "Musical Instrument",
+    "subcategory": "Wind instrument",
+    "acceptedAnswers": [
+      "musical instrument",
+      "instrument",
+      "wind instrument"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "ok-uh-REE-nuh",
+    "explanation": "An ocarina is a small wind instrument with finger holes.",
+    "wordForm": "single"
+  },
+  {
+    "id": "balalaika",
+    "name": "Balalaika",
+    "category": "Musical Instrument",
+    "subcategory": "String instrument",
+    "acceptedAnswers": [
+      "musical instrument",
+      "instrument",
+      "string instrument"
+    ],
+    "difficulty": 4,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "bal-uh-LY-kuh",
+    "explanation": "A balalaika is a Russian string instrument with a triangular body.",
+    "wordForm": "single"
+  },
+  {
+    "id": "nyckelharpa",
+    "name": "Nyckelharpa",
+    "category": "Musical Instrument",
+    "subcategory": "Bowed string instrument",
+    "acceptedAnswers": [
+      "musical instrument",
+      "instrument",
+      "string instrument",
+      "keyed fiddle"
+    ],
+    "difficulty": 5,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "NIK-ul-har-pah",
+    "explanation": "A nyckelharpa is a Swedish bowed string instrument with keys that change the pitch.",
+    "wordForm": "single"
+  },
+  {
+    "id": "beagle",
+    "name": "Beagle",
+    "category": "Dog Breed",
+    "subcategory": "Dog breed",
+    "acceptedAnswers": [
+      "dog breed",
+      "dog",
+      "animal"
+    ],
+    "difficulty": 1,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "BEE-gul",
+    "explanation": "A beagle is a small hound known for its strong sense of smell.",
+    "wordForm": "single"
+  },
+  {
+    "id": "dachshund",
+    "name": "Dachshund",
+    "category": "Dog Breed",
+    "subcategory": "Dog breed",
+    "acceptedAnswers": [
+      "dog breed",
+      "dog",
+      "animal"
+    ],
+    "difficulty": 2,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "DAHKS-hund",
+    "explanation": "A dachshund is a short-legged dog breed with a long body.",
+    "wordForm": "single"
+  },
+  {
+    "id": "dalmatian",
+    "name": "Dalmatian",
+    "category": "Dog Breed",
+    "subcategory": "Dog breed",
+    "acceptedAnswers": [
+      "dog breed",
+      "dog",
+      "animal"
+    ],
+    "difficulty": 2,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "dal-MAY-shun",
+    "explanation": "A Dalmatian is a dog breed known for its spotted coat.",
+    "wordForm": "single"
+  },
+  {
+    "id": "samoyed",
+    "name": "Samoyed",
+    "category": "Dog Breed",
+    "subcategory": "Dog breed",
+    "acceptedAnswers": [
+      "dog breed",
+      "dog",
+      "animal"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "SAM-uh-yed",
+    "explanation": "A Samoyed is a fluffy dog breed with a thick white coat.",
+    "wordForm": "single"
+  },
+  {
+    "id": "basenji",
+    "name": "Basenji",
+    "category": "Dog Breed",
+    "subcategory": "Dog breed",
+    "acceptedAnswers": [
+      "dog breed",
+      "dog",
+      "animal"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "buh-SEN-jee",
+    "explanation": "A basenji is a dog breed known for making yodel-like sounds.",
+    "wordForm": "single"
+  },
+  {
+    "id": "whippet",
+    "name": "Whippet",
+    "category": "Dog Breed",
+    "subcategory": "Dog breed",
+    "acceptedAnswers": [
+      "dog breed",
+      "dog",
+      "animal"
+    ],
+    "difficulty": 2,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "WIP-it",
+    "explanation": "A whippet is a slender dog breed built for running.",
+    "wordForm": "single"
+  },
+  {
+    "id": "saluki",
+    "name": "Saluki",
+    "category": "Dog Breed",
+    "subcategory": "Dog breed",
+    "acceptedAnswers": [
+      "dog breed",
+      "dog",
+      "animal"
+    ],
+    "difficulty": 4,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "suh-LOO-kee",
+    "explanation": "A saluki is a long-legged sighthound dog breed.",
+    "wordForm": "single"
+  },
+  {
+    "id": "akita",
+    "name": "Akita",
+    "category": "Dog Breed",
+    "subcategory": "Dog breed",
+    "acceptedAnswers": [
+      "dog breed",
+      "dog",
+      "animal"
+    ],
+    "difficulty": 3,
+    "ambiguity": "medium",
+    "commonName": "none",
+    "pronunciation": "uh-KEE-tuh",
+    "explanation": "An Akita is a large dog breed from Japan.",
+    "wordForm": "single"
+  },
+  {
+    "id": "shiba",
+    "name": "Shiba",
+    "category": "Dog Breed",
+    "subcategory": "Dog breed",
+    "acceptedAnswers": [
+      "dog breed",
+      "dog",
+      "animal"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "SHEE-buh",
+    "explanation": "Shiba is a short name for the Shiba Inu, a Japanese dog breed.",
+    "wordForm": "single"
+  },
+  {
+    "id": "keeshond",
+    "name": "Keeshond",
+    "category": "Dog Breed",
+    "subcategory": "Dog breed",
+    "acceptedAnswers": [
+      "dog breed",
+      "dog",
+      "animal"
+    ],
+    "difficulty": 5,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "KAYZ-hond",
+    "explanation": "A keeshond is a fluffy dog breed with markings around its eyes.",
+    "wordForm": "single"
+  },
+  {
+    "id": "schipperke",
+    "name": "Schipperke",
+    "category": "Dog Breed",
+    "subcategory": "Dog breed",
+    "acceptedAnswers": [
+      "dog breed",
+      "dog",
+      "animal"
+    ],
+    "difficulty": 5,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "SKIP-er-kee",
+    "explanation": "A schipperke is a small Belgian dog breed with pointed ears.",
+    "wordForm": "single"
+  },
+  {
+    "id": "komondor",
+    "name": "Komondor",
+    "category": "Dog Breed",
+    "subcategory": "Dog breed",
+    "acceptedAnswers": [
+      "dog breed",
+      "dog",
+      "animal"
+    ],
+    "difficulty": 4,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "KOM-on-dor",
+    "explanation": "A komondor is a Hungarian dog breed with a corded coat.",
+    "wordForm": "single"
+  },
+  {
+    "id": "puli",
+    "name": "Puli",
+    "category": "Dog Breed",
+    "subcategory": "Dog breed",
+    "acceptedAnswers": [
+      "dog breed",
+      "dog",
+      "animal"
+    ],
+    "difficulty": 4,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "POO-lee",
+    "explanation": "A puli is a Hungarian herding dog breed with a corded coat.",
+    "wordForm": "single"
+  },
+  {
+    "id": "vizsla",
+    "name": "Vizsla",
+    "category": "Dog Breed",
+    "subcategory": "Dog breed",
+    "acceptedAnswers": [
+      "dog breed",
+      "dog",
+      "animal"
+    ],
+    "difficulty": 4,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "VEEZH-luh",
+    "explanation": "A vizsla is a Hungarian hunting dog breed with a golden-rust coat.",
+    "wordForm": "single"
+  },
+  {
+    "id": "weimaraner",
+    "name": "Weimaraner",
+    "category": "Dog Breed",
+    "subcategory": "Dog breed",
+    "acceptedAnswers": [
+      "dog breed",
+      "dog",
+      "animal"
+    ],
+    "difficulty": 4,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "VY-muh-rah-ner",
+    "explanation": "A Weimaraner is a hunting dog breed with a gray coat.",
+    "wordForm": "single"
+  },
+  {
+    "id": "papillon",
+    "name": "Papillon",
+    "category": "Dog Breed",
+    "subcategory": "Dog breed",
+    "acceptedAnswers": [
+      "dog breed",
+      "dog",
+      "animal"
+    ],
+    "difficulty": 3,
+    "ambiguity": "medium",
+    "commonName": "none",
+    "pronunciation": "PAP-ee-on",
+    "explanation": "A papillon is a small dog breed whose name means butterfly in French.",
+    "wordForm": "single"
+  },
+  {
+    "id": "havanese",
+    "name": "Havanese",
+    "category": "Dog Breed",
+    "subcategory": "Dog breed",
+    "acceptedAnswers": [
+      "dog breed",
+      "dog",
+      "animal"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "hav-uh-NEEZ",
+    "explanation": "A Havanese is a small dog breed that originated in Cuba.",
+    "wordForm": "single"
+  },
+  {
+    "id": "gouda",
+    "name": "Gouda",
+    "category": "Cheese",
+    "subcategory": "Cheese variety",
+    "acceptedAnswers": [
+      "cheese",
+      "food"
+    ],
+    "difficulty": 3,
+    "ambiguity": "medium",
+    "commonName": "none",
+    "pronunciation": "GOO-duh",
+    "explanation": "Gouda is a Dutch-style cheese that can be mild or aged.",
+    "wordForm": "single"
+  },
+  {
+    "id": "brie",
+    "name": "Brie",
+    "category": "Cheese",
+    "subcategory": "Cheese variety",
+    "acceptedAnswers": [
+      "cheese",
+      "food"
+    ],
+    "difficulty": 3,
+    "ambiguity": "medium",
+    "commonName": "rare",
+    "pronunciation": "BREE",
+    "explanation": "Brie is a soft cheese with a pale, edible rind.",
+    "wordForm": "single"
+  },
+  {
+    "id": "camembert",
+    "name": "Camembert",
+    "category": "Cheese",
+    "subcategory": "Cheese variety",
+    "acceptedAnswers": [
+      "cheese",
+      "food"
+    ],
+    "difficulty": 3,
+    "ambiguity": "medium",
+    "commonName": "none",
+    "pronunciation": "KAM-um-bair",
+    "explanation": "Camembert is a soft French cheese with a white rind.",
+    "wordForm": "single"
+  },
+  {
+    "id": "manchego",
+    "name": "Manchego",
+    "category": "Cheese",
+    "subcategory": "Cheese variety",
+    "acceptedAnswers": [
+      "cheese",
+      "food"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "man-CHAY-go",
+    "explanation": "Manchego is a Spanish cheese made from sheep's milk.",
+    "wordForm": "single"
+  },
+  {
+    "id": "pecorino",
+    "name": "Pecorino",
+    "category": "Cheese",
+    "subcategory": "Cheese variety",
+    "acceptedAnswers": [
+      "cheese",
+      "food"
+    ],
+    "difficulty": 4,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "pek-uh-REE-no",
+    "explanation": "Pecorino is a family of Italian cheeses made from sheep's milk.",
+    "wordForm": "single"
+  },
+  {
+    "id": "provolone",
+    "name": "Provolone",
+    "category": "Cheese",
+    "subcategory": "Cheese variety",
+    "acceptedAnswers": [
+      "cheese",
+      "food"
+    ],
+    "difficulty": 2,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "PROH-vuh-lohn",
+    "explanation": "Provolone is an Italian-style cheese made from stretched curd.",
+    "wordForm": "single"
+  },
+  {
+    "id": "mozzarella",
+    "name": "Mozzarella",
+    "category": "Cheese",
+    "subcategory": "Cheese variety",
+    "acceptedAnswers": [
+      "cheese",
+      "food"
+    ],
+    "difficulty": 1,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "mot-suh-REL-uh",
+    "explanation": "Mozzarella is a mild cheese often used on pizza.",
+    "wordForm": "single"
+  },
+  {
+    "id": "ricotta",
+    "name": "Ricotta",
+    "category": "Cheese",
+    "subcategory": "Cheese variety",
+    "acceptedAnswers": [
+      "cheese",
+      "food"
+    ],
+    "difficulty": 2,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "rih-KOT-uh",
+    "explanation": "Ricotta is a soft Italian-style cheese traditionally made from whey.",
+    "wordForm": "single"
+  },
+  {
+    "id": "burrata",
+    "name": "Burrata",
+    "category": "Cheese",
+    "subcategory": "Cheese variety",
+    "acceptedAnswers": [
+      "cheese",
+      "food"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "boo-RAH-tuh",
+    "explanation": "Burrata is an Italian cheese with a mozzarella shell and creamy filling.",
+    "wordForm": "single"
+  },
+  {
+    "id": "mascarpone",
+    "name": "Mascarpone",
+    "category": "Cheese",
+    "subcategory": "Cheese variety",
+    "acceptedAnswers": [
+      "cheese",
+      "food"
+    ],
+    "difficulty": 4,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "mas-kar-POH-nay",
+    "explanation": "Mascarpone is a rich, creamy Italian cheese.",
+    "wordForm": "single"
+  },
+  {
+    "id": "roquefort",
+    "name": "Roquefort",
+    "category": "Cheese",
+    "subcategory": "Cheese variety",
+    "acceptedAnswers": [
+      "cheese",
+      "food"
+    ],
+    "difficulty": 4,
+    "ambiguity": "medium",
+    "commonName": "none",
+    "pronunciation": "ROHK-for",
+    "explanation": "Roquefort is a French blue cheese made from sheep's milk.",
+    "wordForm": "single"
+  },
+  {
+    "id": "gorgonzola",
+    "name": "Gorgonzola",
+    "category": "Cheese",
+    "subcategory": "Cheese variety",
+    "acceptedAnswers": [
+      "cheese",
+      "food"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "gor-gun-ZOH-luh",
+    "explanation": "Gorgonzola is an Italian blue cheese.",
+    "wordForm": "single"
+  },
+  {
+    "id": "gruyere",
+    "name": "Gruyere",
+    "category": "Cheese",
+    "subcategory": "Cheese variety",
+    "acceptedAnswers": [
+      "cheese",
+      "food"
+    ],
+    "difficulty": 3,
+    "ambiguity": "medium",
+    "commonName": "none",
+    "pronunciation": "groo-YAIR",
+    "explanation": "Gruyere is a firm Swiss cheese with a nutty flavor.",
+    "wordForm": "single"
+  },
+  {
+    "id": "emmental",
+    "name": "Emmental",
+    "category": "Cheese",
+    "subcategory": "Cheese variety",
+    "acceptedAnswers": [
+      "cheese",
+      "food"
+    ],
+    "difficulty": 4,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "EM-en-tahl",
+    "explanation": "Emmental is a Swiss-style cheese known for its holes.",
+    "wordForm": "single"
+  },
+  {
+    "id": "havarti",
+    "name": "Havarti",
+    "category": "Cheese",
+    "subcategory": "Cheese variety",
+    "acceptedAnswers": [
+      "cheese",
+      "food"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "huh-VAR-tee",
+    "explanation": "Havarti is a mild Danish cheese.",
+    "wordForm": "single"
+  },
+  {
+    "id": "halloumi",
+    "name": "Halloumi",
+    "category": "Cheese",
+    "subcategory": "Cheese variety",
+    "acceptedAnswers": [
+      "cheese",
+      "food"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "huh-LOO-mee",
+    "explanation": "Halloumi is a cheese from Cyprus that holds its shape when grilled.",
+    "wordForm": "single"
+  },
+  {
+    "id": "mimolette",
+    "name": "Mimolette",
+    "category": "Cheese",
+    "subcategory": "Cheese variety",
+    "acceptedAnswers": [
+      "cheese",
+      "food"
+    ],
+    "difficulty": 5,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "mee-moh-LET",
+    "explanation": "Mimolette is a firm orange cheese from France.",
+    "wordForm": "single"
+  },
+  {
+    "id": "cotija",
+    "name": "Cotija",
+    "category": "Cheese",
+    "subcategory": "Cheese variety",
+    "acceptedAnswers": [
+      "cheese",
+      "food"
+    ],
+    "difficulty": 4,
+    "ambiguity": "medium",
+    "commonName": "none",
+    "pronunciation": "koh-TEE-hah",
+    "explanation": "Cotija is a salty Mexican cheese often crumbled over food.",
+    "wordForm": "single"
+  },
+  {
+    "id": "blokus",
+    "name": "Blokus",
+    "category": "Board Game",
+    "subcategory": "Board game",
+    "acceptedAnswers": [
+      "board game",
+      "game"
+    ],
+    "difficulty": 2,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "BLOK-us",
+    "explanation": "Blokus is a board game about fitting colorful pieces onto a grid.",
+    "wordForm": "single"
+  },
+  {
+    "id": "quoridor",
+    "name": "Quoridor",
+    "category": "Board Game",
+    "subcategory": "Board game",
+    "acceptedAnswers": [
+      "board game",
+      "game"
+    ],
+    "difficulty": 4,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "KOR-ih-dor",
+    "explanation": "Quoridor is a board game about moving a pawn past walls to the opposite side.",
+    "wordForm": "single"
+  },
+  {
+    "id": "quarto",
+    "name": "Quarto",
+    "category": "Board Game",
+    "subcategory": "Board game",
+    "acceptedAnswers": [
+      "board game",
+      "game"
+    ],
+    "difficulty": 4,
+    "ambiguity": "medium",
+    "commonName": "none",
+    "pronunciation": "KWAR-toh",
+    "explanation": "Quarto is a board game about making a line of pieces with a shared feature.",
+    "wordForm": "single"
+  },
+  {
+    "id": "qwirkle",
+    "name": "Qwirkle",
+    "category": "Board Game",
+    "subcategory": "Board game",
+    "acceptedAnswers": [
+      "board game",
+      "game"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "KWUR-kul",
+    "explanation": "Qwirkle is a tabletop game about arranging tiles by color and shape.",
+    "wordForm": "single"
+  },
+  {
+    "id": "mancala",
+    "name": "Mancala",
+    "category": "Board Game",
+    "subcategory": "Board game",
+    "acceptedAnswers": [
+      "board game",
+      "game"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "man-KAH-luh",
+    "explanation": "Mancala is a family of board games played by moving seeds or stones between pits.",
+    "wordForm": "single"
+  },
+  {
+    "id": "reversi",
+    "name": "Reversi",
+    "category": "Board Game",
+    "subcategory": "Board game",
+    "acceptedAnswers": [
+      "board game",
+      "game"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "rih-VER-see",
+    "explanation": "Reversi is a board game in which players flip opposing disks to their own color.",
+    "wordForm": "single"
+  },
+  {
+    "id": "backgammon",
+    "name": "Backgammon",
+    "category": "Board Game",
+    "subcategory": "Board game",
+    "acceptedAnswers": [
+      "board game",
+      "game"
+    ],
+    "difficulty": 2,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "BAK-gam-un",
+    "explanation": "Backgammon is a board game played with checkers and dice.",
+    "wordForm": "single"
+  },
+  {
+    "id": "checkers",
+    "name": "Checkers",
+    "category": "Board Game",
+    "subcategory": "Board game",
+    "acceptedAnswers": [
+      "board game",
+      "game"
+    ],
+    "difficulty": 1,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "CHEK-erz",
+    "explanation": "Checkers is a board game in which pieces capture opponents by jumping over them.",
+    "wordForm": "single"
+  },
+  {
+    "id": "stratego",
+    "name": "Stratego",
+    "category": "Board Game",
+    "subcategory": "Board game",
+    "acceptedAnswers": [
+      "board game",
+      "game"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "struh-TEE-go",
+    "explanation": "Stratego is a board game with hidden ranks and a flag to capture.",
+    "wordForm": "single"
+  },
+  {
+    "id": "pentago",
+    "name": "Pentago",
+    "category": "Board Game",
+    "subcategory": "Board game",
+    "acceptedAnswers": [
+      "board game",
+      "game"
+    ],
+    "difficulty": 4,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "pen-TAH-go",
+    "explanation": "Pentago is a board game about rotating sections of a board to make five in a row.",
+    "wordForm": "single"
+  },
+  {
+    "id": "pylos",
+    "name": "Pylos",
+    "category": "Board Game",
+    "subcategory": "Board game",
+    "acceptedAnswers": [
+      "board game",
+      "game"
+    ],
+    "difficulty": 5,
+    "ambiguity": "medium",
+    "commonName": "none",
+    "pronunciation": "PY-loss",
+    "explanation": "Pylos is a board game in which players stack balls into a pyramid.",
+    "wordForm": "single"
+  },
+  {
+    "id": "takenoko",
+    "name": "Takenoko",
+    "category": "Board Game",
+    "subcategory": "Board game",
+    "acceptedAnswers": [
+      "board game",
+      "game"
+    ],
+    "difficulty": 4,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "tah-keh-NOH-koh",
+    "explanation": "Takenoko is a board game about growing bamboo and feeding a panda.",
+    "wordForm": "single"
+  },
+  {
+    "id": "tsuro",
+    "name": "Tsuro",
+    "category": "Board Game",
+    "subcategory": "Board game",
+    "acceptedAnswers": [
+      "board game",
+      "game"
+    ],
+    "difficulty": 4,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "TSOO-roh",
+    "explanation": "Tsuro is a board game in which tiles create paths for players' pieces.",
+    "wordForm": "single"
+  },
+  {
+    "id": "scrabble",
+    "name": "Scrabble",
+    "category": "Board Game",
+    "subcategory": "Board game",
+    "acceptedAnswers": [
+      "board game",
+      "game"
+    ],
+    "difficulty": 1,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "SKRAB-ul",
+    "explanation": "Scrabble is a board game about building words with letter tiles.",
+    "wordForm": "single"
+  },
+  {
+    "id": "parcheesi",
+    "name": "Parcheesi",
+    "category": "Board Game",
+    "subcategory": "Board game",
+    "acceptedAnswers": [
+      "board game",
+      "game"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "par-CHEE-zee",
+    "explanation": "Parcheesi is a board game in which players race pieces around a track using dice.",
+    "wordForm": "single"
+  },
+  {
+    "id": "ludo",
+    "name": "Ludo",
+    "category": "Board Game",
+    "subcategory": "Board game",
+    "acceptedAnswers": [
+      "board game",
+      "game"
+    ],
+    "difficulty": 2,
+    "ambiguity": "none",
+    "commonName": "rare",
+    "pronunciation": "LOO-doh",
+    "explanation": "Ludo is a board game in which players race their pieces home using dice.",
+    "wordForm": "single"
+  },
+  {
+    "id": "crokinole",
+    "name": "Crokinole",
+    "category": "Board Game",
+    "subcategory": "Board game",
+    "acceptedAnswers": [
+      "board game",
+      "game"
+    ],
+    "difficulty": 5,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "KROH-ki-nohl",
+    "explanation": "Crokinole is a tabletop game in which players flick disks toward the center of a round board.",
+    "wordForm": "single"
+  },
+  {
+    "id": "carcassonne",
+    "name": "Carcassonne",
+    "category": "Board Game",
+    "subcategory": "Board game",
+    "acceptedAnswers": [
+      "board game",
+      "game"
+    ],
+    "difficulty": 3,
+    "ambiguity": "medium",
+    "commonName": "none",
+    "pronunciation": "kar-kuh-SON",
+    "explanation": "Carcassonne is a board game about laying tiles to build cities, roads, and fields.",
+    "wordForm": "single"
+  },
+  {
+    "id": "cirrus",
+    "name": "Cirrus",
+    "category": "Cloud Type",
+    "subcategory": "Cloud genus",
+    "acceptedAnswers": [
+      "cloud type",
+      "cloud",
+      "weather"
+    ],
+    "difficulty": 2,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "SEER-us",
+    "explanation": "Cirrus clouds are thin, wispy clouds made of ice crystals high in the sky.",
+    "wordForm": "single"
+  },
+  {
+    "id": "stratus",
+    "name": "Stratus",
+    "category": "Cloud Type",
+    "subcategory": "Cloud genus",
+    "acceptedAnswers": [
+      "cloud type",
+      "cloud",
+      "weather"
+    ],
+    "difficulty": 2,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "STRAY-tus",
+    "explanation": "Stratus clouds form a low, gray layer that can cover much of the sky.",
+    "wordForm": "single"
+  },
+  {
+    "id": "cirrocumulus",
+    "name": "Cirrocumulus",
+    "category": "Cloud Type",
+    "subcategory": "Cloud genus",
+    "acceptedAnswers": [
+      "cloud type",
+      "cloud",
+      "weather"
+    ],
+    "difficulty": 4,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "seer-oh-KYOO-myuh-lus",
+    "explanation": "Cirrocumulus clouds are high clouds arranged in small white patches or ripples.",
+    "wordForm": "single"
+  },
+  {
+    "id": "cirrostratus",
+    "name": "Cirrostratus",
+    "category": "Cloud Type",
+    "subcategory": "Cloud genus",
+    "acceptedAnswers": [
+      "cloud type",
+      "cloud",
+      "weather"
+    ],
+    "difficulty": 4,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "seer-oh-STRAY-tus",
+    "explanation": "Cirrostratus clouds form a high, thin veil that can produce halos around the Sun or Moon.",
+    "wordForm": "single"
+  },
+  {
+    "id": "altocumulus",
+    "name": "Altocumulus",
+    "category": "Cloud Type",
+    "subcategory": "Cloud genus",
+    "acceptedAnswers": [
+      "cloud type",
+      "cloud",
+      "weather"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "al-toh-KYOO-myuh-lus",
+    "explanation": "Altocumulus clouds form rounded patches or rolls at middle heights.",
+    "wordForm": "single"
+  },
+  {
+    "id": "altostratus",
+    "name": "Altostratus",
+    "category": "Cloud Type",
+    "subcategory": "Cloud genus",
+    "acceptedAnswers": [
+      "cloud type",
+      "cloud",
+      "weather"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "al-toh-STRAY-tus",
+    "explanation": "Altostratus clouds form a gray or bluish layer at middle heights.",
+    "wordForm": "single"
+  },
+  {
+    "id": "stratocumulus",
+    "name": "Stratocumulus",
+    "category": "Cloud Type",
+    "subcategory": "Cloud genus",
+    "acceptedAnswers": [
+      "cloud type",
+      "cloud",
+      "weather"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "strat-oh-KYOO-myuh-lus",
+    "explanation": "Stratocumulus clouds form low layers of rounded lumps or rolls.",
+    "wordForm": "single"
+  },
+  {
+    "id": "nimbostratus",
+    "name": "Nimbostratus",
+    "category": "Cloud Type",
+    "subcategory": "Cloud genus",
+    "acceptedAnswers": [
+      "cloud type",
+      "cloud",
+      "weather"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "nim-boh-STRAY-tus",
+    "explanation": "Nimbostratus clouds form a thick layer that often brings steady rain or snow.",
+    "wordForm": "single"
+  },
+  {
+    "id": "cumulonimbus",
+    "name": "Cumulonimbus",
+    "category": "Cloud Type",
+    "subcategory": "Cloud genus",
+    "acceptedAnswers": [
+      "cloud type",
+      "cloud",
+      "weather"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "kyoo-myuh-loh-NIM-bus",
+    "explanation": "Cumulonimbus clouds are tall thunderstorm clouds.",
+    "wordForm": "single"
+  },
+  {
+    "id": "asperitas",
+    "name": "Asperitas",
+    "category": "Cloud Type",
+    "subcategory": "Cloud feature",
+    "acceptedAnswers": [
+      "cloud type",
+      "cloud",
+      "weather"
+    ],
+    "difficulty": 5,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "as-PAIR-ih-tas",
+    "explanation": "Asperitas describes a cloud underside with rough, wave-like shapes.",
+    "wordForm": "single"
+  },
+  {
+    "id": "pileus",
+    "name": "Pileus",
+    "category": "Cloud Type",
+    "subcategory": "Accessory cloud",
+    "acceptedAnswers": [
+      "cloud type",
+      "cloud",
+      "weather"
+    ],
+    "difficulty": 4,
+    "ambiguity": "medium",
+    "commonName": "none",
+    "pronunciation": "PY-lee-us",
+    "explanation": "Pileus is a smooth cap cloud that can form above a rising cloud.",
+    "wordForm": "single"
+  },
+  {
+    "id": "castellanus",
+    "name": "Castellanus",
+    "category": "Cloud Type",
+    "subcategory": "Cloud species",
+    "acceptedAnswers": [
+      "cloud type",
+      "cloud",
+      "weather"
+    ],
+    "difficulty": 5,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "kas-tuh-LAN-us",
+    "explanation": "Castellanus describes clouds with towers that resemble castle battlements.",
+    "wordForm": "single"
+  },
+  {
+    "id": "floccus",
+    "name": "Floccus",
+    "category": "Cloud Type",
+    "subcategory": "Cloud species",
+    "acceptedAnswers": [
+      "cloud type",
+      "cloud",
+      "weather"
+    ],
+    "difficulty": 4,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "FLOK-us",
+    "explanation": "Floccus describes clouds made of small tufts with ragged bases.",
+    "wordForm": "single"
+  },
+  {
+    "id": "uncinus",
+    "name": "Uncinus",
+    "category": "Cloud Type",
+    "subcategory": "Cloud species",
+    "acceptedAnswers": [
+      "cloud type",
+      "cloud",
+      "weather"
+    ],
+    "difficulty": 5,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "un-SY-nus",
+    "explanation": "Uncinus describes cirrus clouds with hooked ends.",
+    "wordForm": "single"
+  },
+  {
+    "id": "fibratus",
+    "name": "Fibratus",
+    "category": "Cloud Type",
+    "subcategory": "Cloud species",
+    "acceptedAnswers": [
+      "cloud type",
+      "cloud",
+      "weather"
+    ],
+    "difficulty": 5,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "fy-BRAY-tus",
+    "explanation": "Fibratus describes clouds with fine strands that are straight or gently curved.",
+    "wordForm": "single"
+  },
+  {
+    "id": "nebulosus",
+    "name": "Nebulosus",
+    "category": "Cloud Type",
+    "subcategory": "Cloud species",
+    "acceptedAnswers": [
+      "cloud type",
+      "cloud",
+      "weather"
+    ],
+    "difficulty": 5,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "neb-yoo-LOH-sus",
+    "explanation": "Nebulosus describes a cloud layer or veil without distinct details.",
+    "wordForm": "single"
+  },
+  {
+    "id": "congestus",
+    "name": "Congestus",
+    "category": "Cloud Type",
+    "subcategory": "Cloud species",
+    "acceptedAnswers": [
+      "cloud type",
+      "cloud",
+      "weather"
+    ],
+    "difficulty": 4,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "kun-JES-tus",
+    "explanation": "Congestus describes cumulus clouds growing into tall, cauliflower-like towers.",
+    "wordForm": "single"
+  },
+  {
+    "id": "salsa",
+    "name": "Salsa",
+    "category": "Dance Style",
+    "subcategory": "Dance style",
+    "acceptedAnswers": [
+      "dance style",
+      "dance"
+    ],
+    "difficulty": 3,
+    "ambiguity": "medium",
+    "commonName": "none",
+    "pronunciation": "SAL-suh",
+    "explanation": "Salsa is a social dance style often danced with a partner to salsa music.",
+    "wordForm": "single"
+  },
+  {
+    "id": "tango",
+    "name": "Tango",
+    "category": "Dance Style",
+    "subcategory": "Dance style",
+    "acceptedAnswers": [
+      "dance style",
+      "dance"
+    ],
+    "difficulty": 3,
+    "ambiguity": "medium",
+    "commonName": "none",
+    "pronunciation": "TANG-goh",
+    "explanation": "Tango is a partner dance that developed around the Rio de la Plata in South America.",
+    "wordForm": "single"
+  },
+  {
+    "id": "waltz",
+    "name": "Waltz",
+    "category": "Dance Style",
+    "subcategory": "Dance style",
+    "acceptedAnswers": [
+      "dance style",
+      "dance"
+    ],
+    "difficulty": 1,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "WAWLTS",
+    "explanation": "A waltz is a turning partner dance usually performed in triple time.",
+    "wordForm": "single"
+  },
+  {
+    "id": "foxtrot",
+    "name": "Foxtrot",
+    "category": "Dance Style",
+    "subcategory": "Dance style",
+    "acceptedAnswers": [
+      "dance style",
+      "dance"
+    ],
+    "difficulty": 2,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "FOKS-trot",
+    "explanation": "Foxtrot is a ballroom dance with smooth walking steps.",
+    "wordForm": "single"
+  },
+  {
+    "id": "polka",
+    "name": "Polka",
+    "category": "Dance Style",
+    "subcategory": "Dance style",
+    "acceptedAnswers": [
+      "dance style",
+      "dance"
+    ],
+    "difficulty": 2,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "POHL-kuh",
+    "explanation": "Polka is a lively partner dance that originated in Bohemia.",
+    "wordForm": "single"
+  },
+  {
+    "id": "samba",
+    "name": "Samba",
+    "category": "Dance Style",
+    "subcategory": "Dance style",
+    "acceptedAnswers": [
+      "dance style",
+      "dance"
+    ],
+    "difficulty": 2,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "SAM-buh",
+    "explanation": "Samba is a family of Brazilian dance styles associated with samba music.",
+    "wordForm": "single"
+  },
+  {
+    "id": "rumba",
+    "name": "Rumba",
+    "category": "Dance Style",
+    "subcategory": "Dance style",
+    "acceptedAnswers": [
+      "dance style",
+      "dance"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "RUM-buh",
+    "explanation": "Rumba names Cuban music and dance traditions as well as a ballroom dance style.",
+    "wordForm": "single"
+  },
+  {
+    "id": "ballet",
+    "name": "Ballet",
+    "category": "Dance Style",
+    "subcategory": "Dance style",
+    "acceptedAnswers": [
+      "dance style",
+      "dance"
+    ],
+    "difficulty": 1,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "ba-LAY",
+    "explanation": "Ballet is a theatrical dance form with precise steps and positions.",
+    "wordForm": "single"
+  },
+  {
+    "id": "mambo",
+    "name": "Mambo",
+    "category": "Dance Style",
+    "subcategory": "Dance style",
+    "acceptedAnswers": [
+      "dance style",
+      "dance"
+    ],
+    "difficulty": 3,
+    "ambiguity": "medium",
+    "commonName": "none",
+    "pronunciation": "MAM-boh",
+    "explanation": "Mambo is a Cuban dance style also performed as a ballroom dance.",
+    "wordForm": "single"
+  },
+  {
+    "id": "merengue",
+    "name": "Merengue",
+    "category": "Dance Style",
+    "subcategory": "Dance style",
+    "acceptedAnswers": [
+      "dance style",
+      "dance"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "muh-RENG-gay",
+    "explanation": "Merengue is a music and dance style from the Dominican Republic.",
+    "wordForm": "single"
+  },
+  {
+    "id": "flamenco",
+    "name": "Flamenco",
+    "category": "Dance Style",
+    "subcategory": "Dance style",
+    "acceptedAnswers": [
+      "dance style",
+      "dance"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "fluh-MENG-koh",
+    "explanation": "Flamenco is a Spanish performing tradition that includes expressive dance, singing, and guitar.",
+    "wordForm": "single"
+  },
+  {
+    "id": "fandango",
+    "name": "Fandango",
+    "category": "Dance Style",
+    "subcategory": "Dance style",
+    "acceptedAnswers": [
+      "dance style",
+      "dance"
+    ],
+    "difficulty": 4,
+    "ambiguity": "medium",
+    "commonName": "none",
+    "pronunciation": "fan-DANG-goh",
+    "explanation": "Fandango is a lively Spanish dance traditionally performed by a couple.",
+    "wordForm": "single"
+  },
+  {
+    "id": "tarantella",
+    "name": "Tarantella",
+    "category": "Dance Style",
+    "subcategory": "Dance style",
+    "acceptedAnswers": [
+      "dance style",
+      "dance"
+    ],
+    "difficulty": 4,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "tar-un-TEL-uh",
+    "explanation": "Tarantella is a family of lively folk dances from southern Italy.",
+    "wordForm": "single"
+  },
+  {
+    "id": "kathak",
+    "name": "Kathak",
+    "category": "Dance Style",
+    "subcategory": "Dance style",
+    "acceptedAnswers": [
+      "dance style",
+      "dance"
+    ],
+    "difficulty": 4,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "kuh-THUK",
+    "explanation": "Kathak is a classical dance form from northern India known for storytelling and rhythmic footwork.",
+    "wordForm": "single"
+  },
+  {
+    "id": "bharatanatyam",
+    "name": "Bharatanatyam",
+    "category": "Dance Style",
+    "subcategory": "Dance style",
+    "acceptedAnswers": [
+      "dance style",
+      "dance"
+    ],
+    "difficulty": 5,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "buh-ruh-tuh-NAAT-yum",
+    "explanation": "Bharatanatyam is a classical Indian dance form associated with Tamil Nadu.",
+    "wordForm": "single"
+  },
+  {
+    "id": "odissi",
+    "name": "Odissi",
+    "category": "Dance Style",
+    "subcategory": "Dance style",
+    "acceptedAnswers": [
+      "dance style",
+      "dance"
+    ],
+    "difficulty": 5,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "oh-DISS-ee",
+    "explanation": "Odissi is a classical Indian dance form from Odisha.",
+    "wordForm": "single"
+  },
+  {
+    "id": "mazurka",
+    "name": "Mazurka",
+    "category": "Dance Style",
+    "subcategory": "Dance style",
+    "acceptedAnswers": [
+      "dance style",
+      "dance"
+    ],
+    "difficulty": 4,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "muh-ZUR-kuh",
+    "explanation": "Mazurka is a Polish folk dance in triple time.",
+    "wordForm": "single"
+  },
+  {
+    "id": "charleston",
+    "name": "Charleston",
+    "category": "Dance Style",
+    "subcategory": "Dance style",
+    "acceptedAnswers": [
+      "dance style",
+      "dance"
+    ],
+    "difficulty": 3,
+    "ambiguity": "medium",
+    "commonName": "none",
+    "pronunciation": "CHARL-stun",
+    "explanation": "Charleston is a dance known for lively kicks and swiveling steps.",
+    "wordForm": "single"
+  },
+  {
+    "id": "piano",
+    "name": "Piano",
+    "category": "Musical Instrument",
+    "subcategory": "Keyboard instrument",
+    "acceptedAnswers": [
+      "musical instrument",
+      "instrument"
+    ],
+    "difficulty": 1,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "pee-AN-oh",
+    "explanation": "A piano is a keyboard instrument whose hammers strike strings.",
+    "wordForm": "single"
+  },
+  {
+    "id": "violin",
+    "name": "Violin",
+    "category": "Musical Instrument",
+    "subcategory": "Bowed string instrument",
+    "acceptedAnswers": [
+      "musical instrument",
+      "instrument"
+    ],
+    "difficulty": 1,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "vy-uh-LIN",
+    "explanation": "A violin is a four-stringed instrument usually played with a bow.",
+    "wordForm": "single"
+  },
+  {
+    "id": "guitar",
+    "name": "Guitar",
+    "category": "Musical Instrument",
+    "subcategory": "String instrument",
+    "acceptedAnswers": [
+      "musical instrument",
+      "instrument"
+    ],
+    "difficulty": 1,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "gih-TAR",
+    "explanation": "A guitar is a string instrument played by plucking or strumming.",
+    "wordForm": "single"
+  },
+  {
+    "id": "flute",
+    "name": "Flute",
+    "category": "Musical Instrument",
+    "subcategory": "Wind instrument",
+    "acceptedAnswers": [
+      "musical instrument",
+      "instrument"
+    ],
+    "difficulty": 1,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "FLOOT",
+    "explanation": "A flute is a wind instrument that makes sound when air passes across an opening.",
+    "wordForm": "single"
+  },
+  {
+    "id": "harp",
+    "name": "Harp",
+    "category": "Musical Instrument",
+    "subcategory": "String instrument",
+    "acceptedAnswers": [
+      "musical instrument",
+      "instrument"
+    ],
+    "difficulty": 2,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "HARP",
+    "explanation": "A harp is a musical instrument with strings that are plucked.",
+    "wordForm": "single"
+  },
+  {
+    "id": "trumpet",
+    "name": "Trumpet",
+    "category": "Musical Instrument",
+    "subcategory": "Brass instrument",
+    "acceptedAnswers": [
+      "musical instrument",
+      "instrument"
+    ],
+    "difficulty": 2,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "TRUM-pit",
+    "explanation": "A trumpet is a brass instrument played by buzzing the lips into a mouthpiece.",
+    "wordForm": "single"
+  },
+  {
+    "id": "clarinet",
+    "name": "Clarinet",
+    "category": "Musical Instrument",
+    "subcategory": "Woodwind instrument",
+    "acceptedAnswers": [
+      "musical instrument",
+      "instrument"
+    ],
+    "difficulty": 2,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "klar-ih-NET",
+    "explanation": "A clarinet is a woodwind instrument that uses a single reed.",
+    "wordForm": "single"
+  },
+  {
+    "id": "oboe",
+    "name": "Oboe",
+    "category": "Musical Instrument",
+    "subcategory": "Woodwind instrument",
+    "acceptedAnswers": [
+      "musical instrument",
+      "instrument"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "OH-boh",
+    "explanation": "An oboe is a woodwind instrument that uses a double reed.",
+    "wordForm": "single"
+  },
+  {
+    "id": "bassoon",
+    "name": "Bassoon",
+    "category": "Musical Instrument",
+    "subcategory": "Woodwind instrument",
+    "acceptedAnswers": [
+      "musical instrument",
+      "instrument"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "buh-SOON",
+    "explanation": "A bassoon is a low-pitched woodwind instrument with a double reed.",
+    "wordForm": "single"
+  },
+  {
+    "id": "trombone",
+    "name": "Trombone",
+    "category": "Musical Instrument",
+    "subcategory": "Brass instrument",
+    "acceptedAnswers": [
+      "musical instrument",
+      "instrument"
+    ],
+    "difficulty": 2,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "trom-BOHN",
+    "explanation": "A trombone is a brass instrument usually played with a slide that changes its pitch.",
+    "wordForm": "single"
+  },
+  {
+    "id": "marimba",
+    "name": "Marimba",
+    "category": "Musical Instrument",
+    "subcategory": "Percussion instrument",
+    "acceptedAnswers": [
+      "musical instrument",
+      "instrument"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "muh-RIM-buh",
+    "explanation": "A marimba is an instrument with wooden bars struck with mallets.",
+    "wordForm": "single"
+  },
+  {
+    "id": "xylophone",
+    "name": "Xylophone",
+    "category": "Musical Instrument",
+    "subcategory": "Percussion instrument",
+    "acceptedAnswers": [
+      "musical instrument",
+      "instrument"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "ZY-luh-fohn",
+    "explanation": "A xylophone is a percussion instrument with tuned wooden bars.",
+    "wordForm": "single"
+  },
+  {
+    "id": "kalimba",
+    "name": "Kalimba",
+    "category": "Musical Instrument",
+    "subcategory": "Plucked lamellophone",
+    "acceptedAnswers": [
+      "musical instrument",
+      "instrument"
+    ],
+    "difficulty": 4,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "kuh-LIM-buh",
+    "explanation": "A kalimba is an instrument played by plucking metal tines with the thumbs.",
+    "wordForm": "single"
+  },
+  {
+    "id": "kora",
+    "name": "Kora",
+    "category": "Musical Instrument",
+    "subcategory": "String instrument",
+    "acceptedAnswers": [
+      "musical instrument",
+      "instrument"
+    ],
+    "difficulty": 4,
+    "ambiguity": "medium",
+    "commonName": "rare",
+    "pronunciation": "KOR-uh",
+    "explanation": "A kora is a West African string instrument with a gourd body and a tall neck.",
+    "wordForm": "single"
+  },
+  {
+    "id": "sitar",
+    "name": "Sitar",
+    "category": "Musical Instrument",
+    "subcategory": "String instrument",
+    "acceptedAnswers": [
+      "musical instrument",
+      "instrument"
+    ],
+    "difficulty": 3,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "sih-TAR",
+    "explanation": "A sitar is a long-necked plucked string instrument used in Indian music.",
+    "wordForm": "single"
+  },
+  {
+    "id": "tabla",
+    "name": "Tabla",
+    "category": "Musical Instrument",
+    "subcategory": "Percussion instrument",
+    "acceptedAnswers": [
+      "musical instrument",
+      "instrument"
+    ],
+    "difficulty": 4,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "TAH-bluh",
+    "explanation": "Tabla is a pair of hand drums used in music from the Indian subcontinent.",
+    "wordForm": "single"
+  },
+  {
+    "id": "erhu",
+    "name": "Erhu",
+    "category": "Musical Instrument",
+    "subcategory": "Bowed string instrument",
+    "acceptedAnswers": [
+      "musical instrument",
+      "instrument"
+    ],
+    "difficulty": 5,
+    "ambiguity": "none",
+    "commonName": "none",
+    "pronunciation": "UR-hoo",
+    "explanation": "An erhu is a Chinese bowed instrument with two strings.",
+    "wordForm": "single"
   }
 ]
