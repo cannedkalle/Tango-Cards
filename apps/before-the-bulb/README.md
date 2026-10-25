@@ -4,13 +4,14 @@
 
 ## Play locally
 
-From the Kids Play Portal Apps workspace:
+From the portal repo root, serve the repo so the shared Playform stylesheet resolves correctly:
 
 ```sh
-npm run dev:before-the-bulb
+npm run design:sync
+python3 -m http.server 4173
 ```
 
-Open [Before the Bulb](http://127.0.0.1:4175/apps/before-the-bulb/). Serve the workspace root so the shared Playform stylesheet resolves correctly.
+Open [Before the Bulb](http://127.0.0.1:4173/apps/before-the-bulb/). Or just run the portal itself with `npm run dev` and play at `/before-the-bulb`.
 
 ## Included in this MVP
 
@@ -37,11 +38,12 @@ Content planning and future audits use [`docs/content-taxonomy.md`](docs/content
 
 ## Verify
 
+From the portal repo root:
+
 ```sh
 npm run test:before-the-bulb
-npm run verify
 ```
 
 Tests cover all content references and chronology, ambiguous/duplicate pairs, 100 seeded games across three complete pools (195,000 answers), score accuracy, invalid and double answers, shuffled answer positions, cycle boundaries, reset, and single-pair behavior.
 
-See the [September content review](docs/expansion-review-2026-09.md) for source links and editorial decisions. The app source is maintained here and mirrored to the portal’s static app folder.
+See the [September content review](docs/expansion-review-2026-09.md) for source links and editorial decisions. The app source lives in `apps/before-the-bulb` and is copied to the portal's `public/apps/` folder at build time.

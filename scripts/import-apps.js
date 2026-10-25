@@ -2,8 +2,9 @@ const fs = require("fs");
 const path = require("path");
 
 const portalRoot = path.resolve(__dirname, "..");
-const defaultWorkspaceRoot = path.resolve(portalRoot, "..", "Kids Play Portal Apps");
-const workspaceRoot = path.resolve(process.env.PLAY_APPS_WORKSPACE || defaultWorkspaceRoot);
+// The games live inside this repo under apps/. PLAY_APPS_WORKSPACE remains
+// as an escape hatch for an external workspace checkout.
+const workspaceRoot = path.resolve(process.env.PLAY_APPS_WORKSPACE || portalRoot);
 const manifestPath = path.join(workspaceRoot, "app-manifest.json");
 
 function readJson(filePath) {

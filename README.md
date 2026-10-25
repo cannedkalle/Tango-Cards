@@ -6,27 +6,27 @@ A Next.js website for polished kids play apps. This repository is published from
 
 Kids Play Portal owns the art, design, publishing, and launch layer for the play ecosystem. It should make each app feel visually curated, polished, and easy to launch.
 
-The sibling `../Kids Play Portal Apps` workspace owns local app experimentation and app-specific source where practical: rules, simulations, game mechanics, datasets, state, and core interactions. This portal owns how those apps are represented on the site: app registry entries, preview art, route wiring, typography, layout, and launch experience.
+The `apps/` folder in this repo owns app-specific source where practical: rules, simulations, game mechanics, datasets, state, and core interactions. This portal owns how those apps are represented on the site: app registry entries, preview art, route wiring, typography, layout, and launch experience.
 
 Every app added to the portal should have two-way navigation: the portal links into the app, and the app experience links back to the portal. Shared shell elements should feel consistent, while the app interior can keep the visual details needed for its own play pattern.
 
-## Two-Folder Workflow
+## App sources
 
-- `Kids Play Portal` is the GitHub/Vercel website repository.
-- `Kids Play Portal Apps` is the local app lab for testing AI-assisted playful app ideas.
+- This repo is the single source of truth: the website and the standalone games all live here.
 - App inventory for the website lives in `lib/apps.js`.
-- Local app inventory and release wiring lives in `../Kids Play Portal Apps/app-manifest.json`.
-- Static app exports are imported into this website with `npm run apps:import`.
+- Standalone game sources live in `apps/<app-id>/`.
+- Release wiring (which apps get copied into the site) lives in `app-manifest.json`.
+- Static app exports are imported into the website with `npm run apps:import`. The build runs this automatically, and the generated output in `public/apps/` is not committed.
 
 The current app set is:
 
 - `tango-cards`: portal-integrated AI-assisted collectible card gallery.
-- `marble-battles`: static simulation app sourced from `../Kids Play Portal Apps/apps/marble-battles`.
-- `animal-outsider`: static taxonomy game sourced from `../Kids Play Portal Apps/apps/animal-outsider`.
-- `before-the-bulb`: static invention-history quiz sourced from `../Kids Play Portal Apps/apps/before-the-bulb`.
-- `name-quest`: portal-integrated AI-assisted categorization game with mirrored local data in `../Kids Play Portal Apps/apps/name-quest/data`.
+- `marble-battles`: static simulation app sourced from `apps/marble-battles`.
+- `animal-outsider`: static taxonomy game sourced from `apps/animal-outsider`.
+- `before-the-bulb`: static invention-history quiz sourced from `apps/before-the-bulb`.
+- `name-quest`: portal-integrated AI-assisted categorization game.
 
-For a scalable app catalog, add new app ideas under `../Kids Play Portal Apps/apps/<app-id>` and register publishable apps in both the Apps manifest and this portal's `lib/apps.js`. Keep app-specific data inside the app folder, and move only genuinely shared utilities into `../Kids Play Portal Apps/shared`.
+For a scalable app catalog, add new app ideas under `apps/<app-id>` and register publishable apps in both the Apps manifest and this portal's `lib/apps.js`. Keep app-specific data inside the app folder, and move only genuinely shared utilities into `lib/`.
 
 ## Playform Kids visual system
 
@@ -34,9 +34,9 @@ The approved house style is Playform Kids, for ages 6–10: flat geometric chara
 
 The canonical rules are in `docs/visual-style.md`; asset construction is in `docs/art-direction-prompt.md`. Tokens and reusable SVG art live in `public/design-system/`.
 
-After changing shared art or tokens, run `npm run apps:import`. This generates the canvas palette, syncs the design system into the sibling Apps workspace, and imports its released apps. Edit Animal Outsider and Marble Battles at their sibling source, never only the generated copies in `public/apps/`.
+After changing shared art or tokens, run `npm run apps:import`. This generates the canvas palette, syncs the design system for local standalone serving, and imports the released apps. Edit Animal Outsider, Marble Battles, and Before the Bulb in `apps/`, never only the generated copies in `public/apps/`.
 
-Run `npm run design:check` for asset and token consistency; `npm run build` includes this check. The build does not require the sibling workspace.
+Run `npm run design:check` for asset and token consistency; `npm run build` includes this check. The build is self-contained: it imports the apps from `apps/` first, so no sibling folder is needed.
 
 Run locally with:
 
