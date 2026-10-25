@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fffdf6">
+  <title>Before the Bulb · Which came first?</title>
+  <link rel="icon" href="../../design-system/brand.svg" type="image/svg+xml">
+  <script>
+    window.beforeBulbAssetBase = window.location.protocol === "file:" ? "./" : "/apps/before-the-bulb/";
+    document.write(`<link rel="stylesheet" href="${window.beforeBulbAssetBase}styles.css">`);
+  </script>
+</head>
+<body>
+  <main class="shell">
+    <header class="masthead">
+      <nav class="pf-portal-nav" aria-label="Portal navigation">
+        <a class="pf-brand" href="/"><img src="../../design-system/brand.svg" alt="">Whimsical Kids Portal</a>
+        <a class="pf-back" href="/"><span aria-hidden="true">←</span>Back to all apps</a>
+      </nav>
+      <div class="game-brand-row">
+        <p class="app-eyebrow">Before the Bulb</p>
+        <button class="quiet" id="restart" type="button" hidden>Start over <span aria-hidden="true">↺</span></button>
+      </div>
+    </header>
+    <section class="game" aria-labelledby="question">
+      <div class="round-bar"><span class="round-pill" id="round">Warming up…</span><span id="score" class="score">0 <span>/ 0 correct</span></span></div>
+      <div class="intro"><p class="eyebrow">A LITTLE TRIP THROUGH TIME</p><h1 id="question" tabindex="-1">Which came first?</h1><p id="instruction">Two bright ideas. Tap the one that came earlier.</p></div>
+      <section class="mode-picker" aria-label="Choose game mode">
+        <div class="mode-options" role="group" aria-label="Game modes">
+          <button class="mode-option" data-mode="curated" type="button" aria-pressed="true"><span aria-hidden="true">✦</span> Curated</button>
+          <button class="mode-option" data-mode="wild" type="button" aria-pressed="false"><span aria-hidden="true">⚡</span> Wild</button>
+        </div>
+        <p class="mode-note"><strong id="mode-title">Curated mode</strong><span id="mode-description">Hand-picked matchups with a bright little fact.</span></p>
+      </section>
+      <div id="loading" role="status">Getting the inventions ready…</div>
+      <div class="choices" id="choices" aria-label="Choose the earlier invention"></div>
+      <section id="reveal" class="reveal" aria-labelledby="result-title" hidden>
+        <div class="result-top"><div><p class="eyebrow" id="feedback"></p><h2 id="result-title"></h2></div><span class="result-spark" aria-hidden="true">✦</span></div>
+        <div id="dates" class="dates"></div>
+        <div class="fact"><span aria-hidden="true">💡</span><div><h3 id="fact-heading">A bright little fact</h3><p id="fact"></p></div></div>
+        <div class="reveal-bottom"><details id="source-details"><summary>Dates & sources</summary><p class="source-note">Inventions take shape over time. These dates mark the specific milestones shown above.</p><div id="sources"></div></details><button class="next" id="next" type="button">Next discovery <span aria-hidden="true">→</span></button></div>
+      </section>
+      <p class="sr-only" id="announcement" role="status" aria-live="polite" aria-atomic="true"></p>
+      <p class="reassurance" id="reassurance">No timer. Just a little curiosity.</p>
+    </section>
+    <footer><span>Made for curious minds <span aria-hidden="true">✦</span></span><span id="pool"></span></footer>
+    <noscript><p>This game needs JavaScript enabled to show its invention cards.</p></noscript>
+  </main>
+  <script type="module">
+    import(`${window.beforeBulbAssetBase}src/main.mjs`);
+  </script>
+</body>
+</html>

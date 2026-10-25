@@ -373,6 +373,23 @@
     "wordForm": "single"
   },
   {
+    "id": "ceres",
+    "name": "Ceres",
+    "category": "Space",
+    "subcategory": "Dwarf planet",
+    "acceptedAnswers": [
+      "space",
+      "dwarf planet"
+    ],
+    "difficulty": 3,
+    "ambiguity": "high",
+    "curatedVideoException": true,
+    "commonName": "none",
+    "pronunciation": "SEER-eez",
+    "explanation": "Ceres is a dwarf planet in the asteroid belt.",
+    "wordForm": "single"
+  },
+  {
     "id": "cassiopeia",
     "name": "Cassiopeia",
     "category": "Space",
