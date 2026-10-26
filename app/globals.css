@@ -19,8 +19,8 @@ h1,h2,h3,p{margin:0}h1{font-size:clamp(30px,4vw,44px);letter-spacing:-1.2px}h2{f
 @media(max-width:1240px){.portal-page-nav{width:auto;margin-left:32px;margin-right:32px}}
 @media(max-width:760px){.portal-page-nav{margin:20px 20px 0}.portal-page-nav + .app-topbar{padding-top:24px}}
 .before-app-card{--app-surface:var(--pf-gold-soft)}
-.twin-terms-app-card{--app-surface:var(--pf-leaf-soft)}
+.twin-terms-app-card{--app-surface:var(--pf-rose-soft)}
 
-.wild-app-card{--app-surface:var(--pf-leaf-soft)}.wild-preview-type{font-size:clamp(36px,5vw,60px);font-weight:800;letter-spacing:-2px;color:var(--pf-green);transform:rotate(-5deg)}
+.wild-app-card{--app-surface:var(--pf-teal-soft)}.wild-preview-type{font-size:clamp(36px,5vw,60px);font-weight:800;letter-spacing:-2px;color:var(--pf-green);transform:rotate(-5deg)}
 
 .lab-section{margin-top:12px}.lab-section+.lab-section{margin-top:40px}.lab-section-title{font-size:28px;letter-spacing:-.8px;margin:8px 0 20px}
