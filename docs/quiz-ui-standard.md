@@ -1,7 +1,7 @@
 # Quiz UI standard
 
 The five quiz games — Balls in the Ballpark, Before the Bulb, Name Quest,
-Animal Outsider, Two Hints — share one layout and one set of play modes. Tango Cards
+Animal Outsider, Twin Terms — share one layout and one set of play modes. Tango Cards
 (collecting) and Marble Battles (a simulation) are not quizzes: they live in
 their own home section and keep their own controls.
 
@@ -75,7 +75,7 @@ is uniform.
 
 Each app carries a `section` field. The home page renders Quiz games
 first — Balls in the Ballpark, Name Quest, Animal Outsider, Before the
-Bulb, Two Hints — then Cards and battles — Tango Cards, Marble Battles.
+Bulb, Twin Terms — then Cards and battles — Tango Cards, Marble Battles.
 
 ## Exceptions
 
