@@ -30,44 +30,56 @@ test('rejects overlapping dates, wrong answers, duplicate pair directions and un
   assert.throws(() => validateContent(bad), /missing fact/);
 });
 
-test('100 seeded games complete three pools without repeats, score drift or answer-side bias', () => {
-  const correctSides = new Set();
-  for (let seed=1; seed<=100; seed++) {
-    const game = createGame(pairs,seededRandom(seed));
-    let previousId;
-    let expected = 0;
-    for (let cycle=1;cycle<=3;cycle++) {
-      const seen = new Set();
-      for(let i=0;i<pairs.length;i++) {
-        const state=game.next();
-        assert.equal(state.cycle,cycle);
-        assert.equal(state.position,i+1);
-        assert.notEqual(state.pair.id,previousId);
-        assert.ok(!seen.has(state.pair.id)); seen.add(state.pair.id);
-        assert.equal(game.next().pair.id,state.pair.id, 'cannot skip unanswered round');
-        assert.equal(game.answer('not-a-choice'),null);
-        correctSides.add(state.choices.indexOf(state.pair.earlierObjectId));
-        const chosen=i%2===0?state.pair.earlierObjectId:state.choices.find(id=>id!==state.pair.earlierObjectId);
-        if(i%2===0) expected++;
-        const result=game.answer(chosen);
-        assert.equal(result.correct,expected);
-        assert.equal(result.answered,(cycle-1)*pairs.length+i+1);
-        assert.equal(game.answer(chosen),null,'double taps do not score');
-        previousId=state.pair.id;
-      }
-      assert.equal(seen.size,pairs.length);
-    }
+test('deals are independent draws that avoid the recent window and fall back to the full pool', () => {
+  const game = createGame(pairs, seededRandom(7));
+  /* Mirrors the component's session window: the last 12 dealt ids. */
+  const recent = [];
+  for (let i = 0; i < 200; i++) {
+    const state = game.next(recent);
+    assert.ok(!recent.includes(state.pair.id), `repeat within window: ${state.pair.id}`);
+    assert.equal(game.next(recent).pair.id, state.pair.id, 'cannot skip unanswered round');
+    recent.push(state.pair.id);
+    if (recent.length > 12) recent.shift();
+    game.answer(state.pair.earlierObjectId);
   }
-  assert.deepEqual([...correctSides].sort(),[0,1]);
+  const allIds = pairs.map((pair) => pair.id);
+  const fallback = game.next(allIds);
+  assert.ok(allIds.includes(fallback.pair.id));
 });
 
-test('reset clears score and handles a one-pair pool', () => {
-  const game=createGame([pairs[0]],()=>0);
-  const first=game.next(); game.answer(first.pair.earlierObjectId);
-  assert.equal(game.next().cycle,2);
-  const reset=game.reset();
-  assert.equal(reset.answered,0); assert.equal(reset.correct,0); assert.equal(reset.cycle,1); assert.equal(reset.selected,null);
-  assert.throws(()=>createGame([]));
+test('answering scores correctly, rejects double taps, and varies the answer side', () => {
+  const game = createGame(pairs, seededRandom(11));
+  let expected = 0;
+  const correctSides = new Set();
+  for (let i = 0; i < 100; i++) {
+    const state = game.next();
+    assert.equal(game.answer('not-a-choice'), null);
+    correctSides.add(state.choices.indexOf(state.pair.earlierObjectId));
+    const chosen = i % 2 === 0 ? state.pair.earlierObjectId : state.choices.find((id) => id !== state.pair.earlierObjectId);
+    if (i % 2 === 0) expected++;
+    const result = game.answer(chosen);
+    assert.equal(result.correct, expected);
+    assert.equal(result.answered, i + 1);
+    assert.equal(game.answer(chosen), null, 'double taps do not score');
+  }
+  assert.deepEqual([...correctSides].sort(), [0, 1]);
+});
+
+test('reset clears score, deals outside the window, and handles a one-pair pool', () => {
+  const game = createGame([pairs[0], pairs[1], pairs[2]], () => 0);
+  const first = game.next();
+  game.answer(first.pair.earlierObjectId);
+  const reset = game.reset([first.pair.id]);
+  assert.equal(reset.answered, 0);
+  assert.equal(reset.correct, 0);
+  assert.equal(reset.selected, null);
+  assert.notEqual(reset.pair.id, first.pair.id);
+  const solo = createGame([pairs[0]], () => 0);
+  const only = solo.next();
+  solo.answer(only.pair.earlierObjectId);
+  const again = solo.reset([only.pair.id]);
+  assert.equal(again.pair.id, only.pair.id, 'one-pair pool falls back to its only pair');
+  assert.throws(() => createGame([]));
 });
 
 test('future matching rule favors related ideas and rejects disconnected matches', () => {
