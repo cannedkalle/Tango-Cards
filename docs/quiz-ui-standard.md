@@ -75,7 +75,7 @@ is uniform.
 
 Each app carries a `section` field. The home page renders Quiz games
 first — Balls in the Ballpark, Name Quest, Animal Outsider, Before the
-Bulb, Twin Terms — then Cards and battles — Tango Cards, Marble Battles.
+Bulb, Twin Terms — then Non-quiz games — Tango Cards, Marble Battles.
 
 ## Exceptions
 

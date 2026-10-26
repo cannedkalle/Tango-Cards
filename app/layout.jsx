@@ -10,7 +10,7 @@ export const metadata = {
     apple: "/icons/apple-touch-icon.png",
   },
   manifest: "/manifest.json",
-  description: `A polished lab for kids play apps including ${APP_NAMES.tangoCards}, ${APP_NAMES.marbleBattles}, ${APP_NAMES.nameQuest}, and ${APP_NAMES.animalOutsider}.`,
+  description: `A polished lab for family-friendly quiz and play apps including ${APP_NAMES.tangoCards}, ${APP_NAMES.marbleBattles}, ${APP_NAMES.nameQuest}, and ${APP_NAMES.animalOutsider}.`,
 };
 
 export const viewport = {

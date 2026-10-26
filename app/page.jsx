@@ -47,8 +47,8 @@ export default function HomePage() {
             ))}
           </div>
         </section>
-        <section className="lab-section" aria-label="Cards and battles">
-          <h2 className="lab-section-title">Cards and battles</h2>
+        <section className="lab-section" aria-label="Non-quiz games">
+          <h2 className="lab-section-title">Non-quiz games</h2>
           <div className="lab-app-grid">
             {OTHER_APPS.map((app) => (
               <AppCard app={app} key={app.id} />
