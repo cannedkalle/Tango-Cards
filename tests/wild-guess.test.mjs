@@ -36,7 +36,7 @@ test('proposal pool contains 100 clear, non-overlapping comparisons across four 
 });
 
 test('subject pool deals close, non-overlapping, non-part-whole matchups', () => {
-  assert.equal(subjects.length, 139);
+  assert.equal(subjects.length, 163);
   assert.equal(new Set(subjects.map((subject) => subject.id)).size, subjects.length);
   assert.equal(new Set(subjects.map((subject) => `${subject.category}:${canonicalConceptKey(subject.label)}`)).size, subjects.length);
   assert.deepEqual(subjects.filter((subject) => /\b(big|large|huge|long|full-grown|giant)\b/i.test(subject.label) && !/\bgiant tortoise\b/i.test(subject.label)).map((subject) => subject.label), []);
@@ -44,14 +44,14 @@ test('subject pool deals close, non-overlapping, non-part-whole matchups', () =>
   assert.equal(subjects.some((subject) => subject.label === 'Two meals eaten by one person'), false);
   assert.equal(subjects.some((subject) => subject.label === 'Two ticks of a clock'), false);
   assert.deepEqual(Object.fromEntries(subjectCategories.map((category) => [category, validSubjectPairs(category).length])), {
-    count: 64,
-    duration: 101,
-    weight: 39,
-    frequency: 47,
-    length: 27,
-    area: 20,
-    volume: 13,
-    speed: 20,
+    count: 77,
+    duration: 109,
+    weight: 53,
+    frequency: 52,
+    length: 52,
+    area: 36,
+    volume: 34,
+    speed: 38,
   });
   const byId = new Map(subjects.map((subject) => [subject.id, subject]));
   for (const [a, b] of [
@@ -66,6 +66,7 @@ test('subject pool deals close, non-overlapping, non-part-whole matchups', () =>
     ['area-the-great-barrier-reef-marine-park', 'area-the-pacific-ocean'],
     ['area-a-city-block', 'area-the-island-of-manhattan'],
     ['weight-a-blue-whale', 'weight-a-blue-whales-tongue'],
+    ['volume-the-water-in-the-atlantic-ocean', 'volume-the-water-in-all-of-earths-oceans'],
   ]) {
     assert.ok(byId.get(a) && byId.get(b), `${a} / ${b} exist`);
     assert.equal(isPartWholePair(byId.get(a), byId.get(b)), true, `${a} vs ${b}`);
