@@ -18,9 +18,9 @@ import {
 const byId = new Map(animals.map((animal) => [animal.id, animal]));
 const animal = (id) => byId.get(id);
 
-test('pool has 298 animals with unique ids and complete taxonomy', () => {
-  assert.equal(animals.length, 298);
-  assert.equal(new Set(animals.map((item) => item.id)).size, 298);
+test('pool has 331 animals with unique ids and complete taxonomy', () => {
+  assert.equal(animals.length, 331);
+  assert.equal(new Set(animals.map((item) => item.id)).size, 331);
   for (const item of animals) {
     assert.equal(typeof item.id, 'string');
     assert.equal(typeof item.commonName, 'string');
@@ -43,7 +43,7 @@ test('easy pool is the 64 familiar animals; standard pool is everything', () => 
   assert.equal(easy.length, 64);
   assert.equal(easyAnimalIds.size, 64);
   for (const item of easy) assert.ok(easyAnimalIds.has(item.id));
-  assert.equal(getAnimalPool(animals, 'standard').length, 298);
+  assert.equal(getAnimalPool(animals, 'standard').length, 331);
 });
 
 test('mostRecentSharedClade scores the closest shared branch', () => {
