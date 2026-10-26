@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import PortalNav from '../components/PortalNav';
 import { createGame } from '../../lib/before-the-bulb/game.mjs';
+import { PLAY_MODES, isGameOver, livesHearts, nextLives } from '../../lib/quiz-play.mjs';
 import {
   objectMap,
   objects,
@@ -47,6 +48,10 @@ function sourceLinks(ids) {
 export default function Game() {
   const [game, setGame] = useState(() => createGame(MODES.curated.pairs));
   const [mode, setMode] = useState('curated');
+  const [playMode, setPlayMode] = useState('endless');
+  const [lives, setLives] = useState(3);
+  const [over, setOver] = useState(false);
+  const [showResults, setShowResults] = useState(false);
   const [snap, setSnap] = useState(null);
   const [defOpen, setDefOpen] = useState({});
   const startedRef = useRef(false);
@@ -80,6 +85,25 @@ export default function Game() {
     setGame(nextGame);
     setMode(nextMode);
     setDefOpen({});
+    setLives(3);
+    setOver(false);
+    setShowResults(false);
+    startedRef.current = true;
+    focusRequest.current = 'question';
+    setSnap(nextGame.next());
+  };
+
+  /* Switching play mode starts a fresh game in the same pool, so one
+   * mode's results never mix with another's. */
+  const switchPlayMode = (nextPlayMode) => {
+    if (nextPlayMode === playMode) return;
+    const nextGame = createGame(MODES[mode].pairs);
+    setGame(nextGame);
+    setPlayMode(nextPlayMode);
+    setDefOpen({});
+    setLives(3);
+    setOver(false);
+    setShowResults(false);
     startedRef.current = true;
     focusRequest.current = 'question';
     setSnap(nextGame.next());
@@ -91,9 +115,17 @@ export default function Game() {
     setDefOpen({});
     focusRequest.current = 'next';
     setSnap(result);
+    const wasCorrect = result.selected === result.pair.earlierObjectId;
+    const nextLivesCount = nextLives(playMode, lives, wasCorrect);
+    setLives(nextLivesCount);
+    setOver(isGameOver(playMode, result.answered, nextLivesCount));
   };
 
   const handleNext = () => {
+    if (over) {
+      setShowResults(true);
+      return;
+    }
     focusRequest.current = 'question';
     setDefOpen({});
     setSnap(game.next());
@@ -102,6 +134,9 @@ export default function Game() {
   const handleRestart = () => {
     focusRequest.current = 'question';
     setDefOpen({});
+    setLives(3);
+    setOver(false);
+    setShowResults(false);
     setSnap(game.reset());
   };
 
@@ -114,10 +149,16 @@ export default function Game() {
       ? objectMap.get(snap.choices.find((id) => id !== earlier.id))
       : null;
   const isCorrect = answered && snap.selected === earlier.id;
-  const roundText = snap
-    ? `${activeMode.roundLabel} ${snap.answered + 1}`
-    : 'Warming up…';
-  const instruction = snap
+  const roundText = !snap
+    ? 'Warming up…'
+    : over && showResults
+      ? 'Results'
+      : playMode === 'ten'
+        ? `${activeMode.roundLabel} ${Math.min(snap.answered + 1, 10)} of 10`
+        : `${activeMode.roundLabel} ${snap.answered + 1}`;
+  const instruction = over && showResults
+    ? 'Game over — here is how you did.'
+    : snap
     ? snap.cycle > 1 && snap.position === 1
       ? `You explored every ${
           mode === 'curated' ? 'curated discovery' : 'wild possibility'
@@ -154,6 +195,11 @@ export default function Game() {
             <span className="round-pill" id="round" ref={roundRef}>
               {roundText}
             </span>
+            {playMode === 'lives' && (
+              <span className="round-pill" aria-label={`${lives} lives left`}>
+                {livesHearts(lives)}
+              </span>
+            )}
             <span
               id="score"
               className="score"
@@ -175,6 +221,7 @@ export default function Game() {
             <p id="instruction">{instruction}</p>
           </div>
           <section className="mode-picker" aria-label="Choose game mode">
+            <span className="mode-group-label">Pool</span>
             <div className="mode-options" role="group" aria-label="Game modes">
               <button
                 className="mode-option"
@@ -195,11 +242,58 @@ export default function Game() {
                 <span aria-hidden="true">⚡</span> Wild
               </button>
             </div>
+            <span className="mode-group-label">Play</span>
+            <div className="mode-options" role="group" aria-label="Play mode">
+              {PLAY_MODES.map((play) => (
+                <button
+                  className="mode-option"
+                  key={play.id}
+                  type="button"
+                  aria-pressed={playMode === play.id}
+                  onClick={() => switchPlayMode(play.id)}
+                >
+                  {play.label}
+                </button>
+              ))}
+            </div>
             <p className="mode-note">
               <strong id="mode-title">{activeMode.title}</strong>
               <span id="mode-description">{activeMode.description}</span>
             </p>
           </section>
+          {over && showResults ? (
+            <section className="reveal" aria-labelledby="results-title">
+              <div className="result-top">
+                <div>
+                  <p className="eyebrow">
+                    {playMode === 'ten' ? '10 QUESTIONS DONE!' : 'OUT OF LIVES!'}
+                  </p>
+                  <h2 id="results-title">Here is how you did.</h2>
+                </div>
+                <span className="result-spark" aria-hidden="true">
+                  ✦
+                </span>
+              </div>
+              <p className="score">
+                {snap.correct} / {snap.answered} correct
+              </p>
+              <div className="reveal-bottom">
+                <p className="mode-note">
+                  {playMode === 'ten'
+                    ? 'Ten discoveries, one score.'
+                    : `You got ${snap.correct} right in ${snap.answered} discoveries.`}
+                </p>
+                <button
+                  className="next"
+                  type="button"
+                  onClick={handleRestart}
+                >
+                  Play again <span aria-hidden="true">→</span>
+                </button>
+              </div>
+            </section>
+          ) : (
+            <>
           <div
             className="choices"
             id="choices"
@@ -349,7 +443,7 @@ export default function Game() {
                   ref={nextRef}
                   onClick={handleNext}
                 >
-                  Next discovery <span aria-hidden="true">→</span>
+                  {over ? 'See results ' : 'Next discovery '}<span aria-hidden="true">→</span>
                 </button>
               </div>
             </section>
@@ -367,6 +461,8 @@ export default function Game() {
             <p className="reassurance" id="reassurance">
               No timer. Just a little curiosity.
             </p>
+          )}
+            </>
           )}
         </section>
         <footer>

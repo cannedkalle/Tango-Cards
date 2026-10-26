@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo, useState } from "react";
 import { APP_NAMES } from "../../lib/apps";
+import { PLAY_MODES, isGameOver, livesHearts, nextLives } from "../../lib/quiz-play.mjs";
 import nameBank from "../../lib/name-quest/name-bank.json";
 import pokemonAnimalPairs from "../../lib/name-quest/pokemon-animal-pairs.json";
 import PortalNav from "../components/PortalNav";
@@ -295,6 +296,10 @@ const pickPairNext = (usedIds) => {
 export default function Game() {
   const [mode, setMode] = useState("category");
   const [level, setLevel] = useState("standard");
+  const [playMode, setPlayMode] = useState("endless");
+  const [lives, setLives] = useState(3);
+  const [over, setOver] = useState(false);
+  const [showResults, setShowResults] = useState(false);
   const [current, setCurrent] = useState(() => getPool("standard", "category")[0]);
   const [pairCurrent, setPairCurrent] = useState(() => pickPairNext(new Set()));
   const [usedIds, setUsedIds] = useState(() => new Set([getPool("standard", "category")[0].id]));
@@ -402,7 +407,11 @@ export default function Game() {
     setFeedback(answerLine);
     setScore((value) => value + (counted ? 1 : 0));
     setStreak((value) => (counted ? value + 1 : 0));
-
+    /* Rounds counts finished rounds; the round just answered is one more.
+     * A close answer counts as scored, so it never costs a life. */
+    const nextLivesCount = nextLives(playMode, lives, counted);
+    setLives(nextLivesCount);
+    setOver(isGameOver(playMode, rounds + 1, nextLivesCount));
   };
 
 
@@ -420,7 +429,18 @@ export default function Game() {
     setScore(0);
     setRounds(0);
     setStreak(0);
+    setLives(3);
+    setOver(false);
+    setShowResults(false);
+  };
 
+  /* Switching play mode starts a fresh game, so one mode's results never
+   * mix with another's. Content mode and level switches already reset
+   * through resetGame. */
+  const switchPlayMode = (nextPlayMode) => {
+    if (nextPlayMode === playMode) return;
+    setPlayMode(nextPlayMode);
+    resetGame();
   };
 
   return (
@@ -438,18 +458,34 @@ export default function Game() {
                 {nextMode === "category" ? "✦" : modeLabels[nextMode]}
               </button>
             ))}
+            <button type="button" onClick={() => resetGame()}>Start over ↺</button>
           </div>
         </div>
       </header>
 
       <main className="name-quest-page">
+        <div className="level-row" role="group" aria-label="Play mode" style={{ gridColumn: "1 / -1" }}>
+          {PLAY_MODES.map((play) => (
+            <button key={play.id} type="button" aria-pressed={playMode === play.id} onClick={() => switchPlayMode(play.id)}>{play.label}</button>
+          ))}
+        </div>
+        {over && showResults ? (
+          <section className="name-quest-board" aria-label="Name Quest results">
+            <div className="name-card-stage">
+              <p>{playMode === "ten" ? "10 questions done!" : "Out of lives!"}</p>
+              <h2 className="quest-name">Here is how you did.</h2>
+              <strong className="round-feedback">{score} correct out of {rounds + 1} answered.</strong>
+              <button type="button" className="next-round-button" onClick={() => resetGame()}>Play again</button>
+            </div>
+          </section>
+        ) : (
         <section className="name-quest-board" aria-label="Name Quest round">
           <div className="name-card-stage">
-            <p>Round {rounds + 1}</p>
+            <p>Round {rounds + 1}{playMode === "ten" ? " of 10" : ""}</p>
             <h2 className="quest-name">{promptName}</h2>
             <strong className={"round-feedback " + result} aria-live="polite">{feedback}</strong>
             {result !== "idle" ? (
-              <button type="button" className="next-round-button" onClick={nextRound}>Next</button>
+              <button type="button" className="next-round-button" onClick={over ? () => setShowResults(true) : nextRound}>{over ? "See results" : "Next"}</button>
             ) : null}
           </div>
 
@@ -459,27 +495,26 @@ export default function Game() {
             ))}
           </div>
         </section>
+        )}
 
         <aside className="name-quest-side" aria-label="Name Quest status">
-          <section className="score-panel">
+          <section className="score-panel" style={playMode === "lives" ? { gridTemplateColumns: "repeat(4, 1fr)" } : undefined}>
             <div><strong>{score}</strong><span>Score</span></div>
             <div><strong>{streak}</strong><span>Streak</span></div>
             <div><strong>{progressTotal}</strong><span>Items</span></div>
+            {playMode === "lives" && <div><strong>{livesHearts(lives)}</strong><span>Lives</span></div>}
             <div className="progress-track" aria-label="Progress"><span style={{ width: progressValue + "%" }} /></div>
           </section>
 
+          {mode === "category" && (
           <section className="quest-controls-panel">
-            {mode === "category" ? (
-              <div className="level-row" aria-label="Choose challenge level">
-                {Object.keys(levelLabels).map((nextLevel) => (
-                  <button key={nextLevel} type="button" aria-pressed={nextLevel === level} onClick={() => resetGame(nextLevel, mode)}>{levelLabels[nextLevel]}</button>
-                ))}
-              </div>
-            ) : null}
-            <div className="level-row">
-              <button type="button" onClick={() => resetGame()}>Restart</button>
+            <div className="level-row" aria-label="Choose challenge level">
+              {Object.keys(levelLabels).map((nextLevel) => (
+                <button key={nextLevel} type="button" aria-pressed={nextLevel === level} onClick={() => resetGame(nextLevel, mode)}>{levelLabels[nextLevel]}</button>
+              ))}
             </div>
           </section>
+          )}
         </aside>
       </main>
     </>

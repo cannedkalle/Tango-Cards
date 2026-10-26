@@ -3,4 +3,4 @@
 
 /* Portal adaptation: the shared PortalNav carries page margins for standalone
    pages; inside this game's masthead it must sit flush like the old nav. */
-.before-the-bulb .masthead .portal-page-nav{margin:0}
+.before-the-bulb .masthead .portal-page-nav{margin:0}.before-the-bulb .mode-group-label{font-size:12px;font-weight:800;color:var(--pf-muted)}

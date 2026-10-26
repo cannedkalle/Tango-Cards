@@ -1,7 +1,22 @@
 import Link from "next/link";
-import { PLAY_APPS } from "../lib/apps";
+import { OTHER_APPS, QUIZ_APPS } from "../lib/apps";
 import { SITE_NAME } from "../lib/names";
 import { creatorContactUrl, kofiUrl } from "../lib/support";
+
+function AppCard({ app }) {
+  return (
+    <Link className={`kids-app-card ${app.cardClassName}`} href={app.route}>
+      <span className={`kids-app-art ${app.previewClassName}`} aria-hidden="true">
+        {app.previewText ? <span className="wild-preview-type">{app.previewText}</span> : <img className="app-preview-image" src={app.previewImage} alt="" />}
+      </span>
+      <span className="app-copy">
+        <strong><span className="app-label">{app.label}</span>{app.name}</strong>
+        <small>{app.description}</small>
+        <b aria-hidden="true">→</b>
+      </span>
+    </Link>
+  );
+}
 
 export default function HomePage() {
   return (
@@ -23,19 +38,21 @@ export default function HomePage() {
           <h1>A little curious?<br />Come play.</h1>
           <p>Collect a character. Try a strange name. See where a marble goes.</p>
         </div>
-        <section className="lab-app-grid" aria-label="Play idea list">
-          {PLAY_APPS.map((app) => (
-            <Link className={`kids-app-card ${app.cardClassName}`} href={app.route} key={app.id}>
-              <span className={`kids-app-art ${app.previewClassName}`} aria-hidden="true">
-                {app.previewText ? <span className="wild-preview-type">{app.previewText}</span> : <img className="app-preview-image" src={app.previewImage} alt="" />}
-              </span>
-              <span className="app-copy">
-                <strong><span className="app-label">{app.label}</span>{app.name}</strong>
-                <small>{app.description}</small>
-                <b aria-hidden="true">→</b>
-              </span>
-            </Link>
-          ))}
+        <section className="lab-section" aria-label="Quiz games">
+          <h2 className="lab-section-title">Quiz games</h2>
+          <div className="lab-app-grid">
+            {QUIZ_APPS.map((app) => (
+              <AppCard app={app} key={app.id} />
+            ))}
+          </div>
+        </section>
+        <section className="lab-section" aria-label="Cards and battles">
+          <h2 className="lab-section-title">Cards and battles</h2>
+          <div className="lab-app-grid">
+            {OTHER_APPS.map((app) => (
+              <AppCard app={app} key={app.id} />
+            ))}
+          </div>
         </section>
       </main>
       <footer className="lab-footer"><span>Made by CannedKalle and sons.</span><span>Small games for big questions.</span></footer>
