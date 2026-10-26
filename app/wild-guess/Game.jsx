@@ -1,40 +1,95 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { buildReveal, clearProgress, createComparison, loadProgress, saveProgress } from '../../lib/wild-guess/client-game.mjs';
 
+/* Balls in the Ballpark, played entirely in the browser: matchups are dealt
+ * from the catalog that lives in the repo, and progress is kept in the
+ * player's own browser storage. No server database is involved, so the game
+ * works on the live site — and offline once installed — like the portal's
+ * other games. */
 export default function Game() {
-  const [game, setGame] = useState(null);
+  const [comparison, setComparison] = useState(null);
+  const [position, setPosition] = useState(0);
+  const [played, setPlayed] = useState(0);
+  const [correct, setCorrect] = useState(0);
   const [reveal, setReveal] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [queued, setQueued] = useState(null);
   const [error, setError] = useState('');
   const heading = useRef(null);
-  const busy = useRef(false);
 
-  async function request(body) {
-    if (busy.current) return;
-    busy.current = true;
-    setLoading(true);
-    setError('');
-    try {
-      const response = await fetch('/api/wild-guess', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
-      setGame(data.game);
-      if (data.reveal) setReveal(data.reveal);
-    } catch (requestError) {
-      setError(requestError.message || 'Could not connect. Try again.');
-    } finally {
-      busy.current = false;
-      setLoading(false);
+  const startFresh = () => {
+    const next = createComparison();
+    if (!next) {
+      setError('No matchups are available yet.');
+      return;
     }
-  }
+    clearProgress();
+    setComparison(next);
+    setPosition(0);
+    setPlayed(0);
+    setCorrect(0);
+    setReveal(null);
+    setQueued(null);
+    setError('');
+    saveProgress({ leftId: next.left.id, rightId: next.right.id, category: next.category, position: 0, played: 0, correct: 0 });
+  };
 
-  useEffect(() => { request({ action: 'start' }); }, []);
-  useEffect(() => { if (game) heading.current?.focus(); }, [game, reveal]);
+  useEffect(() => {
+    const saved = loadProgress();
+    if (saved) {
+      setComparison(saved.comparison);
+      setPosition(saved.position);
+      setPlayed(saved.played);
+      setCorrect(saved.correct);
+    } else {
+      startFresh();
+    }
+  }, []);
+  useEffect(() => { if (comparison) heading.current?.focus(); }, [comparison, reveal]);
 
-  const choose = (choice) => request({ action: 'choose', position: game.current.position, choice });
-  const stats = game?.stats || { correct: 0, played: 0 };
-  const comparison = game?.current.comparison;
+  const choose = (choice) => {
+    if (!comparison || reveal) return;
+    const nextReveal = buildReveal(comparison, choice);
+    const nextPlayed = played + 1;
+    const nextCorrect = correct + (nextReveal.correct ? 1 : 0);
+    setReveal(nextReveal);
+    setPlayed(nextPlayed);
+    setCorrect(nextCorrect);
+    /* Deal the next round now, so reloading mid-reveal lands on it — the
+     * same resume behavior the server game had. */
+    const upNext = createComparison();
+    setQueued(upNext);
+    if (upNext) {
+      saveProgress({ leftId: upNext.left.id, rightId: upNext.right.id, category: upNext.category, position: position + 1, played: nextPlayed, correct: nextCorrect });
+    } else {
+      saveProgress({ leftId: comparison.left.id, rightId: comparison.right.id, category: comparison.category, position, played: nextPlayed, correct: nextCorrect });
+    }
+  };
+
+  const next = () => {
+    if (queued) {
+      setComparison(queued);
+      setPosition(position + 1);
+      setReveal(null);
+      setQueued(null);
+      setError('');
+      return;
+    }
+    const nextComparison = createComparison();
+    if (!nextComparison) {
+      setError('No matchups are available yet.');
+      return;
+    }
+    const nextPosition = position + 1;
+    setReveal(null);
+    setComparison(nextComparison);
+    setPosition(nextPosition);
+    setQueued(null);
+    setError('');
+    saveProgress({ leftId: nextComparison.left.id, rightId: nextComparison.right.id, category: nextComparison.category, position: nextPosition, played, correct });
+  };
+
   const winnerCopy = reveal ? reveal.prompt.includes('shorter gap')
     ? `${reveal.sides[reveal.correctChoice].label} happens more often.`
     : reveal.prompt.includes('takes longer')
@@ -52,19 +107,19 @@ export default function Game() {
           : `${reveal.sides[reveal.correctChoice].label} has more.`
     : '';
 
-  return <div className="wg-layout"><section className="wg-board" aria-busy={loading}>
-    {error && <div className="wg-error" role="alert">{error} <button onClick={() => request({ action: 'start' })}>Reconnect</button></div>}
-    {!game ? <div className="wg-loading">Finding a curious matchup…</div> : <>
-      <div className="wg-score" aria-label="Your score"><div><strong>{stats.correct}</strong><span>right</span></div><div><strong>{stats.played}</strong><span>played</span></div></div>
+  return <div className="wg-layout"><section className="wg-board">
+    {error && <div className="wg-error" role="alert">{error} <button onClick={startFresh}>Start over</button></div>}
+    {!comparison ? <div className="wg-loading">Finding a curious matchup…</div> : <>
+      <div className="wg-score" aria-label="Your score"><div><strong>{correct}</strong><span>right</span></div><div><strong>{played}</strong><span>played</span></div></div>
       {reveal ? <div className="wg-comparison-reveal" role="status">
         <p className="wg-result-kicker">{reveal.correct ? 'You called it!' : 'Plot twist!'}</p>
         <h2 ref={heading} tabIndex={-1}>{winnerCopy}</h2>
         <div className="wg-reveal-sides">{reveal.sides.map((option, index) => <article className={index === reveal.correctChoice ? 'is-winner' : ''} key={option.label}><span className="wg-option-emoji" aria-hidden="true">{option.emoji}</span><h3>{option.label}</h3><p className="wg-scale-answer">{option.scaleLead} <strong>{option.scale}</strong></p><p>{option.detail}</p>{index === reveal.correctChoice && <span className="wg-winner-mark">{reveal.prompt.includes('shorter gap') ? 'Shorter gap ✓' : reveal.prompt.includes('moves or grows faster') ? 'Faster ✓' : reveal.prompt.includes('longer') ? 'Longer ✓' : reveal.prompt.includes('weighs') ? 'Heavier ✓' : reveal.prompt.includes('area') ? 'More area ✓' : reveal.prompt.includes('space') ? 'More space ✓' : 'More ✓'}</span>}</article>)}</div>
-        <button className="pf-primary" onClick={() => setReveal(null)}>Next matchup →</button>
+        <button className="pf-primary" onClick={next}>Next matchup →</button>
       </div> : <>
-        <p className="wg-question-number">Matchup {stats.played + 1}</p>
+        <p className="wg-question-number">Matchup {played + 1}</p>
         <h2 className="wg-question" ref={heading} tabIndex={-1}>{comparison.prompt}</h2>
-        <div className="wg-choice-grid">{comparison.sides.map((option, index) => <button key={option.label} disabled={loading} onClick={() => choose(index)}><span className="wg-option-emoji" aria-hidden="true">{option.emoji}</span><strong>{option.label}</strong><span className="wg-pick-label">Pick this one</span></button>)}</div>
+        <div className="wg-choice-grid">{[comparison.left, comparison.right].map((option, index) => <button key={option.label} onClick={() => choose(index)}><span className="wg-option-emoji" aria-hidden="true">{option.emoji}</span><strong>{option.label}</strong><span className="wg-pick-label">Pick this one</span></button>)}</div>
       </>}
     </>}
   </section></div>;
