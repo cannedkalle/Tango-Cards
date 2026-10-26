@@ -9,7 +9,7 @@ const directory = mkdtempSync(path.join(tmpdir(), 'wild-guess-'));
 process.env.WILD_GUESS_DB_PATH = path.join(directory, 'test.sqlite');
 delete process.env.DATABASE_URL; delete process.env.POSTGRES_URL; delete process.env.POSTGRES_PRISMA_URL; delete process.env.POSTGRES_URL_NON_POOLING;
 const { comparisons, comparisonCategories, rangesOverlap } = await import('../lib/wild-guess/comparisons.mjs');
-const { canonicalConceptKey, subjectCategories, subjects, subjectsOverlap, validSubjectPairs } = await import('../lib/wild-guess/subjects.mjs');
+const { canonicalConceptKey, isPartWholePair, MAX_CLOSE_GAP, MIN_PAIRS_PER_CATEGORY, subjectCategories, subjects, subjectsOverlap, validSubjectPairs } = await import('../lib/wild-guess/subjects.mjs');
 const { createGame, formatRange, formatScale, readGame, submitChoice, scaleName } = await import('../lib/wild-guess/game.mjs');
 const { database } = await import('../lib/wild-guess/database.mjs');
 execFileSync(process.execPath, ['scripts/setup-wild-guess.mjs'], { env: process.env });
@@ -35,7 +35,7 @@ test('proposal pool contains 100 clear, non-overlapping comparisons across four 
   assert.ok(frequency.every((comparison) => /per second$/.test(comparison.left.scaleLabel) && /per second$/.test(comparison.right.scaleLabel)));
 });
 
-test('subject pool generates every same-category matchup with separated ranges', () => {
+test('subject pool deals close, non-overlapping, non-part-whole matchups', () => {
   assert.equal(subjects.length, 94);
   assert.equal(new Set(subjects.map((subject) => subject.id)).size, subjects.length);
   assert.equal(new Set(subjects.map((subject) => `${subject.category}:${canonicalConceptKey(subject.label)}`)).size, subjects.length);
@@ -44,19 +44,41 @@ test('subject pool generates every same-category matchup with separated ranges',
   assert.equal(subjects.some((subject) => subject.label === 'Two meals eaten by one person'), false);
   assert.equal(subjects.some((subject) => subject.label === 'Two ticks of a clock'), false);
   assert.deepEqual(Object.fromEntries(subjectCategories.map((category) => [category, validSubjectPairs(category).length])), {
-    count: 220,
-    duration: 83,
-    weight: 199,
+    count: 47,
+    duration: 50,
+    weight: 34,
     frequency: 5,
-    length: 27,
-    area: 20,
-    volume: 9,
-    speed: 18,
+    length: 13,
+    area: 7,
+    volume: 3,
+    speed: 4,
   });
+  const byId = new Map(subjects.map((subject) => [subject.id, subject]));
+  for (const [a, b] of [
+    ['count-ants-alive-on-earth', 'count-insects-alive-on-earth'],
+    ['count-stars-your-eyes-can-see-in-a-dark-sky', 'count-stars-in-the-observable-universe'],
+    ['duration-an-acorn-growing-into-a-full-sized-oak', 'duration-an-oak-trees-life'],
+    ['weight-a-blue-whale', 'weight-all-the-blue-whales-on-earth'],
+    ['weight-a-blue-whale', 'weight-all-whales-alive-today'],
+    ['weight-all-the-blue-whales-on-earth', 'weight-all-whales-alive-today'],
+    ['weight-earth', 'weight-all-eight-planets-together'],
+    ['volume-the-water-in-lake-erie', 'volume-the-water-in-all-five-great-lakes'],
+    ['area-the-great-barrier-reef-marine-park', 'area-the-pacific-ocean'],
+  ]) {
+    assert.ok(byId.get(a) && byId.get(b), `${a} / ${b} exist`);
+    assert.equal(isPartWholePair(byId.get(a), byId.get(b)), true, `${a} vs ${b}`);
+  }
   for (const category of subjectCategories) {
-    for (const [left, right] of validSubjectPairs(category)) {
+    const pairs = validSubjectPairs(category);
+    assert.ok(pairs.length >= MIN_PAIRS_PER_CATEGORY, category);
+    for (const [left, right] of pairs) {
       assert.equal(left.category, right.category);
       assert.equal(subjectsOverlap(left, right), false);
+      assert.equal(isPartWholePair(left, right), false, `${left.id} vs ${right.id}`);
+      const gap = Math.abs(left.magnitude - right.magnitude);
+      // Volume's thin catalog forces its floor pairs wider; every other
+      // category deals within 1000x.
+      assert.ok(gap <= (category === 'volume' ? 5 : MAX_CLOSE_GAP), `${left.id} vs ${right.id}: gap ${gap}`);
     }
   }
 });
