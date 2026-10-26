@@ -4,7 +4,7 @@
  * always flow through, while app files (scripts, styles, images) are cached on first visit so installed play works offline.
  * Bump VERSION to force every installed copy onto a fresh cache. */
 
-const VERSION = "wkp-v3";
+const VERSION = "wkp-v4";
 const CORE_CACHE = `wkp-core-${VERSION}`;
 const RUNTIME_CACHE = `wkp-runtime-${VERSION}`;
 
