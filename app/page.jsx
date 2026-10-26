@@ -25,9 +25,6 @@ export default function HomePage() {
       <header className="topbar lab-topbar">
         <Link className="pf-brand" href="/"><img src="/design-system/brand.svg" alt="" />{SITE_NAME}</Link>
         <div className="topbar-actions">
-          <a className="support-link contact-link" href={creatorContactUrl} target="_blank" rel="noreferrer">
-            Project on GitHub
-          </a>
           <a className="support-link" href={kofiUrl} target="_blank" rel="noreferrer">
             Support Creator
           </a>
@@ -56,7 +53,7 @@ export default function HomePage() {
           </div>
         </section>
       </main>
-      <footer className="lab-footer"><span>Made by CannedKalle and sons.</span><span>Small games for big questions.</span></footer>
+      <footer className="lab-footer"><span>Made by CannedKalle and sons.</span><a className="support-link" href={creatorContactUrl} target="_blank" rel="noreferrer">Project on GitHub</a><span>Small games for big questions.</span></footer>
     </>
   );
 }
