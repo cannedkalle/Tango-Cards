@@ -97,11 +97,11 @@ test("six general categories cover every domain and pair, none empty", () => {
   }
   assert.deepEqual(
     [...domainCounts.entries()].sort(),
-    [["arts", 9], ["games", 7], ["life", 6], ["math", 8], ["science", 15], ["society", 11]],
+    [["arts", 10], ["games", 7], ["life", 7], ["math", 8], ["science", 15], ["society", 9]],
   );
   assert.deepEqual(
     [...pairCounts.entries()].sort(),
-    [["arts", 27], ["games", 21], ["life", 18], ["math", 24], ["science", 45], ["society", 33]],
+    [["arts", 30], ["games", 21], ["life", 21], ["math", 24], ["science", 45], ["society", 27]],
   );
   assert.equal(categoryById("no-such-category"), null);
 });
@@ -115,16 +115,21 @@ test("spot-check the category mapping", () => {
   assert.equal(pairById("court-appeal").category, "society");
   assert.equal(pairById("hook-bridge").category, "arts");
   assert.equal(pairById("prune-graft").category, "life");
+  assert.equal(pairById("person-number").category, "arts");
+  assert.equal(pairById("audit-return").category, "life");
 });
 
-test("category blurbs name broad fields, never a detailed subject", () => {
-  const answers = new Set(PAIRS.map((pair) => pair.answer.toLowerCase()));
+test("category blurbs are distinct phrases that name no detailed subject", () => {
+  const answers = PAIRS.map((pair) => pair.answer.toLowerCase());
+  const blurbs = CATEGORIES.map((category) => category.blurb.toLowerCase());
+  assert.equal(new Set(blurbs).size, 6);
   for (const category of CATEGORIES) {
     assert.ok(category.blurb.length > 0);
-    const items = category.blurb.split(",").map((item) => item.trim());
-    assert.ok(items.length >= 2 && items.length <= 5);
-    for (const item of items) {
-      assert.ok(!answers.has(item.toLowerCase()), `${category.id}: blurb item ${item} is a specific answer`);
+    for (const answer of answers) {
+      assert.ok(
+        !category.blurb.toLowerCase().includes(answer),
+        `${category.id}: blurb names ${answer}`,
+      );
     }
   }
 });

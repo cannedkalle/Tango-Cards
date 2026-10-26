@@ -167,7 +167,7 @@ export default function Game() {
   const categoryRight = pickedCategory !== null && pickedCategory === pair?.category;
   const revealed = pickedCategory !== null || picked !== null;
 
-  return <><PortalNav/><main className="twin-terms"><header className="th-heading"><div><span className="th-kicker">Two words. One category.</span><h1 className="pf-game-title">Twin Terms</h1></div><div className="th-heading-actions"><button className="pf-btn" type="button" onClick={() => startFresh()}><RestartIcon />Start over</button></div></header><div className="th-layout"><section className="th-board">
+  return <><PortalNav/><main className="twin-terms"><header className="th-heading"><div><span className="th-kicker">Two words. One shared field.</span><h1 className="pf-game-title">Twin Terms</h1></div><div className="th-heading-actions"><button className="pf-btn" type="button" onClick={() => startFresh()}><RestartIcon />Start over</button></div></header><div className="th-layout"><section className="th-board">
     {!pair ? <div className="th-loading">Finding a curious pair…</div> : <>
       <div className="th-score" aria-label="Your score"><div><strong>{correct}</strong><span>right</span></div><div><strong>{played}</strong><span>played</span></div>{playMode === 'lives' && <div><strong><LivesHearts lives={lives} /></strong><span>lives</span></div>}</div>
       <div className="pf-pill-group" role="group" aria-label="Play mode">
@@ -187,7 +187,7 @@ export default function Game() {
           <span className="th-mark" aria-hidden="true">?</span>
         </div>
         {!gaveUp && <>
-          <p className="th-prompt">Which category do these words belong to?</p>
+          <p className="th-prompt">Both words come from the same field. Pick its category.</p>
           <div className="th-categories">
             {CATEGORIES.map((category) => {
               const className = pickedCategory
