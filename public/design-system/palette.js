@@ -23,6 +23,8 @@ export const colors = {
   "violet-soft": "#f2edfb",
   "leaf-soft": "#edf3df",
   "gold-soft": "#fdf6d7",
+  "rose-soft": "#fde9ee",
+  "teal-soft": "#e2f4f1",
   "error": "#a13b36",
   "focus": "#265ec7"
 };
