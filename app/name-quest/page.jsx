@@ -1,6 +1,6 @@
 import { getAppById } from "../../lib/apps";
 import { pageTitle, SITE_NAME } from "../../lib/names";
-import NameQuestClient from "./NameQuestClient";
+import Game from "./Game";
 
 const app = getAppById("name-quest");
 
@@ -10,5 +10,5 @@ export const metadata = {
 };
 
 export default function NameQuestPage() {
-  return <NameQuestClient />;
+  return <Game />;
 }

@@ -16,10 +16,10 @@ const registry = fs.readFileSync(path.join(root, 'lib/apps.js'), 'utf8');
 for (const [, url] of registry.matchAll(/"(\/(?:design-system|assets|apps)\/[^"\n]+)"/g)) {
   if (!fs.existsSync(path.join(root, 'public', url))) errors.push(`Missing registered asset: ${url}`);
 }
-for (const app of ['animal-outsider', 'marble-battles']) {
-  const style = fs.readFileSync(path.join(root, 'public/apps', app, 'styles.css'), 'utf8');
-  if (!style.includes('/design-system/playform.css')) errors.push(`${app}: missing shared stylesheet`);
-}
+// The shared stylesheet is loaded globally by the portal shell now that
+// every game is portal-native; there are no standalone game stylesheets
+// left to check per game.
+if (!fs.readFileSync(path.join(root, 'app/globals.css'), 'utf8').includes('playform')) errors.push('app/globals.css: missing shared stylesheet');
 for (const file of ['app/globals.css', 'app/page.jsx', 'lib/apps.js']) {
   if (/lab-art\/|tango-paper-doodles/.test(fs.readFileSync(path.join(root, file), 'utf8'))) errors.push(`${file}: retired visual reference`);
 }

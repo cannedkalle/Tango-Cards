@@ -4,7 +4,7 @@ import test from 'node:test';
 import vm from 'node:vm';
 
 const bank = JSON.parse(readFileSync(new URL('../lib/name-quest/name-bank.json', import.meta.url)));
-const source = readFileSync(new URL('../app/name-quest/NameQuestClient.jsx', import.meta.url), 'utf8');
+const source = readFileSync(new URL('../app/name-quest/Game.jsx', import.meta.url), 'utf8');
 // Exercise the actual client selection functions without rendering React or JSX.
 const context = vm.createContext({ entries: bank, animalPairs: [] });
 vm.runInContext(source.slice(source.indexOf('const categories ='), source.indexOf('const getPokemonModeGroups =')), context);

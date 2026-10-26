@@ -1,5 +1,7 @@
 import { getAppById } from "../../lib/apps";
 import { pageTitle, SITE_NAME } from "../../lib/names";
+import Game from "./Game";
+import "./marble-battles.css";
 
 const app = getAppById("marble-battles");
 
@@ -9,13 +11,5 @@ export const metadata = {
 };
 
 export default function MarbleBattlesPage() {
-  return (
-    <main className="marble-route">
-      <iframe
-        title={app.name}
-        className="marble-frame"
-        src={app.publicPath}
-      />
-    </main>
-  );
+  return <Game />;
 }

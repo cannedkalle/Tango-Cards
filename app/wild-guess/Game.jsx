@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import PortalNav from '../components/PortalNav';
 import { buildReveal, clearProgress, createComparison, loadProgress, saveProgress } from '../../lib/wild-guess/client-game.mjs';
 
 /* Balls in the Ballpark, played entirely in the browser: matchups are dealt
@@ -107,7 +108,7 @@ export default function Game() {
           : `${reveal.sides[reveal.correctChoice].label} has more.`
     : '';
 
-  return <div className="wg-layout"><section className="wg-board">
+  return <><PortalNav/><main className="wg"><header className="wg-heading"><div><span className="wg-kicker">Two wild possibilities. One bigger answer.</span><h1>Balls in the Ballpark<span aria-hidden="true">?</span></h1></div><p>Which one<br/>is bigger?</p></header><div className="wg-layout"><section className="wg-board">
     {error && <div className="wg-error" role="alert">{error} <button onClick={startFresh}>Start over</button></div>}
     {!comparison ? <div className="wg-loading">Finding a curious matchup…</div> : <>
       <div className="wg-score" aria-label="Your score"><div><strong>{correct}</strong><span>right</span></div><div><strong>{played}</strong><span>played</span></div></div>
@@ -122,5 +123,5 @@ export default function Game() {
         <div className="wg-choice-grid">{[comparison.left, comparison.right].map((option, index) => <button key={option.label} onClick={() => choose(index)}><span className="wg-option-emoji" aria-hidden="true">{option.emoji}</span><strong>{option.label}</strong><span className="wg-pick-label">Pick this one</span></button>)}</div>
       </>}
     </>}
-  </section></div>;
+  </section></div></main></>;
 }

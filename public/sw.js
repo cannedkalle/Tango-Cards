@@ -1,25 +1,21 @@
 /* Whimsical Kids Portal service worker.
  *
  * Strategy, in one line: pages and game data are network-first so updates
- * always flow through, while app files (scripts, styles, images, the iframe
- * games) are cached on first visit so installed play works offline.
+ * always flow through, while app files (scripts, styles, images) are cached on first visit so installed play works offline.
  * Bump VERSION to force every installed copy onto a fresh cache. */
 
-const VERSION = "wkp-v1";
+const VERSION = "wkp-v2";
 const CORE_CACHE = `wkp-core-${VERSION}`;
 const RUNTIME_CACHE = `wkp-runtime-${VERSION}`;
 
-/* Precached on install: the portal shell, the manifest and icons, and the
- * three iframe game entry pages. Everything else is cached on first visit. */
+/* Precached on install: the portal shell, the manifest and icons.
+ * Everything else is cached on first visit. */
 const CORE = [
   "/",
   "/manifest.json",
   "/icons/icon-192.png",
   "/icons/icon-512.png",
   "/icons/apple-touch-icon.png",
-  "/apps/before-the-bulb/index.html",
-  "/apps/marble-battles/index.html",
-  "/apps/animal-outsider/index.html",
 ];
 
 const RUNTIME_MAX_ENTRIES = 250;
@@ -59,19 +55,12 @@ function isSameOrigin(url) {
 function isStaticAsset(pathname) {
   return (
     pathname.startsWith("/_next/static/") ||
-    pathname.startsWith("/apps/") ||
     pathname.startsWith("/assets/") ||
     pathname.startsWith("/icons/") ||
     pathname.startsWith("/design-system/") ||
     pathname.startsWith("/lab-art/") ||
     /\.(js|css|png|jpg|jpeg|svg|webp|woff2?)$/.test(pathname)
   );
-}
-
-/* Game data files stay network-first so corrected dates and new pairs
- * reach players without waiting for a cache bump. */
-function isDataJson(pathname) {
-  return pathname.startsWith("/apps/") && pathname.endsWith(".json");
 }
 
 async function trimCache(cache, maxEntries) {
@@ -130,11 +119,6 @@ self.addEventListener("fetch", (event) => {
         return (await core.match("/")) || Response.error();
       }),
     );
-    return;
-  }
-
-  if (isDataJson(pathname)) {
-    event.respondWith(networkFirst(request, null));
     return;
   }
 

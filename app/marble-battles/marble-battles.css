@@ -1,0 +1,83 @@
+/* Marble Battles styles, scoped under .marble-battles so they cannot leak into other games or the portal shell. Ported from the standalone styles.css; the portal already loads playform.css globally, so its @import is dropped. */
+.marble-battles{max-width:none;padding:0}
+.marble-battles .portal-page-nav{max-width:none;margin:0}
+.marble-battles h1,.marble-battles h2,.marble-battles p {margin:0}
+.marble-battles .app-shell {display:grid;grid-template-columns:minmax(0,1fr) 320px;min-height:100dvh;align-items:start;max-width:1800px;margin:auto}
+.marble-battles .stage-band {min-width:0;display:flex;flex-direction:column;align-items:center;gap:20px;padding:24px;overflow:hidden}
+.marble-battles .arena-header {display:flex;justify-content:space-between;align-items:center;gap:16px;width:100%;padding:0 0 16px;border-bottom:1px solid var(--pf-line)}
+.marble-battles .arena-header .pf-brand {font-size:18px}
+.marble-battles #arena {display:block;width:100%;aspect-ratio:16/9;border:1px solid var(--pf-line);border-radius:24px;background:var(--pf-blue-soft)}
+.marble-battles .scoreboard {display:flex;gap:8px;flex-wrap:wrap;width:100%}
+.marble-battles .score-pill {display:inline-flex;align-items:center;gap:8px;padding:8px 12px;min-height:36px;background:white;border:1px solid var(--pf-line);border-radius:12px;font-size:13px}
+.marble-battles .swatch {width:12px;height:12px;border-radius:50%;border:1px solid var(--pf-control-line)}
+.marble-battles .neutral-swatch {background:#dfe4dd}
+.marble-battles .control-panel {position:sticky;top:0;height:100dvh;overflow-y:auto;display:flex;flex-direction:column;gap:20px;padding:24px;border-left:1px solid var(--pf-line);background:white;min-width:0}
+.marble-battles .panel-header {display:flex;align-items:center;justify-content:space-between;gap:12px}
+.marble-battles .eyebrow {font-size:12px;font-weight:800;color:var(--pf-green);margin-bottom:6px}
+.marble-battles h1 {font-size:24px;letter-spacing:-.6px}
+.marble-battles h2 {font-size:14px}
+.marble-battles label {display:grid;gap:8px;font-size:13px;font-weight:600;color:var(--pf-muted)}
+.marble-battles .control-label {display:flex;align-items:center;justify-content:space-between;gap:8px}
+.marble-battles output {font-weight:700;color:var(--pf-ink);font-variant-numeric:tabular-nums}
+.marble-battles select,.marble-battles input {width:100%;min-width:0;min-height:44px;border:1px solid var(--pf-control-line);border-radius:12px;background:var(--pf-paper);color:var(--pf-ink);padding:8px}
+.marble-battles input[type=range] {padding:0;border:0;accent-color:var(--pf-green);background:transparent}
+.marble-battles button {min-height:48px;border:0;border-radius:16px;background:var(--pf-green);color:white;font-weight:700;padding:10px 14px;box-shadow:0 3px 0 var(--pf-green-edge)}
+.marble-battles button:hover {background:var(--pf-green-hover)}
+.marble-battles button:active {transform:translateY(2px);box-shadow:0 1px 0 var(--pf-green-edge)}
+.marble-battles .icon-button {min-width:76px}
+.marble-battles .button-row {display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.marble-battles .button-row button:last-child {background:var(--pf-leaf-soft);color:var(--pf-green);box-shadow:0 3px 0 #bdceb1}
+.marble-battles .back-link {display:inline-flex;min-height:44px;align-items:center;color:var(--pf-green);font-weight:700;text-decoration:none;font-size:14px}
+.marble-battles .back-link:hover {text-decoration:underline}
+.marble-battles .control-grid {display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.marble-battles .control-section {display:grid;gap:16px;border-top:1px solid var(--pf-line);padding-top:20px}
+.marble-battles .control-section h2 {color:var(--pf-green)}
+.marble-battles .status-strip {display:grid;gap:4px}
+.marble-battles .status-line {display:flex;justify-content:space-between;gap:16px;border-top:1px solid var(--pf-line);padding:8px 0;font-size:12px;color:var(--pf-muted)}
+.marble-battles .arena-note {align-self:flex-start;font-size:14px;color:var(--pf-muted)}
+@media(max-width:880px) {
+.marble-battles .app-shell {grid-template-columns:1fr}
+.marble-battles .stage-band {padding:20px}
+.marble-battles .control-panel {position:static;height:auto;overflow:visible;border-left:0;border-top:1px solid var(--pf-line);display:grid;grid-template-columns:1fr 1fr;align-items:start}
+.marble-battles .panel-header,.marble-battles .control-panel>.back-link,.marble-battles .status-strip {grid-column:1/-1}
+.marble-battles .control-section {height:100%}
+.marble-battles .arena-header {flex-wrap:wrap;gap:4px}
+}
+@media(max-width:520px) {
+.marble-battles .control-panel {grid-template-columns:1fr}
+.marble-battles .stage-band {padding:16px}
+.marble-battles .control-panel {padding:20px}
+.marble-battles #arena {border-radius:16px}
+.marble-battles .score-pill {font-size:12px;padding:6px 8px}
+.marble-battles .arena-header .pf-brand {font-size:17px}
+}
+.marble-battles .status-line strong {text-align:right;max-width:68%;overflow-wrap:anywhere;font-weight:600}
+.marble-battles .score-pill {font-variant-numeric:tabular-nums}
+/* Team disclosures stay mounted while their live values update. */
+.marble-battles .scoreboard {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:12px}
+.marble-battles .team-summary {min-width:0;background:var(--pf-surface);border:1px solid var(--pf-line);border-radius:16px;overflow:hidden}
+.marble-battles .team-summary summary {position:relative;display:grid;gap:8px;min-height:88px;padding:16px 40px 16px 16px;cursor:pointer;list-style:none}
+.marble-battles .team-summary summary::-webkit-details-marker {display:none}
+.marble-battles .team-summary summary:hover {background:var(--pf-leaf-soft)}
+.marble-battles .team-summary summary:focus-visible {outline-offset:-4px}
+.marble-battles .team-summary-title {display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:15px}
+.marble-battles .team-summary-title .swatch {flex-shrink:0}
+.marble-battles .team-level {margin-left:auto;font-size:12px;color:var(--pf-green);background:var(--pf-leaf-soft);padding:4px 8px;border-radius:8px;font-weight:700}
+.marble-battles .team-scoreline {font-size:13px;color:var(--pf-muted);font-variant-numeric:tabular-nums}
+.marble-battles .team-disclosure {position:absolute;right:16px;top:28px;font-size:22px;color:var(--pf-green)}
+.marble-battles .team-summary[open] .team-disclosure {transform:rotate(180deg)}
+.marble-battles .team-details {padding:0 16px 16px;border-top:1px solid var(--pf-line);font-size:13px;line-height:1.5}
+.marble-battles .team-details h3 {font-size:13px;margin:16px 0 4px}
+.marble-battles .team-details p {overflow-wrap:anywhere}
+.marble-battles .team-progress-label {margin-top:14px!important;color:var(--pf-green);font-weight:700}
+.marble-battles .team-details progress {width:100%;height:8px;accent-color:var(--pf-green);margin:8px 0 12px}
+.marble-battles .team-metrics {display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0}
+.marble-battles .team-metrics div {display:grid;gap:3px}
+.marble-battles .team-metrics dt {color:var(--pf-muted);font-size:12px}
+.marble-battles .team-metrics dd {margin:0;font-weight:700;font-variant-numeric:tabular-nums}
+.marble-battles .team-slot-list {line-height:1.8}
+.marble-battles .team-slot-key {font-size:12px;color:var(--pf-muted);margin-top:6px!important}
+.marble-battles .neutral-summary {grid-column:1/-1;font-size:12px;color:var(--pf-muted)}
+@media(max-width:600px) {
+.marble-battles .scoreboard {grid-template-columns:1fr}
+}

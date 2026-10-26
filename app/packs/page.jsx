@@ -1,9 +1,9 @@
 import { APP_NAMES } from "../../lib/apps";
 import { pageTitle } from "../../lib/names";
-import PacksClient from "../components/PacksClient";
+import PacksClient from "../tango-cards/PacksClient";
 import Topbar from "../components/Topbar";
-import { expansionPacks, oddsLabel } from "../../lib/packs";
-import { seriesList } from "../../lib/cards";
+import { expansionPacks, oddsLabel } from "../../lib/tango-cards/packs.mjs";
+import { seriesList } from "../../lib/tango-cards/cards.mjs";
 
 export const metadata = {
   title: pageTitle("Expansion Packs - " + APP_NAMES.tangoCards),

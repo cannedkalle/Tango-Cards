@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 import { APP_NAMES } from "../../lib/apps";
 import { pageTitle } from "../../lib/names";
-import GalleryClient from "../components/GalleryClient";
+import GalleryClient from "../tango-cards/GalleryClient";
 import Topbar from "../components/Topbar";
-import { bracketCount, countLabel, getSeriesByKey, seriesList } from "../../lib/cards";
+import { bracketCount, countLabel, getSeriesByKey, seriesList } from "../../lib/tango-cards/cards.mjs";
 
 export function generateStaticParams() {
   return seriesList.map((series) => ({ series: series.key }));

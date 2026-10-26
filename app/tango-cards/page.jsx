@@ -1,8 +1,16 @@
-import { APP_NAMES } from "../../lib/apps";
+import { APP_NAMES, getAppById } from "../../lib/apps";
+import { pageTitle, SITE_NAME } from "../../lib/names";
 import HomeSeriesGrid from "../components/HomeSeriesGrid";
 import Link from "next/link";
 import Topbar from "../components/Topbar";
-import { allCards, bracketCount, expectedCardsPerSeries, seriesList } from "../../lib/cards";
+import { allCards, bracketCount, expectedCardsPerSeries, seriesList } from "../../lib/tango-cards/cards.mjs";
+
+const app = getAppById("tango-cards");
+
+export const metadata = {
+  title: pageTitle(app.name),
+  description: "Play " + app.name + " from " + SITE_NAME + ".",
+};
 
 export default function HomePage() {
   const incomplete = seriesList.filter((series) => series.cards.length !== expectedCardsPerSeries);

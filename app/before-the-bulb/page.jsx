@@ -1,5 +1,7 @@
 import { getAppById } from "../../lib/apps";
 import { pageTitle, SITE_NAME } from "../../lib/names";
+import Game from "./Game";
+import "./before-the-bulb.css";
 
 const app = getAppById("before-the-bulb");
 
@@ -9,9 +11,5 @@ export const metadata = {
 };
 
 export default function BeforeTheBulbPage() {
-  return (
-    <main className="static-app-route">
-      <iframe title={app.name} className="static-app-frame" src={app.publicPath} />
-    </main>
-  );
+  return <Game />;
 }
