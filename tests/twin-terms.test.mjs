@@ -10,14 +10,14 @@ import {
 } from "../lib/twin-terms/questions.mjs";
 import { CATEGORIES, categoryById } from "../lib/twin-terms/categories.mjs";
 
-test("the pool holds 58 active pairs with unique ids, hint pairs, and answers", () => {
-  assert.equal(PAIRS.length, 58);
-  assert.equal(new Set(PAIRS.map((pair) => pair.id)).size, 58);
+test("the pool holds 56 active pairs with unique ids, hint pairs, and answers", () => {
+  assert.equal(PAIRS.length, 56);
+  assert.equal(new Set(PAIRS.map((pair) => pair.id)).size, 56);
   assert.equal(
     new Set(PAIRS.map((pair) => [...pair.hints].sort().join("+"))).size,
-    58,
+    56,
   );
-  assert.equal(new Set(PAIRS.map((pair) => pair.answer)).size, 58);
+  assert.equal(new Set(PAIRS.map((pair) => pair.answer)).size, 56);
   for (const pair of PAIRS) {
     assert.equal(pair.hints.length, 2);
     assert.ok(pair.hints.every((hint) => typeof hint === "string" && hint.length > 0));
@@ -48,7 +48,7 @@ test("six general categories cover every pair, none empty", () => {
   }
   assert.deepEqual(
     [...counts.entries()].sort(),
-    [["arts", 10], ["games", 7], ["life", 6], ["math", 8], ["science", 15], ["society", 12]],
+    [["arts", 9], ["games", 7], ["life", 6], ["math", 8], ["science", 15], ["society", 11]],
   );
   assert.equal(categoryById("no-such-category"), null);
 });
