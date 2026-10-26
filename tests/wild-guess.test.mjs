@@ -36,7 +36,7 @@ test('proposal pool contains 100 clear, non-overlapping comparisons across four 
 });
 
 test('subject pool deals close, non-overlapping, non-part-whole matchups', () => {
-  assert.equal(subjects.length, 94);
+  assert.equal(subjects.length, 114);
   assert.equal(new Set(subjects.map((subject) => subject.id)).size, subjects.length);
   assert.equal(new Set(subjects.map((subject) => `${subject.category}:${canonicalConceptKey(subject.label)}`)).size, subjects.length);
   assert.deepEqual(subjects.filter((subject) => /\b(big|large|huge|long|full-grown|giant)\b/i.test(subject.label) && !/\bgiant tortoise\b/i.test(subject.label)).map((subject) => subject.label), []);
@@ -46,12 +46,12 @@ test('subject pool deals close, non-overlapping, non-part-whole matchups', () =>
   assert.deepEqual(Object.fromEntries(subjectCategories.map((category) => [category, validSubjectPairs(category).length])), {
     count: 47,
     duration: 50,
-    weight: 34,
-    frequency: 5,
-    length: 13,
-    area: 7,
-    volume: 3,
-    speed: 4,
+    weight: 38,
+    frequency: 20,
+    length: 24,
+    area: 13,
+    volume: 9,
+    speed: 14,
   });
   const byId = new Map(subjects.map((subject) => [subject.id, subject]));
   for (const [a, b] of [
@@ -64,6 +64,7 @@ test('subject pool deals close, non-overlapping, non-part-whole matchups', () =>
     ['weight-earth', 'weight-all-eight-planets-together'],
     ['volume-the-water-in-lake-erie', 'volume-the-water-in-all-five-great-lakes'],
     ['area-the-great-barrier-reef-marine-park', 'area-the-pacific-ocean'],
+    ['area-a-city-block', 'area-the-island-of-manhattan'],
   ]) {
     assert.ok(byId.get(a) && byId.get(b), `${a} / ${b} exist`);
     assert.equal(isPartWholePair(byId.get(a), byId.get(b)), true, `${a} vs ${b}`);
@@ -76,11 +77,46 @@ test('subject pool deals close, non-overlapping, non-part-whole matchups', () =>
       assert.equal(subjectsOverlap(left, right), false);
       assert.equal(isPartWholePair(left, right), false, `${left.id} vs ${right.id}`);
       const gap = Math.abs(left.magnitude - right.magnitude);
-      // Volume's thin catalog forces its floor pairs wider; every other
-      // category deals within 1000x.
-      assert.ok(gap <= (category === 'volume' ? 5 : MAX_CLOSE_GAP), `${left.id} vs ${right.id}: gap ${gap}`);
+      // Every pool now deals within 1000x, including volume: the scale-up
+      // batch gave volume enough close pairs that its floor pairs dropped out.
+      assert.ok(gap <= MAX_CLOSE_GAP, `${left.id} vs ${right.id}: gap ${gap}`);
     }
   }
+});
+
+test('frequency no longer leans on the blue whale heartbeat, and retired subjects stay out', () => {
+  const frequencyPairs = validSubjectPairs('frequency');
+  const whalePairs = frequencyPairs.filter(([a, b]) => a.label.includes('blue whale') || b.label.includes('blue whale'));
+  assert.equal(whalePairs.length, 4);
+  assert.ok(whalePairs.length < frequencyPairs.length / 4, 'whale share under a quarter');
+  for (const label of ['Two waves reaching one beach', 'The water in an Olympic competition pool', 'Two human heartbeats', 'Two ticks of a clock', 'Two meals eaten by one person']) {
+    assert.equal(subjects.some((subject) => subject.label === label), false, label);
+  }
+});
+
+test('generator deals quality matchups, spaces repeats, and never runs dry', async () => {
+  const { generateComparison } = await import('../lib/wild-guess/client-game.mjs');
+  const frequency = generateComparison('frequency');
+  assert.equal(frequency.category, 'frequency');
+  assert.equal(subjectsOverlap(frequency.left, frequency.right), false);
+  assert.equal(isPartWholePair(frequency.left, frequency.right), false);
+  const history = [];
+  for (let round = 0; round < 200; round += 1) {
+    const dealt = generateComparison(undefined, { pairIds: history });
+    assert.ok(dealt, `round ${round} dealt`);
+    assert.equal(subjectsOverlap(dealt.left, dealt.right), false);
+    assert.equal(isPartWholePair(dealt.left, dealt.right), false);
+    const gap = Math.abs(dealt.left.magnitude - dealt.right.magnitude);
+    assert.ok(gap <= MAX_CLOSE_GAP, `${dealt.id}: gap ${gap}`);
+    assert.ok(!history.includes(dealt.id) && !history.includes(`${dealt.right.id}--${dealt.left.id}`), `${dealt.id} repeated within window`);
+    history.push(dealt.id);
+    if (history.length > 12) history.shift();
+  }
+  const volumePairs = validSubjectPairs('volume');
+  const avoided = volumePairs.flatMap(([a, b]) => [`${a.id}--${b.id}`, `${b.id}--${a.id}`]);
+  const fallback = generateComparison('volume', { pairIds: avoided });
+  assert.ok(fallback);
+  assert.equal(fallback.category, 'volume');
 });
 
 test('magnitude labels stay readable at very large scales', () => {

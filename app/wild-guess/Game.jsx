@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import PortalNav from '../components/PortalNav';
-import { buildReveal, clearProgress, createComparison, loadProgress, saveProgress } from '../../lib/wild-guess/client-game.mjs';
+import { buildReveal, clearProgress, generateComparison, loadProgress, saveProgress } from '../../lib/wild-guess/client-game.mjs';
 
 /* Balls in the Ballpark, played entirely in the browser: matchups are dealt
  * from the catalog that lives in the repo, and progress is kept in the
@@ -18,9 +18,20 @@ export default function Game() {
   const [queued, setQueued] = useState(null);
   const [error, setError] = useState('');
   const heading = useRef(null);
+  const historyRef = useRef([]);
+  /* Deal through the generator, avoiding the last 12 matchups so the same
+   * pairing does not come straight back. */
+  const deal = () => {
+    const next = generateComparison(undefined, { pairIds: historyRef.current });
+    if (next) {
+      historyRef.current = [...historyRef.current, next.id].slice(-12);
+    }
+    return next;
+  };
 
   const startFresh = () => {
-    const next = createComparison();
+    historyRef.current = [];
+    const next = deal();
     if (!next) {
       setError('No matchups are available yet.');
       return;
@@ -59,7 +70,7 @@ export default function Game() {
     setCorrect(nextCorrect);
     /* Deal the next round now, so reloading mid-reveal lands on it — the
      * same resume behavior the server game had. */
-    const upNext = createComparison();
+    const upNext = deal();
     setQueued(upNext);
     if (upNext) {
       saveProgress({ leftId: upNext.left.id, rightId: upNext.right.id, category: upNext.category, position: position + 1, played: nextPlayed, correct: nextCorrect });
@@ -77,7 +88,7 @@ export default function Game() {
       setError('');
       return;
     }
-    const nextComparison = createComparison();
+    const nextComparison = deal();
     if (!nextComparison) {
       setError('No matchups are available yet.');
       return;
