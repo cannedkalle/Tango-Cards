@@ -27,7 +27,7 @@ const MODES = {
   wild: {
     pairs: wildPairs,
     title: 'Wild mode',
-    description: 'Every clear date pairing. Expect oddball surprises!',
+    description: 'Fun date pairings, from close cousins to wild contrasts.',
     roundLabel: 'Wild card',
     poolLabel: `${objects.length} inventions · ${wildPairs.length} wild possibilities`,
   },
@@ -56,6 +56,18 @@ export default function Game() {
   const [snap, setSnap] = useState(null);
   const [defOpen, setDefOpen] = useState({});
   const startedRef = useRef(false);
+  /* Session no-repeat window, shared by both pools: the last 12 dealt
+   * pair ids, kept for the whole page session across mode switches,
+   * play-mode switches, and restarts (a reload starts fresh, like the
+   * score). Deals avoid it; the game itself holds no deck. */
+  const recentRef = useRef([]);
+  const track = (snap) => {
+    if (snap.pair && recentRef.current[recentRef.current.length - 1] !== snap.pair.id) {
+      recentRef.current = [...recentRef.current, snap.pair.id].slice(-12);
+    }
+    return snap;
+  };
+  const dealNext = (gameObj) => track(gameObj.next(recentRef.current));
   const focusRequest = useRef(null);
   const questionRef = useRef(null);
   const roundRef = useRef(null);
@@ -65,7 +77,7 @@ export default function Game() {
   useEffect(() => {
     if (startedRef.current) return;
     startedRef.current = true;
-    setSnap(game.next());
+    setSnap(dealNext(game));
   }, []);
 
   useEffect(() => {
@@ -91,7 +103,7 @@ export default function Game() {
     setShowResults(false);
     startedRef.current = true;
     focusRequest.current = 'question';
-    setSnap(nextGame.next());
+    setSnap(dealNext(nextGame));
   };
 
   /* Switching play mode starts a fresh game in the same pool, so one
@@ -107,7 +119,7 @@ export default function Game() {
     setShowResults(false);
     startedRef.current = true;
     focusRequest.current = 'question';
-    setSnap(nextGame.next());
+    setSnap(dealNext(nextGame));
   };
 
   const handleAnswer = (id) => {
@@ -129,7 +141,7 @@ export default function Game() {
     }
     focusRequest.current = 'question';
     setDefOpen({});
-    setSnap(game.next());
+    setSnap(dealNext(game));
   };
 
   const handleRestart = () => {
@@ -138,7 +150,7 @@ export default function Game() {
     setLives(3);
     setOver(false);
     setShowResults(false);
-    setSnap(game.reset());
+    setSnap(track(game.reset(recentRef.current)));
   };
 
   const activeMode = MODES[mode];
@@ -159,12 +171,6 @@ export default function Game() {
         : `${activeMode.roundLabel} ${snap.answered + 1}`;
   const instruction = over && showResults
     ? 'Game over — here is how you did.'
-    : snap
-    ? snap.cycle > 1 && snap.position === 1
-      ? `You explored every ${
-          mode === 'curated' ? 'curated discovery' : 'wild possibility'
-        }! Let’s try a fresh shuffle.`
-      : 'Two bright ideas. Tap the one that came earlier.'
     : 'Two bright ideas. Tap the one that came earlier.';
   const announcement = answered
     ? `${isCorrect ? 'Correct!' : 'Good guess!'} ${earlier.name} came first. ${
