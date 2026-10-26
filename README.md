@@ -1,6 +1,6 @@
 # Kids Play Portal
 
-A Next.js website for polished kids play apps. This repository is published from GitHub/Vercel and is wired to `https://github.com/cannedkalle/Tango-Cards`.
+A Next.js website for polished kids play apps. This repository is published from GitHub/Vercel and is wired to `https://github.com/cannedkalle/Whimsical-Kids-Portal`.
 
 ## Project Role
 
@@ -47,7 +47,7 @@ npm run dev
 
 ## GitHub and Vercel Publishing
 
-Repository: https://github.com/cannedkalle/Tango-Cards
+Repository: https://github.com/cannedkalle/Whimsical-Kids-Portal
 
 Import this GitHub repository into Vercel to publish the lab website.
 
@@ -82,7 +82,7 @@ Set `NEXT_PUBLIC_KOFI_URL` in Vercel Project Settings if the Ko-fi URL should be
 The `Project on GitHub` header link defaults to the portal repository:
 
 ```txt
-https://github.com/cannedkalle/Tango-Cards
+https://github.com/cannedkalle/Whimsical-Kids-Portal
 ```
 
 Set `NEXT_PUBLIC_CONTACT_URL` in Vercel Project Settings to use an email form, profile page, or other contact destination.
