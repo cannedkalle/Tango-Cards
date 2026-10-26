@@ -5,7 +5,8 @@ import PortalNav from '../components/PortalNav';
 import { animals } from '../../lib/animal-outsider/animals.mjs';
 import { rootWords, taxonInfo } from '../../lib/animal-outsider/taxa.mjs';
 import { getAnimalPool } from '../../lib/animal-outsider/difficulty.mjs';
-import { PLAY_MODES, isGameOver, livesHearts, nextLives } from '../../lib/quiz-play.mjs';
+import { PLAY_MODES, isGameOver, nextLives } from '../../lib/quiz-play.mjs';
+import { ArrowRightIcon, LivesHearts, RestartIcon } from "../components/Icons";
 import {
   describeTaxon,
   examplesForTaxon,
@@ -321,29 +322,29 @@ export default function Game() {
         <header className="top-bar">
           <div>
             <p className="eyebrow">Animal Outsider</p>
-            <h1>Who’s the distant cousin?</h1>
+            <h1 className="pf-game-title">Who’s the distant cousin?</h1>
           </div>
           <div className="top-actions">
             <div className="score-box" aria-label="Score">
               <span><strong>{answered}</strong> answered</span>
               <span><strong>{correct}</strong> correct</span>
               <span><strong>{streak}</strong> streak</span>
-              {playMode === 'lives' && <span><strong>{livesHearts(lives)}</strong> lives</span>}
+              {playMode === 'lives' && <span><strong><LivesHearts lives={lives} /></strong> lives</span>}
             </div>
-            <button className="ao-start-over" type="button" onClick={startOver}>Start over <span aria-hidden="true">↺</span></button>
+            <button className="pf-btn" type="button" onClick={startOver}><RestartIcon />Start over</button>
           </div>
         </header>
 
         <section className="difficulty-picker" aria-label="Game controls">
           <span className="control-label">Difficulty</span>
           <div className="difficulty-options" role="group" aria-label="Choose difficulty">
-            <button type="button" aria-pressed={difficulty === 'easy'} onClick={() => switchDifficulty('easy')}>Easy</button>
-            <button type="button" aria-pressed={difficulty === 'standard'} onClick={() => switchDifficulty('standard')}>Standard</button>
+            <button className="pf-btn" type="button" aria-pressed={difficulty === 'easy'} onClick={() => switchDifficulty('easy')}>Easy</button>
+            <button className="pf-btn" type="button" aria-pressed={difficulty === 'standard'} onClick={() => switchDifficulty('standard')}>Standard</button>
           </div>
           <span className="control-label">Play mode</span>
-          <div className="difficulty-options" role="group" aria-label="Play mode">
+          <div className="pf-pill-group" role="group" aria-label="Play mode">
             {PLAY_MODES.map((play) => (
-              <button key={play.id} type="button" aria-pressed={playMode === play.id} onClick={() => switchPlayMode(play.id)}>{play.label}</button>
+              <button key={play.id} className="pf-pill" type="button" aria-pressed={playMode === play.id} onClick={() => switchPlayMode(play.id)}>{play.label}</button>
             ))}
           </div>
           <p id="difficultyHint" aria-live="polite">
@@ -358,7 +359,7 @@ export default function Game() {
             <p className="result-kicker">{playMode === 'ten' ? '10 QUESTIONS DONE!' : 'OUT OF LIVES!'}</p>
             <h2 id="results-title">Here is how you did.</h2>
             <p><strong>{correct}</strong> correct out of <strong>{answered}</strong> answered.</p>
-            <button className="next-button" type="button" onClick={startOver}>Play again <span aria-hidden="true">→</span></button>
+            <button className="pf-primary" type="button" onClick={startOver}>Play again <ArrowRightIcon /></button>
           </section>
         ) : (
           <>
@@ -390,8 +391,8 @@ export default function Game() {
         </section>
 
         {revealed && (
-          <button ref={nextRef} className="next-button" type="button" onClick={over ? () => setShowResults(true) : startNextRound}>
-            {over ? 'See results ' : 'Next round '}<span aria-hidden="true">→</span>
+          <button ref={nextRef} className="pf-primary" type="button" onClick={over ? () => setShowResults(true) : startNextRound}>
+            {over ? <>See results <ArrowRightIcon /></> : <>Next round <ArrowRightIcon /></>}
           </button>
         )}
 

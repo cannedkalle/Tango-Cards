@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import PortalNav from '../components/PortalNav';
 import { createGame } from '../../lib/before-the-bulb/game.mjs';
-import { PLAY_MODES, isGameOver, livesHearts, nextLives } from '../../lib/quiz-play.mjs';
+import { PLAY_MODES, isGameOver, nextLives } from '../../lib/quiz-play.mjs';
+import { ArrowRightIcon, LivesHearts, RestartIcon } from "../components/Icons";
 import {
   objectMap,
   objects,
@@ -180,24 +181,24 @@ export default function Game() {
             <p className="app-eyebrow">Before the Bulb</p>
             {snap && (
               <button
-                className="quiet"
+                className="pf-btn"
                 id="restart"
                 type="button"
                 onClick={handleRestart}
               >
-                Start over <span aria-hidden="true">↺</span>
+                <RestartIcon />Start over
               </button>
             )}
           </div>
         </header>
         <section className="game" aria-labelledby="question">
           <div className="round-bar">
-            <span className="round-pill" id="round" ref={roundRef}>
+            <span className="pf-status-pill" id="round" ref={roundRef}>
               {roundText}
             </span>
             {playMode === 'lives' && (
-              <span className="round-pill" aria-label={`${lives} lives left`}>
-                {livesHearts(lives)}
+              <span className="pf-status-pill" aria-label={`${lives} lives left`}>
+                <LivesHearts lives={lives} />
               </span>
             )}
             <span
@@ -222,31 +223,31 @@ export default function Game() {
           </div>
           <section className="mode-picker" aria-label="Choose game mode">
             <span className="mode-group-label">Pool</span>
-            <div className="mode-options" role="group" aria-label="Game modes">
+            <div className="pf-pill-group" role="group" aria-label="Game modes">
               <button
-                className="mode-option"
+                className="pf-pill"
                 data-mode="curated"
                 type="button"
                 aria-pressed={mode === 'curated'}
                 onClick={() => switchMode('curated')}
               >
-                <span aria-hidden="true">✦</span> Curated
+                Curated
               </button>
               <button
-                className="mode-option"
+                className="pf-pill"
                 data-mode="wild"
                 type="button"
                 aria-pressed={mode === 'wild'}
                 onClick={() => switchMode('wild')}
               >
-                <span aria-hidden="true">⚡</span> Wild
+                Wild
               </button>
             </div>
             <span className="mode-group-label">Play</span>
-            <div className="mode-options" role="group" aria-label="Play mode">
+            <div className="pf-pill-group" role="group" aria-label="Play mode">
               {PLAY_MODES.map((play) => (
                 <button
-                  className="mode-option"
+                  className="pf-pill"
                   key={play.id}
                   type="button"
                   aria-pressed={playMode === play.id}
@@ -284,11 +285,11 @@ export default function Game() {
                     : `You got ${snap.correct} right in ${snap.answered} discoveries.`}
                 </p>
                 <button
-                  className="next"
+                  className="pf-primary"
                   type="button"
                   onClick={handleRestart}
                 >
-                  Play again <span aria-hidden="true">→</span>
+                  Play again <ArrowRightIcon />
                 </button>
               </div>
             </section>
@@ -437,13 +438,13 @@ export default function Game() {
                   </div>
                 </details>
                 <button
-                  className="next"
+                  className="pf-primary"
                   id="next"
                   type="button"
                   ref={nextRef}
                   onClick={handleNext}
                 >
-                  {over ? 'See results ' : 'Next discovery '}<span aria-hidden="true">→</span>
+                  {over ? <>See results <ArrowRightIcon /></> : <>Next discovery <ArrowRightIcon /></>}
                 </button>
               </div>
             </section>

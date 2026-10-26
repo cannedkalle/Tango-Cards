@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { PLAY_MODES, nextLives, isGameOver, livesHearts } from '../lib/quiz-play.mjs';
+import { PLAY_MODES, nextLives, isGameOver, livesHeartStates } from '../lib/quiz-play.mjs';
 
 test('play modes are endless, 10 questions, 3 lives, in that order', () => {
   assert.deepEqual(
@@ -26,7 +26,7 @@ test('game over at 10 answered rounds, or at 0 lives, never in endless', () => {
 });
 
 test('lives hearts show filled then empty hearts out of three', () => {
-  assert.equal(livesHearts(3), '♥♥♥');
-  assert.equal(livesHearts(2), '♥♥♡');
-  assert.equal(livesHearts(0), '♡♡♡');
+  assert.deepEqual(livesHeartStates(3), [true, true, true]);
+  assert.deepEqual(livesHeartStates(2), [true, true, false]);
+  assert.deepEqual(livesHeartStates(0), [false, false, false]);
 });

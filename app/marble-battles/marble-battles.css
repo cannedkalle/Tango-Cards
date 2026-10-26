@@ -21,12 +21,9 @@
 .marble-battles output {font-weight:700;color:var(--pf-ink);font-variant-numeric:tabular-nums}
 .marble-battles select,.marble-battles input {width:100%;min-width:0;min-height:44px;border:1px solid var(--pf-control-line);border-radius:12px;background:var(--pf-paper);color:var(--pf-ink);padding:8px}
 .marble-battles input[type=range] {padding:0;border:0;accent-color:var(--pf-green);background:transparent}
-.marble-battles button {min-height:48px;border:0;border-radius:16px;background:var(--pf-green);color:white;font-weight:700;padding:10px 14px;box-shadow:0 3px 0 var(--pf-green-edge)}
-.marble-battles button:hover {background:var(--pf-green-hover)}
-.marble-battles button:active {transform:translateY(2px);box-shadow:0 1px 0 var(--pf-green-edge)}
-.marble-battles .icon-button {min-width:76px}
+
 .marble-battles .button-row {display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.marble-battles .button-row button:last-child {background:var(--pf-leaf-soft);color:var(--pf-green);box-shadow:0 3px 0 #bdceb1}
+
 .marble-battles .back-link {display:inline-flex;min-height:44px;align-items:center;color:var(--pf-green);font-weight:700;text-decoration:none;font-size:14px}
 .marble-battles .back-link:hover {text-decoration:underline}
 .marble-battles .control-grid {display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -62,7 +59,7 @@
 .marble-battles .team-summary summary:focus-visible {outline-offset:-4px}
 .marble-battles .team-summary-title {display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:15px}
 .marble-battles .team-summary-title .swatch {flex-shrink:0}
-.marble-battles .team-level {margin-left:auto;font-size:12px;color:var(--pf-green);background:var(--pf-leaf-soft);padding:4px 8px;border-radius:8px;font-weight:700}
+.marble-battles .team-level {margin-left:auto;font-size:12px;color:var(--pf-green);background:var(--pf-leaf-soft);padding:4px 8px;border-radius:12px;font-weight:700}
 .marble-battles .team-scoreline {font-size:13px;color:var(--pf-muted);font-variant-numeric:tabular-nums}
 .marble-battles .team-disclosure {position:absolute;right:16px;top:28px;font-size:22px;color:var(--pf-green)}
 .marble-battles .team-summary[open] .team-disclosure {transform:rotate(180deg)}

@@ -16,9 +16,10 @@ const registry = fs.readFileSync(path.join(root, 'lib/apps.js'), 'utf8');
 for (const [, url] of registry.matchAll(/"(\/(?:design-system|assets|apps)\/[^"\n]+)"/g)) {
   if (!fs.existsSync(path.join(root, 'public', url))) errors.push(`Missing registered asset: ${url}`);
 }
-// The shared stylesheet is loaded globally by the portal shell now that
-// every game is portal-native; there are no standalone game stylesheets
-// left to check per game.
+// The shared stylesheet is loaded globally by the portal shell. Per-game
+// stylesheets still carry game mechanics and content, so this check covers
+// only the shared system: palette sync, SVG constraints, registered assets,
+// and the globals import.
 if (!fs.readFileSync(path.join(root, 'app/globals.css'), 'utf8').includes('playform')) errors.push('app/globals.css: missing shared stylesheet');
 for (const file of ['app/globals.css', 'app/page.jsx', 'lib/apps.js']) {
   if (/lab-art\/|tango-paper-doodles/.test(fs.readFileSync(path.join(root, file), 'utf8'))) errors.push(`${file}: retired visual reference`);
