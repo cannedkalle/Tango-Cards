@@ -186,4 +186,50 @@ test('seed is idempotent and generated-matchup foreign keys reject broken refere
   await assert.rejects(database().query('INSERT INTO wg_matchup_rounds(session_id,position,left_subject_id,left_subject_version,right_subject_id,right_subject_version) VALUES($1,0,$2,1,$3,1)', ['missing', 'missing-left', 'missing-right']));
 });
 
+test('one matchup, one unit: both answers in a comparison share a unit', async () => {
+  const { pairUnit, formatScaleInUnit, formatEstimateInUnit } = await import('../lib/wild-guess/game.mjs');
+  const { buildReveal } = await import('../lib/wild-guess/client-game.mjs');
+
+  // The screenshot pair: Great Lakes vs Mediterranean used cubic kilometers
+  // on one side and cubic meters on the other.
+  assert.equal(pairUnit('volume', 13, 15).unit, 'cubic kilometers');
+  assert.equal(formatScaleInUnit({ magnitude: 13 }, 'volume', pairUnit('volume', 13, 15)), 'tens of thousands of cubic kilometers');
+  assert.equal(formatScaleInUnit({ magnitude: 15 }, 'volume', pairUnit('volume', 13, 15)), 'millions of cubic kilometers');
+  assert.equal(pairUnit('volume', -1, 0).unit, 'liters');
+  assert.equal(pairUnit('volume', 0, 3).unit, 'cubic meters');
+  assert.equal(pairUnit('length', 3, 4).unit, 'kilometers');
+  assert.equal(pairUnit('area', 6, 9).unit, 'square kilometers');
+  assert.equal(pairUnit('count', 3, 5), null);
+  assert.equal(pairUnit('duration', 6, 9), null);
+
+  assert.equal(formatEstimateInUnit('roughly 5,000 to 10,000 liters', pairUnit('volume', 0, 3)), 'roughly 5 to 10 cubic meters');
+  assert.equal(formatEstimateInUnit('roughly 8.5 to 10.5 million square kilometers', { unit: 'square meters', singular: 'square meter', shift: 0 }), 'roughly 8.5 trillion to 10.5 trillion square meters');
+  assert.equal(formatEstimateInUnit('about 3.75 million cubic kilometers', pairUnit('volume', 13, 15)), 'about 3.75 million cubic kilometers');
+  assert.equal(formatEstimateInUnit('a few liters', pairUnit('volume', 0, 3)), 'a few liters');
+
+  const byLabel = new Map(subjects.map((subject) => [subject.label, subject]));
+  const lakes = byLabel.get('The water in all five Great Lakes');
+  const med = byLabel.get('The water in the Mediterranean Sea');
+  const reveal = buildReveal({ category: 'volume', prompt: 'Which takes up more space?', left: lakes, right: med }, 0);
+  assert.ok(reveal.sides.every((side) => side.scale.includes('cubic kilometers')));
+  assert.ok(reveal.sides.every((side) => side.detail.includes('cubic kilometers')));
+
+  // Catalog-wide: every dealable volume/length/area matchup renders both
+  // answers in one unit, in the scale line and in the estimate line.
+  const unitPattern = /\b(cubic kilometers?|cubic meters?|square kilometers?|square meters?|kilometers?|meters?|liters?)\b/g;
+  const base = (word) => (word.endsWith('s') ? word.slice(0, -1) : word);
+  for (const category of ['volume', 'length', 'area']) {
+    for (const [left, right] of validSubjectPairs(category)) {
+      const unit = pairUnit(category, left.magnitude, right.magnitude);
+      const shown = buildReveal({ category, prompt: '', left, right }, 0);
+      for (const side of shown.sides) {
+        const scaleUnits = [...new Set([...side.scale.matchAll(unitPattern)].map((m) => base(m[1])))];
+        assert.deepEqual(scaleUnits, [base(unit.unit)], `${left.id} vs ${right.id}: ${side.scale}`);
+        const detailUnits = [...side.detail.matchAll(unitPattern)].map((m) => base(m[1]));
+        assert.ok(detailUnits.every((word) => word === base(unit.unit)), `${left.id} vs ${right.id}: ${side.detail}`);
+      }
+    }
+  }
+});
+
 process.on('exit', () => rmSync(directory, { recursive: true, force: true }));
