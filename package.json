@@ -16,6 +16,7 @@
     "test:marble-battles": "node --test tests/marble-battles.test.mjs",
     "test:animal-outsider": "node --test tests/animal-outsider.test.mjs",
     "test:tango-cards": "node --test tests/tango-cards.test.mjs",
+    "test:two-hints": "node --test tests/two-hints.test.mjs",
     "wild-guess:audit": "node scripts/audit-wild-guess-subjects.mjs",
     "wild-guess:proposals": "node scripts/export-wild-guess-proposals.mjs",
     "wild-guess:subjects": "node scripts/export-wild-guess-subjects.mjs"

@@ -1,7 +1,7 @@
 # Quiz UI standard
 
-The four quiz games — Balls in the Ballpark, Before the Bulb, Name Quest,
-Animal Outsider — share one layout and one set of play modes. Tango Cards
+The five quiz games — Balls in the Ballpark, Before the Bulb, Name Quest,
+Animal Outsider, Two Hints — share one layout and one set of play modes. Tango Cards
 (collecting) and Marble Battles (a simulation) are not quizzes: they live in
 their own home section and keep their own controls.
 
@@ -19,7 +19,7 @@ their own home section and keep their own controls.
    showing only the groups it has: content mode (Bulb: Curated/Wild;
    Name Quest: Name types/Pokemon or not/Real or Pokemon), difficulty
    (Animal: Easy/Standard; Name Quest: level, in its side panel — see
-   exceptions), play mode (all four games: Endless / 10 questions /
+   exceptions), play mode (all five games: Endless / 10 questions /
    3 lives). (Before: Bulb's mode picker sat below the intro, Name Quest's
    modes sat in the header, Animal's difficulty sat above the prompt,
    Wild-guess had no controls at all.)
@@ -75,7 +75,7 @@ is uniform.
 
 Each app carries a `section` field. The home page renders Quiz games
 first — Balls in the Ballpark, Name Quest, Animal Outsider, Before the
-Bulb — then Cards and battles — Tango Cards, Marble Battles.
+Bulb, Two Hints — then Cards and battles — Tango Cards, Marble Battles.
 
 ## Exceptions
 
