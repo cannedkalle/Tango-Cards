@@ -5,6 +5,7 @@ import PortalNav from '../components/PortalNav';
 import { animals } from '../../lib/animal-outsider/animals.mjs';
 import { rootWords, taxonInfo } from '../../lib/animal-outsider/taxa.mjs';
 import { getAnimalPool } from '../../lib/animal-outsider/difficulty.mjs';
+import { PLAY_MODES, isGameOver, livesHearts, nextLives } from '../../lib/quiz-play.mjs';
 import {
   describeTaxon,
   examplesForTaxon,
@@ -98,6 +99,10 @@ function SpeciesStep({ animal }) {
 
 export default function Game() {
   const [difficulty, setDifficulty] = useState('easy');
+  const [playMode, setPlayMode] = useState('endless');
+  const [lives, setLives] = useState(3);
+  const [over, setOver] = useState(false);
+  const [showResults, setShowResults] = useState(false);
   const [roundNo, setRoundNo] = useState(1);
   const [answered, setAnswered] = useState(0);
   const [correct, setCorrect] = useState(0);
@@ -144,11 +149,38 @@ export default function Game() {
   };
 
   const startNextRound = () => {
+    if (over) return;
     setCurrent(dealRound(getAnimalPool(animals, difficulty), recentKeys.current));
     setSelectedId(null);
     setRoundNo((n) => n + 1);
     focusFirstCard.current = true;
   };
+
+  /* Fresh game in the current difficulty. Start over and play-mode switches
+   * share it, so one mode's results never mix with another's. */
+  const freshGame = (nextPlayMode) => {
+    const round = generateRound(getAnimalPool(animals, difficulty), []);
+    recentKeys.current = [roundKey(round)];
+    setPlayMode(nextPlayMode);
+    setRoundNo(1);
+    setAnswered(0);
+    setCorrect(0);
+    setStreak(0);
+    setDiscoveredAnimals([]);
+    setDiscoveredTaxa([]);
+    setExplorerId(null);
+    setCurrent(round);
+    setSelectedId(null);
+    setLives(3);
+    setOver(false);
+    setShowResults(false);
+  };
+
+  const switchPlayMode = (next) => {
+    if (next !== playMode) freshGame(next);
+  };
+
+  const startOver = () => freshGame(playMode);
 
   const switchDifficulty = (next) => {
     if (next === difficulty) return;
@@ -164,6 +196,9 @@ export default function Game() {
     setExplorerId(null);
     setCurrent(round);
     setSelectedId(null);
+    setLives(3);
+    setOver(false);
+    setShowResults(false);
   };
 
   const answer = (animalId) => {
@@ -173,6 +208,8 @@ export default function Game() {
     setAnswered((n) => n + 1);
     setCorrect((n) => n + (correctChoice ? 1 : 0));
     setStreak((n) => (correctChoice ? n + 1 : 0));
+    setLives(nextLives(playMode, lives, correctChoice));
+    setOver(isGameOver(playMode, answered + 1, nextLives(playMode, lives, correctChoice)));
     setDiscoveredAnimals((prev) => addUnique(prev, current.choices.map((animal) => animal.id)));
     setDiscoveredTaxa((prev) => addUnique(prev, current.choices.flatMap((animal) => animal.clades)));
     setExplorerId(current.outsider.id);
@@ -286,17 +323,28 @@ export default function Game() {
             <p className="eyebrow">Animal Outsider</p>
             <h1>Who’s the distant cousin?</h1>
           </div>
-          <div className="score-box" aria-label="Score">
-            <span><strong>{answered}</strong> answered</span>
-            <span><strong>{correct}</strong> correct</span>
-            <span><strong>{streak}</strong> streak</span>
+          <div className="top-actions">
+            <div className="score-box" aria-label="Score">
+              <span><strong>{answered}</strong> answered</span>
+              <span><strong>{correct}</strong> correct</span>
+              <span><strong>{streak}</strong> streak</span>
+              {playMode === 'lives' && <span><strong>{livesHearts(lives)}</strong> lives</span>}
+            </div>
+            <button className="ao-start-over" type="button" onClick={startOver}>Start over <span aria-hidden="true">↺</span></button>
           </div>
         </header>
 
-        <section className="difficulty-picker" aria-label="Difficulty">
+        <section className="difficulty-picker" aria-label="Game controls">
+          <span className="control-label">Difficulty</span>
           <div className="difficulty-options" role="group" aria-label="Choose difficulty">
             <button type="button" aria-pressed={difficulty === 'easy'} onClick={() => switchDifficulty('easy')}>Easy</button>
             <button type="button" aria-pressed={difficulty === 'standard'} onClick={() => switchDifficulty('standard')}>Standard</button>
+          </div>
+          <span className="control-label">Play mode</span>
+          <div className="difficulty-options" role="group" aria-label="Play mode">
+            {PLAY_MODES.map((play) => (
+              <button key={play.id} type="button" aria-pressed={playMode === play.id} onClick={() => switchPlayMode(play.id)}>{play.label}</button>
+            ))}
           </div>
           <p id="difficultyHint" aria-live="polite">
             {difficulty === 'easy'
@@ -305,9 +353,18 @@ export default function Game() {
           </p>
         </section>
 
+        {over && showResults ? (
+          <section className="result-card" aria-labelledby="results-title">
+            <p className="result-kicker">{playMode === 'ten' ? '10 QUESTIONS DONE!' : 'OUT OF LIVES!'}</p>
+            <h2 id="results-title">Here is how you did.</h2>
+            <p><strong>{correct}</strong> correct out of <strong>{answered}</strong> answered.</p>
+            <button className="next-button" type="button" onClick={startOver}>Play again <span aria-hidden="true">→</span></button>
+          </section>
+        ) : (
+          <>
         <section className="prompt-card">
           <div>
-            <p id="roundLabel">Round {roundNo}</p>
+            <p id="roundLabel">Round {roundNo}{playMode === 'ten' ? ' of 10' : ''}</p>
             <h2>Which one is the outsider?</h2>
             <p>Two are closer relatives. Choose the animal that branched off earlier.</p>
           </div>
@@ -333,8 +390,8 @@ export default function Game() {
         </section>
 
         {revealed && (
-          <button ref={nextRef} className="next-button" type="button" onClick={startNextRound}>
-            Next round <span aria-hidden="true">→</span>
+          <button ref={nextRef} className="next-button" type="button" onClick={over ? () => setShowResults(true) : startNextRound}>
+            {over ? 'See results ' : 'Next round '}<span aria-hidden="true">→</span>
           </button>
         )}
 
@@ -342,6 +399,8 @@ export default function Game() {
           <section className="answer-panel" aria-live="polite">
             {answerPanel}
           </section>
+        )}
+          </>
         )}
       </section>
 

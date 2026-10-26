@@ -3,12 +3,17 @@
 import { useEffect, useRef, useState } from 'react';
 import PortalNav from '../components/PortalNav';
 import { buildReveal, clearProgress, generateComparison, loadProgress, saveProgress } from '../../lib/wild-guess/client-game.mjs';
+import { PLAY_MODES, isGameOver, livesHearts, nextLives } from '../../lib/quiz-play.mjs';
 
 /* Balls in the Ballpark, played entirely in the browser: matchups are dealt
  * from the catalog that lives in the repo, and progress is kept in the
  * player's own browser storage. No server database is involved, so the game
  * works on the live site — and offline once installed — like the portal's
- * other games. */
+ * other games.
+ *
+ * Quiz standard: Start over sits in the header, the Play mode row sits
+ * above the question, and the score strip shows lives (survival) or the
+ * question count (10 questions). Endless is the default and never ends. */
 export default function Game() {
   const [comparison, setComparison] = useState(null);
   const [position, setPosition] = useState(0);
@@ -17,6 +22,10 @@ export default function Game() {
   const [reveal, setReveal] = useState(null);
   const [queued, setQueued] = useState(null);
   const [error, setError] = useState('');
+  const [playMode, setPlayMode] = useState('endless');
+  const [lives, setLives] = useState(3);
+  const [over, setOver] = useState(false);
+  const [showResults, setShowResults] = useState(false);
   const heading = useRef(null);
   const historyRef = useRef([]);
   /* Deal through the generator, avoiding the last 12 matchups so the same
@@ -44,7 +53,18 @@ export default function Game() {
     setReveal(null);
     setQueued(null);
     setError('');
+    setLives(3);
+    setOver(false);
+    setShowResults(false);
     saveProgress({ leftId: next.left.id, rightId: next.right.id, category: next.category, position: 0, played: 0, correct: 0 });
+  };
+
+  /* Switching play mode resets the score, so one mode's results never mix
+   * with another's. */
+  const switchPlayMode = (nextMode) => {
+    if (nextMode === playMode) return;
+    setPlayMode(nextMode);
+    startFresh();
   };
 
   useEffect(() => {
@@ -65,9 +85,20 @@ export default function Game() {
     const nextReveal = buildReveal(comparison, choice);
     const nextPlayed = played + 1;
     const nextCorrect = correct + (nextReveal.correct ? 1 : 0);
+    const nextLivesCount = nextLives(playMode, lives, nextReveal.correct);
+    const gameOver = isGameOver(playMode, nextPlayed, nextLivesCount);
     setReveal(nextReveal);
     setPlayed(nextPlayed);
     setCorrect(nextCorrect);
+    setLives(nextLivesCount);
+    setOver(gameOver);
+    if (gameOver) {
+      /* Results are ephemeral: a reload after the game ends starts fresh
+       * rather than restoring a finished game. */
+      setQueued(null);
+      clearProgress();
+      return;
+    }
     /* Deal the next round now, so reloading mid-reveal lands on it — the
      * same resume behavior the server game had. */
     const upNext = deal();
@@ -112,24 +143,32 @@ export default function Game() {
           ? `${reveal.sides[reveal.correctChoice].label} covers more area.`
         : reveal.prompt.includes('takes up more')
           ? `${reveal.sides[reveal.correctChoice].label} takes up more space.`
-          : reveal.prompt.includes('moves or grows faster')
-            ? `${reveal.sides[reveal.correctChoice].label} is faster.`
+        : reveal.prompt.includes('moves or grows faster')
+          ? `${reveal.sides[reveal.correctChoice].label} is faster.`
         : reveal.prompt.includes('is longer')
           ? `${reveal.sides[reveal.correctChoice].label} is longer.`
-          : `${reveal.sides[reveal.correctChoice].label} has more.`
+        : `${reveal.sides[reveal.correctChoice].label} has more.`
     : '';
 
-  return <><PortalNav/><main className="wg"><header className="wg-heading"><div><span className="wg-kicker">Two wild possibilities. One bigger answer.</span><h1>Balls in the Ballpark<span aria-hidden="true">?</span></h1></div><p>Which one<br/>is bigger?</p></header><div className="wg-layout"><section className="wg-board">
+  return <><PortalNav/><main className="wg"><header className="wg-heading"><div><span className="wg-kicker">Two wild possibilities. One bigger answer.</span><h1>Balls in the Ballpark<span aria-hidden="true">?</span></h1></div><div className="wg-heading-actions"><p>Which one<br/>is bigger?</p><button className="wg-start-over" type="button" onClick={startFresh}>Start over <span aria-hidden="true">↺</span></button></div></header><div className="wg-layout"><section className="wg-board">
     {error && <div className="wg-error" role="alert">{error} <button onClick={startFresh}>Start over</button></div>}
     {!comparison ? <div className="wg-loading">Finding a curious matchup…</div> : <>
-      <div className="wg-score" aria-label="Your score"><div><strong>{correct}</strong><span>right</span></div><div><strong>{played}</strong><span>played</span></div></div>
-      {reveal ? <div className="wg-comparison-reveal" role="status">
+      <div className="wg-score" aria-label="Your score"><div><strong>{correct}</strong><span>right</span></div><div><strong>{played}</strong><span>played</span></div>{playMode === 'lives' && <div><strong className="wg-lives">{livesHearts(lives)}</strong><span>lives</span></div>}</div>
+      <div className="wg-mode-row" role="group" aria-label="Play mode">
+        {PLAY_MODES.map((mode) => <button key={mode.id} type="button" aria-pressed={playMode === mode.id} onClick={() => switchPlayMode(mode.id)}>{mode.label}</button>)}
+      </div>
+      {over && showResults ? <div className="wg-finish" role="status">
+        <p className="wg-result-kicker">{playMode === 'ten' ? '10 questions done!' : 'Out of lives!'}</p>
+        <h2 ref={heading} tabIndex={-1}>{playMode === 'ten' ? 'Here is how you did.' : 'Good run. Here is how you did.'}</h2>
+        <p className="wg-final-score">{correct}<span> / {played} right</span></p>
+        <button className="pf-primary" onClick={startFresh}>Play again →</button>
+      </div> : reveal ? <div className="wg-comparison-reveal" role="status">
         <p className="wg-result-kicker">{reveal.correct ? 'You called it!' : 'Plot twist!'}</p>
         <h2 ref={heading} tabIndex={-1}>{winnerCopy}</h2>
         <div className="wg-reveal-sides">{reveal.sides.map((option, index) => <article className={index === reveal.correctChoice ? 'is-winner' : ''} key={option.label}><span className="wg-option-emoji" aria-hidden="true">{option.emoji}</span><h3>{option.label}</h3><p className="wg-scale-answer">{option.scaleLead} <strong>{option.scale}</strong></p><p>{option.detail}</p>{index === reveal.correctChoice && <span className="wg-winner-mark">{reveal.prompt.includes('shorter gap') ? 'Shorter gap ✓' : reveal.prompt.includes('moves or grows faster') ? 'Faster ✓' : reveal.prompt.includes('longer') ? 'Longer ✓' : reveal.prompt.includes('weighs') ? 'Heavier ✓' : reveal.prompt.includes('area') ? 'More area ✓' : reveal.prompt.includes('space') ? 'More space ✓' : 'More ✓'}</span>}</article>)}</div>
-        <button className="pf-primary" onClick={next}>Next matchup →</button>
+        <button className="pf-primary" onClick={over ? () => setShowResults(true) : next}>{over ? 'See results →' : 'Next matchup →'}</button>
       </div> : <>
-        <p className="wg-question-number">Matchup {played + 1}</p>
+        <p className="wg-question-number">Matchup {played + 1}{playMode === 'ten' ? ' of 10' : ''}</p>
         <h2 className="wg-question" ref={heading} tabIndex={-1}>{comparison.prompt}</h2>
         <div className="wg-choice-grid">{[comparison.left, comparison.right].map((option, index) => <button key={option.label} onClick={() => choose(index)}><span className="wg-option-emoji" aria-hidden="true">{option.emoji}</span><strong>{option.label}</strong><span className="wg-pick-label">Pick this one</span></button>)}</div>
       </>}
