@@ -150,7 +150,7 @@ export default function Game() {
 
   const next = () => {
     if (queued) {
-      setPair(queued.pair);
+      setPair(queued);
       setPickedCategory(null);
       setGaveUp(false);
       setOptions(null);
