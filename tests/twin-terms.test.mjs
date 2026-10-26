@@ -9,13 +9,35 @@ import {
   pairById,
 } from "../lib/twin-terms/questions.mjs";
 import { CATEGORIES, categoryById } from "../lib/twin-terms/categories.mjs";
+import { DOMAINS, PAIR_BLOCKLIST } from "../lib/twin-terms/domains.mjs";
 
-test("the pool holds 56 active pairs with unique ids, hint pairs, and answers", () => {
-  assert.equal(PAIRS.length, 56);
-  assert.equal(new Set(PAIRS.map((pair) => pair.id)).size, 56);
+/* The 56 premade pairs from the pool era. Every one must still deal
+ * with its original id, so saved games restore after the restructure. */
+const ORIGINAL_PAIR_IDS = [
+  "times-product", "diamond-mound", "corner-degree", "crust-mantle",
+  "mirror-fold", "reed-keys", "foil-lunge", "pedal-hammer", "bar-pie",
+  "fault-plate", "mass-volume", "subject-object", "fork-pin", "bluff-raise",
+  "trump-trick", "seed-bracket", "legend-scale", "bull-bear",
+  "interest-principal", "front-pressure", "school-pod", "bug-patch",
+  "virus-worm", "resume-cover", "plot-setting", "half-quarter",
+  "rare-medium", "lead-follow", "base-power", "derivative-integral",
+  "slope-intercept", "precision-accuracy", "pole-field", "crest-trough",
+  "wave-particle", "element-compound", "order-family", "carrier-trait",
+  "beat-scoop", "person-number", "stress-meter", "hook-bridge",
+  "score-arrangement", "dress-tech", "trailer-teaser",
+  "reference-circulation", "court-appeal", "balance-statement",
+  "audit-return", "charge-plea", "stock-reduce", "crown-king",
+  "prune-graft", "prime-coat", "stud-beam", "shot-booster",
+];
+
+test("56 domains with three terms each generate 168 pairs", () => {
+  assert.equal(DOMAINS.length, 56);
+  assert.equal(DOMAINS.reduce((sum, domain) => sum + domain.terms.length, 0), 168);
+  assert.equal(PAIRS.length, 168);
+  assert.equal(new Set(PAIRS.map((pair) => pair.id)).size, 168);
   assert.equal(
     new Set(PAIRS.map((pair) => [...pair.hints].sort().join("+"))).size,
-    56,
+    168,
   );
   assert.equal(new Set(PAIRS.map((pair) => pair.answer)).size, 56);
   for (const pair of PAIRS) {
@@ -28,27 +50,58 @@ test("the pool holds 56 active pairs with unique ids, hint pairs, and answers", 
   assert.equal(pairById("no-such-pair"), null);
 });
 
-test("no hint word is spent twice across the pool", () => {
-  const words = PAIRS.flatMap((pair) => pair.hints);
-  assert.equal(new Set(words).size, words.length);
+test("no term repeats within a domain, and every domain keeps its answer", () => {
+  assert.equal(new Set(DOMAINS.map((domain) => domain.id)).size, 56);
+  assert.equal(new Set(DOMAINS.map((domain) => domain.answer)).size, 56);
+  for (const domain of DOMAINS) {
+    const words = domain.terms.map((term) => term.word);
+    assert.equal(new Set(words).size, words.length);
+    assert.ok(words.every((word) => word.length > 0));
+    assert.ok(domain.terms.every((term) => term.gloss.length > 0));
+    assert.ok(categoryById(domain.category), `${domain.id}: unknown category`);
+  }
 });
 
-test("six general categories cover every pair, none empty", () => {
+test("every generated pair has exactly one claiming domain and avoids the blocklist", () => {
+  for (const pair of PAIRS) {
+    const claimants = DOMAINS.filter((domain) =>
+      pair.hints.every((hint) => domain.terms.some((term) => term.word === hint)),
+    );
+    assert.equal(claimants.length, 1, `${pair.id}: ${claimants.length} claiming domains`);
+    assert.equal(claimants[0].answer, pair.answer);
+    assert.equal(claimants[0].category, pair.category);
+    assert.ok(!PAIR_BLOCKLIST.has([...pair.hints].sort().join("+")));
+  }
+});
+
+test("all 56 original pairs still deal under their original ids", () => {
+  assert.equal(ORIGINAL_PAIR_IDS.length, 56);
+  for (const id of ORIGINAL_PAIR_IDS) {
+    assert.ok(pairById(id), `original pair ${id} no longer deals`);
+  }
+});
+
+test("six general categories cover every domain and pair, none empty", () => {
   assert.equal(CATEGORIES.length, 6);
   assert.equal(new Set(CATEGORIES.map((category) => category.id)).size, 6);
   assert.equal(new Set(CATEGORIES.map((category) => category.name)).size, 6);
-  const counts = new Map(CATEGORIES.map((category) => [category.id, 0]));
+  const domainCounts = new Map(CATEGORIES.map((category) => [category.id, 0]));
+  const pairCounts = new Map(CATEGORIES.map((category) => [category.id, 0]));
+  for (const domain of DOMAINS) {
+    domainCounts.set(domain.category, domainCounts.get(domain.category) + 1);
+  }
   for (const pair of PAIRS) {
     const category = categoryById(pair.category);
     assert.ok(category, `${pair.id}: unknown category ${pair.category}`);
-    counts.set(pair.category, counts.get(pair.category) + 1);
-  }
-  for (const [id, count] of counts) {
-    assert.ok(count > 0, `category ${id} has no pairs`);
+    pairCounts.set(pair.category, pairCounts.get(pair.category) + 1);
   }
   assert.deepEqual(
-    [...counts.entries()].sort(),
+    [...domainCounts.entries()].sort(),
     [["arts", 9], ["games", 7], ["life", 6], ["math", 8], ["science", 15], ["society", 11]],
+  );
+  assert.deepEqual(
+    [...pairCounts.entries()].sort(),
+    [["arts", 27], ["games", 21], ["life", 18], ["math", 24], ["science", 45], ["society", 33]],
   );
   assert.equal(categoryById("no-such-category"), null);
 });
@@ -91,6 +144,7 @@ test("give-up options hold the answer plus three distinct eligible distractors, 
   for (const pair of PAIRS) {
     const eligible = eligibleDistractors(pair);
     assert.ok(!eligible.includes(pair.answer));
+    assert.equal(new Set(eligible).size, eligible.length);
     for (const rival of RIVALS[pair.answer] || []) {
       assert.ok(!eligible.includes(rival));
     }
