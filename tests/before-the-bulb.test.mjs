@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { buildFunComparisonCandidates, buildWildComparisonPairs, comparisonScore, createGame, isFunComparison, validateContent } from '../lib/before-the-bulb/game.mjs';
+import { buildFunComparisonCandidates, buildFunWildPairs, buildWildComparisonPairs, comparisonScore, createGame, isFunComparison, validateContent } from '../lib/before-the-bulb/game.mjs';
 const base = Object.fromEntries(await Promise.all(['objects','pairs','sources'].map(async name => [name, JSON.parse(await readFile(new URL(`../lib/before-the-bulb/${name}.json`, import.meta.url), 'utf8'))])));
 const expansion = JSON.parse(await readFile(new URL('../lib/before-the-bulb/expansion.json', import.meta.url), 'utf8'));
 const content = { objects: [...base.objects, ...expansion.objects], pairs: [...base.pairs, ...expansion.pairs], sources: [...base.sources, ...expansion.sources] };
@@ -93,13 +93,32 @@ test('future matching rule favors related ideas and rejects disconnected matches
   assert.ok(!candidates.some(pair => pair.objectAId === 'paper' && pair.objectBId === 'laptop'));
 });
 
-test('wild mode includes every clearly ordered pair, including oddball contrasts', () => {
+test('wild builder includes every clearly ordered pair, including oddball contrasts', () => {
   const wildPairs = buildWildComparisonPairs(content.objects);
   assert.ok(wildPairs.length > pairs.length);
   const paperLaptop = wildPairs.find(pair => pair.objectAId === 'paper' && pair.objectBId === 'laptop');
   assert.ok(paperLaptop);
   assert.equal(paperLaptop.earlierObjectId, 'paper');
   assert.ok(!wildPairs.some(pair => pair.objectAId === 'paper' && pair.objectBId === 'paper'));
+});
+
+test('wild mode deals only fun comparisons', () => {
+  const byId = new Map(content.objects.map(object => [object.id, object]));
+  const all = buildWildComparisonPairs(content.objects);
+  const fun = buildFunWildPairs(content.objects);
+  assert.ok(fun.length > pairs.length);
+  assert.ok(fun.length < all.length);
+  const key = pair => [pair.objectAId, pair.objectBId].sort().join('|');
+  const funKeys = new Set(fun.map(key));
+  assert.ok(!funKeys.has('laptop|paper'));
+  assert.ok(!funKeys.has('laptop|umbrella'));
+  assert.ok(funKeys.has('electronic-keyboard|piano'));
+  assert.ok(funKeys.has('cube|rocket'));
+  for (const pair of fun) {
+    const a = byId.get(pair.objectAId), b = byId.get(pair.objectBId);
+    assert.ok(isFunComparison(a, b), pair.id);
+    assert.equal(pair.earlierObjectId, a.yearEnd < b.yearStart ? a.id : b.id);
+  }
 });
 
 test('all 93 reviewed additions have facts, related curated matchups, and wild coverage', async () => {
