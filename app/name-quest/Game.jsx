@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { APP_NAMES } from "../../lib/apps";
 import { PLAY_MODES, isGameOver, nextLives } from "../../lib/quiz-play.mjs";
 import { ArrowRightIcon, LivesHearts, RestartIcon } from "../components/Icons";
@@ -250,6 +250,16 @@ const getPokemonModeGroups = () => ({
   notPokemon: getBasePlayableEntries().filter((entry) => entry.category !== "Pokemon"),
 });
 
+/* Session no-repeat window, shared by all three content modes for the
+ * whole page session: Start over, Play again, and mode or level switches
+ * never clear it (a reload does, like the score). The progress set kept
+ * in state still resets on a fresh game; this window is only about
+ * dealing, so a name just played never comes straight back. */
+const RECENT_WINDOW_SIZE = 12;
+
+const applyRecentWindow = (recentIds, id) =>
+  [...recentIds.filter((recentId) => recentId !== id), id].slice(-RECENT_WINDOW_SIZE);
+
 const pickNext = (pool, usedIds, currentId) => {
   const fresh = pool.filter((entry) => !usedIds.has(entry.id) && entry.id !== currentId);
   const candidates = fresh.length > 0 ? fresh : pool.filter((entry) => entry.id !== currentId);
@@ -304,6 +314,12 @@ export default function Game() {
   const [current, setCurrent] = useState(() => getPool("standard", "category")[0]);
   const [pairCurrent, setPairCurrent] = useState(() => pickPairNext(new Set()));
   const [usedIds, setUsedIds] = useState(() => new Set([getPool("standard", "category")[0].id]));
+  /* Seeded with the two opening rounds so the window covers the session
+   * from the first deal on. */
+  const recentIdsRef = useRef(null);
+  if (recentIdsRef.current === null) {
+    recentIdsRef.current = [current.id, pairCurrent.answer.id];
+  }
   const [result, setResult] = useState("idle");
   const [feedback, setFeedback] = useState("Pick the kind of name.");
   const [score, setScore] = useState(0);
@@ -323,8 +339,9 @@ export default function Game() {
 
   const nextRound = useCallback(() => {
     if (mode === "realAnimal") {
-      const next = pickPairNext(usedIds);
+      const next = pickPairNext(new Set(recentIdsRef.current));
       setPairCurrent(next);
+      recentIdsRef.current = applyRecentWindow(recentIdsRef.current, next.answer.id);
       setUsedIds((previous) => {
         const updated = new Set(previous);
         if (updated.size >= pairPrompts.length) updated.clear();
@@ -338,8 +355,9 @@ export default function Game() {
       return;
     }
 
-    const next = mode === "pokemon" ? pickPokemonModeNext(usedIds, current.id) : pickNext(pool, usedIds, current.id);
+    const next = mode === "pokemon" ? pickPokemonModeNext(new Set(recentIdsRef.current), current.id) : pickNext(pool, new Set(recentIdsRef.current), current.id);
     setCurrent(next);
+    recentIdsRef.current = applyRecentWindow(recentIdsRef.current, next.id);
     setUsedIds((previous) => {
       const updated = new Set(previous);
       if (updated.size >= pool.length) updated.clear();
@@ -418,8 +436,15 @@ export default function Game() {
 
   const resetGame = (nextLevel = level, nextMode = mode) => {
     const nextPool = getPool(nextLevel, nextMode);
-    const next = nextMode === "realAnimal" ? undefined : nextMode === "pokemon" ? pickPokemonModeNext(new Set()) : pickNext(nextPool, new Set());
-    const nextPair = nextMode === "realAnimal" ? pickPairNext(new Set()) : pairCurrent;
+    const next = nextMode === "realAnimal" ? undefined : nextMode === "pokemon" ? pickPokemonModeNext(new Set(recentIdsRef.current)) : pickNext(nextPool, new Set(recentIdsRef.current));
+    const nextPair = nextMode === "realAnimal" ? pickPairNext(new Set(recentIdsRef.current)) : pairCurrent;
+    /* The window survives the reset: the fresh game's first round still
+     * avoids the names just played. Only the progress set restarts. */
+    if (nextMode === "realAnimal") {
+      recentIdsRef.current = applyRecentWindow(recentIdsRef.current, nextPair.answer.id);
+    } else if (next) {
+      recentIdsRef.current = applyRecentWindow(recentIdsRef.current, next.id);
+    }
     setMode(nextMode);
     setLevel(nextLevel);
     if (next) setCurrent(next);
