@@ -30,16 +30,16 @@ const ORIGINAL_PAIR_IDS = [
   "prune-graft", "prime-coat", "stud-beam", "shot-booster",
 ];
 
-test("56 domains with three terms each generate 168 pairs", () => {
-  assert.equal(DOMAINS.length, 56);
-  assert.equal(DOMAINS.reduce((sum, domain) => sum + domain.terms.length, 0), 168);
-  assert.equal(PAIRS.length, 168);
-  assert.equal(new Set(PAIRS.map((pair) => pair.id)).size, 168);
+test("85 domains with three terms each generate 248 pairs (7 blocked)", () => {
+  assert.equal(DOMAINS.length, 85);
+  assert.equal(DOMAINS.reduce((sum, domain) => sum + domain.terms.length, 0), 255);
+  assert.equal(PAIRS.length, 248);
+  assert.equal(new Set(PAIRS.map((pair) => pair.id)).size, 248);
   assert.equal(
     new Set(PAIRS.map((pair) => [...pair.hints].sort().join("+"))).size,
-    168,
+    248,
   );
-  assert.equal(new Set(PAIRS.map((pair) => pair.answer)).size, 56);
+  assert.equal(new Set(PAIRS.map((pair) => pair.answer)).size, 85);
   for (const pair of PAIRS) {
     assert.equal(pair.hints.length, 2);
     assert.ok(pair.hints.every((hint) => typeof hint === "string" && hint.length > 0));
@@ -51,8 +51,8 @@ test("56 domains with three terms each generate 168 pairs", () => {
 });
 
 test("no term repeats within a domain, and every domain keeps its answer", () => {
-  assert.equal(new Set(DOMAINS.map((domain) => domain.id)).size, 56);
-  assert.equal(new Set(DOMAINS.map((domain) => domain.answer)).size, 56);
+  assert.equal(new Set(DOMAINS.map((domain) => domain.id)).size, 85);
+  assert.equal(new Set(DOMAINS.map((domain) => domain.answer)).size, 85);
   for (const domain of DOMAINS) {
     const words = domain.terms.map((term) => term.word);
     assert.equal(new Set(words).size, words.length);
@@ -97,11 +97,11 @@ test("six general categories cover every domain and pair, none empty", () => {
   }
   assert.deepEqual(
     [...domainCounts.entries()].sort(),
-    [["arts", 11], ["games", 7], ["life", 7], ["math", 8], ["science", 15], ["society", 8]],
+    [["arts", 18], ["games", 10], ["life", 11], ["math", 10], ["science", 24], ["society", 12]],
   );
   assert.deepEqual(
     [...pairCounts.entries()].sort(),
-    [["arts", 33], ["games", 21], ["life", 21], ["math", 24], ["science", 45], ["society", 24]],
+    [["arts", 53], ["games", 30], ["life", 32], ["math", 29], ["science", 71], ["society", 33]],
   );
   assert.equal(categoryById("no-such-category"), null);
 });
@@ -118,6 +118,11 @@ test("spot-check the category mapping", () => {
   assert.equal(pairById("person-number").category, "arts");
   assert.equal(pairById("audit-return").category, "life");
   assert.equal(pairById("subject-object").category, "arts");
+  assert.equal(pairById("eye-surge").category, "science");
+  assert.equal(pairById("agenda-minutes").category, "society");
+  assert.equal(pairById("manuscript-imprint").category, "arts");
+  assert.equal(pairById("shower-vows").category, "life");
+  assert.equal(pairById("track-conductor").category, "life");
 });
 
 test("category blurbs are distinct phrases that name no detailed subject", () => {
