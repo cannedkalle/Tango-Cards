@@ -30,14 +30,14 @@ const ORIGINAL_PAIR_IDS = [
   "prune-graft", "prime-coat", "stud-beam", "shot-booster",
 ];
 
-test("85 domains with three terms each generate 248 pairs (7 blocked)", () => {
+test("85 domains with three terms each generate 246 pairs (9 blocked)", () => {
   assert.equal(DOMAINS.length, 85);
   assert.equal(DOMAINS.reduce((sum, domain) => sum + domain.terms.length, 0), 255);
-  assert.equal(PAIRS.length, 248);
-  assert.equal(new Set(PAIRS.map((pair) => pair.id)).size, 248);
+  assert.equal(PAIRS.length, 246);
+  assert.equal(new Set(PAIRS.map((pair) => pair.id)).size, 246);
   assert.equal(
     new Set(PAIRS.map((pair) => [...pair.hints].sort().join("+"))).size,
-    248,
+    246,
   );
   assert.equal(new Set(PAIRS.map((pair) => pair.answer)).size, 85);
   for (const pair of PAIRS) {
@@ -101,7 +101,7 @@ test("six general categories cover every domain and pair, none empty", () => {
   );
   assert.deepEqual(
     [...pairCounts.entries()].sort(),
-    [["arts", 53], ["games", 30], ["life", 32], ["math", 29], ["science", 71], ["society", 33]],
+    [["arts", 52], ["games", 30], ["life", 31], ["math", 29], ["science", 71], ["society", 33]],
   );
   assert.equal(categoryById("no-such-category"), null);
 });
