@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" role="img" aria-label="A glowing light bulb over a playful timeline">
-  <rect width="900" height="520" rx="44" fill="#fff1c9"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="90 0 725 453" width="725" height="453" role="img" aria-label="A glowing light bulb over a playful timeline">
+  <rect x="90" y="0" width="725" height="453" rx="44" fill="#fff1c9"/>
   <path d="M96 382 C230 316 320 420 452 350 S684 294 808 360" fill="none" stroke="#efc45b" stroke-width="12" stroke-linecap="round"/>
   <circle cx="164" cy="353" r="18" fill="#ef8f72"/>
   <circle cx="452" cy="350" r="18" fill="#6ebfa8"/>
