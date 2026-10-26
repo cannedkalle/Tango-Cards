@@ -97,11 +97,11 @@ test("six general categories cover every domain and pair, none empty", () => {
   }
   assert.deepEqual(
     [...domainCounts.entries()].sort(),
-    [["arts", 10], ["games", 7], ["life", 7], ["math", 8], ["science", 15], ["society", 9]],
+    [["arts", 11], ["games", 7], ["life", 7], ["math", 8], ["science", 15], ["society", 8]],
   );
   assert.deepEqual(
     [...pairCounts.entries()].sort(),
-    [["arts", 30], ["games", 21], ["life", 21], ["math", 24], ["science", 45], ["society", 27]],
+    [["arts", 33], ["games", 21], ["life", 21], ["math", 24], ["science", 45], ["society", 24]],
   );
   assert.equal(categoryById("no-such-category"), null);
 });
@@ -117,6 +117,7 @@ test("spot-check the category mapping", () => {
   assert.equal(pairById("prune-graft").category, "life");
   assert.equal(pairById("person-number").category, "arts");
   assert.equal(pairById("audit-return").category, "life");
+  assert.equal(pairById("subject-object").category, "arts");
 });
 
 test("category blurbs are distinct phrases that name no detailed subject", () => {
