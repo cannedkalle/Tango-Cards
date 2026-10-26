@@ -36,22 +36,22 @@ test('proposal pool contains 100 clear, non-overlapping comparisons across four 
 });
 
 test('subject pool deals close, non-overlapping, non-part-whole matchups', () => {
-  assert.equal(subjects.length, 114);
+  assert.equal(subjects.length, 139);
   assert.equal(new Set(subjects.map((subject) => subject.id)).size, subjects.length);
   assert.equal(new Set(subjects.map((subject) => `${subject.category}:${canonicalConceptKey(subject.label)}`)).size, subjects.length);
   assert.deepEqual(subjects.filter((subject) => /\b(big|large|huge|long|full-grown|giant)\b/i.test(subject.label) && !/\bgiant tortoise\b/i.test(subject.label)).map((subject) => subject.label), []);
-  assert.ok(subjects.filter((subject) => subject.category === 'frequency' && /wingbeats/i.test(subject.label)).length <= 3);
+  assert.ok(subjects.filter((subject) => subject.category === 'frequency' && /wingbeats/i.test(subject.label)).length <= 5);
   assert.equal(subjects.some((subject) => subject.label === 'Two meals eaten by one person'), false);
   assert.equal(subjects.some((subject) => subject.label === 'Two ticks of a clock'), false);
   assert.deepEqual(Object.fromEntries(subjectCategories.map((category) => [category, validSubjectPairs(category).length])), {
-    count: 47,
-    duration: 50,
-    weight: 38,
-    frequency: 20,
-    length: 24,
-    area: 13,
-    volume: 9,
-    speed: 14,
+    count: 64,
+    duration: 101,
+    weight: 39,
+    frequency: 47,
+    length: 27,
+    area: 20,
+    volume: 13,
+    speed: 20,
   });
   const byId = new Map(subjects.map((subject) => [subject.id, subject]));
   for (const [a, b] of [
@@ -65,6 +65,7 @@ test('subject pool deals close, non-overlapping, non-part-whole matchups', () =>
     ['volume-the-water-in-lake-erie', 'volume-the-water-in-all-five-great-lakes'],
     ['area-the-great-barrier-reef-marine-park', 'area-the-pacific-ocean'],
     ['area-a-city-block', 'area-the-island-of-manhattan'],
+    ['weight-a-blue-whale', 'weight-a-blue-whales-tongue'],
   ]) {
     assert.ok(byId.get(a) && byId.get(b), `${a} / ${b} exist`);
     assert.equal(isPartWholePair(byId.get(a), byId.get(b)), true, `${a} vs ${b}`);
@@ -87,11 +88,17 @@ test('subject pool deals close, non-overlapping, non-part-whole matchups', () =>
 test('frequency no longer leans on the blue whale heartbeat, and retired subjects stay out', () => {
   const frequencyPairs = validSubjectPairs('frequency');
   const whalePairs = frequencyPairs.filter(([a, b]) => a.label.includes('blue whale') || b.label.includes('blue whale'));
-  assert.equal(whalePairs.length, 4);
+  assert.equal(whalePairs.length, 5);
   assert.ok(whalePairs.length < frequencyPairs.length / 4, 'whale share under a quarter');
-  for (const label of ['Two waves reaching one beach', 'The water in an Olympic competition pool', 'Two human heartbeats', 'Two ticks of a clock', 'Two meals eaten by one person']) {
+  for (const label of ['Two human heartbeats', 'Two ticks of a clock', 'Two meals eaten by one person', 'Fish in a sardine school', 'A banana peel breaking down outdoors', 'A plastic bottle breaking down outdoors']) {
     assert.equal(subjects.some((subject) => subject.label === label), false, label);
   }
+  // Un-retired by Kai's feedback: waves and the Olympic pool are live again.
+  for (const label of ['Two waves reaching one beach', 'The water in an Olympic competition pool', 'Sardines in a bait ball', 'A banana peel breaking down in compost', 'A plastic bottle breaking down in the ocean']) {
+    assert.equal(subjects.some((subject) => subject.label === label), true, label);
+  }
+  // A fact may live in the database without pairing yet (the Moon's age).
+  assert.equal(subjects.some((subject) => subject.label === 'The age of the Moon'), true);
 });
 
 test('generator deals quality matchups, spaces repeats, and never runs dry', async () => {
