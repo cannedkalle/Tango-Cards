@@ -1,25 +1,25 @@
 .wg-score { display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 22px; }
-.wg-score > div { min-width: 76px; padding: 9px 12px; border-radius: 13px; background: var(--pf-leaf-soft); text-align: center; }
+.wg-score > div { min-width: 76px; padding: 9px 12px; border-radius: 12px; background: var(--pf-leaf-soft); text-align: center; }
 .wg-score strong, .wg-score span { display: block; }
 .wg-score strong { font-size: 24px; line-height: 1; }
 .wg-score span { margin-top: 3px; color: var(--pf-muted); font-size: 12px; font-weight: 700; }
 .wg-question-number { margin: 0; color: var(--pf-muted); font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
 .wg-choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.wg-choice-grid button { display: flex; min-height: 230px; padding: 24px; border: 2px solid var(--pf-control-line); border-radius: 20px; background: var(--pf-surface); color: var(--pf-ink); flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.wg-choice-grid button { display: flex; min-height: 230px; padding: 24px; border: 2px solid var(--pf-control-line); border-radius: 24px; background: var(--pf-surface); color: var(--pf-ink); flex-direction: column; align-items: center; justify-content: center; text-align: center; }
 .wg-choice-grid button:hover:not(:disabled), .wg-choice-grid button:focus-visible { border-color: var(--pf-green); background: var(--pf-leaf-soft); transform: translateY(-2px); }
 .wg-option-emoji { display: block; font-size: 58px; line-height: 1; margin-bottom: 18px; }
 .wg-choice-grid strong { font-size: clamp(20px, 2.4vw, 28px); line-height: 1.12; }
 .wg-pick-label { margin-top: 18px; color: var(--pf-green); font-size: 13px; font-weight: 800; }
 .wg-comparison-reveal > h2 { max-width: 650px; margin: 5px 0 22px; font-size: clamp(28px, 4vw, 44px); line-height: 1.08; }
 .wg-reveal-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 22px; }
-.wg-reveal-sides article { position: relative; min-width: 0; padding: 22px; border: 1px solid var(--pf-line); border-radius: 18px; background: var(--pf-surface); }
+.wg-reveal-sides article { position: relative; min-width: 0; padding: 22px; border: 1px solid var(--pf-line); border-radius: 24px; background: var(--pf-surface); }
 .wg-reveal-sides article.is-winner { border: 2px solid var(--pf-green); background: var(--pf-leaf-soft); }
 .wg-reveal-sides h3 { font-size: 20px; line-height: 1.15; }
 .wg-reveal-sides .wg-option-emoji { font-size: 42px; margin-bottom: 12px; }
 .wg-scale-answer { margin: 15px 0 10px; color: var(--pf-muted); }
 .wg-scale-answer strong { display: block; color: var(--pf-ink); font-size: 24px; line-height: 1.1; }
 .wg-reveal-sides article > p:last-of-type { color: var(--pf-muted); font-size: 14px; line-height: 1.45; }
-.wg-winner-mark { display: inline-block; margin-top: 14px; padding: 6px 9px; border-radius: 9px; background: var(--pf-green); color: white; font-size: 12px; font-weight: 800; }
+.wg-winner-mark { display: inline-block; margin-top: 14px; padding: 6px 9px; border-radius: 12px; background: var(--pf-green); color: white; font-size: 12px; font-weight: 800; }
 
 @media (max-width: 560px) {
   .wg-choice-grid, .wg-reveal-sides { grid-template-columns: 1fr; }

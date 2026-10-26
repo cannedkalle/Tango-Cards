@@ -40,9 +40,36 @@ their own home section and keep their own controls.
 
 Switching mode — or difficulty, where a game has one — always resets the
 score, so one mode's results never mix with another's. Games keep their
-own round engines; they share only the two pure end-of-game rules in
-`lib/quiz-play.mjs` (`nextLives`, `isGameOver`), covered by
-`tests/quiz-play.test.mjs`.
+own round engines; they share the pure rules in `lib/quiz-play.mjs`
+(`nextLives`, `isGameOver`, `livesHeartStates`), covered by
+`tests/quiz-play.test.mjs`. In Balls in the Ballpark, the no-repeat window
+behind a fresh game lives for the whole page session, so Play again never
+re-deals a recent matchup, while every deal stays an independent random
+draw — no deck, no fixed sequence.
+
+## Shared chrome (`public/design-system/playform.css`, `app/components/Icons.jsx`)
+
+The same control looks the same in every game. Game content keeps its own
+accent (Bulb peach/blue, Animal leaf, Name Quest violet); only the chrome
+is uniform.
+
+- **Game title**: `.pf-game-title` (30–44px) in every full-width game
+  header. Marble's panel heading stays small — it is an aside heading,
+  not a game title.
+- **Primary action**: `.pf-primary` (Next, Play again, See results).
+- **Secondary button**: `.pf-btn` (Start over, Restart, difficulty
+  choices, panel controls). Pressed rectangular buttons show the shared
+  pressed checkmark; pills never do.
+- **Mode picker**: `.pf-pill-group` + `.pf-pill`, text only. The green
+  pill is the selection. Content mode, then play mode.
+- **Status pill**: `.pf-status-pill` for readouts that are not controls
+  (Bulb's round/lives pill).
+- **Icons**: one SVG set in `Icons.jsx` — back, restart, forward, lives
+  hearts — used only where the icon carries meaning, and the same icon
+  everywhere it appears. Pickers show text only; game content keeps its
+  own decorative marks (Bulb's sparkles, Wild-guess winner marks).
+- **Radii**: 12px small, 16px control, 24px card. Circles (50%) and
+  progress bars keep their own shapes.
 
 ## Home sections (`lib/apps.js`)
 
@@ -53,10 +80,12 @@ Bulb — then Cards and battles — Tango Cards, Marble Battles.
 ## Exceptions
 
 - **Name Quest keeps its side score panel** (Score, Streak, Items,
-  progress) and its level row stays in that panel. Its board-plus-aside
-  layout and its shared-stylesheet styles make moving the panel a visual
-  risk; its Start over moved to the header and its Play row sits above
-  the board, so every other zone matches.
+  progress) and its level row stays in that panel, now as shared
+  secondary buttons. Its board-plus-aside layout and its shared-stylesheet
+  styles make moving the panel a visual risk; its Start over moved to the
+  header and its Play row sits above the board as the shared pill group,
+  so every other zone matches. Its former ✦-only category button is now
+  a labeled pill ("Name types").
 - **Marble Battles keeps Restart in its controls** and has no play
   modes; it is a simulation, not a quiz.
 - **Tango Cards has no rounds**, so no Start over and no play modes.

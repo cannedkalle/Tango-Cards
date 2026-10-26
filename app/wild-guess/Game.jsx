@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import PortalNav from '../components/PortalNav';
 import { buildReveal, clearProgress, generateComparison, loadProgress, saveProgress } from '../../lib/wild-guess/client-game.mjs';
-import { PLAY_MODES, isGameOver, livesHearts, nextLives } from '../../lib/quiz-play.mjs';
+import { PLAY_MODES, isGameOver, nextLives } from '../../lib/quiz-play.mjs';
+import { ArrowRightIcon, LivesHearts, RestartIcon } from "../components/Icons";
 
 /* Balls in the Ballpark, played entirely in the browser: matchups are dealt
  * from the catalog that lives in the repo, and progress is kept in the
@@ -29,7 +30,10 @@ export default function Game() {
   const heading = useRef(null);
   const historyRef = useRef([]);
   /* Deal through the generator, avoiding the last 12 matchups so the same
-   * pairing does not come straight back. */
+   * pairing does not come straight back. The history lives for the whole
+   * page session: Play again and mode switches never clear it, so a fresh
+   * game never re-deals a recent pairing. Every deal stays an independent
+   * random draw — there is no deck, no fixed order, no sequence to learn. */
   const deal = () => {
     const next = generateComparison(undefined, { pairIds: historyRef.current });
     if (next) {
@@ -39,7 +43,6 @@ export default function Game() {
   };
 
   const startFresh = () => {
-    historyRef.current = [];
     const next = deal();
     if (!next) {
       setError('No matchups are available yet.');
@@ -150,23 +153,23 @@ export default function Game() {
         : `${reveal.sides[reveal.correctChoice].label} has more.`
     : '';
 
-  return <><PortalNav/><main className="wg"><header className="wg-heading"><div><span className="wg-kicker">Two wild possibilities. One bigger answer.</span><h1>Balls in the Ballpark<span aria-hidden="true">?</span></h1></div><div className="wg-heading-actions"><p>Which one<br/>is bigger?</p><button className="wg-start-over" type="button" onClick={startFresh}>Start over <span aria-hidden="true">↺</span></button></div></header><div className="wg-layout"><section className="wg-board">
-    {error && <div className="wg-error" role="alert">{error} <button onClick={startFresh}>Start over</button></div>}
+  return <><PortalNav/><main className="wg"><header className="wg-heading"><div><span className="wg-kicker">Two wild possibilities. One bigger answer.</span><h1 className="pf-game-title">Balls in the Ballpark<span aria-hidden="true">?</span></h1></div><div className="wg-heading-actions"><p>Which one<br/>is bigger?</p><button className="pf-btn" type="button" onClick={startFresh}><RestartIcon />Start over</button></div></header><div className="wg-layout"><section className="wg-board">
+    {error && <div className="wg-error" role="alert">{error} <button className="pf-btn" onClick={startFresh}>Start over</button></div>}
     {!comparison ? <div className="wg-loading">Finding a curious matchup…</div> : <>
-      <div className="wg-score" aria-label="Your score"><div><strong>{correct}</strong><span>right</span></div><div><strong>{played}</strong><span>played</span></div>{playMode === 'lives' && <div><strong className="wg-lives">{livesHearts(lives)}</strong><span>lives</span></div>}</div>
-      <div className="wg-mode-row" role="group" aria-label="Play mode">
-        {PLAY_MODES.map((mode) => <button key={mode.id} type="button" aria-pressed={playMode === mode.id} onClick={() => switchPlayMode(mode.id)}>{mode.label}</button>)}
+      <div className="wg-score" aria-label="Your score"><div><strong>{correct}</strong><span>right</span></div><div><strong>{played}</strong><span>played</span></div>{playMode === 'lives' && <div><strong className="wg-lives"><LivesHearts lives={lives} /></strong><span>lives</span></div>}</div>
+      <div className="pf-pill-group" role="group" aria-label="Play mode">
+        {PLAY_MODES.map((mode) => <button key={mode.id} className="pf-pill" type="button" aria-pressed={playMode === mode.id} onClick={() => switchPlayMode(mode.id)}>{mode.label}</button>)}
       </div>
       {over && showResults ? <div className="wg-finish" role="status">
         <p className="wg-result-kicker">{playMode === 'ten' ? '10 questions done!' : 'Out of lives!'}</p>
         <h2 ref={heading} tabIndex={-1}>{playMode === 'ten' ? 'Here is how you did.' : 'Good run. Here is how you did.'}</h2>
         <p className="wg-final-score">{correct}<span> / {played} right</span></p>
-        <button className="pf-primary" onClick={startFresh}>Play again →</button>
+        <button className="pf-primary" onClick={startFresh}>Play again <ArrowRightIcon /></button>
       </div> : reveal ? <div className="wg-comparison-reveal" role="status">
         <p className="wg-result-kicker">{reveal.correct ? 'You called it!' : 'Plot twist!'}</p>
         <h2 ref={heading} tabIndex={-1}>{winnerCopy}</h2>
         <div className="wg-reveal-sides">{reveal.sides.map((option, index) => <article className={index === reveal.correctChoice ? 'is-winner' : ''} key={option.label}><span className="wg-option-emoji" aria-hidden="true">{option.emoji}</span><h3>{option.label}</h3><p className="wg-scale-answer">{option.scaleLead} <strong>{option.scale}</strong></p><p>{option.detail}</p>{index === reveal.correctChoice && <span className="wg-winner-mark">{reveal.prompt.includes('shorter gap') ? 'Shorter gap ✓' : reveal.prompt.includes('moves or grows faster') ? 'Faster ✓' : reveal.prompt.includes('longer') ? 'Longer ✓' : reveal.prompt.includes('weighs') ? 'Heavier ✓' : reveal.prompt.includes('area') ? 'More area ✓' : reveal.prompt.includes('space') ? 'More space ✓' : 'More ✓'}</span>}</article>)}</div>
-        <button className="pf-primary" onClick={over ? () => setShowResults(true) : next}>{over ? 'See results →' : 'Next matchup →'}</button>
+        <button className="pf-primary" onClick={over ? () => setShowResults(true) : next}>{over ? <>See results <ArrowRightIcon /></> : <>Next matchup <ArrowRightIcon /></>}</button>
       </div> : <>
         <p className="wg-question-number">Matchup {played + 1}{playMode === 'ten' ? ' of 10' : ''}</p>
         <h2 className="wg-question" ref={heading} tabIndex={-1}>{comparison.prompt}</h2>

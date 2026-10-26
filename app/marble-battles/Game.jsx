@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import PortalNav from '../components/PortalNav';
+import { RestartIcon } from '../components/Icons';
 import { defaultPresetKey, palette, presets } from '../../lib/marble-battles/config.mjs';
 import { CanvasRenderer } from '../../lib/marble-battles/renderer.mjs';
 import { Simulation } from '../../lib/marble-battles/simulation.mjs';
@@ -256,7 +257,7 @@ export default function Game() {
               <h1>Multiply / Release</h1>
             </div>
             <button
-              className="icon-button"
+              className="pf-btn"
               type="button"
               title="Pause or resume"
               onClick={() => handleControl({ type: 'pause' })}
@@ -275,8 +276,8 @@ export default function Game() {
           </label>
 
           <div className="button-row">
-            <button type="button" onClick={() => handleControl({ type: 'restart' })}>Restart</button>
-            <button type="button" onClick={shuffleColors}>Mix Colors</button>
+            <button className="pf-btn" type="button" onClick={() => handleControl({ type: 'restart' })}><RestartIcon />Restart</button>
+            <button className="pf-btn" type="button" onClick={shuffleColors}>Mix Colors</button>
           </div>
 
           <section className="control-section">

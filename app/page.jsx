@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowRightIcon } from "./components/Icons";
 import { OTHER_APPS, QUIZ_APPS } from "../lib/apps";
 import { SITE_NAME } from "../lib/names";
 import { creatorContactUrl, kofiUrl } from "../lib/support";
@@ -12,7 +13,7 @@ function AppCard({ app }) {
       <span className="app-copy">
         <strong><span className="app-label">{app.label}</span>{app.name}</strong>
         <small>{app.description}</small>
-        <b aria-hidden="true">→</b>
+        <b aria-hidden="true"><ArrowRightIcon /></b>
       </span>
     </Link>
   );

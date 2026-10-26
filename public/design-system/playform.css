@@ -70,6 +70,32 @@ h1, h2, h3 { color: var(--pf-ink); line-height: 1.15; font-weight: 800; }
 .pf-back { display:inline-flex; align-items:center; justify-content:center; gap:8px; flex-shrink:0; min-height:44px; padding:10px 14px; border:1px solid var(--pf-control-line); border-radius:var(--pf-radius-control); background:var(--pf-surface); color:var(--pf-green); font-family:var(--pf-font); font-size:14px; line-height:1.4; font-weight:700; text-decoration:none; box-shadow:0 3px 0 var(--pf-line); }
 .pf-back:hover { background:var(--pf-leaf-soft); }
 .pf-back:active { transform:translateY(2px); box-shadow:0 1px 0 var(--pf-line); }
+/* Shared chrome icons: 1em, current color, so the same icon looks the same
+ * in every game. Used only for actions with meaning (back, restart,
+ * forward, lives); pickers show text only, and game content keeps its own
+ * decorative marks. */
+.pf-icon { width:1em; height:1em; flex:none; vertical-align:-0.125em; }
+.pf-lives { display:inline-flex; align-items:center; gap:2px; color:var(--pf-green); }
+/* Shared game header title: one size across games (content widths still
+ * follow the game — centered games stay narrow, aside games stay wide). */
+.pf-game-title { font-size:clamp(30px,4vw,44px); letter-spacing:-1.2px; line-height:1.15; font-weight:800; }
+/* Secondary button: Start over, Restart, difficulty choices. Pressed state
+ * is a leaf tint; the pressed checkmark (where a game shows one) comes from
+ * that game's own pressed rule, so the mark stays one shared symbol. */
+.pf-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:10px 16px; border:1px solid var(--pf-control-line); border-radius:var(--pf-radius-control); background:var(--pf-surface); color:var(--pf-green); font-size:14px; line-height:1.4; font-weight:700; box-shadow:0 3px 0 var(--pf-line); }
+.pf-btn:hover { background:var(--pf-leaf-soft); }
+.pf-btn:active { transform:translateY(2px); box-shadow:0 1px 0 var(--pf-line); }
+.pf-btn[aria-pressed="true"] { background:var(--pf-leaf-soft); border-color:var(--pf-green); }
+/* Mode picker: pill group (content mode, then play mode). Text only; the
+ * green pill is the selection. */
+.pf-pill-group { display:inline-flex; flex-wrap:wrap; gap:4px; padding:4px; border:1px solid var(--pf-control-line); border-radius:var(--pf-radius-control); background:var(--pf-surface); }
+.pf-pill { display:inline-flex; align-items:center; justify-content:center; min-height:38px; padding:8px 14px; border:0; border-radius:calc(var(--pf-radius-control) - 4px); background:transparent; color:var(--pf-muted); font-size:13px; line-height:1.4; font-weight:800; }
+.pf-pill[aria-pressed="true"] { background:var(--pf-green); color:white; }
+/* Pills mark selection with the green fill alone: never the shared pressed
+ * checkmark (that mark belongs to rectangular buttons, below). */
+.pf-pill[aria-pressed="true"]::before { content:none; }
+/* Status pill: a round/score readout that is not a control (bulb's round). */
+.pf-status-pill { display:inline-flex; align-items:center; gap:6px; min-height:38px; padding:8px 14px; border-radius:100px; background:var(--pf-leaf-soft); color:var(--pf-green); font-size:13px; line-height:1.4; font-weight:800; }
 @media(max-width:560px){ .pf-portal-nav .pf-brand{font-size:16px;} .pf-portal-nav .pf-brand img{width:28px;height:28px;} }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
