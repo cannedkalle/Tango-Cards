@@ -321,8 +321,8 @@ export default function Game() {
         <PortalNav />
         <header className="top-bar">
           <div>
-            <p className="eyebrow">Animal Outsider</p>
-            <h1 className="pf-game-title">Who’s the distant cousin?</h1>
+            <p className="eyebrow">Who’s the distant cousin?</p>
+            <h1 className="pf-game-title">Animal Outsider</h1>
           </div>
           <div className="top-actions">
             <div className="score-box" aria-label="Score">
@@ -337,9 +337,9 @@ export default function Game() {
 
         <section className="difficulty-picker" aria-label="Game controls">
           <span className="control-label">Difficulty</span>
-          <div className="difficulty-options" role="group" aria-label="Choose difficulty">
-            <button className="pf-btn" type="button" aria-pressed={difficulty === 'easy'} onClick={() => switchDifficulty('easy')}>Easy</button>
-            <button className="pf-btn" type="button" aria-pressed={difficulty === 'standard'} onClick={() => switchDifficulty('standard')}>Standard</button>
+          <div className="pf-pill-group" role="group" aria-label="Choose difficulty">
+            <button className="pf-pill" type="button" aria-pressed={difficulty === 'easy'} onClick={() => switchDifficulty('easy')}>Easy</button>
+            <button className="pf-pill" type="button" aria-pressed={difficulty === 'standard'} onClick={() => switchDifficulty('standard')}>Standard</button>
           </div>
           <span className="control-label">Play mode</span>
           <div className="pf-pill-group" role="group" aria-label="Play mode">
