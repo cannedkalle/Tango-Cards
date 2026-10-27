@@ -11,7 +11,7 @@ import {
 import { CATEGORIES, categoryById } from "../lib/twin-terms/categories.mjs";
 import { DOMAINS, PAIR_BLOCKLIST } from "../lib/twin-terms/domains.mjs";
 
-/* The 56 premade pairs from the pool era. Every one must still deal
+/* The 55 premade pairs from the pool era. Every one must still deal
  * with its original id, so saved games restore after the restructure. */
 const ORIGINAL_PAIR_IDS = [
   "times-product", "diamond-mound", "corner-degree", "crust-mantle",
@@ -26,20 +26,20 @@ const ORIGINAL_PAIR_IDS = [
   "beat-scoop", "person-number", "stress-meter", "hook-bridge",
   "score-arrangement", "dress-tech", "trailer-teaser",
   "reference-circulation", "court-appeal", "balance-statement",
-  "audit-return", "charge-plea", "stock-reduce", "crown-king",
+  "charge-plea", "stock-reduce", "crown-king",
   "prune-graft", "prime-coat", "stud-beam", "shot-booster",
 ];
 
-test("85 domains with three terms each generate 247 pairs (8 blocked)", () => {
-  assert.equal(DOMAINS.length, 85);
-  assert.equal(DOMAINS.reduce((sum, domain) => sum + domain.terms.length, 0), 255);
-  assert.equal(PAIRS.length, 247);
-  assert.equal(new Set(PAIRS.map((pair) => pair.id)).size, 247);
+test("92 domains generate 264 pairs (9 blocked)", () => {
+  assert.equal(DOMAINS.length, 92);
+  assert.equal(DOMAINS.reduce((sum, domain) => sum + domain.terms.length, 0), 274);
+  assert.equal(PAIRS.length, 264);
+  assert.equal(new Set(PAIRS.map((pair) => pair.id)).size, 264);
   assert.equal(
     new Set(PAIRS.map((pair) => [...pair.hints].sort().join("+"))).size,
-    247,
+    264,
   );
-  assert.equal(new Set(PAIRS.map((pair) => pair.answer)).size, 85);
+  assert.equal(new Set(PAIRS.map((pair) => pair.answer)).size, 92);
   for (const pair of PAIRS) {
     assert.equal(pair.hints.length, 2);
     assert.ok(pair.hints.every((hint) => typeof hint === "string" && hint.length > 0));
@@ -51,8 +51,8 @@ test("85 domains with three terms each generate 247 pairs (8 blocked)", () => {
 });
 
 test("no term repeats within a domain, and every domain keeps its answer", () => {
-  assert.equal(new Set(DOMAINS.map((domain) => domain.id)).size, 85);
-  assert.equal(new Set(DOMAINS.map((domain) => domain.answer)).size, 85);
+  assert.equal(new Set(DOMAINS.map((domain) => domain.id)).size, 92);
+  assert.equal(new Set(DOMAINS.map((domain) => domain.answer)).size, 92);
   for (const domain of DOMAINS) {
     const words = domain.terms.map((term) => term.word);
     assert.equal(new Set(words).size, words.length);
@@ -74,8 +74,8 @@ test("every generated pair has exactly one claiming domain and avoids the blockl
   }
 });
 
-test("all 56 original pairs still deal under their original ids", () => {
-  assert.equal(ORIGINAL_PAIR_IDS.length, 56);
+test("all 55 original pairs still deal under their original ids", () => {
+  assert.equal(ORIGINAL_PAIR_IDS.length, 55);
   for (const id of ORIGINAL_PAIR_IDS) {
     assert.ok(pairById(id), `original pair ${id} no longer deals`);
   }
@@ -97,11 +97,11 @@ test("six general categories cover every domain and pair, none empty", () => {
   }
   assert.deepEqual(
     [...domainCounts.entries()].sort(),
-    [["arts", 18], ["games", 10], ["life", 11], ["math", 10], ["science", 24], ["society", 12]],
+    [["arts", 22], ["games", 10], ["life", 9], ["math", 10], ["science", 29], ["society", 12]],
   );
   assert.deepEqual(
     [...pairCounts.entries()].sort(),
-    [["arts", 52], ["games", 30], ["life", 32], ["math", 29], ["science", 71], ["society", 33]],
+    [["arts", 62], ["games", 30], ["life", 27], ["math", 29], ["science", 85], ["society", 31]],
   );
   assert.equal(categoryById("no-such-category"), null);
 });
@@ -116,15 +116,16 @@ test("spot-check the category mapping", () => {
   assert.equal(pairById("hook-bridge").category, "arts");
   assert.equal(pairById("prune-graft").category, "life");
   assert.equal(pairById("person-number").category, "arts");
-  assert.equal(pairById("audit-return").category, "life");
   assert.equal(pairById("subject-object").category, "arts");
   assert.equal(pairById("eye-surge").category, "science");
-  assert.equal(pairById("agenda-minutes").category, "society");
   assert.equal(pairById("manuscript-imprint").category, "arts");
-  assert.equal(pairById("shower-vows").category, "life");
   assert.equal(pairById("track-conductor").category, "life");
   assert.equal(pairById("track-signal").category, "life");
   assert.equal(pairById("mark-blocking").category, "arts");
+  assert.equal(pairById("margin-bleed").category, "arts");
+  assert.equal(pairById("kernel-thread").category, "science");
+  assert.equal(pairById("wax-quarter").category, "science");
+  assert.equal(pairById("quarter-phase").category, "science");
 });
 
 test("category blurbs are distinct phrases that name no detailed subject", () => {
