@@ -7,6 +7,7 @@ import { PLAY_MODES, isGameOver, nextLives } from '../../lib/quiz-play.mjs';
 import { dealOptions, dealPair } from '../../lib/twin-terms/questions.mjs';
 import { CATEGORIES, categoryById } from '../../lib/twin-terms/categories.mjs';
 import { clearProgress, loadProgress, saveProgress } from '../../lib/twin-terms/progress.mjs';
+import { TWIN_TERM_IMAGES } from '../../lib/twin-terms/images.mjs';
 
 /* Twin Terms, played entirely in the browser: two words from one field's
  * own vocabulary, and six general categories to choose from. The graded
@@ -166,6 +167,7 @@ export default function Game() {
   const categoryName = pair ? (categoryById(pair.category) || {}).name : '';
   const categoryRight = pickedCategory !== null && pickedCategory === pair?.category;
   const revealed = pickedCategory !== null || picked !== null;
+  const revealImage = pair ? TWIN_TERM_IMAGES[pair.answer] : null;
 
   return <><PortalNav/><main className="twin-terms"><header className="th-heading"><div><span className="th-kicker">Two words. One shared field.</span><h1 className="pf-game-title">Twin Terms</h1></div><div className="th-heading-actions"><button className="pf-btn" type="button" onClick={() => startFresh()}><RestartIcon />Start over</button></div></header><div className="th-layout"><section className="th-board">
     {!pair ? <div className="th-loading">Finding a curious pair…</div> : <>
@@ -222,6 +224,7 @@ export default function Game() {
           <p className="th-result-kicker">{pickedCategory !== null ? (categoryRight ? 'You got it!' : 'Good try!') : 'Here is the answer.'}</p>
           <h2 ref={heading} tabIndex={-1}>These words belong to {categoryName}.</h2>
           <p className="th-specific">The specific answer is {pair.answer}.</p>
+          {revealImage && <figure className="th-reveal-image"><img src={revealImage.thumb} alt={pair.answer} loading="lazy" decoding="async" onError={(event) => { const figure = event.currentTarget.closest('figure'); if (figure) figure.style.display = 'none'; }} /><figcaption>Photo: {revealImage.author}, {revealImage.license}, via <a href={revealImage.page} target="_blank" rel="noreferrer">Wikimedia Commons</a></figcaption></figure>}
           <p className="th-why">{pair.why}</p>
           <button className="pf-primary" onClick={over ? seeResults : next}>{over ? <>See results <ArrowRightIcon /></> : <>Next puzzle <ArrowRightIcon /></>}</button>
         </div>}
