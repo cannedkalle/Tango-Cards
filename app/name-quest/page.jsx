@@ -1,6 +1,7 @@
 import { getAppById } from "../../lib/apps";
 import { pageTitle, SITE_NAME } from "../../lib/names";
 import Game from "./Game";
+import "../components/quiz-shell.css";
 
 const app = getAppById("name-quest");
 

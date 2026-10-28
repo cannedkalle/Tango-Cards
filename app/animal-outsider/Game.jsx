@@ -2,11 +2,12 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import PortalNav from '../components/PortalNav';
+import { GameBar, StatusLine } from '../components/QuizShell';
 import { animals } from '../../lib/animal-outsider/animals.mjs';
 import { rootWords, taxonInfo } from '../../lib/animal-outsider/taxa.mjs';
 import { getAnimalPool } from '../../lib/animal-outsider/difficulty.mjs';
 import { PLAY_MODES, isGameOver, nextLives } from '../../lib/quiz-play.mjs';
-import { ArrowRightIcon, LivesHearts, RestartIcon } from "../components/Icons";
+import { ArrowRightIcon } from "../components/Icons";
 import {
   describeTaxon,
   examplesForTaxon,
@@ -319,58 +320,35 @@ export default function Game() {
     <main className="ao-game">
       <section className="play-area" aria-label="Animal Outsider quiz">
         <PortalNav />
-        <header className="top-bar">
-          <div>
-            <p className="eyebrow">Who’s the distant cousin?</p>
-            <h1 className="pf-game-title">Animal Outsider</h1>
-          </div>
-          <div className="top-actions">
-            <div className="score-box" aria-label="Score">
-              <span><strong>{answered}</strong> answered</span>
-              <span><strong>{correct}</strong> correct</span>
-              <span><strong>{streak}</strong> streak</span>
-              {playMode === 'lives' && <span><strong><LivesHearts lives={lives} /></strong> lives</span>}
+        <GameBar title="Animal Outsider" onStartOver={startOver} settingsSummary={`${difficulty === 'easy' ? 'Easy' : 'Standard'} · ${(PLAY_MODES.find((mode) => mode.id === playMode) || {}).label}`}>
+          <div className="qs-menu-group">
+            <span className="qs-menu-label">Difficulty</span>
+            <div className="pf-pill-group" role="group" aria-label="Choose difficulty">
+              <button className="pf-pill" type="button" aria-pressed={difficulty === 'easy'} onClick={() => switchDifficulty('easy')}>Easy</button>
+              <button className="pf-pill" type="button" aria-pressed={difficulty === 'standard'} onClick={() => switchDifficulty('standard')}>Standard</button>
             </div>
-            <button className="pf-btn" type="button" onClick={startOver}><RestartIcon />Start over</button>
           </div>
-        </header>
-
-        <section className="difficulty-picker" aria-label="Game controls">
-          <span className="control-label">Difficulty</span>
-          <div className="pf-pill-group" role="group" aria-label="Choose difficulty">
-            <button className="pf-pill" type="button" aria-pressed={difficulty === 'easy'} onClick={() => switchDifficulty('easy')}>Easy</button>
-            <button className="pf-pill" type="button" aria-pressed={difficulty === 'standard'} onClick={() => switchDifficulty('standard')}>Standard</button>
+          <div className="qs-menu-group">
+            <span className="qs-menu-label">Play mode</span>
+            <div className="pf-pill-group" role="group" aria-label="Play mode">
+              {PLAY_MODES.map((play) => (
+                <button key={play.id} className="pf-pill" type="button" aria-pressed={playMode === play.id} onClick={() => switchPlayMode(play.id)}>{play.label}</button>
+              ))}
+            </div>
           </div>
-          <span className="control-label">Play mode</span>
-          <div className="pf-pill-group" role="group" aria-label="Play mode">
-            {PLAY_MODES.map((play) => (
-              <button key={play.id} className="pf-pill" type="button" aria-pressed={playMode === play.id} onClick={() => switchPlayMode(play.id)}>{play.label}</button>
-            ))}
-          </div>
-          <p id="difficultyHint" aria-live="polite">
-            {difficulty === 'easy'
-              ? `${pool.length} familiar animals. Switching difficulty starts a fresh score.`
-              : `All ${animals.length} animals. Switching difficulty starts a fresh score.`}
-          </p>
-        </section>
+        </GameBar>
+        <StatusLine round={roundNo} total={playMode === 'ten' ? 10 : null} correct={correct} played={answered} streak={streak} lives={playMode === 'lives' ? lives : null} />
 
         {over && showResults ? (
           <section className="result-card" aria-labelledby="results-title">
-            <p className="result-kicker">{playMode === 'ten' ? '10 QUESTIONS DONE!' : 'OUT OF LIVES!'}</p>
+            <p className="result-kicker">{playMode === 'ten' ? '10 rounds done!' : 'Out of lives!'}</p>
             <h2 id="results-title">Here is how you did.</h2>
             <p><strong>{correct}</strong> correct out of <strong>{answered}</strong> answered.</p>
             <button className="pf-primary" type="button" onClick={startOver}>Play again <ArrowRightIcon /></button>
           </section>
         ) : (
           <>
-        <section className="prompt-card">
-          <div>
-            <p id="roundLabel">Round {roundNo}{playMode === 'ten' ? ' of 10' : ''}</p>
-            <h2>Which one is the outsider?</h2>
-            <p>Two are closer relatives. Choose the animal that branched off earlier.</p>
-          </div>
-          <img src="/design-system/animal-outsider.svg" alt="" />
-        </section>
+        <h2 className="outsider-question">Which one is the outsider?</h2>
 
         <section className="animal-grid" ref={gridRef} aria-label="Answer choices">
           {current?.choices.map((animal, index) => (

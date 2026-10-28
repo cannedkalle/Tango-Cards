@@ -2,19 +2,17 @@
 
 import { useEffect, useRef, useState } from 'react';
 import PortalNav from '../components/PortalNav';
+import { GameBar, StatusLine } from '../components/QuizShell';
 import { buildReveal, clearProgress, generateComparison, loadProgress, saveProgress } from '../../lib/wild-guess/client-game.mjs';
 import { PLAY_MODES, isGameOver, nextLives } from '../../lib/quiz-play.mjs';
-import { ArrowRightIcon, LivesHearts, RestartIcon } from "../components/Icons";
+import { ArrowRightIcon } from "../components/Icons";
 
 /* Balls in the Ballpark, played entirely in the browser: matchups are dealt
  * from the catalog that lives in the repo, and progress is kept in the
  * player's own browser storage. No server database is involved, so the game
  * works on the live site — and offline once installed — like the portal's
- * other games.
- *
- * Quiz standard: Start over sits in the header, the Play mode row sits
- * above the question, and the score strip shows lives (survival) or the
- * question count (10 questions). Endless is the default and never ends. */
+ * other games. Frame follows the mobile UI standard: GameBar row,
+ * slim status line, then the matchup. */
 export default function Game() {
   const [comparison, setComparison] = useState(null);
   const [position, setPosition] = useState(0);
@@ -25,6 +23,7 @@ export default function Game() {
   const [error, setError] = useState('');
   const [playMode, setPlayMode] = useState('endless');
   const [lives, setLives] = useState(3);
+  const [streak, setStreak] = useState(0);
   const [over, setOver] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const heading = useRef(null);
@@ -57,6 +56,7 @@ export default function Game() {
     setQueued(null);
     setError('');
     setLives(3);
+    setStreak(0);
     setOver(false);
     setShowResults(false);
     saveProgress({ leftId: next.left.id, rightId: next.right.id, category: next.category, position: 0, played: 0, correct: 0 });
@@ -94,6 +94,7 @@ export default function Game() {
     setPlayed(nextPlayed);
     setCorrect(nextCorrect);
     setLives(nextLivesCount);
+    setStreak(nextReveal.correct ? streak + 1 : 0);
     setOver(gameOver);
     if (gameOver) {
       /* Results are ephemeral: a reload after the game ends starts fresh
@@ -153,15 +154,11 @@ export default function Game() {
         : `${reveal.sides[reveal.correctChoice].label} has more.`
     : '';
 
-  return <><PortalNav/><main className="wg"><header className="wg-heading"><div><span className="wg-kicker">Two wild possibilities. One bigger answer.</span><h1 className="pf-game-title">Balls in the Ballpark<span aria-hidden="true">?</span></h1></div><div className="wg-heading-actions"><p>Which one<br/>is bigger?</p><button className="pf-btn" type="button" onClick={startFresh}><RestartIcon />Start over</button></div></header><div className="wg-layout"><section className="wg-board">
+  return <><PortalNav/><main className="wg"><GameBar title="Balls in the Ballpark" onStartOver={startFresh} settingsSummary={(PLAY_MODES.find((mode) => mode.id === playMode) || {}).label}><div className="pf-pill-group" role="group" aria-label="Play mode">{PLAY_MODES.map((mode) => <button key={mode.id} className="pf-pill" type="button" aria-pressed={playMode === mode.id} onClick={() => switchPlayMode(mode.id)}>{mode.label}</button>)}</div></GameBar><StatusLine round={reveal ? played : played + 1} total={playMode === 'ten' ? 10 : null} correct={correct} played={played} streak={streak} lives={playMode === 'lives' ? lives : null} /><div className="wg-layout"><section className="wg-board">
     {error && <div className="wg-error" role="alert">{error} <button className="pf-btn" onClick={startFresh}>Start over</button></div>}
     {!comparison ? <div className="wg-loading">Finding a curious matchup…</div> : <>
-      <div className="wg-score" aria-label="Your score"><div><strong>{correct}</strong><span>right</span></div><div><strong>{played}</strong><span>played</span></div>{playMode === 'lives' && <div><strong className="wg-lives"><LivesHearts lives={lives} /></strong><span>lives</span></div>}</div>
-      <div className="pf-pill-group" role="group" aria-label="Play mode">
-        {PLAY_MODES.map((mode) => <button key={mode.id} className="pf-pill" type="button" aria-pressed={playMode === mode.id} onClick={() => switchPlayMode(mode.id)}>{mode.label}</button>)}
-      </div>
       {over && showResults ? <div className="wg-finish" role="status">
-        <p className="wg-result-kicker">{playMode === 'ten' ? '10 questions done!' : 'Out of lives!'}</p>
+        <p className="wg-result-kicker">{playMode === 'ten' ? '10 rounds done!' : 'Out of lives!'}</p>
         <h2 ref={heading} tabIndex={-1}>{playMode === 'ten' ? 'Here is how you did.' : 'Good run. Here is how you did.'}</h2>
         <p className="wg-final-score">{correct}<span> / {played} right</span></p>
         <button className="pf-primary" onClick={startFresh}>Play again <ArrowRightIcon /></button>
@@ -169,9 +166,8 @@ export default function Game() {
         <p className="wg-result-kicker">{reveal.correct ? 'You called it!' : 'Plot twist!'}</p>
         <h2 ref={heading} tabIndex={-1}>{winnerCopy}</h2>
         <div className="wg-reveal-sides">{reveal.sides.map((option, index) => <article className={index === reveal.correctChoice ? 'is-winner' : ''} key={option.label}><span className="wg-option-emoji" aria-hidden="true">{option.emoji}</span><h3>{option.label}</h3><p className="wg-scale-answer">{option.scaleLead} <strong>{option.scale}</strong></p><p>{option.detail}</p>{index === reveal.correctChoice && <span className="wg-winner-mark">{reveal.prompt.includes('shorter gap') ? 'Shorter gap ✓' : reveal.prompt.includes('moves or grows faster') ? 'Faster ✓' : reveal.prompt.includes('longer') ? 'Longer ✓' : reveal.prompt.includes('weighs') ? 'Heavier ✓' : reveal.prompt.includes('area') ? 'More area ✓' : reveal.prompt.includes('space') ? 'More space ✓' : 'More ✓'}</span>}</article>)}</div>
-        <button className="pf-primary" onClick={over ? () => setShowResults(true) : next}>{over ? <>See results <ArrowRightIcon /></> : <>Next matchup <ArrowRightIcon /></>}</button>
+        <button className="pf-primary" onClick={over ? () => setShowResults(true) : next}>{over ? <>See results <ArrowRightIcon /></> : <>Next round <ArrowRightIcon /></>}</button>
       </div> : <>
-        <p className="wg-question-number">Matchup {played + 1}{playMode === 'ten' ? ' of 10' : ''}</p>
         <h2 className="wg-question" ref={heading} tabIndex={-1}>{comparison.prompt}</h2>
         <div className="wg-choice-grid">{[comparison.left, comparison.right].map((option, index) => <button key={option.label} onClick={() => choose(index)}><span className="wg-option-emoji" aria-hidden="true">{option.emoji}</span><strong>{option.label}</strong><span className="wg-pick-label">Pick this one</span></button>)}</div>
       </>}

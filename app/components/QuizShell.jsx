@@ -33,7 +33,7 @@ export function GameBar({ title, onStartOver, settingsSummary, children }) {
   return <header className="qs-bar">
     <h1 className="qs-bar-title">{title}</h1>
     <div className="qs-bar-actions">
-      <button className="pf-btn" type="button" onClick={onStartOver}><RestartIcon />Start over</button>
+      <button className="pf-btn" type="button" onClick={onStartOver} aria-label="Start over"><RestartIcon /><span className="qs-start-label">Start over</span></button>
       <details className="qs-menu" onClick={closeOnPick}>
         <summary className="qs-menu-toggle">{settingsSummary}<span aria-hidden="true"> ▾</span></summary>
         <div className="qs-menu-body">{children}</div>

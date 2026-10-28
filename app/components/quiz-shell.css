@@ -3,8 +3,10 @@
  * options dropdown, and the slim status line, with one set of sizes and
  * gaps. Game files keep their own question, choice, and reveal styles;
  * this file holds only the frame. Row 1 (PortalNav) is shared already;
- * the one portal-row rule below trims its bottom padding on phones, and
- * only loads on pages that import this sheet. */
+ * the portal-row rules below trim its bottom padding on phones and zero
+ * its side margins on narrow screens, so the brand sits flush with the
+ * game below it and no game needs its own margin fix. This sheet only
+ * loads on pages that import it. */
 
 .qs-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
 .qs-bar-title{margin:0;min-width:0;font-size:24px;line-height:1.2;font-weight:800;letter-spacing:-.3px}
@@ -22,8 +24,15 @@
 
 @media(max-width:600px){
   .pf-portal-nav{padding-bottom:12px}
-  .qs-bar{margin-bottom:8px;gap:8px}
-  .qs-bar-title{font-size:20px}
-  .qs-bar .pf-btn,.qs-menu-toggle{min-height:36px;padding:6px 10px;font-size:13px}
+  .qs-bar{margin-bottom:8px;gap:6px}
+  .qs-bar-actions{gap:6px}
+  .qs-bar-title{font-size:18px}
+  .qs-bar .pf-btn{min-height:36px;padding:6px 8px}
+  .qs-start-label{display:none}
+  .qs-menu-toggle{min-height:36px;padding:6px 8px;font-size:12px}
   .qs-status{font-size:12px;margin-bottom:10px}
+}
+
+@media(max-width:760px){
+  .pf-portal-nav.portal-page-nav{margin:0}
 }

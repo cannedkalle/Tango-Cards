@@ -34,7 +34,7 @@
 .th-final-score{font-size:64px;font-weight:800}
 .th-final-score span{font-size:20px;font-weight:500}
 .th-board button:disabled{cursor:default}
-@media(max-width:760px){.twin-terms{padding:16px 20px 40px}.th-board{padding:24px}}
+@media(max-width:760px){.twin-terms{padding:16px 16px 40px}.th-board{padding:24px}}
 @media(max-width:560px){.th-options{grid-template-columns:1fr}.th-categories{grid-template-columns:1fr 1fr}.th-hints{gap:10px}.th-hint{padding:12px 18px}}
 
 .th-reveal-image{margin:0 0 16px}
