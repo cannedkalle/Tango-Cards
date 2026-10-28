@@ -177,7 +177,7 @@ export default function Game() {
     <div className="before-the-bulb">
       <main className="shell">
       <PortalNav />
-      <GameBar title="Before the Bulb" onStartOver={handleRestart} settingsSummary={`${mode === 'curated' ? 'Curated' : 'Wild'} · ${(PLAY_MODES.find((play) => play.id === playMode) || {}).label}`}>
+      <GameBar title="Before the Bulb" onStartOver={handleRestart} settingsSummary={(PLAY_MODES.find((play) => play.id === playMode) || {}).label}>
         <div className="qs-menu-group">
           <span className="qs-menu-label">Pool</span>
           <div className="pf-pill-group" role="group" aria-label="Game modes">
@@ -196,7 +196,7 @@ export default function Game() {
       </GameBar>
         <section className="game" aria-labelledby="question">
       {snap && <StatusLine round={answered ? snap.answered : snap.answered + 1} total={playMode === 'ten' ? 10 : null} correct={snap.correct} played={snap.answered} streak={streak} lives={playMode === 'lives' ? lives : null} />}
-      <h1 id="question" tabIndex={-1} ref={questionRef}>Which came first?</h1>
+      <h1 id="question" className="question" tabIndex={-1} ref={questionRef}>Which came first?</h1>
           {over && showResults ? (
             <section className="reveal" aria-labelledby="results-title">
               <div className="result-top">

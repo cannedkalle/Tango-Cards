@@ -470,7 +470,7 @@ export default function Game() {
   return (
     <>
       <PortalNav />
-      <GameBar title="Name Quest" onStartOver={() => resetGame()} settingsSummary={[modeLabels[mode], ...(mode === "category" ? [levelLabels[level]] : []), (PLAY_MODES.find((play) => play.id === playMode) || {}).label].join(" · ")}>
+      <GameBar title="Name Quest" onStartOver={() => resetGame()} settingsSummary={(PLAY_MODES.find((play) => play.id === playMode) || {}).label}>
         <div className="qs-menu-group">
           <span className="qs-menu-label">Game mode</span>
           <div className="pf-pill-group" role="group" aria-label="Game modes">

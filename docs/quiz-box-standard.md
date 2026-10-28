@@ -13,9 +13,17 @@ An image with a label under or beside it, plus at most one short
 secondary line (a value, a status, a "Pick this one"). This is the
 default box for options and answers that have a picture.
 
-- Image: 16/10 band, `object-fit: cover`, centered crop, 12px radius,
-  lazy loading. If it fails to load, the figure hides itself and the
-  box works with text alone.
+- Image: 16/10, `object-fit: cover`, centered crop, lazy loading. If
+  it fails to load, the figure hides itself and the box works with
+  text alone. How the image sits in the card depends on the count
+  (see Counts): 2 items use a flush banner — full card width, top
+  corners at the card radius, square bottom corners, no padding
+  around the image; other counts use an inset box with 12px radius.
+- Padding: in a flush card the image carries no padding and the text
+  below carries the card's side padding uniformly (Balls 24px
+  desktop / 16px phone, Bulb 20px desktop / 16px phone), so label,
+  value, and detail share one alignment edge in the option and in
+  the reveal alike.
 - Label: the subject's name, one or two lines, same size across
   counts. The label never shrinks to make room for more boxes.
 - The image never carries text, never carries attribution on the
@@ -30,8 +38,8 @@ The image is the whole content; there is no label. Use it only when
 the picture itself is the choice — pick the odd picture out, or a
 picture question with picture answers.
 
-- Same image rules as image+text (16/10 band, cover, 12px radius,
-  lazy, hide on failure).
+- Same image rules as image+text (16/10, cover, lazy, hide on
+  failure); the flush/inset treatment follows the count, as above.
 - Because there is no text to name the choice, the box must carry a
   visible identifier: a letter or number badge (Bulb's choice letters,
   Outsider's choice numbers). Players need something to point at.
@@ -96,14 +104,22 @@ from the fit rule.
 
 ### 2 boxes
 
-Desktop: two-column grid, band images. Phones: stacked rows, square
-thumbnails (Balls uses 104px, Bulb 80px) — two stacked bands plus the
-question do not fit a 390×844 phone, so the fit rule forces rows.
+Flush banner at all widths: two-column grid on desktop, stacked
+on phones. The image fills the card's top edge to edge and the text
+below carries the card's side padding uniformly. Two is the flush
+count: flush banners look better and two fit the screen; at 3+ the
+same treatment would push content off-screen, so 3+ uses rows.
+Phones cap the banner at 150px tall (cropped): a full 16/10 banner
+is ~224px tall at 390px width, and two of them plus question, frame,
+and Bulb's definition row pushed the second card off-screen live.
+Desktop keeps the full 16/10 banner; the cap is a phone fit rule,
+not a new ratio.
 
 ### 3 boxes
 
 Desktop: three-column grid, band images (narrower columns, so
-shorter bands). Phones: stacked rows, square thumbnails, same as 2.
+shorter bands). Phones: stacked rows, square thumbnails (the row
+treatment, as in 4+).
 
 ### 4 or more boxes
 
@@ -115,12 +131,19 @@ fit rule on phones.
 
 ## Adoption
 
-- Balls in the Ballpark: image+text, option × 2 and answer × 2 —
-  the first full adopter of this standard.
-- Before the Bulb: image+text, option × 2 (16/10 bands, flush-top
-  banner rather than an inset box; art shrinks when the card disables
-  at reveal). Answer × 2 is text-only date blocks in a two-column
-  grid.
+- Balls in the Ballpark: image+text, option × 2 and answer × 2,
+  flush banners at all widths — the first full adopter of this
+  standard. Option and reveal share one layout: the value replaces
+  "Pick this one" in its slot and the detail appends below, so
+  nothing moves on click. Phone banners capped at 150px, as Bulb.
+- Before the Bulb: image+text, option × 2, flush banners at all
+  widths (the desktop photo box is now a banner like the phone one,
+  and photo cards keep their full banner at reveal instead of
+  shrinking), phone banners capped at 150px so two cards fit a
+  phone screen. Its stylesheet was rewritten from scratch to this
+  standard: no bare h1 rule, so the GameBar title is the shared
+  18px, not Bulb's old 34px. Answer × 2 is text-only date blocks
+  in a two-column grid.
 - Animal Outsider: image+text, option × 4 in the 4+ protocol
   (height-capped bands desktop, square-thumbnail rows on phones).
   Its cards persist at reveal with only a status change, so it
