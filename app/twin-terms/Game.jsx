@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import PortalNav from '../components/PortalNav';
 import { ArrowRightIcon } from "../components/Icons";
-import { QuizHeader, RoundLabel, ScoreStrip, SettingsPanel } from "../components/QuizShell";
+import { GameBar, StatusLine } from "../components/QuizShell";
 import { PLAY_MODES, isGameOver, nextLives } from '../../lib/quiz-play.mjs';
 import { dealOptions, dealPair } from '../../lib/twin-terms/questions.mjs';
 import { CATEGORIES, categoryById } from '../../lib/twin-terms/categories.mjs';
@@ -19,11 +19,11 @@ import { TWIN_TERM_IMAGES } from '../../lib/twin-terms/images.mjs';
  * up still teaches the specific term. The pool lives in the repo,
  * progress lives in the player's own browser storage, no server involved.
  *
- * Quiz shell: the header, score strip, settings panel, and round label
- * come from the shared shell (app/components/QuizShell.jsx). Settings
- * (play mode only — the pool has no difficulty) live collapsed in the
- * panel; the score strip shows right, played, and streak, plus lives in
- * survival mode. Endless is the default and never ends. In lives mode,
+ * Quiz shell v2: row 1 is PortalNav; row 2 is the shared GameBar
+ * (game name + Start over + options dropdown); below it one slim
+ * status line (round, right / played, streak, lives). Settings (play
+ * mode only — the pool has no difficulty) live in the dropdown, closed
+ * by default. Endless is the default and never ends. In lives mode,
  * a failed round (a wrong category, or a give-up) costs a life. */
 export default function Game() {
   const [pair, setPair] = useState(null);
@@ -176,21 +176,19 @@ export default function Game() {
   const revealed = pickedCategory !== null || picked !== null;
   const revealImage = pair ? TWIN_TERM_IMAGES[pair.answer] : null;
 
-  return <><PortalNav/><main className="twin-terms"><QuizHeader kicker="Two words. One shared field." title="Twin Terms" onStartOver={() => startFresh()} /><div className="th-layout"><section className="th-board">
-    {!pair ? <div className="th-loading">Finding a curious pair…</div> : <>
-      <ScoreStrip correct={correct} played={played} streak={streak} lives={playMode === 'lives' ? lives : null} />
-      <SettingsPanel summary={(PLAY_MODES.find((mode) => mode.id === playMode) || {}).label}>
+  return <><PortalNav/><main className="twin-terms"><GameBar title="Twin Terms" onStartOver={() => startFresh()} settingsSummary={(PLAY_MODES.find((mode) => mode.id === playMode) || {}).label}>
         <div className="pf-pill-group" role="group" aria-label="Play mode">
           {PLAY_MODES.map((mode) => <button key={mode.id} className="pf-pill" type="button" aria-pressed={playMode === mode.id} onClick={() => switchPlayMode(mode.id)}>{mode.label}</button>)}
         </div>
-      </SettingsPanel>
-      {over && showResults ? <div className="th-finish" role="status">
+      </GameBar><StatusLine round={played + (pickedCategory === null && !gaveUp ? 1 : 0)} total={playMode === 'ten' ? 10 : null} correct={correct} played={played} streak={streak} lives={playMode === 'lives' ? lives : null} />
+<div className="th-layout"><section className="th-board">
+    {!pair ? <div className="th-loading">Finding a curious pair…</div> : <>
+            {over && showResults ? <div className="th-finish" role="status">
         <p className="th-result-kicker">{playMode === 'ten' ? '10 rounds done!' : 'Out of lives!'}</p>
         <h2 ref={heading} tabIndex={-1}>Here is how you did.</h2>
         <p className="th-final-score">{correct}<span> / {played} right</span></p>
         <button className="pf-primary" onClick={() => startFresh()}>Play again <ArrowRightIcon /></button>
       </div> : <>
-        <RoundLabel round={played + (pickedCategory === null && !gaveUp ? 1 : 0)} total={playMode === 'ten' ? 10 : null} />
         <div className="th-hints" ref={revealed ? null : heading} tabIndex={-1} aria-label={`Hints: ${pair.hints[0]} and ${pair.hints[1]}`}>
           <span className="th-hint th-hint-a">{pair.hints[0]}</span>
           <span className="th-plus" aria-hidden="true">+</span>

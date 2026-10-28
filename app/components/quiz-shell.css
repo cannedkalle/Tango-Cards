@@ -1,27 +1,29 @@
-/* Shared quiz shell styles (app/components/QuizShell.jsx). Every quiz
- * game that adopts the shell gets this chrome: the header, the score
- * strip, the collapsed settings panel, and the round label, with one set
- * of sizes, weights, and gaps. Game files keep their own question,
- * choice, and reveal styles; this file holds only the frame. */
+/* Shared quiz shell styles v2 (app/components/QuizShell.jsx). Every quiz
+ * game that adopts the shell gets this frame: the game bar (row 2), the
+ * options dropdown, and the slim status line, with one set of sizes and
+ * gaps. Game files keep their own question, choice, and reveal styles;
+ * this file holds only the frame. Row 1 (PortalNav) is shared already;
+ * the one portal-row rule below trims its bottom padding on phones, and
+ * only loads on pages that import this sheet. */
 
-.qs-header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:20px}
-.qs-kicker{display:block;font-size:14px;font-weight:700;color:var(--pf-muted)}
-.qs-title{margin:6px 0 0;font-size:clamp(34px,8vw,48px);line-height:1.05;font-weight:800;letter-spacing:-.5px}
-.qs-start-over{white-space:nowrap;flex:none}
+.qs-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.qs-bar-title{margin:0;min-width:0;font-size:24px;line-height:1.2;font-weight:800;letter-spacing:-.3px}
+.qs-bar-actions{display:flex;align-items:center;gap:8px;flex:none}
+.qs-bar .pf-btn{min-height:40px;padding:8px 12px;font-size:13px}
+.qs-menu{position:relative}
+.qs-menu-toggle{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:8px 12px;border:1px solid var(--pf-control-line);border-radius:12px;background:var(--pf-surface);color:var(--pf-ink);font-size:13px;font-weight:700;cursor:pointer;list-style:none;white-space:nowrap}
+.qs-menu-toggle::-webkit-details-marker{display:none}
+.qs-menu-body{position:absolute;right:0;top:calc(100% + 6px);min-width:250px;padding:4px 16px 16px;border:1px solid var(--pf-line);border-radius:12px;background:var(--pf-surface);box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:10}
+.qs-menu-group{margin-top:12px}
+.qs-menu-label{display:block;margin-bottom:8px;font-size:12px;font-weight:700;color:var(--pf-muted)}
+.qs-menu-body .pf-pill-group{margin:0}
+.qs-status{margin:0 0 14px;color:var(--pf-muted);font-size:13px;font-weight:600}
+.qs-status .pf-icon{vertical-align:-2px}
 
-.qs-score{display:flex;flex-wrap:wrap;gap:8px 20px;margin-bottom:16px;font-size:15px;color:var(--pf-muted)}
-.qs-score strong{color:var(--pf-ink);font-size:18px}
-.qs-score .pf-icon{vertical-align:-2px}
-
-.qs-settings{margin-bottom:20px;border:1px solid var(--pf-line);border-radius:12px;background:var(--pf-surface)}
-.qs-settings-summary{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;list-style:none;font-weight:700}
-.qs-settings-summary::-webkit-details-marker{display:none}
-.qs-settings-current{color:var(--pf-muted);font-weight:600}
-.qs-settings-chevron{transition:transform .15s}
-.qs-settings[open ] .qs-settings-chevron{transform:rotate(180deg)}
-.qs-settings-body{padding:0 16px 16px;border-top:1px solid var(--pf-line)}
-.qs-settings-body .pf-pill-group{margin:12px 0 0}
-.qs-setting-group{margin-top:12px}
-.qs-setting-label{display:block;margin-bottom:8px;font-size:13px;font-weight:700;color:var(--pf-muted)}
-
-.qs-round{margin:0 0 16px;color:var(--pf-muted);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+@media(max-width:600px){
+  .pf-portal-nav{padding-bottom:12px}
+  .qs-bar{margin-bottom:8px;gap:8px}
+  .qs-bar-title{font-size:20px}
+  .qs-bar .pf-btn,.qs-menu-toggle{min-height:36px;padding:6px 10px;font-size:13px}
+  .qs-status{font-size:12px;margin-bottom:10px}
+}
