@@ -1,45 +1,83 @@
 # Quiz UI standard
 
+Two separate sets: a mobile set and a desktop set. The mobile set is
+formalized below and governs phone widths. The desktop set is not yet
+formalized; its section at the end records current behavior only.
+
 The five quiz games — Balls in the Ballpark, Before the Bulb, Name Quest,
-Animal Outsider, Twin Terms — share one layout and one set of play modes. Tango Cards
-(collecting) and Marble Battles (a simulation) are not quizzes: they live in
-their own home section and keep their own controls.
+Animal Outsider, Twin Terms — share one frame and one set of play modes.
+Tango Cards (collecting) and Marble Battles (a simulation) are not
+quizzes: they live in their own home section and keep their own controls.
+The sets below govern the five quizzes.
 
-## Zones, top to bottom (quiz shell v2, `app/components/QuizShell.jsx`)
+## Mobile UI standard
 
-The shell owns the frame; games own their question, choices, and reveal.
-With the menu collapsed, the whole quiz (question + choices) fits the
-first screen on a phone: two rows plus one slim status line, then the
-game. Twin Terms and Before the Bulb adopted v2 first; Animal Outsider,
-Balls in the Ballpark, and Name Quest follow in turn, keeping their own
-content and accents.
+The shell (`app/components/QuizShell.jsx`) is the single controller for
+game chrome on phones. Games own their question content, choice layout,
+and reveal panels — everything else below is uniform, with no per-game
+exceptions.
 
-1. **Row 1: PortalNav.** Site title + icon, Back to all apps. Already
-   shared by every game page; shell pages trim its bottom padding on
-   phones.
+### Frame, top to bottom
+
+With the settings menu collapsed, the whole quiz — question plus all
+choices — is visible without scrolling on a 390×844 phone. That is the
+fit rule, and it outranks any single element's size: if a game's content
+cannot fit under it, the content shrinks (see the open decision on Bulb
+art below); the frame does not grow.
+
+1. **Row 1: PortalNav.** Site title + icon on the left, Back to all
+   apps on the right, one row. The row is flush with the game below:
+   no side margins stack on the page padding. Bottom padding 12px plus
+   border.
 2. **Row 2: GameBar.** Game name + Start over + one options dropdown,
-   in a single row of minimal height. Every setting a game has (play
-   mode, difficulty, content pool) lives in the dropdown, closed by
-   default, with the current choices summarized on the toggle (e.g.
-   "Curated · Endless"). Picking a setting collapses the menu again
-   and resets the score, exactly as a visible control row did. No
-   kicker, no tagline, no separate picker rows.
+   in a single row. Every setting a game has (play mode, difficulty,
+   content pool) lives in the dropdown, closed by default, with the
+   current choices summarized on the toggle (e.g. "Curated · Endless").
+   Picking a setting collapses the menu again and resets the score,
+   exactly as a visible control row did. No kicker, no tagline, no
+   separate picker rows.
 3. **Status line.** One small plain-text line, never a box or a pill:
-   round counter, right / played, streak, plus lives hearts in
-   3-lives mode. Every quiz game tracks a streak (consecutive correct
-   rounds); a wrong answer or give-up resets it. Rounds are always
-   numbered "Round N" ("Round N of 10" in 10-question mode), and the
-   line shows the round being played, including during the reveal.
-4. **Question line, compact.** One row: the question itself (Bulb's
-   "Which came first?", Twin's prompt, Outsider's "Which one is the
-   outsider?"). Flavor eyebrows and redundant instruction lines are
-   gone; the cards and choices carry the meaning.
-5. **Choices, reveal, results**, unchanged per game, except the results
-   kicker reads "10 rounds done!" everywhere in 10-question mode and
-   the Next button reads "Next round" (Name Quest keeps "Next" until
-   its turn).
+   "Round N · X right · Y played · streak Z", plus lives hearts and
+   the word "lives" in 3-lives mode. 12px, muted, semibold,
+   margin-bottom 10px. Every quiz game tracks a streak (consecutive
+   correct rounds); a wrong answer or give-up resets it. Rounds are
+   always numbered "Round N" ("Round N of 10" in 10-question mode),
+   and the line shows the round being played, including during the
+   reveal.
+4. **Question line.** One row: the question itself, left-aligned
+   ("Which came first?", "Which one is the outsider?", Twin's prompt).
+   No flavor eyebrow, no instruction paragraph; the choices carry the
+   meaning. (Bulb's centered question becomes left-aligned when it
+   adopts the frame.)
+5. **Choices.** Game-owned layout, under the fit rule. Choice controls
+   are at least 44px tall; the game bar's 36px controls are the one
+   deliberate exception, bought for the one-row bar.
+6. **Reveal.** Below the choices after answering; it scrolls, and the
+   fit rule does not apply to it. Its Next button reads "Next round";
+   when the game is over it reads "See results" instead.
+7. **Results screen.** Kicker "10 rounds done!" (10-question mode) or
+   "Out of lives!" (lives mode), score summary, Play again (primary).
 
-## Play modes (`lib/quiz-play.mjs`, same rules everywhere)
+### Row 2 sizes (≤600px)
+
+- Game name: 18px, weight 800.
+- Start over: icon only, 36px button, aria-label "Start over".
+- Dropdown toggle: 12px, weight 700, padding 6px 8px.
+- Gaps: 6px. Bar margin-bottom: 8px.
+- The row fits one row at 390px width, and at 375px with the 16px page
+  padding below. At 601–760px the full row-2 layout applies (text Start
+  over, 13px toggle), since width allows it.
+
+### Page padding (phones, ≤600px)
+
+Shell pages: 16px sides, 16px top, uniformly. No per-game padding.
+
+### Row 1 flushness (≤760px)
+
+Row 1's flush rule applies at ≤760px, the widest width where the old
+nav margin appears. Above that, the desktop set will decide.
+
+### Play modes (`lib/quiz-play.mjs`, same rules in both sets)
 
 - **Endless** (default): play forever, the way these games always worked.
   No end screen.
@@ -57,24 +95,20 @@ behind a fresh game lives for the whole page session, so Play again never
 re-deals a recent matchup, while every deal stays an independent random
 draw — no deck, no fixed sequence.
 
-## Shared chrome (`public/design-system/playform.css`, `app/components/Icons.jsx`)
+### Shared chrome (both sets)
 
 The same control looks the same in every game. Game content keeps its own
 accent (Bulb peach/blue, Animal leaf, Name Quest violet); only the chrome
 is uniform.
 
-- **Game title**: `.qs-bar-title` in the shell game bar (24px,
-  20px on phones) in every game that has adopted the shell.
-  Marble's panel heading stays small — it is an aside heading,
-  not a game title.
+- **Game title**: `.qs-bar-title` in the shell game bar (24px desktop,
+  18px on phones).
 - **Primary action**: `.pf-primary` (Next, Play again, See results).
 - **Secondary button**: `.pf-btn` (Start over, Restart, difficulty
   choices, panel controls). Pressed rectangular buttons show the shared
   pressed checkmark; pills never do.
 - **Mode picker**: `.pf-pill-group` + `.pf-pill`, text only. The green
   pill is the selection. Content mode, then play mode.
-- **Status pill**: `.pf-status-pill` for readouts that are not controls
-  (Bulb's round/lives pill).
 - **Icons**: one SVG set in `Icons.jsx` — back, restart, forward, lives
   hearts — used only where the icon carries meaning, and the same icon
   everywhere it appears. Pickers show text only; game content keeps its
@@ -82,21 +116,37 @@ is uniform.
 - **Radii**: 12px small, 16px control, 24px card. Circles (50%) and
   progress bars keep their own shapes.
 
-## Home sections (`lib/apps.js`)
+### Home sections (`lib/apps.js`)
 
 Each app carries a `section` field. The home page renders Quiz games
 first — Balls in the Ballpark, Name Quest, Animal Outsider, Before the
 Bulb, Twin Terms — then Non-quiz games — Tango Cards, Marble Battles.
 
-## Exceptions
+### Open decisions (mobile)
 
-- **Name Quest keeps its side score panel** (Score, Streak, Items,
-  progress) and its level row stays in that panel, now as shared
-  secondary buttons. Its board-plus-aside layout and its shared-stylesheet
-  styles make moving the panel a visual risk; its Start over moved to the
-  header and its Play row sits above the board as the shared pill group,
-  so every other zone matches. Its former ✦-only category button is now
-  a labeled pill ("Name types").
-- **Marble Battles keeps Restart in its controls** and has no play
-  modes; it is a simulation, not a quiz.
-- **Tango Cards has no rounds**, so no Start over and no play modes.
+- Bulb's stacked 16/10 card art fits the fit rule at 844px and taller
+  (including a Pro Max) but not at 667–740px. Options: cap mobile art
+  height (around 150px, still cropped) or accept scrolling on smaller
+  phones. Decision open; the card design is unchanged until it is made.
+- Name Quest's side score panel and level row are removed when it
+  adopts the frame; its mode question becomes the prompt line, and its
+  Items count and progress bar go.
+
+### Adoption (mobile)
+
+Twin Terms and Before the Bulb adopted the frame first. Animal Outsider,
+Balls in the Ballpark, and Name Quest adopt it in turn, keeping their
+own content and accents.
+
+## Desktop UI standard
+
+Not yet formalized. Current behavior, recorded not blessed: the same
+shell structure at desktop sizes (24px bar title, text Start over,
+13px toggle, 13px status, 24–32px page padding); row 1 currently
+centered at 1176px via globals.css. Formalize after mobile.
+
+## Exceptions (not quizzes)
+
+- Marble Battles keeps Restart in its controls and has no play modes;
+  it is a simulation, not a quiz.
+- Tango Cards has no rounds, so no Start over and no play modes.
