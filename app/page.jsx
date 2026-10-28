@@ -3,6 +3,7 @@ import { ArrowRightIcon } from "./components/Icons";
 import { OTHER_APPS, QUIZ_APPS } from "../lib/apps";
 import { SITE_NAME } from "../lib/names";
 import { creatorContactUrl, kofiUrl } from "../lib/support";
+import InstallButton from "./components/InstallButton";
 
 function AppCard({ app }) {
   return (
@@ -28,6 +29,7 @@ export default function HomePage() {
           <a className="support-link" href={kofiUrl} target="_blank" rel="noreferrer">
             Support Creator
           </a>
+          <InstallButton />
         </div>
       </header>
 

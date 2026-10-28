@@ -24,3 +24,12 @@ h1,h2,h3,p{margin:0}h1{font-size:clamp(30px,4vw,44px);letter-spacing:-1.2px}h2{f
 .wild-app-card{--app-surface:var(--pf-teal-soft)}.wild-preview-type{font-size:clamp(36px,5vw,60px);font-weight:800;letter-spacing:-2px;color:var(--pf-green);transform:rotate(-5deg)}
 
 .lab-section{margin-top:12px}.lab-section+.lab-section{margin-top:40px}.lab-section-title{font-size:28px;letter-spacing:-.8px;margin:8px 0 20px}
+
+/* Home-header install button (app/components/InstallButton.jsx). The
+ * button borrows .support-link so it sits quietly next to Support
+ * Creator; the help card is the iOS-only instruction sheet. */
+.install-wrap{position:relative}
+.install-button{background:none;border:0;padding:0;font:inherit;cursor:pointer}
+.install-help{position:absolute;right:0;top:calc(100% + 8px);width:264px;padding:16px;background:var(--pf-surface, #fff);border:1px solid var(--pf-line, #ddd);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:10;display:grid;gap:8px;font-size:14px;line-height:1.5;text-align:left}
+.install-help-close{justify-self:start;background:var(--pf-green, #276044);color:#fff;border:0;border-radius:8px;padding:8px 14px;font-weight:700;cursor:pointer}
+.install-help-dismiss{justify-self:start;background:none;border:0;padding:0;color:var(--muted);font-size:12px;text-decoration:underline;cursor:pointer}
