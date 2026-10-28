@@ -2,6 +2,7 @@ import { getAppById } from "../../lib/apps";
 import { pageTitle } from "../../lib/names";
 import Game from "./Game";
 import "./twin-terms.css";
+import "../components/quiz-shell.css";
 
 const app = getAppById("twin-terms");
 
