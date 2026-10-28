@@ -1,12 +1,12 @@
 'use client';
 
 import { useCallback, useMemo, useRef, useState } from "react";
-import { APP_NAMES } from "../../lib/apps";
 import { PLAY_MODES, isGameOver, nextLives } from "../../lib/quiz-play.mjs";
-import { ArrowRightIcon, LivesHearts, RestartIcon } from "../components/Icons";
+import { ArrowRightIcon } from "../components/Icons";
 import nameBank from "../../lib/name-quest/name-bank.json";
 import pokemonAnimalPairs from "../../lib/name-quest/pokemon-animal-pairs.json";
 import PortalNav from "../components/PortalNav";
+import { GameBar, StatusLine } from "../components/QuizShell";
 
 const entries = nameBank;
 const animalPairs = pokemonAnimalPairs;
@@ -334,8 +334,6 @@ export default function Game() {
   }, [current, mode, pairCurrent.choices]);
 
   const promptName = mode === "realAnimal" ? "Which is " + pairCurrent.target + "?" : current.name;
-  const progressTotal = mode === "realAnimal" ? pairPrompts.length : pool.length;
-  const progressValue = progressTotal ? Math.min(100, (usedIds.size / progressTotal) * 100) : 0;
 
   const nextRound = useCallback(() => {
     if (mode === "realAnimal") {
@@ -472,35 +470,43 @@ export default function Game() {
   return (
     <>
       <PortalNav />
-      <header className="topbar app-topbar name-quest-topbar">
-        <div>
-          <p className="eyebrow">{APP_NAMES.nameQuest}</p>
-          <h1 className="pf-game-title">{mode === "pokemon" ? "Pokemon or not?" : mode === "realAnimal" ? "Which one is it?" : "What kind of name is this?"}</h1>
-        </div>
-        <div className="topbar-actions">
-          <div className="name-quest-controls" aria-label="Game modes">
-            <div className="pf-pill-group" role="group" aria-label="Game modes">
-              {Object.keys(modeLabels).map((nextMode) => (
-                <button key={nextMode} type="button" className="pf-pill" aria-label={modeLabels[nextMode]} aria-pressed={nextMode === mode} onClick={() => resetGame(level, nextMode)}>
-                  {modeLabels[nextMode]}
-                </button>
-              ))}
-            </div>
-            <button type="button" className="pf-btn" onClick={() => resetGame()}><RestartIcon />Start over</button>
+      <GameBar title="Name Quest" onStartOver={() => resetGame()} settingsSummary={[modeLabels[mode], ...(mode === "category" ? [levelLabels[level]] : []), (PLAY_MODES.find((play) => play.id === playMode) || {}).label].join(" · ")}>
+        <div className="qs-menu-group">
+          <span className="qs-menu-label">Game mode</span>
+          <div className="pf-pill-group" role="group" aria-label="Game modes">
+            {Object.keys(modeLabels).map((nextMode) => (
+              <button key={nextMode} type="button" className="pf-pill" aria-label={modeLabels[nextMode]} aria-pressed={nextMode === mode} onClick={() => resetGame(level, nextMode)}>
+                {modeLabels[nextMode]}
+              </button>
+            ))}
           </div>
         </div>
-      </header>
+        {mode === "category" && (
+          <div className="qs-menu-group">
+            <span className="qs-menu-label">Level</span>
+            <div className="pf-pill-group" role="group" aria-label="Choose challenge level">
+              {Object.keys(levelLabels).map((nextLevel) => (
+                <button key={nextLevel} type="button" className="pf-pill" aria-pressed={nextLevel === level} onClick={() => resetGame(nextLevel, mode)}>{levelLabels[nextLevel]}</button>
+              ))}
+            </div>
+          </div>
+        )}
+        <div className="qs-menu-group">
+          <span className="qs-menu-label">Play mode</span>
+          <div className="pf-pill-group" role="group" aria-label="Play mode">
+            {PLAY_MODES.map((play) => (
+              <button key={play.id} type="button" className="pf-pill" aria-pressed={playMode === play.id} onClick={() => switchPlayMode(play.id)}>{play.label}</button>
+            ))}
+          </div>
+        </div>
+      </GameBar>
 
       <main className="name-quest-page">
-        <div className="pf-pill-group" role="group" aria-label="Play mode" style={{ gridColumn: "1 / -1" }}>
-          {PLAY_MODES.map((play) => (
-            <button key={play.id} type="button" className="pf-pill" aria-pressed={playMode === play.id} onClick={() => switchPlayMode(play.id)}>{play.label}</button>
-          ))}
-        </div>
+        <StatusLine round={rounds + 1} total={playMode === "ten" ? 10 : null} correct={score} played={rounds + (result !== "idle" ? 1 : 0)} streak={streak} lives={playMode === "lives" ? lives : null} />
         {over && showResults ? (
           <section className="name-quest-board" aria-label="Name Quest results">
             <div className="name-card-stage">
-              <p>{playMode === "ten" ? "10 questions done!" : "Out of lives!"}</p>
+              <p>{playMode === "ten" ? "10 rounds done!" : "Out of lives!"}</p>
               <h2 className="quest-name">Here is how you did.</h2>
               <strong className="round-feedback">{score} correct out of {rounds + 1} answered.</strong>
               <button type="button" className="pf-primary" onClick={() => resetGame()}>Play again <ArrowRightIcon /></button>
@@ -508,12 +514,12 @@ export default function Game() {
           </section>
         ) : (
         <section className="name-quest-board" aria-label="Name Quest round">
+          <p className="quest-prompt">{mode === "pokemon" ? "Pokemon or not?" : mode === "realAnimal" ? "Which one is it?" : "What kind of name is this?"}</p>
           <div className="name-card-stage">
-            <p>Round {rounds + 1}{playMode === "ten" ? " of 10" : ""}</p>
             <h2 className="quest-name">{promptName}</h2>
             <strong className={"round-feedback " + result} aria-live="polite">{feedback}</strong>
             {result !== "idle" ? (
-              <button type="button" className="pf-primary" onClick={over ? () => setShowResults(true) : nextRound}>{over ? <>See results <ArrowRightIcon /></> : <>Next <ArrowRightIcon /></>}</button>
+              <button type="button" className="pf-primary" onClick={over ? () => setShowResults(true) : nextRound}>{over ? <>See results <ArrowRightIcon /></> : <>Next round <ArrowRightIcon /></>}</button>
             ) : null}
           </div>
 
@@ -525,25 +531,6 @@ export default function Game() {
         </section>
         )}
 
-        <aside className="name-quest-side" aria-label="Name Quest status">
-          <section className="score-panel" style={playMode === "lives" ? { gridTemplateColumns: "repeat(4, 1fr)" } : undefined}>
-            <div><strong>{score}</strong><span>Score</span></div>
-            <div><strong>{streak}</strong><span>Streak</span></div>
-            <div><strong>{progressTotal}</strong><span>Items</span></div>
-            {playMode === "lives" && <div><strong><LivesHearts lives={lives} /></strong><span>Lives</span></div>}
-            <div className="progress-track" aria-label="Progress"><span style={{ width: progressValue + "%" }} /></div>
-          </section>
-
-          {mode === "category" && (
-          <section className="quest-controls-panel">
-            <div className="level-row" aria-label="Choose challenge level">
-              {Object.keys(levelLabels).map((nextLevel) => (
-                <button key={nextLevel} type="button" className="pf-btn" aria-pressed={nextLevel === level} onClick={() => resetGame(nextLevel, mode)}>{levelLabels[nextLevel]}</button>
-              ))}
-            </div>
-          </section>
-          )}
-        </aside>
       </main>
     </>
   );

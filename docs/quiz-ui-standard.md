@@ -47,8 +47,7 @@ art below); the frame does not grow.
 4. **Question line.** One row: the question itself, left-aligned
    ("Which came first?", "Which one is the outsider?", Twin's prompt).
    No flavor eyebrow, no instruction paragraph; the choices carry the
-   meaning. (Bulb's centered question becomes left-aligned when it
-   adopts the frame.)
+   meaning.
 5. **Choices.** Game-owned layout, under the fit rule. Choice controls
    are at least 44px tall; the game bar's 36px controls are the one
    deliberate exception, bought for the one-row bar.
@@ -128,15 +127,11 @@ Bulb, Twin Terms — then Non-quiz games — Tango Cards, Marble Battles.
   (including a Pro Max) but not at 667–740px. Options: cap mobile art
   height (around 150px, still cropped) or accept scrolling on smaller
   phones. Decision open; the card design is unchanged until it is made.
-- Name Quest's side score panel and level row are removed when it
-  adopts the frame; its mode question becomes the prompt line, and its
-  Items count and progress bar go.
 
 ### Adoption (mobile)
 
-Twin Terms and Before the Bulb adopted the frame first. Animal Outsider,
-Balls in the Ballpark, and Name Quest adopt it in turn, keeping their
-own content and accents.
+All five quiz games use the frame, keeping their own content and
+accents.
 
 ## Desktop UI standard
 
