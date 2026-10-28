@@ -7,7 +7,7 @@ import { BULB_IMAGES } from "../lib/before-the-bulb/images.mjs";
  * manifest entry — a licensed Commons image, or an explicit null where no
  * fitting photo exists (and, for Bulb, no image may show a legible year or
  * date — that check is editorial, done during sourcing, not here). */
-const ALLOWED_LICENSE = /^(CC BY(-SA)?( \d\.\d)?|CC0|Public domain)/i;
+const ALLOWED_LICENSE = /^(CC BY(-SA)?( \d\.\d)?|CC0|Public domain|Free Art License|SIL Open Font License)/i;
 
 const base = JSON.parse(
   await readFile(new URL("../lib/before-the-bulb/objects.json", import.meta.url), "utf8"),
