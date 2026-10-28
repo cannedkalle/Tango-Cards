@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import PortalNav from '../components/PortalNav';
 import { createGame } from '../../lib/before-the-bulb/game.mjs';
 import { PLAY_MODES, isGameOver, nextLives } from '../../lib/quiz-play.mjs';
-import { ArrowRightIcon, LivesHearts, RestartIcon } from "../components/Icons";
+import { ArrowRightIcon } from "../components/Icons";
+import { GameBar, StatusLine } from "../components/QuizShell";
 import {
   objectMap,
   objects,
@@ -52,6 +53,7 @@ export default function Game() {
   const [mode, setMode] = useState('curated');
   const [playMode, setPlayMode] = useState('endless');
   const [lives, setLives] = useState(3);
+  const [streak, setStreak] = useState(0);
   const [over, setOver] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [snap, setSnap] = useState(null);
@@ -71,7 +73,6 @@ export default function Game() {
   const dealNext = (gameObj) => track(gameObj.next(recentRef.current));
   const focusRequest = useRef(null);
   const questionRef = useRef(null);
-  const roundRef = useRef(null);
   const nextRef = useRef(null);
   const revealRef = useRef(null);
 
@@ -85,7 +86,6 @@ export default function Game() {
     if (!snap) return;
     if (focusRequest.current === 'question') {
       questionRef.current?.focus({ preventScroll: true });
-      roundRef.current?.scrollIntoView({ block: 'start', behavior: 'instant' });
     } else if (focusRequest.current === 'next') {
       nextRef.current?.focus({ preventScroll: true });
       revealRef.current?.scrollIntoView({ block: 'nearest', behavior: 'instant' });
@@ -100,6 +100,7 @@ export default function Game() {
     setMode(nextMode);
     setDefOpen({});
     setLives(3);
+    setStreak(0);
     setOver(false);
     setShowResults(false);
     startedRef.current = true;
@@ -116,6 +117,7 @@ export default function Game() {
     setPlayMode(nextPlayMode);
     setDefOpen({});
     setLives(3);
+    setStreak(0);
     setOver(false);
     setShowResults(false);
     startedRef.current = true;
@@ -132,6 +134,7 @@ export default function Game() {
     const wasCorrect = result.selected === result.pair.earlierObjectId;
     const nextLivesCount = nextLives(playMode, lives, wasCorrect);
     setLives(nextLivesCount);
+    setStreak(wasCorrect ? streak + 1 : 0);
     setOver(isGameOver(playMode, result.answered, nextLivesCount));
   };
 
@@ -149,6 +152,7 @@ export default function Game() {
     focusRequest.current = 'question';
     setDefOpen({});
     setLives(3);
+    setStreak(0);
     setOver(false);
     setShowResults(false);
     setSnap(track(game.reset(recentRef.current)));
@@ -163,16 +167,6 @@ export default function Game() {
       ? objectMap.get(snap.choices.find((id) => id !== earlier.id))
       : null;
   const isCorrect = answered && snap.selected === earlier.id;
-  const roundText = !snap
-    ? 'Warming up…'
-    : over && showResults
-      ? 'Results'
-      : playMode === 'ten'
-        ? `${activeMode.roundLabel} ${Math.min(snap.answered + 1, 10)} of 10`
-        : `${activeMode.roundLabel} ${snap.answered + 1}`;
-  const instruction = over && showResults
-    ? 'Game over — here is how you did.'
-    : 'Two bright ideas. Tap the one that came earlier.';
   const announcement = answered
     ? `${isCorrect ? 'Correct!' : 'Good guess!'} ${earlier.name} came first. ${
         earlier.dateDisplay
@@ -182,93 +176,27 @@ export default function Game() {
   return (
     <div className="before-the-bulb">
       <main className="shell">
-        <header className="masthead">
-          <PortalNav />
-          <div className="game-brand-row">
-            <p className="app-eyebrow">Before the Bulb</p>
-            {snap && (
-              <button
-                className="pf-btn"
-                id="restart"
-                type="button"
-                onClick={handleRestart}
-              >
-                <RestartIcon />Start over
-              </button>
-            )}
+      <PortalNav />
+      <GameBar title="Before the Bulb" onStartOver={handleRestart} settingsSummary={`${mode === 'curated' ? 'Curated' : 'Wild'} · ${(PLAY_MODES.find((play) => play.id === playMode) || {}).label}`}>
+        <div className="qs-menu-group">
+          <span className="qs-menu-label">Pool</span>
+          <div className="pf-pill-group" role="group" aria-label="Game modes">
+            <button className="pf-pill" type="button" aria-pressed={mode === 'curated'} onClick={() => switchMode('curated')}>Curated</button>
+            <button className="pf-pill" type="button" aria-pressed={mode === 'wild'} onClick={() => switchMode('wild')}>Wild</button>
           </div>
-        </header>
+        </div>
+        <div className="qs-menu-group">
+          <span className="qs-menu-label">Play</span>
+          <div className="pf-pill-group" role="group" aria-label="Play mode">
+            {PLAY_MODES.map((play) => (
+              <button className="pf-pill" key={play.id} type="button" aria-pressed={playMode === play.id} onClick={() => switchPlayMode(play.id)}>{play.label}</button>
+            ))}
+          </div>
+        </div>
+      </GameBar>
         <section className="game" aria-labelledby="question">
-          <div className="round-bar">
-            <span className="pf-status-pill" id="round" ref={roundRef}>
-              {roundText}
-            </span>
-            {playMode === 'lives' && (
-              <span className="pf-status-pill" aria-label={`${lives} lives left`}>
-                <LivesHearts lives={lives} />
-              </span>
-            )}
-            <span
-              id="score"
-              className="score"
-              aria-label={
-                snap
-                  ? `${snap.correct} correct out of ${snap.answered} answered`
-                  : undefined
-              }
-            >
-              {snap ? snap.correct : 0}{' '}
-              <span>/ {snap ? snap.answered : 0} correct</span>
-            </span>
-          </div>
-          <div className="intro">
-            <p className="eyebrow">A LITTLE TRIP THROUGH TIME</p>
-            <h1 id="question" tabIndex={-1} ref={questionRef}>
-              Which came first?
-            </h1>
-            <p id="instruction">{instruction}</p>
-          </div>
-          <section className="mode-picker" aria-label="Choose game mode">
-            <span className="mode-group-label">Pool</span>
-            <div className="pf-pill-group" role="group" aria-label="Game modes">
-              <button
-                className="pf-pill"
-                data-mode="curated"
-                type="button"
-                aria-pressed={mode === 'curated'}
-                onClick={() => switchMode('curated')}
-              >
-                Curated
-              </button>
-              <button
-                className="pf-pill"
-                data-mode="wild"
-                type="button"
-                aria-pressed={mode === 'wild'}
-                onClick={() => switchMode('wild')}
-              >
-                Wild
-              </button>
-            </div>
-            <span className="mode-group-label">Play</span>
-            <div className="pf-pill-group" role="group" aria-label="Play mode">
-              {PLAY_MODES.map((play) => (
-                <button
-                  className="pf-pill"
-                  key={play.id}
-                  type="button"
-                  aria-pressed={playMode === play.id}
-                  onClick={() => switchPlayMode(play.id)}
-                >
-                  {play.label}
-                </button>
-              ))}
-            </div>
-            <p className="mode-note">
-              <strong id="mode-title">{activeMode.title}</strong>
-              <span id="mode-description">{activeMode.description}</span>
-            </p>
-          </section>
+      {snap && <StatusLine round={answered ? snap.answered : snap.answered + 1} total={playMode === 'ten' ? 10 : null} correct={snap.correct} played={snap.answered} streak={streak} lives={playMode === 'lives' ? lives : null} />}
+      <h1 id="question" tabIndex={-1} ref={questionRef}>Which came first?</h1>
           {over && showResults ? (
             <section className="reveal" aria-labelledby="results-title">
               <div className="result-top">
