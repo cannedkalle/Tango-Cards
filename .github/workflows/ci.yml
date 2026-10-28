@@ -18,4 +18,11 @@ jobs:
       - run: npm ci
       - run: npm run test:before-the-bulb
       - run: npm run wild-guess:test
+      - run: npm run test:twin-terms
+      - run: npm run test:twin-terms-images
+      - run: npm run test:before-the-bulb-images
+      - run: npm run test:name-quest
+      - run: npm run test:marble-battles
+      - run: npm run test:animal-outsider
+      - run: npm run test:tango-cards
       - run: npm run build
