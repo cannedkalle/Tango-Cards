@@ -6,7 +6,8 @@
 .before-the-bulb .masthead .portal-page-nav{margin:0}.before-the-bulb .mode-group-label{font-size:12px;font-weight:800;color:var(--pf-muted)}
 /* Option photos (Wikimedia Commons hotlinks). The object-art span always
    renders so card layout is unchanged for inventions with no photo. */
-.before-the-bulb .object-art img{width:100%;height:100%;object-fit:cover;border-radius:12px}
+.before-the-bulb .object-art{position:relative;overflow:hidden}
+.before-the-bulb .object-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:12px}
 .before-the-bulb .image-credits{max-width:800px;margin:20px auto 0;color:var(--pf-muted);font-size:12px}
 .before-the-bulb .image-credits ul{list-style:none;padding:0;margin:8px 0 0}
 .before-the-bulb .image-credits li{margin-bottom:6px;line-height:1.5}
