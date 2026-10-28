@@ -22,8 +22,16 @@
 
 /* Option-card photos: full-width band on desktop, thumbnail row on phones
  * so two cards plus the question still fit a phone screen without scrolling. */
-.wg-choice-grid .wg-choice-photo { width: 100%; height: 170px; object-fit: cover; border-radius: 16px; margin-bottom: 18px; }
+.wg-choice-grid .wg-choice-photo { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 12px; margin-bottom: 18px; }
 .wg-choice-grid .wg-choice-text { display: flex; flex-direction: column; align-items: center; }
+
+/* Reveal sides use the same photo, larger and Bulb-like: a full-width 16/10
+ * band above the label, so the before/after format matches the choice card. */
+.wg-reveal-sides .wg-reveal-photo { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 12px; margin-bottom: 16px; }
+/* Where a photo loads, it replaces the emoji; a failed image leaves no photo
+ * element, so the emoji shows as the fallback. */
+.wg-choice-grid button:has(.wg-choice-photo) .wg-option-emoji,
+.wg-reveal-sides article:has(.wg-reveal-photo) .wg-option-emoji { display: none; }
 
 @media (max-width: 560px) {
   .wg-choice-grid button { flex-direction: row; align-items: center; text-align: left; min-height: 132px; padding: 16px; }

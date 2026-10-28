@@ -17,11 +17,11 @@ import { ArrowRightIcon } from "../components/Icons";
 
 /* Option-card photo: looked up by subject id, hidden if it fails to load
  * so the card always works with text alone. */
-function ChoicePhoto({ option }) {
+function ChoicePhoto({ option, className = 'wg-choice-photo' }) {
   const [failed, setFailed] = useState(false);
   const image = WILD_GUESS_IMAGES[option.id];
   if (!image || failed) return null;
-  return <img className="wg-choice-photo" src={image.thumb} alt={option.label} loading="lazy" onError={() => setFailed(true)} />;
+  return <img className={className} src={image.thumb} alt={option.label} loading="lazy" onError={() => setFailed(true)} />;
 }
 
 export default function Game() {
@@ -176,7 +176,7 @@ export default function Game() {
       </div> : reveal ? <div className="wg-comparison-reveal" role="status">
         <p className="wg-result-kicker">{reveal.correct ? 'You called it!' : 'Plot twist!'}</p>
         <h2 ref={heading} tabIndex={-1}>{winnerCopy}</h2>
-        <div className="wg-reveal-sides">{reveal.sides.map((option, index) => <article className={index === reveal.correctChoice ? 'is-winner' : ''} key={option.label}><span className="wg-option-emoji" aria-hidden="true">{option.emoji}</span><h3>{option.label}</h3><p className="wg-scale-answer">{option.scaleLead} <strong>{option.scale}</strong></p><p>{option.detail}</p>{index === reveal.correctChoice && <span className="wg-winner-mark">{reveal.prompt.includes('shorter gap') ? 'Shorter gap ✓' : reveal.prompt.includes('moves or grows faster') ? 'Faster ✓' : reveal.prompt.includes('longer') ? 'Longer ✓' : reveal.prompt.includes('weighs') ? 'Heavier ✓' : reveal.prompt.includes('area') ? 'More area ✓' : reveal.prompt.includes('space') ? 'More space ✓' : 'More ✓'}</span>}</article>)}</div>
+        <div className="wg-reveal-sides">{reveal.sides.map((option, index) => <article className={index === reveal.correctChoice ? 'is-winner' : ''} key={option.label}><ChoicePhoto option={option} className="wg-reveal-photo" /><span className="wg-option-emoji" aria-hidden="true">{option.emoji}</span><h3>{option.label}</h3><p className="wg-scale-answer">{option.scaleLead} <strong>{option.scale}</strong></p><p>{option.detail}</p>{index === reveal.correctChoice && <span className="wg-winner-mark">{reveal.prompt.includes('shorter gap') ? 'Shorter gap ✓' : reveal.prompt.includes('moves or grows faster') ? 'Faster ✓' : reveal.prompt.includes('longer') ? 'Longer ✓' : reveal.prompt.includes('weighs') ? 'Heavier ✓' : reveal.prompt.includes('area') ? 'More area ✓' : reveal.prompt.includes('space') ? 'More space ✓' : 'More ✓'}</span>}</article>)}</div>
         <button className="pf-primary" onClick={over ? () => setShowResults(true) : next}>{over ? <>See results <ArrowRightIcon /></> : <>Next round <ArrowRightIcon /></>}</button>
       </div> : <>
         <h2 className="wg-question" ref={heading} tabIndex={-1}>{comparison.prompt}</h2>

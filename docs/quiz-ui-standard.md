@@ -131,7 +131,9 @@ Bulb, Twin Terms — then Non-quiz games — Tango Cards, Marble Battles.
 ### Adoption (mobile)
 
 All five quiz games use the frame, keeping their own content and
-accents.
+accents. Content boxes — image+text, image-only, and text-only, in
+question, option, and answer slots, at every count — are governed by
+`docs/quiz-box-standard.md`.
 
 ## Desktop UI standard
 
