@@ -19,3 +19,16 @@
   .wg-choice-grid, .wg-reveal-sides { grid-template-columns: 1fr; }
   .wg-choice-grid button { min-height: 170px; }
 }
+
+/* Option-card photos: full-width band on desktop, thumbnail row on phones
+ * so two cards plus the question still fit a phone screen without scrolling. */
+.wg-choice-grid .wg-choice-photo { width: 100%; height: 170px; object-fit: cover; border-radius: 16px; margin-bottom: 18px; }
+.wg-choice-grid .wg-choice-text { display: flex; flex-direction: column; align-items: center; }
+
+@media (max-width: 560px) {
+  .wg-choice-grid button { flex-direction: row; align-items: center; text-align: left; min-height: 132px; padding: 16px; }
+  .wg-choice-grid .wg-choice-photo { width: 104px; height: 104px; flex: none; margin: 0 16px 0 0; }
+  .wg-choice-grid .wg-choice-text { align-items: flex-start; text-align: left; }
+  .wg-choice-grid .wg-choice-text .wg-option-emoji { font-size: 34px; margin-bottom: 6px; }
+  .wg-choice-grid .wg-choice-text .wg-pick-label { margin-top: 8px; }
+}
