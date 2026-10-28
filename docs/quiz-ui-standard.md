@@ -32,7 +32,13 @@ art below); the frame does not grow.
 2. **Row 2: GameBar.** Game name + Start over + one options dropdown,
    in a single row. Every setting a game has (play mode, difficulty,
    content pool) lives in the dropdown, closed by default, with the
-   current choices summarized on the toggle (e.g. "Curated · Endless").
+   current play mode shown on the toggle (e.g. "Endless"). The
+   toggle shows the play mode only, consistently on all five
+   quizzes; pool, difficulty, category, and level live inside the
+   dropdown, not on the toggle — a toggle that lists every setting
+   is a different width on every game and pushes the game name
+   around (Bulb showed "Curated · Endless", Outsider "Easy ·
+   Endless", Name Quest "Name types · Balanced · Endless").
    Picking a setting collapses the menu again and resets the score,
    exactly as a visible control row did. No kicker, no tagline, no
    separate picker rows.

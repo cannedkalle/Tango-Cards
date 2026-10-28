@@ -1,42 +1,48 @@
 .wg-choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.wg-choice-grid button { display: flex; min-height: 230px; padding: 24px; border: 2px solid var(--pf-control-line); border-radius: 24px; background: var(--pf-surface); color: var(--pf-ink); flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.wg-choice-grid button { display: flex; min-height: 230px; padding: 0; border: 2px solid var(--pf-control-line); border-radius: 24px; background: var(--pf-surface); color: var(--pf-ink); flex-direction: column; align-items: stretch; text-align: left; overflow: hidden; }
 .wg-choice-grid button:hover:not(:disabled), .wg-choice-grid button:focus-visible { border-color: var(--pf-green); background: var(--pf-leaf-soft); transform: translateY(-2px); }
 .wg-option-emoji { display: block; font-size: 58px; line-height: 1; margin-bottom: 18px; }
 .wg-choice-grid strong { font-size: clamp(20px, 2.4vw, 28px); line-height: 1.12; }
 .wg-pick-label { margin-top: 18px; color: var(--pf-green); font-size: 13px; font-weight: 800; }
 .wg-comparison-reveal > h2 { max-width: 650px; margin: 5px 0 22px; font-size: clamp(28px, 4vw, 44px); line-height: 1.08; }
 .wg-reveal-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 22px; }
-.wg-reveal-sides article { position: relative; min-width: 0; padding: 22px; border: 1px solid var(--pf-line); border-radius: 24px; background: var(--pf-surface); }
+.wg-reveal-sides article { position: relative; min-width: 0; padding: 0; border: 1px solid var(--pf-line); border-radius: 24px; background: var(--pf-surface); overflow: hidden; }
 .wg-reveal-sides article.is-winner { border: 2px solid var(--pf-green); background: var(--pf-leaf-soft); }
 .wg-reveal-sides h3 { font-size: 20px; line-height: 1.15; }
 .wg-reveal-sides .wg-option-emoji { font-size: 42px; margin-bottom: 12px; }
 .wg-scale-answer { margin: 15px 0 10px; color: var(--pf-muted); }
 .wg-scale-answer strong { display: block; color: var(--pf-ink); font-size: 24px; line-height: 1.1; }
-.wg-reveal-sides article > p:last-of-type { color: var(--pf-muted); font-size: 14px; line-height: 1.45; }
+.wg-reveal-sides .wg-reveal-text > p:last-of-type { color: var(--pf-muted); font-size: 14px; line-height: 1.45; }
 .wg-winner-mark { display: inline-block; margin-top: 14px; padding: 6px 9px; border-radius: 12px; background: var(--pf-green); color: white; font-size: 12px; font-weight: 800; }
 
 @media (max-width: 560px) {
   .wg-choice-grid, .wg-reveal-sides { grid-template-columns: 1fr; }
-  .wg-choice-grid button { min-height: 170px; }
 }
 
-/* Option-card photos: full-width band on desktop, thumbnail row on phones
- * so two cards plus the question still fit a phone screen without scrolling. */
-.wg-choice-grid .wg-choice-photo { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 12px; margin-bottom: 18px; }
-.wg-choice-grid .wg-choice-text { display: flex; flex-direction: column; align-items: center; }
-
-/* Reveal sides use the same photo, larger and Bulb-like: a full-width 16/10
- * band above the label, so the before/after format matches the choice card. */
-.wg-reveal-sides .wg-reveal-photo { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 12px; margin-bottom: 16px; }
+/* Flush-banner cards (2 items): the photo fills the card's top edge to
+ * edge — no padding around the image — and the text below carries the
+ * card's side padding uniformly, so label, value, and detail share one
+ * alignment edge in the option and in the reveal alike. */
+.wg-choice-grid .wg-choice-photo { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 24px 24px 0 0; }
+.wg-choice-grid .wg-choice-text { display: flex; flex-direction: column; align-items: flex-start; text-align: left; padding: 18px 24px 24px; }
+.wg-reveal-sides .wg-reveal-photo { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 24px 24px 0 0; }
+.wg-reveal-sides .wg-reveal-text { padding: 18px 24px 24px; }
 /* Where a photo loads, it replaces the emoji; a failed image leaves no photo
  * element, so the emoji shows as the fallback. */
 .wg-choice-grid button:has(.wg-choice-photo) .wg-option-emoji,
 .wg-reveal-sides article:has(.wg-reveal-photo) .wg-option-emoji { display: none; }
 
 @media (max-width: 560px) {
-  .wg-choice-grid button { flex-direction: row; align-items: center; text-align: left; min-height: 132px; padding: 16px; }
-  .wg-choice-grid .wg-choice-photo { width: 104px; height: 104px; flex: none; margin: 0 16px 0 0; }
-  .wg-choice-grid .wg-choice-text { align-items: flex-start; text-align: left; }
+  .wg-choice-grid .wg-choice-text { padding: 16px 16px 16px; }
+  .wg-reveal-sides .wg-reveal-text { padding: 16px 16px 16px; }
   .wg-choice-grid .wg-choice-text .wg-option-emoji { font-size: 34px; margin-bottom: 6px; }
   .wg-choice-grid .wg-choice-text .wg-pick-label { margin-top: 8px; }
+}
+
+/* Phones: cap the flush banner at 150px tall (cropped), the same cap as
+ * Bulb, so two banners + question + frame fit a 390×844 screen. A full
+ * 16/10 banner is ~224px tall at phone width and pushed the second
+ * card off-screen (seen live on Bulb). Desktop keeps full 16/10. */
+@media (max-width: 560px) {
+  .wg-choice-grid .wg-choice-photo, .wg-reveal-sides .wg-reveal-photo { aspect-ratio: auto; height: 150px; }
 }

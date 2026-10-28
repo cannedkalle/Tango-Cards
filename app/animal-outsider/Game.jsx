@@ -335,7 +335,7 @@ export default function Game() {
     <main className="ao-game">
       <section className="play-area" aria-label="Animal Outsider quiz">
         <PortalNav />
-        <GameBar title="Animal Outsider" onStartOver={startOver} settingsSummary={`${difficulty === 'easy' ? 'Easy' : 'Standard'} · ${(PLAY_MODES.find((mode) => mode.id === playMode) || {}).label}`}>
+        <GameBar title="Animal Outsider" onStartOver={startOver} settingsSummary={(PLAY_MODES.find((mode) => mode.id === playMode) || {}).label}>
           <div className="qs-menu-group">
             <span className="qs-menu-label">Difficulty</span>
             <div className="pf-pill-group" role="group" aria-label="Choose difficulty">
