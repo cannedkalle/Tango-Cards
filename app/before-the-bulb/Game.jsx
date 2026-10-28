@@ -12,6 +12,7 @@ import {
   sourceMap,
   wildPairs,
 } from '../../lib/before-the-bulb/content.mjs';
+import { BULB_IMAGES } from '../../lib/before-the-bulb/images.mjs';
 
 /* Same modes, titles, descriptions, labels, and pool copy as the standalone
  * game. The game keeps no saved progress (the standalone did not either):
@@ -309,6 +310,7 @@ export default function Game() {
             {snap &&
               snap.choices.map((id, index) => {
                 const object = objectMap.get(id);
+                const image = BULB_IMAGES[object.id];
                 const isEarlier = answered && id === earlier.id;
                 const isChosen = answered && id === snap.selected;
                 const status = !answered
@@ -338,7 +340,16 @@ export default function Game() {
                         {index === 0 ? 'A' : 'B'}
                       </span>
                       <span className="object-art" aria-hidden="true">
-                        {object.icon}
+                        {image && (
+                          <img
+                            src={image.thumb}
+                            alt=""
+                            loading="lazy"
+                            onError={(event) => {
+                              event.currentTarget.style.display = 'none';
+                            }}
+                          />
+                        )}
                       </span>
                       <strong className="object-name">{object.name}</strong>
                       <span className="choice-status">{status}</span>
@@ -478,6 +489,22 @@ export default function Game() {
           </span>
           <span id="pool">{snap ? activeMode.poolLabel : ''}</span>
         </footer>
+        <details className="image-credits">
+          <summary>Photo credits</summary>
+          <ul>
+            {objects
+              .filter((object) => BULB_IMAGES[object.id])
+              .map((object) => {
+                const image = BULB_IMAGES[object.id];
+                return (
+                  <li key={object.id}>
+                    {object.name}: Photo: {image.author}, {image.license},{' '}
+                    <a href={image.page}>via Wikimedia Commons</a>
+                  </li>
+                );
+              })}
+          </ul>
+        </details>
         <noscript>
           <p>
             This game needs JavaScript enabled to show its invention cards.

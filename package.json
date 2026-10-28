@@ -18,6 +18,7 @@
     "test:tango-cards": "node --test tests/tango-cards.test.mjs",
     "test:twin-terms": "node --test tests/twin-terms.test.mjs",
     "test:twin-terms-images": "node --test tests/twin-terms-images.test.mjs",
+    "test:before-the-bulb-images": "node --test tests/before-the-bulb-images.test.mjs",
     "wild-guess:audit": "node scripts/audit-wild-guess-subjects.mjs",
     "wild-guess:proposals": "node scripts/export-wild-guess-proposals.mjs",
     "wild-guess:subjects": "node scripts/export-wild-guess-subjects.mjs"
