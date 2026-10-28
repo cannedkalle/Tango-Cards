@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import PortalNav from '../components/PortalNav';
-import { ArrowRightIcon, LivesHearts, RestartIcon } from "../components/Icons";
+import { ArrowRightIcon } from "../components/Icons";
+import { QuizHeader, RoundLabel, ScoreStrip, SettingsPanel } from "../components/QuizShell";
 import { PLAY_MODES, isGameOver, nextLives } from '../../lib/quiz-play.mjs';
 import { dealOptions, dealPair } from '../../lib/twin-terms/questions.mjs';
 import { CATEGORIES, categoryById } from '../../lib/twin-terms/categories.mjs';
@@ -18,12 +19,12 @@ import { TWIN_TERM_IMAGES } from '../../lib/twin-terms/images.mjs';
  * up still teaches the specific term. The pool lives in the repo,
  * progress lives in the player's own browser storage, no server involved.
  *
- * Quiz standard: Start over sits in the header, the Play mode row sits
- * above the puzzle, and the score strip shows lives (survival) or the
- * puzzle count (10 questions). Endless is the default and never ends.
- * The pool has no difficulty — the source pairs are ungraded — so this
- * game offers play modes only. In lives mode, a failed round (a wrong
- * category, or a give-up) costs a life. */
+ * Quiz shell: the header, score strip, settings panel, and round label
+ * come from the shared shell (app/components/QuizShell.jsx). Settings
+ * (play mode only — the pool has no difficulty) live collapsed in the
+ * panel; the score strip shows right, played, and streak, plus lives in
+ * survival mode. Endless is the default and never ends. In lives mode,
+ * a failed round (a wrong category, or a give-up) costs a life. */
 export default function Game() {
   const [pair, setPair] = useState(null);
   const [pickedCategory, setPickedCategory] = useState(null);
@@ -33,6 +34,7 @@ export default function Game() {
   const [queued, setQueued] = useState(null);
   const [played, setPlayed] = useState(0);
   const [correct, setCorrect] = useState(0);
+  const [streak, setStreak] = useState(0);
   const [playMode, setPlayMode] = useState('endless');
   const [lives, setLives] = useState(3);
   const [over, setOver] = useState(false);
@@ -56,8 +58,8 @@ export default function Game() {
     setQueued(null);
   };
 
-  const saveSearching = (nextPair, mode, nextPlayed, nextCorrect, nextLivesCount) => {
-    saveProgress({ pairId: nextPair.id, playMode: mode, played: nextPlayed, correct: nextCorrect, lives: nextLivesCount, history: historyRef.current });
+  const saveSearching = (nextPair, mode, nextPlayed, nextCorrect, nextLivesCount, nextStreak) => {
+    saveProgress({ pairId: nextPair.id, playMode: mode, played: nextPlayed, correct: nextCorrect, lives: nextLivesCount, streak: nextStreak, history: historyRef.current });
   };
 
   const startFresh = (mode = playMode) => {
@@ -66,10 +68,11 @@ export default function Game() {
     resetRound(fresh);
     setPlayed(0);
     setCorrect(0);
+    setStreak(0);
     setLives(3);
     setOver(false);
     setShowResults(false);
-    saveSearching(fresh, mode, 0, 0, 3);
+    saveSearching(fresh, mode, 0, 0, 3, 0);
   };
 
   /* Switching play mode resets the score, so one mode's results never mix
@@ -91,6 +94,7 @@ export default function Game() {
       setPlayMode(saved.playMode);
       setPlayed(saved.played);
       setCorrect(saved.correct);
+      setStreak(saved.streak);
       setLives(saved.lives);
     } else {
       startFresh();
@@ -103,11 +107,13 @@ export default function Game() {
     const isRight = categoryId === pair.category;
     const nextPlayed = played + 1;
     const nextCorrect = correct + (isRight ? 1 : 0);
+    const nextStreak = isRight ? streak + 1 : 0;
     const nextLivesCount = nextLives(playMode, lives, isRight);
     const gameOver = isGameOver(playMode, nextPlayed, nextLivesCount);
     setPickedCategory(categoryId);
     setPlayed(nextPlayed);
     setCorrect(nextCorrect);
+    setStreak(nextStreak);
     setLives(nextLivesCount);
     setOver(gameOver);
     if (gameOver) {
@@ -121,7 +127,7 @@ export default function Game() {
     const upNext = deal();
     historyRef.current = [...historyRef.current, upNext.id].slice(-12);
     setQueued(upNext);
-    saveProgress({ pairId: upNext.id, playMode, played: nextPlayed, correct: nextCorrect, lives: nextLivesCount, history: historyRef.current });
+    saveProgress({ pairId: upNext.id, playMode, played: nextPlayed, correct: nextCorrect, lives: nextLivesCount, streak: nextStreak, history: historyRef.current });
   };
 
   const giveUp = () => {
@@ -133,15 +139,16 @@ export default function Game() {
     setOptions(revealed);
     setGaveUp(true);
     setPlayed(nextPlayed);
+    setStreak(0);
     setLives(nextLivesCount);
     setOver(gameOver);
-    saveProgress({ pairId: pair.id, options: revealed, gaveUp: true, picked: null, playMode, played: nextPlayed, correct, lives: nextLivesCount, history: historyRef.current });
+    saveProgress({ pairId: pair.id, options: revealed, gaveUp: true, picked: null, playMode, played: nextPlayed, correct, lives: nextLivesCount, streak: 0, history: historyRef.current });
   };
 
   const pick = (option) => {
     if (!gaveUp || picked !== null) return;
     setPicked(option);
-    saveProgress({ pairId: pair.id, options, gaveUp: true, picked: option, playMode, played, correct, lives, history: historyRef.current });
+    saveProgress({ pairId: pair.id, options, gaveUp: true, picked: option, playMode, played, correct, lives, streak, history: historyRef.current });
   };
 
   const seeResults = () => {
@@ -161,7 +168,7 @@ export default function Game() {
     }
     const fresh = deal();
     resetRound(fresh);
-    saveSearching(fresh, playMode, played, correct, lives);
+    saveSearching(fresh, playMode, played, correct, lives, streak);
   };
 
   const categoryName = pair ? (categoryById(pair.category) || {}).name : '';
@@ -169,19 +176,21 @@ export default function Game() {
   const revealed = pickedCategory !== null || picked !== null;
   const revealImage = pair ? TWIN_TERM_IMAGES[pair.answer] : null;
 
-  return <><PortalNav/><main className="twin-terms"><header className="th-heading"><div><span className="th-kicker">Two words. One shared field.</span><h1 className="pf-game-title">Twin Terms</h1></div><div className="th-heading-actions"><button className="pf-btn" type="button" onClick={() => startFresh()}><RestartIcon />Start over</button></div></header><div className="th-layout"><section className="th-board">
+  return <><PortalNav/><main className="twin-terms"><QuizHeader kicker="Two words. One shared field." title="Twin Terms" onStartOver={() => startFresh()} /><div className="th-layout"><section className="th-board">
     {!pair ? <div className="th-loading">Finding a curious pair…</div> : <>
-      <div className="th-score" aria-label="Your score"><div><strong>{correct}</strong><span>right</span></div><div><strong>{played}</strong><span>played</span></div>{playMode === 'lives' && <div><strong><LivesHearts lives={lives} /></strong><span>lives</span></div>}</div>
-      <div className="pf-pill-group" role="group" aria-label="Play mode">
-        {PLAY_MODES.map((mode) => <button key={mode.id} className="pf-pill" type="button" aria-pressed={playMode === mode.id} onClick={() => switchPlayMode(mode.id)}>{mode.label}</button>)}
-      </div>
+      <ScoreStrip correct={correct} played={played} streak={streak} lives={playMode === 'lives' ? lives : null} />
+      <SettingsPanel summary={(PLAY_MODES.find((mode) => mode.id === playMode) || {}).label}>
+        <div className="pf-pill-group" role="group" aria-label="Play mode">
+          {PLAY_MODES.map((mode) => <button key={mode.id} className="pf-pill" type="button" aria-pressed={playMode === mode.id} onClick={() => switchPlayMode(mode.id)}>{mode.label}</button>)}
+        </div>
+      </SettingsPanel>
       {over && showResults ? <div className="th-finish" role="status">
-        <p className="th-result-kicker">{playMode === 'ten' ? '10 puzzles done!' : 'Out of lives!'}</p>
+        <p className="th-result-kicker">{playMode === 'ten' ? '10 rounds done!' : 'Out of lives!'}</p>
         <h2 ref={heading} tabIndex={-1}>Here is how you did.</h2>
         <p className="th-final-score">{correct}<span> / {played} right</span></p>
         <button className="pf-primary" onClick={() => startFresh()}>Play again <ArrowRightIcon /></button>
       </div> : <>
-        <p className="th-question-number">Puzzle {played + 1}{playMode === 'ten' ? ' of 10' : ''}</p>
+        <RoundLabel round={played + (pickedCategory === null && !gaveUp ? 1 : 0)} total={playMode === 'ten' ? 10 : null} />
         <div className="th-hints" ref={revealed ? null : heading} tabIndex={-1} aria-label={`Hints: ${pair.hints[0]} and ${pair.hints[1]}`}>
           <span className="th-hint th-hint-a">{pair.hints[0]}</span>
           <span className="th-plus" aria-hidden="true">+</span>
@@ -226,7 +235,7 @@ export default function Game() {
           <p className="th-specific">The specific answer is {pair.answer}.</p>
           {revealImage && <figure className="th-reveal-image"><img src={revealImage.thumb} alt={pair.answer} loading="lazy" decoding="async" onError={(event) => { const figure = event.currentTarget.closest('figure'); if (figure) figure.style.display = 'none'; }} /><figcaption>Photo: {revealImage.author}, {revealImage.license}, via <a href={revealImage.page} target="_blank" rel="noreferrer">Wikimedia Commons</a></figcaption></figure>}
           <p className="th-why">{pair.why}</p>
-          <button className="pf-primary" onClick={over ? seeResults : next}>{over ? <>See results <ArrowRightIcon /></> : <>Next puzzle <ArrowRightIcon /></>}</button>
+          <button className="pf-primary" onClick={over ? seeResults : next}>{over ? <>See results <ArrowRightIcon /></> : <>Next round <ArrowRightIcon /></>}</button>
         </div>}
       </>}
     </>}

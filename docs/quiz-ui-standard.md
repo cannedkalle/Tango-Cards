@@ -5,29 +5,36 @@ Animal Outsider, Twin Terms — share one layout and one set of play modes. Tang
 (collecting) and Marble Battles (a simulation) are not quizzes: they live in
 their own home section and keep their own controls.
 
-## Zones, top to bottom
+## Zones, top to bottom (quiz shell, `app/components/QuizShell.jsx`)
 
-1. **Header: title left, Start over right.** Every quiz game has an always
-   visible Start over button in the header. It resets the score and the
-   round and keeps the chosen modes. (Before: Bulb had it top-right,
-   Name Quest had Restart in a side panel, Marble had Restart in its
-   controls, Wild-guess only in an error message, Animal had none.)
-2. **Score strip near the header.** Round/question number plus
-   correct/played, and streak where the game has one. Survival mode adds
-   lives hearts; 10-question mode shows "N of 10".
-3. **Control row above the question.** Groups in this order, with a game
-   showing only the groups it has: content mode (Bulb: Curated/Wild;
-   Name Quest: Name types/Pokemon or not/Real or Pokemon), difficulty
-   (Animal: Easy/Standard; Name Quest: level, in its side panel — see
-   exceptions), play mode (all five games: Endless / 10 questions /
-   3 lives). (Before: Bulb's mode picker sat below the intro, Name Quest's
-   modes sat in the header, Animal's difficulty sat above the prompt,
-   Wild-guess had no controls at all.)
-4. **Question and choices**, unchanged per game.
-5. **After answering: reveal, then Next.** When the game is over, the
-   button reads See results instead of Next.
-6. **Results screen.** Score summary plus Play again (same mode). The
-   control row stays visible, so switching modes is one tap away.
+The shell owns the frame; games own their question, choices, and reveal.
+Twin Terms adopted the shell first (pilot); the other four quiz games
+adopt it in turn, keeping their own content and accents.
+
+1. **Header: kicker above the game name, Start over top-right.** One
+   place, one size, every game. Start over resets the score and the
+   round and keeps the chosen modes.
+2. **Score strip.** The same three numbers everywhere — right, played,
+   streak — plus lives hearts in 3-lives mode. Every quiz game tracks a
+   streak (consecutive correct rounds); a wrong answer or give-up resets
+   it.
+3. **Settings, collapsed.** Play mode, difficulty, and content pool live
+   in one collapsed panel, closed by default, with the current choice
+   summarized on the toggle (e.g. "Settings · Endless"). Picking a
+   setting collapses the panel again and resets the score, exactly as a
+   visible control row did. The question is the first thing on screen;
+   nothing above it needs scrolling past. (Before: Twin showed score
+   boxes plus the mode row, Outsider stacked two labeled picker rows
+   plus a note line, and Bulb showed three picker rows — all above the
+   first question on mobile.)
+4. **Round label.** Every game numbers its rounds "Round N" ("Round N
+   of 10" in 10-question mode) — no more Puzzle / Discovery / Wild card /
+   Matchup variants. The label shows the round being played, including
+   during the reveal.
+5. **Question and choices**, unchanged per game.
+6. **After answering: reveal, then Next round.** When the game is over,
+   the button reads See results instead of Next round.
+7. **Results screen.** Score summary plus Play again (same mode).
 
 ## Play modes (`lib/quiz-play.mjs`, same rules everywhere)
 
@@ -53,8 +60,9 @@ The same control looks the same in every game. Game content keeps its own
 accent (Bulb peach/blue, Animal leaf, Name Quest violet); only the chrome
 is uniform.
 
-- **Game title**: `.pf-game-title` (30–44px) in every full-width game
-  header. Marble's panel heading stays small — it is an aside heading,
+- **Game title**: `.qs-title` in the shell header
+  (clamp(34px, 8vw, 48px)) in every game that has adopted the shell.
+  Marble's panel heading stays small — it is an aside heading,
   not a game title.
 - **Primary action**: `.pf-primary` (Next, Play again, See results).
 - **Secondary button**: `.pf-btn` (Start over, Restart, difficulty
