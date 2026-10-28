@@ -15,6 +15,7 @@
     "test:name-quest": "node --test tests/name-quest.test.mjs",
     "test:marble-battles": "node --test tests/marble-battles.test.mjs",
     "test:animal-outsider": "node --test tests/animal-outsider.test.mjs",
+    "test:animal-outsider-images": "node --test tests/animal-outsider-images.test.mjs",
     "test:tango-cards": "node --test tests/tango-cards.test.mjs",
     "test:twin-terms": "node --test tests/twin-terms.test.mjs",
     "test:twin-terms-images": "node --test tests/twin-terms-images.test.mjs",

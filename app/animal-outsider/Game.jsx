@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import PortalNav from '../components/PortalNav';
 import { GameBar, StatusLine } from '../components/QuizShell';
 import { animals } from '../../lib/animal-outsider/animals.mjs';
+import { ANIMAL_OUTSIDER_IMAGES } from '../../lib/animal-outsider/images.mjs';
 import { rootWords, taxonInfo } from '../../lib/animal-outsider/taxa.mjs';
 import { getAnimalPool } from '../../lib/animal-outsider/difficulty.mjs';
 import { PLAY_MODES, isGameOver, nextLives } from '../../lib/quiz-play.mjs';
@@ -96,6 +97,20 @@ function SpeciesStep({ animal }) {
       <span><strong>Typical traits:</strong> The species entry for {animal.commonName} in this game.</span>
       <span><strong>Examples:</strong> {animal.commonName}</span>
     </li>
+  );
+}
+
+function AnimalPhoto({ animal }) {
+  const [failed, setFailed] = useState(false);
+  const image = ANIMAL_OUTSIDER_IMAGES[animal.id];
+  if (!image || failed) return null;
+  return (
+    <img
+      className="animal-photo"
+      src={image.thumb}
+      alt=""
+      onError={() => setFailed(true)}
+    />
   );
 }
 
@@ -354,12 +369,13 @@ export default function Game() {
           {current?.choices.map((animal, index) => (
             <button
               key={animal.id}
-              className={`animal-card${revealed && animal.id === current.outsider.id ? ' is-correct' : ''}${revealed && animal.id === selectedId && !wasCorrect ? ' is-wrong' : ''}`}
+              className={`animal-card${ANIMAL_OUTSIDER_IMAGES[animal.id] ? ' has-photo' : ''}${revealed && animal.id === current.outsider.id ? ' is-correct' : ''}${revealed && animal.id === selectedId && !wasCorrect ? ' is-wrong' : ''}`}
               type="button"
               disabled={revealed}
               onClick={() => answer(animal.id)}
             >
               <span className="choice-number" aria-hidden="true">{index + 1}</span>
+              <AnimalPhoto animal={animal} />
               <strong>{animal.commonName}</strong>
               <span className="choice-status">
                 {!revealed ? 'Tap to choose' : animal.id === current.outsider.id ? '✓ Outsider' : animal.id === selectedId ? 'Your choice' : 'Closer cousin'}
