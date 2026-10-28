@@ -1,9 +1,16 @@
 # Balls in the Ballpark — image sourcing notes
 
-Photos on the option cards only (the `.wg-choice-grid` buttons), not the
-reveal. One entry per subject id in `lib/wild-guess/images.mjs`: 163 of 163
-subjects covered, zero nulls. Expanding the pool is data-only — add a
-subject to `lib/wild-guess/subjects.mjs` and one entry here.
+Photos on the option cards (the `.wg-choice-grid` buttons) and on the
+reveal sides (the `.wg-reveal-sides` articles), in the same format: a large
+16/10 photo, then the label. One entry per subject id in
+`lib/wild-guess/images.mjs`: 163 of 163 subjects covered, zero nulls.
+Expanding the pool is data-only — add a subject to
+`lib/wild-guess/subjects.mjs` and one entry here.
+
+Where a photo loads, it replaces the emoji (the original deprecate-emoji
+direction); where an image fails to load, no photo element renders and the
+emoji shows as the fallback. The reveal sides carry the subject id through
+`buildReveal` so they use the same manifest lookup as the choice cards.
 
 ## The bar (Kai, 2026-10-28)
 
