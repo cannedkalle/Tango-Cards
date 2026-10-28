@@ -11,13 +11,12 @@ import { useEffect, useState } from 'react';
  *   opens the browser's own install dialog. Accepting installs; the
  *   `appinstalled` event hides the button.
  * - iOS Safari: there is no install prompt to fire, so the button is
- *   always shown (until dismissed) and opens short instructions instead:
+ *   always shown and opens short instructions instead:
  *   Share -> Add to Home Screen. Nothing here can install
  *   programmatically on iOS.
- * - Already installed (standalone display mode) or previously dismissed
- *   (localStorage): renders nothing. */
-
-const DISMISSED_KEY = 'pwa-install-dismissed';
+ * - Already installed (standalone display mode): renders nothing. There
+ *   is no "don't show again": the button is a quiet header link, like
+ *   Support Creator, so it simply stays until the app is installed. */
 
 function isIos() {
   if (typeof window === 'undefined') return false;
@@ -37,11 +36,6 @@ export default function InstallButton() {
 
   useEffect(() => {
     if (isInstalled()) return;
-    try {
-      if (window.localStorage.getItem(DISMISSED_KEY)) return;
-    } catch {
-      /* Storage unavailable: still offer the button. */
-    }
     /* iOS never fires beforeinstallprompt, so its button shows on its
      * own; every other browser waits for the installable signal. */
     if (isIos()) {
@@ -64,28 +58,17 @@ export default function InstallButton() {
     };
   }, []);
 
-  const dismiss = () => {
-    try {
-      window.localStorage.setItem(DISMISSED_KEY, '1');
-    } catch {
-      /* Storage unavailable: hiding for this session is enough. */
-    }
-    setHidden(true);
-    setShowHelp(false);
-  };
-
   const onClick = async () => {
     if (!promptEvent) {
       setShowHelp((open) => !open);
       return;
     }
     promptEvent.prompt();
-    const choice = await promptEvent.userChoice;
-    if (choice.outcome === 'dismissed') {
-      dismiss();
-    } else {
-      setPromptEvent(null);
-    }
+    /* Either outcome clears the prompt: on dismissal the browser itself
+     * holds back from firing the event again soon, so no extra hiding
+     * is needed. */
+    await promptEvent.userChoice;
+    setPromptEvent(null);
   };
 
   if (hidden) return null;
@@ -96,7 +79,6 @@ export default function InstallButton() {
       <strong>On iPhone or iPad:</strong>
       <span>1. Tap Share (the square with an arrow).<br />2. Tap Add to Home Screen.</span>
       <button className="install-help-close" type="button" onClick={() => setShowHelp(false)}>Got it</button>
-      <button className="install-help-dismiss" type="button" onClick={dismiss}>Don't show again</button>
     </span>}
   </span>;
 }
