@@ -5,6 +5,7 @@ import PortalNav from '../components/PortalNav';
 import { GameBar, StatusLine } from '../components/QuizShell';
 import { buildReveal, clearProgress, generateComparison, loadProgress, saveProgress } from '../../lib/wild-guess/client-game.mjs';
 import { PLAY_MODES, isGameOver, nextLives } from '../../lib/quiz-play.mjs';
+import { WILD_GUESS_IMAGES } from '../../lib/wild-guess/images.mjs';
 import { ArrowRightIcon } from "../components/Icons";
 
 /* Balls in the Ballpark, played entirely in the browser: matchups are dealt
@@ -13,6 +14,16 @@ import { ArrowRightIcon } from "../components/Icons";
  * works on the live site — and offline once installed — like the portal's
  * other games. Frame follows the mobile UI standard: GameBar row,
  * slim status line, then the matchup. */
+
+/* Option-card photo: looked up by subject id, hidden if it fails to load
+ * so the card always works with text alone. */
+function ChoicePhoto({ option }) {
+  const [failed, setFailed] = useState(false);
+  const image = WILD_GUESS_IMAGES[option.id];
+  if (!image || failed) return null;
+  return <img className="wg-choice-photo" src={image.thumb} alt={option.label} loading="lazy" onError={() => setFailed(true)} />;
+}
+
 export default function Game() {
   const [comparison, setComparison] = useState(null);
   const [position, setPosition] = useState(0);
@@ -169,7 +180,7 @@ export default function Game() {
         <button className="pf-primary" onClick={over ? () => setShowResults(true) : next}>{over ? <>See results <ArrowRightIcon /></> : <>Next round <ArrowRightIcon /></>}</button>
       </div> : <>
         <h2 className="wg-question" ref={heading} tabIndex={-1}>{comparison.prompt}</h2>
-        <div className="wg-choice-grid">{[comparison.left, comparison.right].map((option, index) => <button key={option.label} onClick={() => choose(index)}><span className="wg-option-emoji" aria-hidden="true">{option.emoji}</span><strong>{option.label}</strong><span className="wg-pick-label">Pick this one</span></button>)}</div>
+        <div className="wg-choice-grid">{[comparison.left, comparison.right].map((option, index) => <button key={option.label} onClick={() => choose(index)}><ChoicePhoto option={option} /><span className="wg-choice-text"><span className="wg-option-emoji" aria-hidden="true">{option.emoji}</span><strong>{option.label}</strong><span className="wg-pick-label">Pick this one</span></span></button>)}</div>
       </>}
     </>}
   </section></div></main></>;

@@ -12,6 +12,7 @@
     "wild-guess:setup": "node --env-file-if-exists=.env.local scripts/setup-wild-guess.mjs",
     "test:before-the-bulb": "node --test tests/before-the-bulb.test.mjs",
     "wild-guess:test": "node --test tests/wild-guess.test.mjs",
+    "test:wild-guess-images": "node --test tests/wild-guess-images.test.mjs",
     "test:name-quest": "node --test tests/name-quest.test.mjs",
     "test:marble-battles": "node --test tests/marble-battles.test.mjs",
     "test:animal-outsider": "node --test tests/animal-outsider.test.mjs",
