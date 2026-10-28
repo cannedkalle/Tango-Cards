@@ -12,3 +12,22 @@
 .before-the-bulb .image-credits ul{list-style:none;padding:0;margin:8px 0 0}
 .before-the-bulb .image-credits li{margin-bottom:6px;line-height:1.5}
 .before-the-bulb .image-credits a{font-weight:700}
+/* Mobile: stacked image-led cards — image on top (cropping is fine),
+   text below on white, like a home card. Replaces the side-by-side
+   phone layout, including the <=420px horizontal rows. */
+@media(max-width:600px){
+  .before-the-bulb .choices{grid-template-columns:1fr;gap:20px}
+  .before-the-bulb .choices:not(:empty):before{position:static;transform:none;grid-row:2;justify-self:center;width:43px;height:43px;font-size:11px}
+  .before-the-bulb .choice-card:first-child{grid-row:1}
+  .before-the-bulb .choice-card:nth-child(2){grid-row:3}
+  .before-the-bulb .choice-card{background:var(--pf-paper)}
+  .before-the-bulb .pick,
+  .before-the-bulb .choice-card:has(.pick:disabled) .pick{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;width:100%;padding:0;min-height:0}
+  .before-the-bulb .object-art,
+  .before-the-bulb .choice-card:has(.pick:disabled) .object-art{width:100%;height:auto;margin:0;font-size:0}
+  .before-the-bulb .object-art:has(img){aspect-ratio:16/10}
+  .before-the-bulb .object-art img{border-radius:var(--pf-radius-card) var(--pf-radius-card) 0 0}
+  .before-the-bulb .choice-letter{left:12px;top:12px;background:var(--pf-paper);opacity:1}
+  .before-the-bulb .object-name{align-self:stretch;text-align:center;padding:16px 16px 0}
+  .before-the-bulb .choice-status{align-self:stretch;text-align:center;margin-top:0;min-height:0;padding:8px 16px 16px}
+}
