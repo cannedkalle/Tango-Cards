@@ -14,6 +14,7 @@
     "wild-guess:test": "node --test tests/wild-guess.test.mjs",
     "test:wild-guess-images": "node --test tests/wild-guess-images.test.mjs",
     "test:name-quest": "node --test tests/name-quest.test.mjs",
+    "test:name-quest-images": "node --test tests/name-quest-images.test.mjs",
     "test:marble-battles": "node --test tests/marble-battles.test.mjs",
     "test:animal-outsider": "node --test tests/animal-outsider.test.mjs",
     "test:animal-outsider-images": "node --test tests/animal-outsider-images.test.mjs",
