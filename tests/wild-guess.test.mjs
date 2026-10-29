@@ -36,7 +36,7 @@ test('proposal pool contains 100 clear, non-overlapping comparisons across four 
 });
 
 test('subject pool deals close, non-overlapping, non-part-whole matchups', () => {
-  assert.equal(subjects.length, 163);
+  assert.equal(subjects.length, 157);
   assert.equal(new Set(subjects.map((subject) => subject.id)).size, subjects.length);
   assert.equal(new Set(subjects.map((subject) => `${subject.category}:${canonicalConceptKey(subject.label)}`)).size, subjects.length);
   assert.deepEqual(subjects.filter((subject) => /\b(big|large|huge|long|full-grown|giant)\b/i.test(subject.label) && !/\bgiant tortoise\b/i.test(subject.label)).map((subject) => subject.label), []);
@@ -45,12 +45,12 @@ test('subject pool deals close, non-overlapping, non-part-whole matchups', () =>
   assert.equal(subjects.some((subject) => subject.label === 'Two ticks of a clock'), false);
   assert.deepEqual(Object.fromEntries(subjectCategories.map((category) => [category, validSubjectPairs(category).length])), {
     count: 77,
-    duration: 109,
+    duration: 107,
     weight: 53,
     frequency: 52,
     length: 52,
     area: 36,
-    volume: 34,
+    volume: 18,
     speed: 38,
   });
   const byId = new Map(subjects.map((subject) => [subject.id, subject]));
@@ -62,7 +62,7 @@ test('subject pool deals close, non-overlapping, non-part-whole matchups', () =>
     ['weight-a-blue-whale', 'weight-all-whales-alive-today'],
     ['weight-all-the-blue-whales-on-earth', 'weight-all-whales-alive-today'],
     ['weight-earth', 'weight-all-eight-planets-together'],
-    ['volume-the-water-in-lake-erie', 'volume-the-water-in-all-five-great-lakes'],
+    ['volume-the-water-in-the-mediterranean-sea', 'volume-the-water-in-all-of-earths-oceans'],
     ['area-the-great-barrier-reef-marine-park', 'area-the-pacific-ocean'],
     ['area-a-city-block', 'area-the-island-of-manhattan'],
     ['weight-a-blue-whale', 'weight-a-blue-whales-tongue'],
@@ -143,13 +143,13 @@ test('magnitude labels stay readable at very large scales', () => {
   assert.equal(formatScale({ magnitude: 2, scaleLabel: 'about 200 per second' }, 'frequency'), 'hundreds per second');
   assert.equal(formatScale({ magnitude: -6, scaleLabel: 'about 0.000003 per second' }, 'frequency'), 'one every few days');
   assert.equal(formatScale({ magnitude: -1, scaleLabel: 'about 0.05 to 0.2 heartbeats per second' }, 'frequency'), 'one every few seconds');
-  assert.equal(formatRange({ lowMagnitude: 18, highMagnitude: 20 }, 'weight'), 'Estimates range from quintillions of kilograms to hundreds of quintillions of kilograms.');
+  assert.equal(formatRange({ lowMagnitude: 18, highMagnitude: 20 }, 'weight'), 'Estimates range from 1 quintillion to 100 quintillion kilograms.');
   assert.equal(formatRange({ magnitude: 2, scaleLabel: 'about 100 to 200 wingbeats per second' }, 'frequency'), 'A useful estimate is about 100 to 200 wingbeats per second.');
   assert.equal(formatRange({ magnitude: -1, scaleLabel: 'about 0.05 to 0.2 heartbeats per second' }, 'frequency'), 'It takes about 5 to 20 seconds for one to happen.');
   assert.equal(formatRange({ magnitude: 6, scaleLabel: 'about 6,400 to 6,800 kilometers' }, 'length'), 'A useful estimate is about 6,400 to 6,800 kilometers.');
   assert.equal(formatRange({ magnitude: 6, scaleLabel: 'about 2.6 million cubic meters' }, 'volume'), 'A useful estimate is about 2.6 million cubic meters.');
   assert.equal(formatRange({ magnitude: -9, scaleLabel: 'about 1 to 15 centimeters per year' }, 'speed'), 'A useful estimate is about 1 to 15 centimeters per year.');
-  assert.equal(formatRange({ magnitude: 30, lowMagnitude: 30, highMagnitude: 31 }, 'weight'), 'That is roughly a 1 followed by 30 zeros, measured in kilograms.');
+  assert.equal(formatRange({ magnitude: 30, lowMagnitude: 30, highMagnitude: 31 }, 'weight'), 'Estimates range from 1 nonillion to 10 nonillion kilograms.');
 });
 
 test('an endless game records a binary choice and conceals the answer until reveal', async () => {
@@ -191,7 +191,7 @@ test('one matchup, one unit: both answers in a comparison share a unit', async (
   const { pairUnit, formatScaleInUnit, formatEstimateInUnit } = await import('../lib/wild-guess/game.mjs');
   const { buildReveal } = await import('../lib/wild-guess/client-game.mjs');
 
-  // The screenshot pair: Great Lakes vs Mediterranean used cubic kilometers
+  // Erie vs Mediterranean renders in cubic kilometers
   // on one side and cubic meters on the other.
   assert.equal(pairUnit('volume', 13, 15).unit, 'cubic kilometers');
   assert.equal(formatScaleInUnit({ magnitude: 13 }, 'volume', pairUnit('volume', 13, 15)), 'tens of thousands of cubic kilometers');
@@ -209,7 +209,7 @@ test('one matchup, one unit: both answers in a comparison share a unit', async (
   assert.equal(formatEstimateInUnit('a few liters', pairUnit('volume', 0, 3)), 'a few liters');
 
   const byLabel = new Map(subjects.map((subject) => [subject.label, subject]));
-  const lakes = byLabel.get('The water in all five Great Lakes');
+  const lakes = byLabel.get('The water in Lake Erie');
   const med = byLabel.get('The water in the Mediterranean Sea');
   const reveal = buildReveal({ category: 'volume', prompt: 'Which takes up more space?', left: lakes, right: med }, 0);
   assert.ok(reveal.sides.every((side) => side.scale.includes('cubic kilometers')));
