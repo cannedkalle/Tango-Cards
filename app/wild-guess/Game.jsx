@@ -148,22 +148,19 @@ export default function Game() {
     saveProgress({ leftId: nextComparison.left.id, rightId: nextComparison.right.id, category: nextComparison.category, position: nextPosition, played, correct });
   };
 
-  const winnerCopy = reveal ? reveal.prompt.includes('shorter gap')
-    ? `${reveal.sides[reveal.correctChoice].label} happens more often.`
-    : reveal.prompt.includes('takes longer')
-      ? `${reveal.sides[reveal.correctChoice].label} takes longer.`
-      : reveal.prompt.includes('weighs')
-        ? `${reveal.sides[reveal.correctChoice].label} weighs more.`
-        : reveal.prompt.includes('covers more')
-          ? `${reveal.sides[reveal.correctChoice].label} covers more area.`
-        : reveal.prompt.includes('takes up more')
-          ? `${reveal.sides[reveal.correctChoice].label} takes up more space.`
-        : reveal.prompt.includes('moves or grows faster')
-          ? `${reveal.sides[reveal.correctChoice].label} is faster.`
-        : reveal.prompt.includes('is longer')
-          ? `${reveal.sides[reveal.correctChoice].label} is longer.`
-        : `${reveal.sides[reveal.correctChoice].label} has more.`
-    : '';
+  const winnerCopy = reveal ? (() => {
+    const side = reveal.sides[reveal.correctChoice];
+    const label = side.label;
+    const p = side.plural;
+    if (reveal.prompt.includes('shorter gap')) return `${label} ${p ? 'happen' : 'happens'} more often.`;
+    if (reveal.prompt.includes('takes longer')) return `${label} ${p ? 'take' : 'takes'} longer.`;
+    if (reveal.prompt.includes('weighs')) return `${label} ${p ? 'weigh' : 'weighs'} more.`;
+    if (reveal.prompt.includes('covers more')) return `${label} ${p ? 'cover' : 'covers'} more area.`;
+    if (reveal.prompt.includes('takes up more')) return `${label} ${p ? 'take' : 'takes'} up more space.`;
+    if (reveal.prompt.includes('moves or grows faster')) return `${label} ${p ? 'are' : 'is'} faster.`;
+    if (reveal.prompt.includes('is longer')) return `${label} ${p ? 'are' : 'is'} longer.`;
+    return `${label} ${p ? 'have' : 'has'} more.`;
+  })() : '';
 
   return <><PortalNav/><main className="wg"><GameBar title="Balls in the Ballpark" onStartOver={startFresh} settingsSummary={(PLAY_MODES.find((mode) => mode.id === playMode) || {}).label}><div className="pf-pill-group" role="group" aria-label="Play mode">{PLAY_MODES.map((mode) => <button key={mode.id} className="pf-pill" type="button" aria-pressed={playMode === mode.id} onClick={() => switchPlayMode(mode.id)}>{mode.label}</button>)}</div></GameBar><StatusLine round={reveal ? played : played + 1} total={playMode === 'ten' ? 10 : null} correct={correct} played={played} streak={streak} lives={playMode === 'lives' ? lives : null} /><div className="wg-layout"><section className="wg-board">
     {error && <div className="wg-error" role="alert">{error} <button className="pf-btn" onClick={startFresh}>Start over</button></div>}
@@ -176,7 +173,7 @@ export default function Game() {
       </div> : reveal ? <div className="wg-comparison-reveal" role="status">
         <p className="wg-result-kicker">{reveal.correct ? 'You called it!' : 'Plot twist!'}</p>
         <h2 ref={heading} tabIndex={-1}>{winnerCopy}</h2>
-        <div className="wg-reveal-sides">{reveal.sides.map((option, index) => <article className={index === reveal.correctChoice ? 'is-winner' : ''} key={option.label}><ChoicePhoto option={option} className="wg-reveal-photo" /><div className="wg-reveal-text"><span className="wg-option-emoji" aria-hidden="true">{option.emoji}</span><h3>{option.label}</h3><p className="wg-scale-answer">{option.scaleLead} <strong>{option.scale}</strong></p><p>{option.detail}</p>{index === reveal.correctChoice && <span className="wg-winner-mark">{reveal.prompt.includes('shorter gap') ? 'Shorter gap ✓' : reveal.prompt.includes('moves or grows faster') ? 'Faster ✓' : reveal.prompt.includes('longer') ? 'Longer ✓' : reveal.prompt.includes('weighs') ? 'Heavier ✓' : reveal.prompt.includes('area') ? 'More area ✓' : reveal.prompt.includes('space') ? 'More space ✓' : 'More ✓'}</span>}</div></article>)}</div>
+        <div className="wg-reveal-sides">{reveal.sides.map((option, index) => <article className={index === reveal.correctChoice ? 'is-winner' : ''} key={option.label}><ChoicePhoto option={option} className="wg-reveal-photo" /><div className="wg-reveal-text"><span className="wg-option-emoji" aria-hidden="true">{option.emoji}</span><h3>{option.label}</h3><p className="wg-scale-answer">{option.scaleLead} <strong>{option.scale}</strong></p><p className="wg-reveal-detail">{option.detail}</p>{option.note ? <p className="wg-reveal-note">{option.note}</p> : null}{index === reveal.correctChoice && <span className="wg-winner-mark">{reveal.prompt.includes('shorter gap') ? 'Shorter gap ✓' : reveal.prompt.includes('moves or grows faster') ? 'Faster ✓' : reveal.prompt.includes('longer') ? 'Longer ✓' : reveal.prompt.includes('weighs') ? 'Heavier ✓' : reveal.prompt.includes('area') ? 'More area ✓' : reveal.prompt.includes('space') ? 'More space ✓' : 'More ✓'}</span>}</div></article>)}</div>
         <button className="pf-primary" onClick={over ? () => setShowResults(true) : next}>{over ? <>See results <ArrowRightIcon /></> : <>Next round <ArrowRightIcon /></>}</button>
       </div> : <>
         <h2 className="wg-question" ref={heading} tabIndex={-1}>{comparison.prompt}</h2>

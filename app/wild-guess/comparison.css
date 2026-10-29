@@ -12,7 +12,8 @@
 .wg-reveal-sides .wg-option-emoji { font-size: 42px; margin-bottom: 12px; }
 .wg-scale-answer { margin: 15px 0 10px; color: var(--pf-muted); }
 .wg-scale-answer strong { display: block; color: var(--pf-ink); font-size: 24px; line-height: 1.1; }
-.wg-reveal-sides .wg-reveal-text > p:last-of-type { color: var(--pf-muted); font-size: 14px; line-height: 1.45; }
+.wg-reveal-sides .wg-reveal-detail { color: var(--pf-muted); font-size: 14px; line-height: 1.45; }
+.wg-reveal-sides .wg-reveal-note { color: var(--pf-muted); font-size: 14px; line-height: 1.45; margin-top: 8px; }
 .wg-winner-mark { display: inline-block; margin-top: 14px; padding: 6px 9px; border-radius: 12px; background: var(--pf-green); color: white; font-size: 12px; font-weight: 800; }
 
 @media (max-width: 560px) {
