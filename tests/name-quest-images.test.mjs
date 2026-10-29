@@ -16,8 +16,8 @@ const LICENSE_ALLOWLIST = /^(CC BY(-SA)?( \d\.\d)?|CC0|Public domain|GFDL( \d\.\
 
 test('every bank entry has an image key and every key is a real entry', () => {
   const ids = new Set(bank.map((entry) => entry.id));
-  assert.equal(bank.length, 2245);
-  assert.equal(Object.keys(NAME_QUEST_IMAGES).length, 2245);
+  assert.equal(bank.length, 2244);
+  assert.equal(Object.keys(NAME_QUEST_IMAGES).length, 2244);
   for (const entry of bank) {
     assert.ok(Object.prototype.hasOwnProperty.call(NAME_QUEST_IMAGES, entry.id), `missing image key for ${entry.id}`);
   }
@@ -26,15 +26,24 @@ test('every bank entry has an image key and every key is a real entry', () => {
   }
 });
 
-test('every non-null entry has a Commons page, thumbnail, author and free license', () => {
-  let filled = 0;
+test('every non-null entry is a valid image, a link, or explicitly null', () => {
+  let images = 0;
+  let links = 0;
   for (const [id, entry] of Object.entries(NAME_QUEST_IMAGES)) {
     if (entry === null) continue;
-    filled += 1;
-    assert.match(entry.page, /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/, id);
-    assert.match(entry.thumb, /^https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\/.+\?width=480$/, id);
-    assert.ok(entry.author && entry.author.length > 0, `${id}: author`);
-    assert.match(entry.license, LICENSE_ALLOWLIST, `${id}: license ${entry.license}`);
+    if (entry.thumb) {
+      images += 1;
+      assert.match(entry.page, /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/, id);
+      assert.match(entry.thumb, /^https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\/.+\?width=480$/, id);
+      assert.ok(entry.author && entry.author.length > 0, `${id}: author`);
+      assert.match(entry.license, LICENSE_ALLOWLIST, `${id}: license ${entry.license}`);
+    } else if (entry.link) {
+      links += 1;
+      assert.match(entry.link, /^https:\/\//, `${id}: link`);
+    } else {
+      assert.fail(`${id}: entry is neither an image, a link, nor null`);
+    }
   }
-  assert.ok(filled > 700, `expected 700+ sourced images, got ${filled}`);
+  assert.ok(images > 1100, `expected 1100+ sourced images, got ${images}`);
+  assert.ok(links > 1000, `expected 1000+ official links, got ${links}`);
 });
