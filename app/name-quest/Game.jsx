@@ -338,7 +338,11 @@ export default function Game() {
   /* Reveal-only photo: the answered entry in category/pokemon modes, the
    * pair's answer in realAnimal mode. Null entries render no figure. */
   const revealEntry = mode === "realAnimal" ? pairCurrent.answer : current;
-  const revealImage = result !== "idle" && revealEntry ? NAME_QUEST_IMAGES[revealEntry.id] : null;
+  /* Reveal media: an embedded photo when one exists, otherwise a discreet
+   * link to the official page (image never embedded for these entries). */
+  const revealMedia = result !== "idle" && revealEntry ? NAME_QUEST_IMAGES[revealEntry.id] : null;
+  const revealImage = revealMedia && revealMedia.thumb ? revealMedia : null;
+  const revealLink = revealMedia && !revealMedia.thumb && revealMedia.link ? revealMedia.link : null;
 
   const nextRound = useCallback(() => {
     if (mode === "realAnimal") {
@@ -528,6 +532,8 @@ export default function Game() {
                 <img src={revealImage.thumb} alt={revealEntry.name} loading="lazy" decoding="async" onError={(event) => { const figure = event.currentTarget.closest("figure"); if (figure) figure.style.display = "none"; }} />
                 <figcaption>Photo: {revealImage.author}, {revealImage.license}, via <a href={revealImage.page} target="_blank" rel="noreferrer">Wikimedia Commons</a></figcaption>
               </figure>
+            ) : revealLink ? (
+              <a className="nq-reveal-link" href={revealLink} target="_blank" rel="noreferrer">See what {revealEntry.name} looks like ↗</a>
             ) : null}
             {result !== "idle" ? (
               <button type="button" className="pf-primary" onClick={over ? () => setShowResults(true) : nextRound}>{over ? <>See results <ArrowRightIcon /></> : <>Next round <ArrowRightIcon /></>}</button>

@@ -39,3 +39,4 @@ h1,h2,h3,p{margin:0}h1{font-size:clamp(30px,4vw,44px);letter-spacing:-1.2px}h2{f
 .nq-reveal-image img{display:block;width:100%;max-height:320px;object-fit:cover;border-radius:12px;background:var(--pf-surface)}
 .nq-reveal-image figcaption{margin-top:8px;font-size:12px;color:var(--muted)}
 .nq-reveal-image figcaption a{color:inherit}
+.nq-reveal-link{font-size:13px;font-weight:600;color:var(--muted)}
