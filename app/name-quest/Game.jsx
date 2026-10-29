@@ -5,6 +5,7 @@ import { PLAY_MODES, isGameOver, nextLives } from "../../lib/quiz-play.mjs";
 import { ArrowRightIcon } from "../components/Icons";
 import nameBank from "../../lib/name-quest/name-bank.json";
 import pokemonAnimalPairs from "../../lib/name-quest/pokemon-animal-pairs.json";
+import { NAME_QUEST_IMAGES } from "../../lib/name-quest/images.mjs";
 import PortalNav from "../components/PortalNav";
 import { GameBar, StatusLine } from "../components/QuizShell";
 
@@ -334,6 +335,10 @@ export default function Game() {
   }, [current, mode, pairCurrent.choices]);
 
   const promptName = mode === "realAnimal" ? "Which is " + pairCurrent.target + "?" : current.name;
+  /* Reveal-only photo: the answered entry in category/pokemon modes, the
+   * pair's answer in realAnimal mode. Null entries render no figure. */
+  const revealEntry = mode === "realAnimal" ? pairCurrent.answer : current;
+  const revealImage = result !== "idle" && revealEntry ? NAME_QUEST_IMAGES[revealEntry.id] : null;
 
   const nextRound = useCallback(() => {
     if (mode === "realAnimal") {
@@ -518,6 +523,12 @@ export default function Game() {
           <div className="name-card-stage">
             <h2 className="quest-name">{promptName}</h2>
             <strong className={"round-feedback " + result} aria-live="polite">{feedback}</strong>
+            {revealImage ? (
+              <figure className="nq-reveal-image">
+                <img src={revealImage.thumb} alt={revealEntry.name} loading="lazy" decoding="async" onError={(event) => { const figure = event.currentTarget.closest("figure"); if (figure) figure.style.display = "none"; }} />
+                <figcaption>Photo: {revealImage.author}, {revealImage.license}, via <a href={revealImage.page} target="_blank" rel="noreferrer">Wikimedia Commons</a></figcaption>
+              </figure>
+            ) : null}
             {result !== "idle" ? (
               <button type="button" className="pf-primary" onClick={over ? () => setShowResults(true) : nextRound}>{over ? <>See results <ArrowRightIcon /></> : <>Next round <ArrowRightIcon /></>}</button>
             ) : null}
