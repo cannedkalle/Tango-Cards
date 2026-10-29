@@ -17,27 +17,38 @@ const ORIGINAL_PAIR_IDS = [
   "times-product", "diamond-mound", "corner-degree", "crust-mantle",
   "mirror-fold", "reed-keys", "foil-lunge", "pedal-hammer", "bar-pie",
   "fault-plate", "mass-volume", "subject-object", "fork-pin", "bluff-raise",
-  "trump-trick", "seed-bracket", "legend-scale", "bull-bear",
+  "trump-trick", "seed-bracket", "bull-bear",
   "interest-principal", "front-pressure", "school-pod", "bug-patch",
-  "virus-worm", "resume-cover", "plot-setting", "half-quarter",
+  "virus-worm",
   "rare-medium", "lead-follow", "base-power", "derivative-integral",
   "slope-intercept", "precision-accuracy", "pole-field", "crest-trough",
   "wave-particle", "element-compound", "order-family", "carrier-trait",
   "beat-scoop", "person-number", "stress-meter", "hook-bridge",
   "score-arrangement", "dress-tech", "trailer-teaser",
   "reference-circulation", "court-appeal", "balance-statement",
-  "charge-plea", "stock-reduce", "crown-king",
-  "prune-graft", "prime-coat", "stud-beam", "shot-booster",
+  "charge-plea", "crown-king",
+  "stud-beam",
 ];
 
-test("92 domains generate 261 pairs (10 blocked)", () => {
+/* Eight original pairs deliberately removed by the 2026-10-28 content
+ * fix: the two scoring traps (legend-scale, half-quarter) and the pairs
+ * whose terms were cut as dominant, verb-step, or synonym pairs
+ * (resume-cover, plot-setting, stock-reduce, prune-graft, prime-coat,
+ * shot-booster). A saved game holding one of these ids no longer
+ * restores to that pair — the pair itself was the defect. */
+const REMOVED_ORIGINAL_PAIR_IDS = [
+  "legend-scale", "half-quarter", "resume-cover", "plot-setting",
+  "stock-reduce", "prune-graft", "prime-coat", "shot-booster",
+];
+
+test("92 domains generate 247 pairs (12 blocked)", () => {
   assert.equal(DOMAINS.length, 92);
-  assert.equal(DOMAINS.reduce((sum, domain) => sum + domain.terms.length, 0), 273);
-  assert.equal(PAIRS.length, 261);
-  assert.equal(new Set(PAIRS.map((pair) => pair.id)).size, 261);
+  assert.equal(DOMAINS.reduce((sum, domain) => sum + domain.terms.length, 0), 267);
+  assert.equal(PAIRS.length, 247);
+  assert.equal(new Set(PAIRS.map((pair) => pair.id)).size, 247);
   assert.equal(
     new Set(PAIRS.map((pair) => [...pair.hints].sort().join("+"))).size,
-    261,
+    247,
   );
   assert.equal(new Set(PAIRS.map((pair) => pair.answer)).size, 92);
   for (const pair of PAIRS) {
@@ -74,10 +85,14 @@ test("every generated pair has exactly one claiming domain and avoids the blockl
   }
 });
 
-test("all 55 original pairs still deal under their original ids", () => {
-  assert.equal(ORIGINAL_PAIR_IDS.length, 55);
+test("all surviving original pairs still deal under their original ids", () => {
+  assert.equal(ORIGINAL_PAIR_IDS.length, 47);
   for (const id of ORIGINAL_PAIR_IDS) {
     assert.ok(pairById(id), `original pair ${id} no longer deals`);
+  }
+  assert.equal(REMOVED_ORIGINAL_PAIR_IDS.length, 8);
+  for (const id of REMOVED_ORIGINAL_PAIR_IDS) {
+    assert.equal(pairById(id), null, `removed original pair ${id} still deals`);
   }
 });
 
@@ -101,7 +116,7 @@ test("six general categories cover every domain and pair, none empty", () => {
   );
   assert.deepEqual(
     [...pairCounts.entries()].sort(),
-    [["arts", 61], ["games", 30], ["life", 25], ["math", 29], ["science", 85], ["society", 31]],
+    [["arts", 59], ["games", 30], ["life", 18], ["math", 28], ["science", 83], ["society", 29]],
   );
   assert.equal(categoryById("no-such-category"), null);
 });
@@ -111,14 +126,14 @@ test("spot-check the category mapping", () => {
   assert.equal(pairById("diamond-mound").category, "games");
   assert.equal(pairById("slope-intercept").category, "math");
   assert.equal(pairById("crust-mantle").category, "science");
-  assert.equal(pairById("legend-scale").category, "life");
+  assert.equal(pairById("legend-compass").category, "life");
   assert.equal(pairById("court-appeal").category, "society");
   assert.equal(pairById("hook-bridge").category, "arts");
-  assert.equal(pairById("prune-graft").category, "life");
+  assert.equal(pairById("graft-soil").category, "life");
   assert.equal(pairById("person-number").category, "arts");
   assert.equal(pairById("subject-object").category, "arts");
   assert.equal(pairById("eye-surge").category, "science");
-  assert.equal(pairById("manuscript-imprint").category, "arts");
+  assert.equal(pairById("galley-imprint").category, "arts");
   assert.equal(pairById("track-conductor").category, "life");
   assert.equal(pairById("track-signal").category, "life");
   assert.equal(pairById("mark-blocking").category, "arts");
