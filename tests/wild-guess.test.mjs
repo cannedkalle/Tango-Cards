@@ -9,7 +9,33 @@ const directory = mkdtempSync(path.join(tmpdir(), 'wild-guess-'));
 process.env.WILD_GUESS_DB_PATH = path.join(directory, 'test.sqlite');
 delete process.env.DATABASE_URL; delete process.env.POSTGRES_URL; delete process.env.POSTGRES_PRISMA_URL; delete process.env.POSTGRES_URL_NON_POOLING;
 const { comparisons, comparisonCategories, rangesOverlap } = await import('../lib/wild-guess/comparisons.mjs');
-const { canonicalConceptKey, isPartWholePair, MAX_CLOSE_GAP, MIN_PAIRS_PER_CATEGORY, subjectCategories, subjects, subjectsOverlap, validSubjectPairs } = await import('../lib/wild-guess/subjects.mjs');
+const { canonicalConceptKey, isPartWholePair, maxCloseGap, MIN_PAIRS_PER_CATEGORY, subjectCategories, subjects, subjectsOverlap, validSubjectPairs } = await import('../lib/wild-guess/subjects.mjs');
+
+/* A pool or dealt pair is legal if it fits the tuned gate, or if it is
+ * the closest matchup of one of its subjects (the floor that keeps
+ * every subject dealing). The helper over-allows in theory — a pair
+ * that is some subject's closest but was never added — but such a pair
+ * can never appear in the pool or a deal, so it never hides a failure. */
+function isTunedPair(left, right) {
+  const gap = Math.abs(left.magnitude - right.magnitude);
+  if (gap <= maxCloseGap(Math.min(left.magnitude, right.magnitude))) return true;
+  const available = subjects.filter((subject) => subject.category === left.category);
+  const scored = [];
+  for (let i = 0; i < available.length; i += 1) {
+    for (let j = i + 1; j < available.length; j += 1) {
+      const a = available[i];
+      const b = available[j];
+      if (subjectsOverlap(a, b) || isPartWholePair(a, b)) continue;
+      scored.push({ pair: [a, b], gap: Math.abs(a.magnitude - b.magnitude) });
+    }
+  }
+  scored.sort((a, b) => a.gap - b.gap);
+  const samePair = (pair) => (pair[0].id === left.id && pair[1].id === right.id) || (pair[0].id === right.id && pair[1].id === left.id);
+  const firstFor = (subject) => scored.find((entry) => entry.pair[0].id === subject.id || entry.pair[1].id === subject.id);
+  const firstLeft = firstFor(left);
+  const firstRight = firstFor(right);
+  return (firstLeft && samePair(firstLeft.pair)) || (firstRight && samePair(firstRight.pair));
+}
 const { createGame, formatRange, formatScale, readGame, submitChoice, scaleName } = await import('../lib/wild-guess/game.mjs');
 const { database } = await import('../lib/wild-guess/database.mjs');
 execFileSync(process.execPath, ['scripts/setup-wild-guess.mjs'], { env: process.env });
@@ -44,14 +70,14 @@ test('subject pool deals close, non-overlapping, non-part-whole matchups', () =>
   assert.equal(subjects.some((subject) => subject.label === 'Two meals eaten by one person'), false);
   assert.equal(subjects.some((subject) => subject.label === 'Two ticks of a clock'), false);
   assert.deepEqual(Object.fromEntries(subjectCategories.map((category) => [category, validSubjectPairs(category).length])), {
-    count: 77,
-    duration: 107,
-    weight: 53,
-    frequency: 52,
-    length: 52,
-    area: 36,
-    volume: 18,
-    speed: 38,
+    count: 46,
+    duration: 67,
+    weight: 34,
+    frequency: 38,
+    length: 33,
+    area: 25,
+    volume: 13,
+    speed: 24,
   });
   const byId = new Map(subjects.map((subject) => [subject.id, subject]));
   for (const [a, b] of [
@@ -78,10 +104,7 @@ test('subject pool deals close, non-overlapping, non-part-whole matchups', () =>
       assert.equal(left.category, right.category);
       assert.equal(subjectsOverlap(left, right), false);
       assert.equal(isPartWholePair(left, right), false, `${left.id} vs ${right.id}`);
-      const gap = Math.abs(left.magnitude - right.magnitude);
-      // Every pool now deals within 1000x, including volume: the scale-up
-      // batch gave volume enough close pairs that its floor pairs dropped out.
-      assert.ok(gap <= MAX_CLOSE_GAP, `${left.id} vs ${right.id}: gap ${gap}`);
+      assert.ok(isTunedPair(left, right), `${left.id} vs ${right.id} breaks the tuned gate`);
     }
   }
 });
@@ -89,7 +112,7 @@ test('subject pool deals close, non-overlapping, non-part-whole matchups', () =>
 test('frequency no longer leans on the blue whale heartbeat, and retired subjects stay out', () => {
   const frequencyPairs = validSubjectPairs('frequency');
   const whalePairs = frequencyPairs.filter(([a, b]) => a.label.includes('blue whale') || b.label.includes('blue whale'));
-  assert.equal(whalePairs.length, 5);
+  assert.equal(whalePairs.length, 3); // Tuned gate drops the two gap-3 whale pairs (mosquito, honeybee).
   assert.ok(whalePairs.length < frequencyPairs.length / 4, 'whale share under a quarter');
   for (const label of ['Two human heartbeats', 'Two ticks of a clock', 'Two meals eaten by one person', 'Fish in a sardine school', 'A banana peel breaking down outdoors', 'A plastic bottle breaking down outdoors']) {
     assert.equal(subjects.some((subject) => subject.label === label), false, label);
@@ -114,8 +137,7 @@ test('generator deals quality matchups, spaces repeats, and never runs dry', asy
     assert.ok(dealt, `round ${round} dealt`);
     assert.equal(subjectsOverlap(dealt.left, dealt.right), false);
     assert.equal(isPartWholePair(dealt.left, dealt.right), false);
-    const gap = Math.abs(dealt.left.magnitude - dealt.right.magnitude);
-    assert.ok(gap <= MAX_CLOSE_GAP, `${dealt.id}: gap ${gap}`);
+    assert.ok(isTunedPair(dealt.left, dealt.right), `${dealt.id} breaks the tuned gate`);
     assert.ok(!history.includes(dealt.id) && !history.includes(`${dealt.right.id}--${dealt.left.id}`), `${dealt.id} repeated within window`);
     history.push(dealt.id);
     if (history.length > 12) history.shift();
