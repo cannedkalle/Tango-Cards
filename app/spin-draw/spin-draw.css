@@ -30,7 +30,9 @@
   }
 }
 
-.sd-modes {
+/* Pill control groups in the title bar: the mode switcher and the tools
+ * share one style so the row reads as a single control cluster. */
+.sd-pills {
   display: flex;
   gap: 4px;
   padding: 4px;
@@ -39,59 +41,45 @@
   background: var(--pf-surface);
 }
 
-.sd-modes button {
+.sd-pills > button {
   border: 0;
   border-radius: 10px;
   background: transparent;
   color: var(--pf-muted);
   font: inherit;
-  font-size: 13px;
-  font-weight: 800;
   min-height: 36px;
-  padding: 6px 14px;
-  cursor: pointer;
-}
-
-.sd-modes button.is-on {
-  background: var(--pf-coral);
-  color: #fff;
-}
-
-.sd-tools {
-  flex: none;
-  display: flex;
-  gap: 8px;
-  margin: 0 0 10px;
-}
-
-.sd-tool {
-  border: 1px solid var(--pf-line);
-  border-radius: 12px;
-  background: var(--pf-surface);
-  color: var(--pf-muted);
-  font: inherit;
-  font-size: 13px;
-  font-weight: 700;
-  min-height: 36px;
-  padding: 6px 12px;
   cursor: pointer;
   white-space: nowrap;
 }
 
-.sd-tool:disabled {
+.sd-pills > button:disabled {
   opacity: 0.35;
   cursor: default;
 }
 
-.sd-tool.is-armed {
-  border-color: var(--pf-error);
-  color: var(--pf-error);
+.sd-modes > button {
+  font-size: 13px;
+  font-weight: 800;
+  padding: 6px 14px;
 }
 
-@media (max-width: 600px) {
-  .sd-tool-label {
-    display: none;
-  }
+.sd-modes > button.is-on {
+  background: var(--pf-coral);
+  color: #fff;
+}
+
+.sd-tools > button {
+  font-size: 16px;
+  line-height: 1;
+  padding: 6px 9px;
+}
+
+.sd-tools > button.is-armed {
+  background: var(--pf-error);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 6px 12px;
 }
 
 .sd-palette {
@@ -169,11 +157,8 @@
 }
 
 @media (max-width: 600px) {
-  .sd-modes button {
+  .sd-modes > button {
     min-height: 36px;
     padding: 6px 10px;
-  }
-  .sd-tool {
-    padding: 6px 8px;
   }
 }

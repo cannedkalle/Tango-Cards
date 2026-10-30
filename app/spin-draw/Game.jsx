@@ -645,7 +645,7 @@ export default function Game() {
         <header className="qs-bar">
           <h1 className="qs-bar-title">Spin Draw</h1>
           <div className="qs-bar-actions">
-            <div className="sd-modes" role="group" aria-label="Mode">
+            <div className="sd-pills sd-modes" role="group" aria-label="Mode">
               {[
                 ['spin', 'Spin'],
                 ['draw', 'Draw'],
@@ -662,42 +662,39 @@ export default function Game() {
                 </button>
               ))}
             </div>
+            <div className="sd-pills sd-tools" role="group" aria-label="Tools">
+              <button
+                type="button"
+                onClick={undo}
+                disabled={!canUndo}
+                aria-label="Undo last change"
+                title="Undo last change"
+              >
+                ↩
+              </button>
+              <button
+                type="button"
+                onClick={redo}
+                disabled={!canRedo}
+                aria-label="Redo last undone change"
+                title="Redo last undone change"
+              >
+                ↪
+              </button>
+              <button
+                type="button"
+                className={restartArmed ? 'is-armed' : ''}
+                onClick={restartAll}
+                aria-label={restartArmed ? 'Tap again to restart' : 'Restart: start over with a fresh paper and disc'}
+                title={restartArmed ? 'Tap again to restart' : 'Restart: start over with a fresh paper and disc'}
+              >
+                {restartArmed ? 'Sure?' : '↻'}
+              </button>
+            </div>
           </div>
         </header>
         <p className="qs-status">{status}</p>
-        <div className="sd-tools" role="group" aria-label="Tools">
-          <button
-            type="button"
-            className="sd-tool"
-            onClick={undo}
-            disabled={!canUndo}
-            aria-label="Undo last change"
-            title="Undo last change"
-          >
-            <span aria-hidden="true">↩</span><span className="sd-tool-label"> Undo</span>
-          </button>
-          <button
-            type="button"
-            className="sd-tool"
-            onClick={redo}
-            disabled={!canRedo}
-            aria-label="Redo last undone change"
-            title="Redo last undone change"
-          >
-            <span aria-hidden="true">↪</span><span className="sd-tool-label"> Redo</span>
-          </button>
-          <button
-            type="button"
-            className={`sd-tool${restartArmed ? ' is-armed' : ''}`}
-            onClick={restartAll}
-            aria-label={restartArmed ? 'Tap again to restart' : 'Restart: start over with a fresh paper and disc'}
-            title={restartArmed ? 'Tap again to restart' : 'Restart: start over with a fresh paper and disc'}
-          >
-            {restartArmed ? 'Sure?' : (<><span aria-hidden="true">↻</span><span className="sd-tool-label"> Restart</span></>)}
-          </button>
-        </div>
-        {mode === 'draw' && (
-          <div className="sd-palette" role="group" aria-label="Drawing colors">
+        <div className="sd-palette" role="group" aria-label="Drawing colors">
             {PALETTE.map((c, i) => (
               <button
                 key={c}
@@ -710,7 +707,6 @@ export default function Game() {
               />
             ))}
           </div>
-        )}
         <div className="spin-draw-stage" ref={wrapRef}>
         <canvas
           ref={canvasRef}
