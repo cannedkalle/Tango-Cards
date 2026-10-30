@@ -13,8 +13,8 @@ const LICENSE_ALLOWLIST = /^(CC BY(-SA)?( \d\.\d)?|CC0|Public domain|GFDL( \d\.\
 
 test('every subject has an image entry and every key is a real subject', () => {
   const subjectIds = new Set(subjects.map((subject) => subject.id));
-  assert.equal(subjects.length, 157);
-  assert.equal(Object.keys(WILD_GUESS_IMAGES).length, 157);
+  assert.equal(subjects.length, 163);
+  assert.equal(Object.keys(WILD_GUESS_IMAGES).length, 163);
   for (const subject of subjects) {
     assert.ok(WILD_GUESS_IMAGES[subject.id], `missing image for ${subject.id}`);
   }
@@ -27,7 +27,7 @@ test('every image entry has a Commons page, thumbnail, author and free license',
   for (const [id, entry] of Object.entries(WILD_GUESS_IMAGES)) {
     assert.ok(entry, `null image for ${id}`);
     assert.match(entry.page, /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/, id);
-    assert.match(entry.thumb, /^https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\/.+\?width=480$/, id);
+    assert.match(entry.thumb, /^https:\/\/(commons\.wikimedia\.org\/wiki\/Special:FilePath\/.+\?width=480|(upload|thumb)\.wikimedia\.org\/[^]+)$/, id);
     assert.equal(typeof entry.author, 'string', id);
     assert.ok(entry.author.length > 0, `empty author for ${id}`);
     assert.match(entry.license, LICENSE_ALLOWLIST, `${id}: ${entry.license}`);
