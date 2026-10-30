@@ -154,12 +154,28 @@ export default function Game() {
     ctx.lineJoin = 'round';
     const paintStroke = (st) => {
       if (st.pts.length < 2) return;
+      // Physical mask: ink only lands on the paper through the cut-out.
+      // The pen has width, so constraining the stroke's centerline to the
+      // slot is not enough — clip the whole stroke to the slot polygon
+      // (at its aligned rotation, when this stroke was drawn).
+      const slot = STEPS[st.step - 1];
+      ctx.save();
+      ctx.beginPath();
+      const r0 = rotPt(slot.poly[0], -slot.delta);
+      ctx.moveTo(X(r0[0]), Y(r0[1]));
+      for (let i = 1; i < slot.poly.length; i++) {
+        const q = rotPt(slot.poly[i], -slot.delta);
+        ctx.lineTo(X(q[0]), Y(q[1]));
+      }
+      ctx.closePath();
+      ctx.clip();
       ctx.strokeStyle = st.color;
       ctx.lineWidth = 2.4 * s;
       ctx.beginPath();
       ctx.moveTo(X(st.pts[0][0]), Y(st.pts[0][1]));
       for (let i = 1; i < st.pts.length; i++) ctx.lineTo(X(st.pts[i][0]), Y(st.pts[i][1]));
       ctx.stroke();
+      ctx.restore();
     };
     for (const st of E.strokes) paintStroke(st);
     if (E.drawing) paintStroke(E.drawing);
@@ -645,7 +661,7 @@ export default function Game() {
         <header className="qs-bar">
           <h1 className="qs-bar-title">Spin Draw</h1>
           <div className="qs-bar-actions">
-            <div className="sd-modes" role="group" aria-label="Mode">
+            <div className="sd-pills sd-modes" role="group" aria-label="Mode">
               {[
                 ['spin', 'Spin'],
                 ['draw', 'Draw'],
@@ -662,42 +678,39 @@ export default function Game() {
                 </button>
               ))}
             </div>
+            <div className="sd-pills sd-tools" role="group" aria-label="Tools">
+              <button
+                type="button"
+                onClick={undo}
+                disabled={!canUndo}
+                aria-label="Undo last change"
+                title="Undo last change"
+              >
+                ↩
+              </button>
+              <button
+                type="button"
+                onClick={redo}
+                disabled={!canRedo}
+                aria-label="Redo last undone change"
+                title="Redo last undone change"
+              >
+                ↪
+              </button>
+              <button
+                type="button"
+                className={restartArmed ? 'is-armed' : ''}
+                onClick={restartAll}
+                aria-label={restartArmed ? 'Tap again to restart' : 'Restart: start over with a fresh paper and disc'}
+                title={restartArmed ? 'Tap again to restart' : 'Restart: start over with a fresh paper and disc'}
+              >
+                {restartArmed ? 'Sure?' : '↻'}
+              </button>
+            </div>
           </div>
         </header>
         <p className="qs-status">{status}</p>
-        <div className="sd-tools" role="group" aria-label="Tools">
-          <button
-            type="button"
-            className="sd-tool"
-            onClick={undo}
-            disabled={!canUndo}
-            aria-label="Undo last change"
-            title="Undo last change"
-          >
-            <span aria-hidden="true">↩</span><span className="sd-tool-label"> Undo</span>
-          </button>
-          <button
-            type="button"
-            className="sd-tool"
-            onClick={redo}
-            disabled={!canRedo}
-            aria-label="Redo last undone change"
-            title="Redo last undone change"
-          >
-            <span aria-hidden="true">↪</span><span className="sd-tool-label"> Redo</span>
-          </button>
-          <button
-            type="button"
-            className={`sd-tool${restartArmed ? ' is-armed' : ''}`}
-            onClick={restartAll}
-            aria-label={restartArmed ? 'Tap again to restart' : 'Restart: start over with a fresh paper and disc'}
-            title={restartArmed ? 'Tap again to restart' : 'Restart: start over with a fresh paper and disc'}
-          >
-            {restartArmed ? 'Sure?' : (<><span aria-hidden="true">↻</span><span className="sd-tool-label"> Restart</span></>)}
-          </button>
-        </div>
-        {mode === 'draw' && (
-          <div className="sd-palette" role="group" aria-label="Drawing colors">
+        <div className="sd-palette" role="group" aria-label="Drawing colors">
             {PALETTE.map((c, i) => (
               <button
                 key={c}
@@ -710,7 +723,6 @@ export default function Game() {
               />
             ))}
           </div>
-        )}
         <div className="spin-draw-stage" ref={wrapRef}>
         <canvas
           ref={canvasRef}
