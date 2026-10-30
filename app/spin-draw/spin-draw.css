@@ -1,0 +1,158 @@
+/* Spin Draw: full-viewport drawing stage under the portal rows. */
+
+.spin-draw {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  background: var(--pf-paper);
+}
+
+.sd-rows {
+  flex: none;
+  padding: 0 16px;
+}
+
+.sd-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.sd-bar-title {
+  margin: 0;
+  min-width: 0;
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+}
+
+.sd-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+
+.sd-modes {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--pf-line);
+  border-radius: 14px;
+  background: var(--pf-surface);
+}
+
+.sd-modes button {
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--pf-muted);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  min-height: 36px;
+  padding: 6px 14px;
+  cursor: pointer;
+}
+
+.sd-modes button.is-on {
+  background: var(--pf-coral);
+  color: #fff;
+}
+
+.sd-clear {
+  border: 1px solid var(--pf-line);
+  border-radius: 12px;
+  background: var(--pf-surface);
+  color: var(--pf-muted);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  min-height: 44px;
+  padding: 6px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.sd-clear.is-armed {
+  border-color: var(--pf-error);
+  color: var(--pf-error);
+}
+
+.sd-status {
+  margin: 0 0 10px;
+  color: var(--pf-muted);
+  font-size: 13px;
+  font-weight: 600;
+  min-height: 18px;
+}
+
+.spin-draw-stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.spin-draw-stage canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.sd-hint {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(36, 53, 47, 0.72);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.sd-zoom {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sd-zoom button {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--pf-line);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--pf-ink);
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .sd-bar-title {
+    font-size: 18px;
+  }
+  .sd-modes button {
+    min-height: 36px;
+    padding: 6px 10px;
+  }
+  .sd-clear {
+    min-height: 36px;
+    padding: 6px 8px;
+  }
+}
