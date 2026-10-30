@@ -9,6 +9,7 @@ import { dealOptions, dealPair } from '../../lib/twin-terms/questions.mjs';
 import { CATEGORIES, categoryById } from '../../lib/twin-terms/categories.mjs';
 import { clearProgress, loadProgress, saveProgress } from '../../lib/twin-terms/progress.mjs';
 import { TWIN_TERM_IMAGES } from '../../lib/twin-terms/images.mjs';
+import { preloadImages } from '../../lib/preload-images.mjs';
 
 /* Twin Terms, played entirely in the browser: two words from one field's
  * own vocabulary, and six general categories to choose from. The graded
@@ -50,6 +51,8 @@ export default function Game() {
 
   const resetRound = (nextPair) => {
     historyRef.current = [...historyRef.current, nextPair.id].slice(-12);
+    /* Warm the reveal photo now, so the reveal is instant. */
+    preloadImages([TWIN_TERM_IMAGES[nextPair.answer]?.thumb]);
     setPair(nextPair);
     setPickedCategory(null);
     setGaveUp(false);

@@ -14,6 +14,7 @@ import {
   wildPairs,
 } from '../../lib/before-the-bulb/content.mjs';
 import { BULB_IMAGES } from '../../lib/before-the-bulb/images.mjs';
+import { preloadImages } from '../../lib/preload-images.mjs';
 
 /* Same modes, titles, descriptions, labels, and pool copy as the standalone
  * game. The game keeps no saved progress (the standalone did not either):
@@ -57,6 +58,7 @@ export default function Game() {
   const [over, setOver] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [snap, setSnap] = useState(null);
+  const [queuedSnap, setQueuedSnap] = useState(null);
   const [defOpen, setDefOpen] = useState({});
   const startedRef = useRef(false);
   /* Session no-repeat window, shared by both pools: the last 12 dealt
@@ -105,6 +107,7 @@ export default function Game() {
     setShowResults(false);
     startedRef.current = true;
     focusRequest.current = 'question';
+    setQueuedSnap(null);
     setSnap(dealNext(nextGame));
   };
 
@@ -122,6 +125,7 @@ export default function Game() {
     setShowResults(false);
     startedRef.current = true;
     focusRequest.current = 'question';
+    setQueuedSnap(null);
     setSnap(dealNext(nextGame));
   };
 
@@ -135,7 +139,14 @@ export default function Game() {
     const nextLivesCount = nextLives(playMode, lives, wasCorrect);
     setLives(nextLivesCount);
     setStreak(wasCorrect ? streak + 1 : 0);
-    setOver(isGameOver(playMode, result.answered, nextLivesCount));
+    const gameOver = isGameOver(playMode, result.answered, nextLivesCount);
+    setOver(gameOver);
+    if (!gameOver) {
+      /* Deal the next round now and warm its photos, so advancing is instant. */
+      const upNext = dealNext(game);
+      setQueuedSnap(upNext);
+      preloadImages([BULB_IMAGES[upNext.pair.objectAId]?.thumb, BULB_IMAGES[upNext.pair.objectBId]?.thumb]);
+    }
   };
 
   const handleNext = () => {
@@ -145,7 +156,8 @@ export default function Game() {
     }
     focusRequest.current = 'question';
     setDefOpen({});
-    setSnap(dealNext(game));
+    setSnap(queuedSnap ?? dealNext(game));
+    setQueuedSnap(null);
   };
 
   const handleRestart = () => {
@@ -155,6 +167,7 @@ export default function Game() {
     setStreak(0);
     setOver(false);
     setShowResults(false);
+    setQueuedSnap(null);
     setSnap(track(game.reset(recentRef.current)));
   };
 
