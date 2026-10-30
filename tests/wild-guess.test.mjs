@@ -62,7 +62,7 @@ test('proposal pool contains 100 clear, non-overlapping comparisons across four 
 });
 
 test('subject pool deals close, non-overlapping, non-part-whole matchups', () => {
-  assert.equal(subjects.length, 157);
+  assert.equal(subjects.length, 163);
   assert.equal(new Set(subjects.map((subject) => subject.id)).size, subjects.length);
   assert.equal(new Set(subjects.map((subject) => `${subject.category}:${canonicalConceptKey(subject.label)}`)).size, subjects.length);
   assert.deepEqual(subjects.filter((subject) => /\b(big|large|huge|long|full-grown|giant)\b/i.test(subject.label) && !/\bgiant tortoise\b/i.test(subject.label)).map((subject) => subject.label), []);
@@ -73,7 +73,7 @@ test('subject pool deals close, non-overlapping, non-part-whole matchups', () =>
     count: 46,
     duration: 67,
     weight: 34,
-    frequency: 38,
+    frequency: 50,
     length: 33,
     area: 25,
     volume: 13,
