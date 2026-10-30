@@ -2,6 +2,7 @@ import { getAppById } from "../../lib/apps";
 import { pageTitle, SITE_NAME } from "../../lib/names";
 import Game from "./Game";
 import "./spin-draw.css";
+import "../components/quiz-shell.css";
 
 const app = getAppById("spin-draw");
 

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import PortalNav from '../components/PortalNav';
-import { STEPS, DISC_RADIUS, PIN_RADIUS } from '../../lib/spin-draw/disc.mjs';
+import { STEPS, DISC_RADIUS, PIN_RADIUS, PALETTE, DEFAULT_COLOR_INDEX } from '../../lib/spin-draw/disc.mjs';
 
 /* Spin Draw: the rotating-disc drawing toy, playable.
  * World space is disc units: the pin sits at (0,0), the rim has radius
@@ -60,7 +60,9 @@ export default function Game() {
   const [mode, setMode] = useState('spin');
   const [status, setStatus] = useState('');
   const [clearArmed, setClearArmed] = useState(false);
+  const [restartArmed, setRestartArmed] = useState(false);
   const [showHint, setShowHint] = useState(true);
+  const [selIdx, setSelIdx] = useState(DEFAULT_COLOR_INDEX);
   const eng = useRef(null);
 
   if (!eng.current) {
@@ -83,9 +85,13 @@ export default function Game() {
       dirty: true,
       lastStatus: '',
       discCanvas: null, // offscreen layer: the disc with punched-out slots
+      selIdx: DEFAULT_COLOR_INDEX, // selected palette color (mirrored from state each render)
     };
   }
   const E = eng.current;
+  // Mirror the chosen color onto the engine so the pointer handlers
+  // (registered once) always draw with the current selection.
+  E.selIdx = selIdx;
 
   const markAngle = (delta) => wrapDeg(delta + E.R);
   const computeAligned = () => {
@@ -256,11 +262,11 @@ export default function Game() {
     let text;
     if (E.mode === 'spin') {
       text = E.aligned
-        ? `Step ${E.aligned} of ${STEPS.length} · ${STEPS[E.aligned - 1].name} — switch to Draw`
+        ? `Step ${E.aligned} of ${STEPS.length} — switch to Draw`
         : 'Spin the disc to bring a number to the top';
     } else if (E.mode === 'draw') {
       text = E.aligned
-        ? `Draw inside the ${STEPS[E.aligned - 1].name} shape`
+        ? 'Draw inside the highlighted shape'
         : 'Spin to a number first, then draw';
     } else {
       text = done === 0 ? 'Nothing drawn yet — spin and draw first' : `${done} of ${STEPS.length} shapes on the paper`;
@@ -366,7 +372,7 @@ export default function Game() {
         const w = toWorld(px, py);
         if (slot && pointInPoly(w, slot)) {
           const st = STEPS[E.aligned - 1];
-          E.drawing = { step: st.step, color: st.color, pts: [w] };
+          E.drawing = { step: st.step, color: PALETTE[E.selIdx] ?? PALETTE[0], pts: [w] };
         }
       } else {
         E.pan = { x: px, y: py, cx: E.cam.cx, cy: E.cam.cy };
@@ -561,15 +567,39 @@ export default function Game() {
     E.dirty = true;
   };
 
+  // Restart: full fresh state — marks cleared, disc rotation and camera
+  // reset, back to spin mode. Clear (above) only wipes the paper.
+  // Two-tap like Clear: the first tap arms it.
+  const restartAll = () => {
+    if (!restartArmed) {
+      setRestartArmed(true);
+      setTimeout(() => setRestartArmed(false), 3000);
+      return;
+    }
+    E.strokes = [];
+    E.drawing = null;
+    E.spin = null;
+    E.flingVel = 0;
+    E.tween = null;
+    E.pinch = null;
+    E.pan = null;
+    E.R = 0;
+    E.cam = defaultCam(E.W, E.H);
+    E.aligned = computeAligned();
+    setClearArmed(false);
+    setRestartArmed(false);
+    switchMode('spin');
+  };
+
   const zoomStep = (f) => zoomAt(E.W / 2, E.H / 2, f);
 
   return (
-    <main className="spin-draw">
-      <div className="sd-rows">
-        <PortalNav />
-        <header className="sd-bar">
-          <h1 className="sd-bar-title">Spin Draw</h1>
-          <div className="sd-bar-actions">
+    <div className="spin-draw-page">
+      <PortalNav />
+      <main className="spin-draw">
+        <header className="qs-bar">
+          <h1 className="qs-bar-title">Spin Draw</h1>
+          <div className="qs-bar-actions">
             <div className="sd-modes" role="group" aria-label="Mode">
               {[
                 ['spin', 'Spin'],
@@ -596,11 +626,34 @@ export default function Game() {
             >
               {clearArmed ? 'Sure?' : 'Clear'}
             </button>
+            <button
+              type="button"
+              className={`sd-clear${restartArmed ? ' is-armed' : ''}`}
+              onClick={restartAll}
+              aria-label={restartArmed ? 'Tap again to restart' : 'Restart: clear the paper and reset the disc'}
+              title={restartArmed ? 'Tap again to restart' : 'Restart: clear the paper and reset the disc'}
+            >
+              {restartArmed ? 'Sure?' : (<><span aria-hidden="true">↻</span><span className="sd-clear-label"> Restart</span></>)}
+            </button>
           </div>
         </header>
-        <p className="sd-status">{status}</p>
-      </div>
-      <div className="spin-draw-stage" ref={wrapRef}>
+        <p className="qs-status">{status}</p>
+        {mode === 'draw' && (
+          <div className="sd-palette" role="group" aria-label="Drawing colors">
+            {PALETTE.map((c, i) => (
+              <button
+                key={c}
+                type="button"
+                className={`sd-swatch${i === selIdx ? ' is-on' : ''}`}
+                style={{ background: c }}
+                aria-label={`Color ${i + 1}`}
+                aria-pressed={i === selIdx}
+                onClick={() => setSelIdx(i)}
+              />
+            ))}
+          </div>
+        )}
+        <div className="spin-draw-stage" ref={wrapRef}>
         <canvas
           ref={canvasRef}
           aria-label="Spinning drawing disc on paper. Spin a number to the top, draw inside its shape, then view your picture."
@@ -619,6 +672,7 @@ export default function Game() {
           </button>
         </div>
       </div>
-    </main>
+      </main>
+    </div>
   );
 }
