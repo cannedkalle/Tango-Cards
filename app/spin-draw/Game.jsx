@@ -60,6 +60,7 @@ export default function Game() {
   const [mode, setMode] = useState('spin');
   const [status, setStatus] = useState('');
   const [clearArmed, setClearArmed] = useState(false);
+  const [restartArmed, setRestartArmed] = useState(false);
   const [showHint, setShowHint] = useState(true);
   const [selIdx, setSelIdx] = useState(DEFAULT_COLOR_INDEX);
   const eng = useRef(null);
@@ -566,6 +567,30 @@ export default function Game() {
     E.dirty = true;
   };
 
+  // Restart: full fresh state — marks cleared, disc rotation and camera
+  // reset, back to spin mode. Clear (above) only wipes the paper.
+  // Two-tap like Clear: the first tap arms it.
+  const restartAll = () => {
+    if (!restartArmed) {
+      setRestartArmed(true);
+      setTimeout(() => setRestartArmed(false), 3000);
+      return;
+    }
+    E.strokes = [];
+    E.drawing = null;
+    E.spin = null;
+    E.flingVel = 0;
+    E.tween = null;
+    E.pinch = null;
+    E.pan = null;
+    E.R = 0;
+    E.cam = defaultCam(E.W, E.H);
+    E.aligned = computeAligned();
+    setClearArmed(false);
+    setRestartArmed(false);
+    switchMode('spin');
+  };
+
   const zoomStep = (f) => zoomAt(E.W / 2, E.H / 2, f);
 
   return (
@@ -600,6 +625,15 @@ export default function Game() {
               title={clearArmed ? 'Tap again to clear the paper' : 'Clear the paper'}
             >
               {clearArmed ? 'Sure?' : 'Clear'}
+            </button>
+            <button
+              type="button"
+              className={`sd-clear${restartArmed ? ' is-armed' : ''}`}
+              onClick={restartAll}
+              aria-label={restartArmed ? 'Tap again to restart' : 'Restart: clear the paper and reset the disc'}
+              title={restartArmed ? 'Tap again to restart' : 'Restart: clear the paper and reset the disc'}
+            >
+              {restartArmed ? 'Sure?' : (<><span aria-hidden="true">↻</span><span className="sd-clear-label"> Restart</span></>)}
             </button>
           </div>
         </header>

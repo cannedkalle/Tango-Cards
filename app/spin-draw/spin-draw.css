@@ -76,6 +76,12 @@
   color: var(--pf-error);
 }
 
+@media (max-width: 600px) {
+  .sd-clear-label {
+    display: none;
+  }
+}
+
 .sd-palette {
   flex: none;
   display: flex;
