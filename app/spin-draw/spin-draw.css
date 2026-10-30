@@ -74,6 +74,10 @@
   padding: 6px 9px;
 }
 
+.sd-tools > button > svg {
+  display: block;
+}
+
 .sd-tools > button.is-armed {
   background: var(--pf-error);
   color: #fff;

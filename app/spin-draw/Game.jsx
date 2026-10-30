@@ -26,6 +26,20 @@ const PAPER = '#fffdf6';
 const INK = '#24352f';
 const ACCENT = '#fa8869';
 
+/* Tool icons as inline SVG (currentColor stroke): Unicode arrows (↩↪↻)
+ * render as emoji on phones and look out of style next to the pills.
+ * Undo/redo are mirrored hook arrows; restart is a full circular loop
+ * so the three read as distinct at a glance. */
+const svgIcon = (inner) => (
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    {inner}
+  </svg>
+);
+const ICON_UNDO = svgIcon(<><path d="M9 14 4 9l5-5" /><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11" /></>);
+const ICON_REDO = svgIcon(<><path d="M15 14l5-5-5-5" /><path d="M20 9h-10.5a5.5 5.5 0 0 0 0 11H13" /></>);
+const ICON_RESTART = svgIcon(<><polyline points="23 4 23 10 17 10" /><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" /></>);
+
 const wrapDeg = (d) => {
   d = (d + 180) % 360;
   if (d < 0) d += 360;
@@ -686,7 +700,7 @@ export default function Game() {
                 aria-label="Undo last change"
                 title="Undo last change"
               >
-                ↩
+                {ICON_UNDO}
               </button>
               <button
                 type="button"
@@ -695,7 +709,7 @@ export default function Game() {
                 aria-label="Redo last undone change"
                 title="Redo last undone change"
               >
-                ↪
+                {ICON_REDO}
               </button>
               <button
                 type="button"
@@ -704,7 +718,7 @@ export default function Game() {
                 aria-label={restartArmed ? 'Tap again to restart' : 'Restart: start over with a fresh paper and disc'}
                 title={restartArmed ? 'Tap again to restart' : 'Restart: start over with a fresh paper and disc'}
               >
-                {restartArmed ? 'Sure?' : '↻'}
+                {restartArmed ? 'Sure?' : ICON_RESTART}
               </button>
             </div>
           </div>
