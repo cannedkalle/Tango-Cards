@@ -71,7 +71,7 @@ const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 export default function Game() {
   const canvasRef = useRef(null);
   const wrapRef = useRef(null);
-  const [mode, setMode] = useState('spin');
+  const [mode, setMode] = useState('draw');
   const [status, setStatus] = useState('');
   const [restartArmed, setRestartArmed] = useState(false);
   const [canUndo, setCanUndo] = useState(false);
@@ -82,7 +82,7 @@ export default function Game() {
 
   if (!eng.current) {
     eng.current = {
-      mode: 'spin',
+      mode: 'draw',
       R: 0, // disc rotation, degrees, clockwise-positive
       cam: { s: 0, cx: 0, cy: -50 },
       camReady: false,
@@ -293,14 +293,10 @@ export default function Game() {
   const updateStatus = () => {
     const done = new Set(E.strokes.map((st) => st.step)).size;
     let text;
-    if (E.mode === 'spin') {
+    if (E.mode === 'draw') {
       text = E.aligned
-        ? `Step ${E.aligned} of ${STEPS.length} — switch to Draw`
-        : 'Spin the disc to bring a number to the top';
-    } else if (E.mode === 'draw') {
-      text = E.aligned
-        ? 'Draw inside the highlighted shape'
-        : 'Spin to a number first, then draw';
+        ? 'Draw inside the highlighted shape — drag elsewhere to spin'
+        : 'Drag the disc to spin a number to the top';
     } else {
       text = done === 0 ? 'Nothing drawn yet — spin and draw first' : `${done} of ${STEPS.length} shapes on the paper`;
     }
@@ -397,15 +393,17 @@ export default function Game() {
         };
         return;
       }
-      if (E.mode === 'spin') {
-        const [qx, qy] = pinScreen();
-        E.spin = { lastAngle: (Math.atan2(py - qy, px - qx) * 180) / Math.PI, vel: 0, lastT: performance.now() };
-      } else if (E.mode === 'draw') {
+      if (E.mode === 'draw') {
+        // One smart mode, no toggle: tap the aligned cut-out → color it;
+        // press anywhere else (disc body, paper) → spin the disc.
         const slot = activeSlotWorld();
         const w = toWorld(px, py);
         if (slot && pointInPoly(w, slot)) {
           const st = STEPS[E.aligned - 1];
           E.drawing = { step: st.step, color: PALETTE[E.selIdx] ?? PALETTE[0], pts: [w] };
+        } else {
+          const [qx, qy] = pinScreen();
+          E.spin = { lastAngle: (Math.atan2(py - qy, px - qx) * 180) / Math.PI, vel: 0, lastT: performance.now() };
         }
       } else {
         E.pan = { x: px, y: py, cx: E.cam.cx, cy: E.cam.cy };
@@ -592,7 +590,7 @@ export default function Game() {
   };
 
   // Restart: full fresh start — paper wiped, disc rotation and camera
-  // reset, back to spin mode. Two-tap: the first tap arms it.
+  // reset, back to draw mode. Two-tap: the first tap arms it.
   const restartAll = () => {
     if (!restartArmed) {
       setRestartArmed(true);
@@ -611,7 +609,7 @@ export default function Game() {
     E.cam = defaultCam(E.W, E.H);
     E.aligned = computeAligned();
     setRestartArmed(false);
-    switchMode('spin');
+    switchMode('draw');
   };
 
   // Undo/redo: a snapshot is taken before every mutation (stroke,
@@ -677,7 +675,6 @@ export default function Game() {
           <div className="qs-bar-actions">
             <div className="sd-pills sd-modes" role="group" aria-label="Mode">
               {[
-                ['spin', 'Spin'],
                 ['draw', 'Draw'],
                 ['view', 'View'],
               ].map(([key, label]) => (
