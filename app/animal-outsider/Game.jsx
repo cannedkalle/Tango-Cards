@@ -5,6 +5,7 @@ import PortalNav from '../components/PortalNav';
 import { GameBar, StatusLine } from '../components/QuizShell';
 import { animals } from '../../lib/animal-outsider/animals.mjs';
 import { ANIMAL_OUTSIDER_IMAGES } from '../../lib/animal-outsider/images.mjs';
+import { preloadImages } from '../../lib/preload-images.mjs';
 import { rootWords, taxonInfo } from '../../lib/animal-outsider/taxa.mjs';
 import { getAnimalPool } from '../../lib/animal-outsider/difficulty.mjs';
 import { PLAY_MODES, isGameOver, nextLives } from '../../lib/quiz-play.mjs';
@@ -125,6 +126,7 @@ export default function Game() {
   const [correct, setCorrect] = useState(0);
   const [streak, setStreak] = useState(0);
   const [current, setCurrent] = useState(null);
+  const [queuedRound, setQueuedRound] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
   const [discoveredAnimals, setDiscoveredAnimals] = useState([]);
   const [discoveredTaxa, setDiscoveredTaxa] = useState([]);
@@ -167,7 +169,9 @@ export default function Game() {
 
   const startNextRound = () => {
     if (over) return;
-    setCurrent(dealRound(getAnimalPool(animals, difficulty), recentKeys.current));
+    const round = queuedRound ?? dealRound(getAnimalPool(animals, difficulty), recentKeys.current);
+    setQueuedRound(null);
+    setCurrent(round);
     setSelectedId(null);
     setRoundNo((n) => n + 1);
     focusFirstCard.current = true;
@@ -188,6 +192,7 @@ export default function Game() {
     setExplorerId(null);
     setCurrent(round);
     setSelectedId(null);
+    setQueuedRound(null);
     setLives(3);
     setOver(false);
     setShowResults(false);
@@ -213,6 +218,7 @@ export default function Game() {
     setExplorerId(null);
     setCurrent(round);
     setSelectedId(null);
+    setQueuedRound(null);
     setLives(3);
     setOver(false);
     setShowResults(false);
@@ -226,10 +232,17 @@ export default function Game() {
     setCorrect((n) => n + (correctChoice ? 1 : 0));
     setStreak((n) => (correctChoice ? n + 1 : 0));
     setLives(nextLives(playMode, lives, correctChoice));
-    setOver(isGameOver(playMode, answered + 1, nextLives(playMode, lives, correctChoice)));
+    const gameOver = isGameOver(playMode, answered + 1, nextLives(playMode, lives, correctChoice));
+    setOver(gameOver);
     setDiscoveredAnimals((prev) => addUnique(prev, current.choices.map((animal) => animal.id)));
     setDiscoveredTaxa((prev) => addUnique(prev, current.choices.flatMap((animal) => animal.clades)));
     setExplorerId(current.outsider.id);
+    if (!gameOver) {
+      /* Deal the next round now and warm its photos, so advancing is instant. */
+      const upNext = dealRound(getAnimalPool(animals, difficulty), recentKeys.current);
+      setQueuedRound(upNext);
+      preloadImages(upNext.choices.map((animal) => ANIMAL_OUTSIDER_IMAGES[animal.id]?.thumb));
+    }
   };
 
   const explore = (id) => {

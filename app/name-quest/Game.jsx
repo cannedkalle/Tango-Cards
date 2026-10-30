@@ -6,6 +6,7 @@ import { ArrowRightIcon } from "../components/Icons";
 import nameBank from "../../lib/name-quest/name-bank.json";
 import pokemonAnimalPairs from "../../lib/name-quest/pokemon-animal-pairs.json";
 import { NAME_QUEST_IMAGES } from "../../lib/name-quest/images.mjs";
+import { preloadImages } from "../../lib/preload-images.mjs";
 import PortalNav from "../components/PortalNav";
 import { GameBar, StatusLine } from "../components/QuizShell";
 
@@ -358,6 +359,8 @@ export default function Game() {
       setResult("idle");
       setFeedback("Pick the " + next.target + ".");
       setRounds((value) => value + 1);
+      /* Warm the reveal photo now, so the reveal is instant. */
+      preloadImages([NAME_QUEST_IMAGES[next.answer.id]?.thumb]);
 
       return;
     }
@@ -374,6 +377,8 @@ export default function Game() {
     setResult("idle");
     setFeedback(mode === "pokemon" ? "Pokemon or not?" : "Pick the kind of name.");
     setRounds((value) => value + 1);
+    /* Warm the reveal photo now, so the reveal is instant. */
+    preloadImages([NAME_QUEST_IMAGES[next.id]?.thumb]);
 
   }, [current.id, mode, pool, usedIds]);
 

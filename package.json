@@ -24,7 +24,8 @@
     "test:before-the-bulb-images": "node --test tests/before-the-bulb-images.test.mjs",
     "wild-guess:audit": "node scripts/audit-wild-guess-subjects.mjs",
     "wild-guess:proposals": "node scripts/export-wild-guess-proposals.mjs",
-    "wild-guess:subjects": "node scripts/export-wild-guess-subjects.mjs"
+    "wild-guess:subjects": "node scripts/export-wild-guess-subjects.mjs",
+    "test:preload-images": "node --test tests/preload-images.test.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

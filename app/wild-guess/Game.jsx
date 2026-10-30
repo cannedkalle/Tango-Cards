@@ -6,6 +6,7 @@ import { GameBar, StatusLine } from '../components/QuizShell';
 import { buildReveal, clearProgress, generateComparison, loadProgress, saveProgress } from '../../lib/wild-guess/client-game.mjs';
 import { PLAY_MODES, isGameOver, nextLives } from '../../lib/quiz-play.mjs';
 import { WILD_GUESS_IMAGES } from '../../lib/wild-guess/images.mjs';
+import { preloadImages } from '../../lib/preload-images.mjs';
 import { ArrowRightIcon } from "../components/Icons";
 
 /* Balls in the Ballpark, played entirely in the browser: matchups are dealt
@@ -119,6 +120,8 @@ export default function Game() {
     const upNext = deal();
     setQueued(upNext);
     if (upNext) {
+      /* The next round is dealt; warm its photos now so advancing is instant. */
+      preloadImages([WILD_GUESS_IMAGES[upNext.left.id]?.thumb, WILD_GUESS_IMAGES[upNext.right.id]?.thumb]);
       saveProgress({ leftId: upNext.left.id, rightId: upNext.right.id, category: upNext.category, position: position + 1, played: nextPlayed, correct: nextCorrect });
     } else {
       saveProgress({ leftId: comparison.left.id, rightId: comparison.right.id, category: comparison.category, position, played: nextPlayed, correct: nextCorrect });
