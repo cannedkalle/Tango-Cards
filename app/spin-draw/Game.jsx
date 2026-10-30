@@ -509,7 +509,27 @@ export default function Game() {
     };
     const onDbl = (e) => {
       e.preventDefault();
-      E.cam = defaultCam(E.W, E.H);
+      if (E.aligned) {
+        // Focus the highlighted (aligned) slot: center it and zoom so it
+        // fills the view nicely — large enough to draw in, never cropped.
+        const st = STEPS[E.aligned - 1];
+        const R = -st.delta;
+        let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+        for (const p of st.poly) {
+          const q = rotPt(p, R);
+          if (q[0] < x0) x0 = q[0];
+          if (q[0] > x1) x1 = q[0];
+          if (q[1] < y0) y0 = q[1];
+          if (q[1] > y1) y1 = q[1];
+        }
+        const { W, H } = E;
+        const pad = 1.3; // slot fills ~75% of the limiting dimension
+        const s = Math.min(W / ((x1 - x0) * pad), H / ((y1 - y0) * pad));
+        const { min, max } = zoomLimits(W, H);
+        E.cam = { s: clamp(s, min, max), cx: (x0 + x1) / 2, cy: (y0 + y1) / 2 };
+      } else {
+        E.cam = defaultCam(E.W, E.H);
+      }
       requestRender();
     };
     const onCtx = (e) => e.preventDefault();
