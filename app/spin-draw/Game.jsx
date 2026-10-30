@@ -154,12 +154,28 @@ export default function Game() {
     ctx.lineJoin = 'round';
     const paintStroke = (st) => {
       if (st.pts.length < 2) return;
+      // Physical mask: ink only lands on the paper through the cut-out.
+      // The pen has width, so constraining the stroke's centerline to the
+      // slot is not enough — clip the whole stroke to the slot polygon
+      // (at its aligned rotation, when this stroke was drawn).
+      const slot = STEPS[st.step - 1];
+      ctx.save();
+      ctx.beginPath();
+      const r0 = rotPt(slot.poly[0], -slot.delta);
+      ctx.moveTo(X(r0[0]), Y(r0[1]));
+      for (let i = 1; i < slot.poly.length; i++) {
+        const q = rotPt(slot.poly[i], -slot.delta);
+        ctx.lineTo(X(q[0]), Y(q[1]));
+      }
+      ctx.closePath();
+      ctx.clip();
       ctx.strokeStyle = st.color;
       ctx.lineWidth = 2.4 * s;
       ctx.beginPath();
       ctx.moveTo(X(st.pts[0][0]), Y(st.pts[0][1]));
       for (let i = 1; i < st.pts.length; i++) ctx.lineTo(X(st.pts[i][0]), Y(st.pts[i][1]));
       ctx.stroke();
+      ctx.restore();
     };
     for (const st of E.strokes) paintStroke(st);
     if (E.drawing) paintStroke(E.drawing);
