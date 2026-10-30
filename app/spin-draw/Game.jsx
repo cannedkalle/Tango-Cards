@@ -26,6 +26,20 @@ const PAPER = '#fffdf6';
 const INK = '#24352f';
 const ACCENT = '#fa8869';
 
+/* Tool icons as inline SVG (currentColor stroke): Unicode arrows (↩↪↻)
+ * render as emoji on phones and look out of style next to the pills.
+ * Undo/redo are mirrored hook arrows; restart is a full circular loop
+ * so the three read as distinct at a glance. */
+const svgIcon = (inner) => (
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    {inner}
+  </svg>
+);
+const ICON_UNDO = svgIcon(<><path d="M9 14 4 9l5-5" /><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11" /></>);
+const ICON_REDO = svgIcon(<><path d="M15 14l5-5-5-5" /><path d="M20 9h-10.5a5.5 5.5 0 0 0 0 11H13" /></>);
+const ICON_RESTART = svgIcon(<><polyline points="23 4 23 10 17 10" /><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" /></>);
+
 const wrapDeg = (d) => {
   d = (d + 180) % 360;
   if (d < 0) d += 360;
@@ -57,7 +71,7 @@ const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 export default function Game() {
   const canvasRef = useRef(null);
   const wrapRef = useRef(null);
-  const [mode, setMode] = useState('spin');
+  const [mode, setMode] = useState('draw');
   const [status, setStatus] = useState('');
   const [restartArmed, setRestartArmed] = useState(false);
   const [canUndo, setCanUndo] = useState(false);
@@ -68,7 +82,7 @@ export default function Game() {
 
   if (!eng.current) {
     eng.current = {
-      mode: 'spin',
+      mode: 'draw',
       R: 0, // disc rotation, degrees, clockwise-positive
       cam: { s: 0, cx: 0, cy: -50 },
       camReady: false,
@@ -279,14 +293,10 @@ export default function Game() {
   const updateStatus = () => {
     const done = new Set(E.strokes.map((st) => st.step)).size;
     let text;
-    if (E.mode === 'spin') {
+    if (E.mode === 'draw') {
       text = E.aligned
-        ? `Step ${E.aligned} of ${STEPS.length} — switch to Draw`
-        : 'Spin the disc to bring a number to the top';
-    } else if (E.mode === 'draw') {
-      text = E.aligned
-        ? 'Draw inside the highlighted shape'
-        : 'Spin to a number first, then draw';
+        ? 'Draw inside the highlighted shape — drag elsewhere to spin'
+        : 'Drag the disc to spin a number to the top';
     } else {
       text = done === 0 ? 'Nothing drawn yet — spin and draw first' : `${done} of ${STEPS.length} shapes on the paper`;
     }
@@ -383,15 +393,17 @@ export default function Game() {
         };
         return;
       }
-      if (E.mode === 'spin') {
-        const [qx, qy] = pinScreen();
-        E.spin = { lastAngle: (Math.atan2(py - qy, px - qx) * 180) / Math.PI, vel: 0, lastT: performance.now() };
-      } else if (E.mode === 'draw') {
+      if (E.mode === 'draw') {
+        // One smart mode, no toggle: tap the aligned cut-out → color it;
+        // press anywhere else (disc body, paper) → spin the disc.
         const slot = activeSlotWorld();
         const w = toWorld(px, py);
         if (slot && pointInPoly(w, slot)) {
           const st = STEPS[E.aligned - 1];
           E.drawing = { step: st.step, color: PALETTE[E.selIdx] ?? PALETTE[0], pts: [w] };
+        } else {
+          const [qx, qy] = pinScreen();
+          E.spin = { lastAngle: (Math.atan2(py - qy, px - qx) * 180) / Math.PI, vel: 0, lastT: performance.now() };
         }
       } else {
         E.pan = { x: px, y: py, cx: E.cam.cx, cy: E.cam.cy };
@@ -578,7 +590,7 @@ export default function Game() {
   };
 
   // Restart: full fresh start — paper wiped, disc rotation and camera
-  // reset, back to spin mode. Two-tap: the first tap arms it.
+  // reset, back to draw mode. Two-tap: the first tap arms it.
   const restartAll = () => {
     if (!restartArmed) {
       setRestartArmed(true);
@@ -597,7 +609,7 @@ export default function Game() {
     E.cam = defaultCam(E.W, E.H);
     E.aligned = computeAligned();
     setRestartArmed(false);
-    switchMode('spin');
+    switchMode('draw');
   };
 
   // Undo/redo: a snapshot is taken before every mutation (stroke,
@@ -663,7 +675,6 @@ export default function Game() {
           <div className="qs-bar-actions">
             <div className="sd-pills sd-modes" role="group" aria-label="Mode">
               {[
-                ['spin', 'Spin'],
                 ['draw', 'Draw'],
                 ['view', 'View'],
               ].map(([key, label]) => (
@@ -686,7 +697,7 @@ export default function Game() {
                 aria-label="Undo last change"
                 title="Undo last change"
               >
-                ↩
+                {ICON_UNDO}
               </button>
               <button
                 type="button"
@@ -695,7 +706,7 @@ export default function Game() {
                 aria-label="Redo last undone change"
                 title="Redo last undone change"
               >
-                ↪
+                {ICON_REDO}
               </button>
               <button
                 type="button"
@@ -704,7 +715,7 @@ export default function Game() {
                 aria-label={restartArmed ? 'Tap again to restart' : 'Restart: start over with a fresh paper and disc'}
                 title={restartArmed ? 'Tap again to restart' : 'Restart: start over with a fresh paper and disc'}
               >
-                {restartArmed ? 'Sure?' : '↻'}
+                {restartArmed ? 'Sure?' : ICON_RESTART}
               </button>
             </div>
           </div>
