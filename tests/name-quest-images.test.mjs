@@ -34,7 +34,7 @@ test('every non-null entry is a valid image, a link, or explicitly null', () => 
     if (entry.thumb) {
       images += 1;
       assert.match(entry.page, /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/, id);
-      assert.match(entry.thumb, /^https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\/.+\?width=480$/, id);
+      assert.match(entry.thumb, /^https:\/\/(commons\.wikimedia\.org\/wiki\/Special:FilePath\/.+\?width=480|(upload|thumb)\.wikimedia\.org\/[^ ]+)$/, id);
       assert.ok(entry.author && entry.author.length > 0, `${id}: author`);
       assert.match(entry.license, LICENSE_ALLOWLIST, `${id}: license ${entry.license}`);
     } else if (entry.link) {

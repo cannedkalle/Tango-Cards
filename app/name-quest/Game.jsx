@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { PLAY_MODES, isGameOver, nextLives } from "../../lib/quiz-play.mjs";
 import { ArrowRightIcon } from "../components/Icons";
 import nameBank from "../../lib/name-quest/name-bank.json";
@@ -345,6 +345,13 @@ export default function Game() {
   const revealImage = revealMedia && revealMedia.thumb ? revealMedia : null;
   const revealLink = revealMedia && !revealMedia.thumb && revealMedia.link ? revealMedia.link : null;
 
+  /* The first question is dealt before anything can preload it; warm its
+   * reveal photo on mount so the first reveal is fast too. */
+  useEffect(() => {
+    const firstId = mode === "realAnimal" ? pairCurrent.answer.id : current.id;
+    preloadImages([NAME_QUEST_IMAGES[firstId]?.thumb]);
+  }, []);
+
   const nextRound = useCallback(() => {
     if (mode === "realAnimal") {
       const next = pickPairNext(new Set(recentIdsRef.current));
@@ -534,7 +541,7 @@ export default function Game() {
             <strong className={"round-feedback " + result} aria-live="polite">{feedback}</strong>
             {revealImage ? (
               <figure className="nq-reveal-image">
-                <img src={revealImage.thumb} alt={revealEntry.name} loading="lazy" decoding="async" onError={(event) => { const figure = event.currentTarget.closest("figure"); if (figure) figure.style.display = "none"; }} />
+                <img src={revealImage.thumb} alt={revealEntry.name} loading="eager" fetchpriority="high" decoding="async" onError={(event) => { const figure = event.currentTarget.closest("figure"); if (figure) figure.style.display = "none"; }} />
                 <figcaption>Photo: {revealImage.author}, {revealImage.license}, via <a href={revealImage.page} target="_blank" rel="noreferrer">Wikimedia Commons</a></figcaption>
               </figure>
             ) : revealLink ? (
