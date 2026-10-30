@@ -92,6 +92,8 @@ export default function Game() {
       pointers: new Map(),
       spin: null, // {lastAngle, vel, lastT}
       flingVel: 0,
+      lastTap: { t: 0, x: 0, y: 0 }, // manual double-tap detection (see onUp)
+      multiTouch: false, // a multi-finger gesture is/was in progress
       tween: null, // {from, to, t0, dur}
       drawing: null, // {step, color, pts}
       pinch: null, // {d0, s0, mid, cx0, cy0}
@@ -382,6 +384,7 @@ export default function Game() {
         E.spin = null;
         E.drawing = null;
         E.pan = null;
+        E.multiTouch = true;
         const [a, b] = [...E.pointers.values()];
         E.pinch = {
           d0: Math.hypot(a.x - b.x, a.y - b.y) || 1,
@@ -482,6 +485,27 @@ export default function Game() {
         // The remaining pointer (if any) stays idle until it is lifted
         // and pressed again; its gesture was cancelled when pinching began.
       }
+      if (E.multiTouch) {
+        // A multi-finger gesture just ended: not a tap.
+        if (E.pointers.size === 0) E.multiTouch = false;
+      } else if (E.pointers.size === 0) {
+        // Single-finger tap ended: check for a double-tap.
+        const [px, py] = pos(e);
+        const now = performance.now();
+        if (now - E.lastTap.t < 350 && Math.hypot(px - E.lastTap.x, py - E.lastTap.y) < 40) {
+          E.lastTap.t = 0; // consume: a triple-tap won't refire
+          E.spin = null; // drop the just-started tap gesture
+          E.drawing = null;
+          E.pan = null;
+          if (E.mode === 'draw') focusSlot();
+          else {
+            E.cam = defaultCam(E.W, E.H);
+            requestRender();
+          }
+          return;
+        }
+        E.lastTap = { t: now, x: px, y: py };
+      }
       if (E.spin && E.pointers.size <= 1) {
         const v = E.spin.vel;
         E.spin = null;
@@ -507,9 +531,31 @@ export default function Game() {
       const [px, py] = pos(e);
       zoomAt(px, py, Math.exp(-e.deltaY * 0.0012));
     };
-    const onDbl = (e) => {
-      e.preventDefault();
-      E.cam = defaultCam(E.W, E.H);
+    // Double-tap is detected manually from pointer events: onDown calls
+    // preventDefault(), which suppresses the browser's synthesized
+    // dblclick on touch — so dblclick would never fire on phones.
+    const focusSlot = () => {
+      if (E.aligned) {
+        // Focus the highlighted (aligned) slot: center it and zoom so it
+        // fills the view nicely — large enough to draw in, never cropped.
+        const st = STEPS[E.aligned - 1];
+        const R = -st.delta;
+        let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+        for (const p of st.poly) {
+          const q = rotPt(p, R);
+          if (q[0] < x0) x0 = q[0];
+          if (q[0] > x1) x1 = q[0];
+          if (q[1] < y0) y0 = q[1];
+          if (q[1] > y1) y1 = q[1];
+        }
+        const { W, H } = E;
+        const pad = 1.3; // slot fills ~75% of the limiting dimension
+        const s = Math.min(W / ((x1 - x0) * pad), H / ((y1 - y0) * pad));
+        const { min, max } = zoomLimits(W, H);
+        E.cam = { s: clamp(s, min, max), cx: (x0 + x1) / 2, cy: (y0 + y1) / 2 };
+      } else {
+        E.cam = defaultCam(E.W, E.H);
+      }
       requestRender();
     };
     const onCtx = (e) => e.preventDefault();
@@ -519,7 +565,6 @@ export default function Game() {
     canvas.addEventListener('pointerup', onUp);
     canvas.addEventListener('pointercancel', onUp);
     canvas.addEventListener('wheel', onWheel, { passive: false });
-    canvas.addEventListener('dblclick', onDbl);
     canvas.addEventListener('contextmenu', onCtx);
 
     let raf = 0;
@@ -570,7 +615,6 @@ export default function Game() {
       canvas.removeEventListener('pointerup', onUp);
       canvas.removeEventListener('pointercancel', onUp);
       canvas.removeEventListener('wheel', onWheel);
-      canvas.removeEventListener('dblclick', onDbl);
       canvas.removeEventListener('contextmenu', onCtx);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
