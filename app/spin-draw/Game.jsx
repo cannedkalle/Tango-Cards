@@ -59,8 +59,9 @@ export default function Game() {
   const wrapRef = useRef(null);
   const [mode, setMode] = useState('spin');
   const [status, setStatus] = useState('');
-  const [clearArmed, setClearArmed] = useState(false);
   const [restartArmed, setRestartArmed] = useState(false);
+  const [canUndo, setCanUndo] = useState(false);
+  const [canRedo, setCanRedo] = useState(false);
   const [showHint, setShowHint] = useState(true);
   const [selIdx, setSelIdx] = useState(DEFAULT_COLOR_INDEX);
   const eng = useRef(null);
@@ -86,6 +87,8 @@ export default function Game() {
       lastStatus: '',
       discCanvas: null, // offscreen layer: the disc with punched-out slots
       selIdx: DEFAULT_COLOR_INDEX, // selected palette color (mirrored from state each render)
+      history: [], // undo snapshots, oldest first (bounded)
+      redo: [], // redo snapshots (cleared by any new change)
     };
   }
   const E = eng.current;
@@ -461,7 +464,10 @@ export default function Game() {
         }
       }
       if (E.drawing) {
-        if (E.drawing.pts.length > 1) E.strokes.push(E.drawing);
+        if (E.drawing.pts.length > 1) {
+          pushHistory();
+          E.strokes.push(E.drawing);
+        }
         E.drawing = null;
         requestRender();
       }
@@ -555,27 +561,15 @@ export default function Game() {
     E.dirty = true;
   };
 
-  const clearPaper = () => {
-    if (!clearArmed) {
-      setClearArmed(true);
-      setTimeout(() => setClearArmed(false), 3000);
-      return;
-    }
-    E.strokes = [];
-    setClearArmed(false);
-    updateStatus();
-    E.dirty = true;
-  };
-
-  // Restart: full fresh state — marks cleared, disc rotation and camera
-  // reset, back to spin mode. Clear (above) only wipes the paper.
-  // Two-tap like Clear: the first tap arms it.
+  // Restart: full fresh start — paper wiped, disc rotation and camera
+  // reset, back to spin mode. Two-tap: the first tap arms it.
   const restartAll = () => {
     if (!restartArmed) {
       setRestartArmed(true);
       setTimeout(() => setRestartArmed(false), 3000);
       return;
     }
+    pushHistory();
     E.strokes = [];
     E.drawing = null;
     E.spin = null;
@@ -586,9 +580,60 @@ export default function Game() {
     E.R = 0;
     E.cam = defaultCam(E.W, E.H);
     E.aligned = computeAligned();
-    setClearArmed(false);
     setRestartArmed(false);
     switchMode('spin');
+  };
+
+  // Undo/redo: a snapshot is taken before every mutation (stroke,
+  // restart), so Undo reverts the last change — a bad stroke or a wiped
+  // paper alike — and Redo re-applies it. Any new change clears redo.
+  // Both work in every mode, including view.
+  const snapState = () => ({
+    strokes: E.strokes.map((s) => ({ step: s.step, color: s.color, pts: s.pts.map((p) => [p[0], p[1]]) })),
+    R: E.R,
+    cam: { s: E.cam.s, cx: E.cam.cx, cy: E.cam.cy },
+    mode: E.mode,
+  });
+  const restoreState = (s) => {
+    E.strokes = s.strokes;
+    E.R = s.R;
+    E.cam = s.cam;
+    E.drawing = null;
+    E.spin = null;
+    E.flingVel = 0;
+    E.tween = null;
+    E.pinch = null;
+    E.pan = null;
+    E.aligned = computeAligned();
+    if (s.mode !== E.mode) switchMode(s.mode);
+    else {
+      updateStatus();
+      E.dirty = true;
+    }
+  };
+  const pushHistory = () => {
+    E.history.push(snapState());
+    if (E.history.length > 50) E.history.shift();
+    E.redo.length = 0;
+    setCanUndo(true);
+    setCanRedo(false);
+  };
+  const undo = () => {
+    const prev = E.history.pop();
+    if (!prev) return;
+    E.redo.push(snapState());
+    restoreState(prev);
+    setCanUndo(E.history.length > 0);
+    setCanRedo(true);
+  };
+  const redo = () => {
+    const next = E.redo.pop();
+    if (!next) return;
+    E.history.push(snapState());
+    if (E.history.length > 50) E.history.shift();
+    restoreState(next);
+    setCanUndo(true);
+    setCanRedo(E.redo.length > 0);
   };
 
   const zoomStep = (f) => zoomAt(E.W / 2, E.H / 2, f);
@@ -617,27 +662,40 @@ export default function Game() {
                 </button>
               ))}
             </div>
-            <button
-              type="button"
-              className={`sd-clear${clearArmed ? ' is-armed' : ''}`}
-              onClick={clearPaper}
-              aria-label={clearArmed ? 'Tap again to clear the paper' : 'Clear the paper'}
-              title={clearArmed ? 'Tap again to clear the paper' : 'Clear the paper'}
-            >
-              {clearArmed ? 'Sure?' : 'Clear'}
-            </button>
-            <button
-              type="button"
-              className={`sd-clear${restartArmed ? ' is-armed' : ''}`}
-              onClick={restartAll}
-              aria-label={restartArmed ? 'Tap again to restart' : 'Restart: clear the paper and reset the disc'}
-              title={restartArmed ? 'Tap again to restart' : 'Restart: clear the paper and reset the disc'}
-            >
-              {restartArmed ? 'Sure?' : (<><span aria-hidden="true">↻</span><span className="sd-clear-label"> Restart</span></>)}
-            </button>
           </div>
         </header>
         <p className="qs-status">{status}</p>
+        <div className="sd-tools" role="group" aria-label="Tools">
+          <button
+            type="button"
+            className="sd-tool"
+            onClick={undo}
+            disabled={!canUndo}
+            aria-label="Undo last change"
+            title="Undo last change"
+          >
+            <span aria-hidden="true">↩</span><span className="sd-tool-label"> Undo</span>
+          </button>
+          <button
+            type="button"
+            className="sd-tool"
+            onClick={redo}
+            disabled={!canRedo}
+            aria-label="Redo last undone change"
+            title="Redo last undone change"
+          >
+            <span aria-hidden="true">↪</span><span className="sd-tool-label"> Redo</span>
+          </button>
+          <button
+            type="button"
+            className={`sd-tool${restartArmed ? ' is-armed' : ''}`}
+            onClick={restartAll}
+            aria-label={restartArmed ? 'Tap again to restart' : 'Restart: start over with a fresh paper and disc'}
+            title={restartArmed ? 'Tap again to restart' : 'Restart: start over with a fresh paper and disc'}
+          >
+            {restartArmed ? 'Sure?' : (<><span aria-hidden="true">↻</span><span className="sd-tool-label"> Restart</span></>)}
+          </button>
+        </div>
         {mode === 'draw' && (
           <div className="sd-palette" role="group" aria-label="Drawing colors">
             {PALETTE.map((c, i) => (
