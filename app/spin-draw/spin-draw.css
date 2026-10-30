@@ -57,7 +57,14 @@
   color: #fff;
 }
 
-.sd-clear {
+.sd-tools {
+  flex: none;
+  display: flex;
+  gap: 8px;
+  margin: 0 0 10px;
+}
+
+.sd-tool {
   border: 1px solid var(--pf-line);
   border-radius: 12px;
   background: var(--pf-surface);
@@ -71,13 +78,18 @@
   white-space: nowrap;
 }
 
-.sd-clear.is-armed {
+.sd-tool:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.sd-tool.is-armed {
   border-color: var(--pf-error);
   color: var(--pf-error);
 }
 
 @media (max-width: 600px) {
-  .sd-clear-label {
+  .sd-tool-label {
     display: none;
   }
 }
@@ -157,15 +169,11 @@
 }
 
 @media (max-width: 600px) {
-  .sd-bar-title {
-    font-size: 18px;
-  }
   .sd-modes button {
     min-height: 36px;
     padding: 6px 10px;
   }
-  .sd-clear {
-    min-height: 36px;
+  .sd-tool {
     padding: 6px 8px;
   }
 }
