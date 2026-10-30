@@ -1,40 +1,33 @@
-/* Spin Draw: full-viewport drawing stage under the portal rows. */
+/* Spin Draw: full-viewport drawing stage under the portal rows.
+ * Frame follows the shared shell (app/components/quiz-shell.css):
+ * PortalNav is row 1 (rendered outside main, flush), the title row reuses
+ * .qs-bar/.qs-bar-title/.qs-bar-actions, the status line is .qs-status.
+ * This file holds only the game's own controls: the mode switcher, the
+ * clear button, the color palette, and the stage. */
 
-.spin-draw {
+.spin-draw-page {
   display: flex;
   flex-direction: column;
   height: 100dvh;
   background: var(--pf-paper);
 }
 
-.sd-rows {
-  flex: none;
-  padding: 0 16px;
-}
-
-.sd-bar {
+.spin-draw {
+  flex: 1;
+  min-height: 0;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 8px;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1176px;
+  margin: 0 auto;
+  padding: 24px 32px 0;
 }
 
-.sd-bar-title {
-  margin: 0;
-  min-width: 0;
-  font-size: 24px;
-  line-height: 1.2;
-  font-weight: 800;
-  letter-spacing: -0.3px;
-  white-space: nowrap;
-}
-
-.sd-bar-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex: none;
+@media (max-width: 760px) {
+  .spin-draw {
+    max-width: none;
+    padding: 16px 16px 0;
+  }
 }
 
 .sd-modes {
@@ -72,7 +65,7 @@
   font: inherit;
   font-size: 13px;
   font-weight: 700;
-  min-height: 44px;
+  min-height: 36px;
   padding: 6px 12px;
   cursor: pointer;
   white-space: nowrap;
@@ -83,12 +76,26 @@
   color: var(--pf-error);
 }
 
-.sd-status {
+.sd-palette {
+  flex: none;
+  display: flex;
+  gap: 6px;
   margin: 0 0 10px;
-  color: var(--pf-muted);
-  font-size: 13px;
-  font-weight: 600;
-  min-height: 18px;
+}
+
+.sd-swatch {
+  flex: 1 1 0;
+  aspect-ratio: 1;
+  max-width: 44px;
+  border: 0;
+  border-radius: 50%;
+  padding: 0;
+  cursor: pointer;
+}
+
+.sd-swatch.is-on {
+  outline: 3px solid var(--pf-coral);
+  outline-offset: 2px;
 }
 
 .spin-draw-stage {
