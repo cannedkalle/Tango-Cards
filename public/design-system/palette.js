@@ -25,6 +25,7 @@ export const colors = {
   "gold-soft": "#fdf6d7",
   "rose-soft": "#fde9ee",
   "teal-soft": "#e2f4f1",
+  "coral-soft": "#fee9e3",
   "error": "#a13b36",
   "focus": "#265ec7"
 };
