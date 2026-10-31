@@ -255,21 +255,55 @@ export default function Game() {
         c.fillText(String(st.step), 0, 0.3 * s);
         c.restore();
       }
-      // Slot number badges with short leaders.
+      // Slot number badges: floating labels, always next to their area.
+      // Fixed screen size (readable at any zoom); each badge sits just
+      // above its slot's visible bbox, clamped into the viewport, with a
+      // leader to the nearest slot vertex so it visibly connects to the
+      // area. Drawn only when the slot is on screen — if you can see an
+      // area, you can see its number. All badges share one neutral solid
+      // light grey; the aligned step's badge highlights in coral.
+      const BADGE_R = 13;
+      c.textAlign = 'center'; c.textBaseline = 'middle';
       for (const st of STEPS) {
-        const b = rotPt(st.label, E.R), bx = X(b[0]), by = Y(b[1]);
-        let nx = bx, ny = by, nd = Infinity;
+        const active = st.step === E.aligned;
+        let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+        const spts = [];
         for (const q of st.poly) {
           const r = rotPt(q, E.R), sx = X(r[0]), sy = Y(r[1]);
-          const d = (sx - bx) * (sx - bx) + (sy - by) * (sy - by);
-          if (d < nd) { nd = d; nx = sx; ny = sy; }
+          spts.push([sx, sy]);
+          if (sx < x0) x0 = sx;
+          if (sx > x1) x1 = sx;
+          if (sy < y0) y0 = sy;
+          if (sy > y1) y1 = sy;
         }
-        c.lineWidth = Math.max(1, 0.28 * s); c.strokeStyle = '#8a948c';
+        if (x1 < 0 || x0 > W || y1 < 0 || y0 > H) continue;
+        const visTop = Math.max(y0, 0);
+        const midX = (x0 + x1) / 2;
+        const bx = clamp(midX, BADGE_R + 4, W - BADGE_R - 4);
+        const by = clamp(visTop - BADGE_R - 6, BADGE_R + 4, H - BADGE_R - 4);
+        // Leader to the nearest point on the slot's boundary (not a
+        // vertex), measured from the badge's actual screen position —
+        // so the connection slides along the edge instead of sticking
+        // to one corner.
+        let nx = bx, ny = by, nd = Infinity;
+        for (let i = 0; i < spts.length; i++) {
+          const ax = spts[i][0], ay = spts[i][1];
+          const ex = spts[(i + 1) % spts.length][0], ey = spts[(i + 1) % spts.length][1];
+          const dx = ex - ax, dy = ey - ay;
+          const len2 = dx * dx + dy * dy;
+          let t = len2 > 0 ? ((bx - ax) * dx + (by - ay) * dy) / len2 : 0;
+          t = Math.max(0, Math.min(1, t));
+          const px = ax + t * dx, py = ay + t * dy;
+          const d = (px - bx) * (px - bx) + (py - by) * (py - by);
+          if (d < nd) { nd = d; nx = px; ny = py; }
+        }
+        c.lineWidth = 1.5; c.strokeStyle = '#8a948c';
         c.beginPath(); c.moveTo(bx, by); c.lineTo(nx, ny); c.stroke();
-        c.fillStyle = '#ffffff'; c.strokeStyle = st.color; c.lineWidth = Math.max(1, 0.32 * s);
-        c.beginPath(); c.arc(bx, by, 3 * s, 0, TAU); c.fill(); c.stroke();
-        c.fillStyle = INK; c.font = `800 ${3.1 * s}px system-ui, -apple-system, sans-serif`;
-        c.fillText(String(st.step), bx, by + 0.2 * s);
+        c.fillStyle = active ? ACCENT : '#d3d7d0';
+        c.beginPath(); c.arc(bx, by, BADGE_R, 0, TAU); c.fill();
+        c.fillStyle = active ? '#ffffff' : INK;
+        c.font = '800 11px system-ui, -apple-system, sans-serif';
+        c.fillText(String(st.step), bx, by + 0.5);
       }
       // Pin: a real circle, not a dot.
       c.fillStyle = INK;
@@ -288,6 +322,50 @@ export default function Game() {
       ctx.beginPath();
       ctx.moveTo(mx - 9, 6); ctx.lineTo(mx + 9, 6); ctx.lineTo(mx, 18);
       ctx.closePath(); ctx.fill();
+      // Off-screen hint: when a number is spun to but its slot is out of
+      // view, point an arrow at it so the player knows where to pan.
+      if (E.mode === 'draw' && E.aligned) {
+        const st = STEPS[E.aligned - 1];
+        const R = -st.delta;
+        let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+        for (const p of st.poly) {
+          const q = rotPt(p, R);
+          if (q[0] < x0) x0 = q[0];
+          if (q[0] > x1) x1 = q[0];
+          if (q[1] < y0) y0 = q[1];
+          if (q[1] > y1) y1 = q[1];
+        }
+        const sx = X((x0 + x1) / 2), sy = Y((y0 + y1) / 2);
+        const m = 30;
+        if (sx < -m || sx > W + m || sy < -m || sy > H + m) {
+          const cx = W / 2, cy = H / 2;
+          let dx = sx - cx, dy = sy - cy;
+          const len = Math.hypot(dx, dy) || 1;
+          dx /= len; dy /= len;
+          const rad = Math.min(W, H) / 2 - 46;
+          const ax = clamp(cx + dx * rad, 28, W - 28);
+          const ay = clamp(cy + dy * rad, 28, H - 28);
+          // Number badge with a direction arrow on its rim: the number stays
+          // upright so it reads clearly; the arrowhead points the way.
+          // (A shaft arrow alone looked too much like the TOP triangle.)
+          ctx.save();
+          ctx.translate(ax, ay);
+          ctx.fillStyle = 'rgba(255,255,255,.92)';
+          ctx.beginPath(); ctx.arc(0, 0, 17, 0, TAU); ctx.fill();
+          ctx.fillStyle = INK;
+          ctx.font = '800 13px system-ui, -apple-system, sans-serif';
+          ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+          ctx.fillText(String(st.step), 0, 0.5);
+          const ang = Math.atan2(dy, dx);
+          ctx.translate(Math.cos(ang) * 17, Math.sin(ang) * 17);
+          ctx.rotate(ang);
+          ctx.fillStyle = ACCENT;
+          ctx.beginPath();
+          ctx.moveTo(12, 0); ctx.lineTo(1, -6.5); ctx.lineTo(1, 6.5);
+          ctx.closePath(); ctx.fill();
+          ctx.restore();
+        }
+      }
     }
   };
 
