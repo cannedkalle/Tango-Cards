@@ -255,17 +255,21 @@ export default function Game() {
         c.fillText(String(st.step), 0, 0.3 * s);
         c.restore();
       }
-      // Slot number badges: floating labels, always next to their area.
-      // Fixed screen size (readable at any zoom); each badge sits just
-      // above its slot's visible bbox, clamped into the viewport, with a
-      // leader to the nearest slot vertex so it visibly connects to the
-      // area. Drawn only when the slot is on screen — if you can see an
-      // area, you can see its number. All badges share one neutral solid
-      // light grey; the aligned step's badge highlights in coral.
+      // Slot number badges: floating annotations, one per slot.
+      // Map-style: each label anchors to its area's visible center,
+      // floats at a small fixed screen offset, connects with a short
+      // leader. Hard rule: a badge sits OUTSIDE all cutouts — never
+      // touching or covering any of them. Placement searches expanding
+      // rings around the anchor (upward first) and takes the nearest
+      // candidate clear of every slot; if none exists the badge is
+      // skipped rather than drawn over a shape.
       const BADGE_R = 13;
+      const BADGE_GAP = 5;
+      const BADGE_CLEAR = BADGE_R + BADGE_GAP;
       c.textAlign = 'center'; c.textBaseline = 'middle';
-      for (const st of STEPS) {
-        const active = st.step === E.aligned;
+      // Screen-space geometry for every slot (clearance is checked
+      // against all cutouts, not just the badge's own).
+      const slotGeoms = STEPS.map(st => {
         let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
         const spts = [];
         for (const q of st.poly) {
@@ -276,29 +280,77 @@ export default function Game() {
           if (sy < y0) y0 = sy;
           if (sy > y1) y1 = sy;
         }
-        if (x1 < 0 || x0 > W || y1 < 0 || y0 > H) continue;
-        const visTop = Math.max(y0, 0);
-        const midX = (x0 + x1) / 2;
-        const bx = clamp(midX, BADGE_R + 4, W - BADGE_R - 4);
-        const by = clamp(visTop - BADGE_R - 6, BADGE_R + 4, H - BADGE_R - 4);
-        // Leader to the nearest point on the slot's boundary (not a
-        // vertex), measured from the badge's actual screen position —
-        // so the connection slides along the edge instead of sticking
-        // to one corner.
-        let nx = bx, ny = by, nd = Infinity;
+        return { st, spts, x0, y0, x1, y1 };
+      });
+      // Nearest boundary point + distance, for one polygon.
+      const nearestPoint = (spts, px, py) => {
+        let qx = px, qy = py, qd = Infinity;
         for (let i = 0; i < spts.length; i++) {
           const ax = spts[i][0], ay = spts[i][1];
           const ex = spts[(i + 1) % spts.length][0], ey = spts[(i + 1) % spts.length][1];
           const dx = ex - ax, dy = ey - ay;
           const len2 = dx * dx + dy * dy;
-          let t = len2 > 0 ? ((bx - ax) * dx + (by - ay) * dy) / len2 : 0;
+          let t = len2 > 0 ? ((px - ax) * dx + (py - ay) * dy) / len2 : 0;
           t = Math.max(0, Math.min(1, t));
-          const px = ax + t * dx, py = ay + t * dy;
-          const d = (px - bx) * (px - bx) + (py - by) * (py - by);
-          if (d < nd) { nd = d; nx = px; ny = py; }
+          const wx = ax + t * dx, wy = ay + t * dy;
+          const d = (wx - px) * (wx - px) + (wy - py) * (wy - py);
+          if (d < qd) { qd = d; qx = wx; qy = wy; }
         }
+        return [qx, qy, Math.sqrt(qd)];
+      };
+      const inPoly = (spts, px, py) => {
+        let inside = false;
+        for (let i = 0, j = spts.length - 1; i < spts.length; j = i++) {
+          const xi = spts[i][0], yi = spts[i][1];
+          const xj = spts[j][0], yj = spts[j][1];
+          if ((yi > py) !== (yj > py) && px < ((xj - xi) * (py - yi)) / (yj - yi) + xi) {
+            inside = !inside;
+          }
+        }
+        return inside;
+      };
+      const clearOfAllSlots = (px, py) => {
+        for (const g of slotGeoms) {
+          const dx = Math.max(g.x0 - px, 0, px - g.x1);
+          const dy = Math.max(g.y0 - py, 0, py - g.y1);
+          if (dx * dx + dy * dy >= BADGE_CLEAR * BADGE_CLEAR) continue;
+          if (inPoly(g.spts, px, py)) return false;
+          if (nearestPoint(g.spts, px, py)[2] < BADGE_CLEAR) return false;
+        }
+        return true;
+      };
+      for (const g of slotGeoms) {
+        const { st, spts, x0, y0, x1, y1 } = g;
+        const active = st.step === E.aligned;
+        if (x1 < 0 || x0 > W || y1 < 0 || y0 > H) continue;
+        // Anchor: centroid of the visible vertices (the area's visible
+        // center); nearest boundary point to the viewport center when
+        // zoomed into the interior.
+        let vcx = 0, vcy = 0, vn = 0;
+        for (const [sx, sy] of spts) {
+          if (sx >= 0 && sx <= W && sy >= 0 && sy <= H) { vcx += sx; vcy += sy; vn++; }
+        }
+        let ax, ay;
+        if (vn > 0) { ax = vcx / vn; ay = vcy / vn; }
+        else { [ax, ay] = nearestPoint(spts, W / 2, H / 2); }
+        // Nearest on-screen candidate clear of every cutout.
+        let bx = -1, by = -1;
+        outer: for (let ring = 0; ring < 6; ring++) {
+          const rad = BADGE_CLEAR + ring * 12;
+          const nDir = ring === 0 ? 1 : 8;
+          for (let k = 0; k < nDir; k++) {
+            const ang = -Math.PI / 2 + (k / nDir) * TAU;
+            const cx = ax + Math.cos(ang) * rad;
+            const cy = ay + Math.sin(ang) * rad;
+            if (cx < BADGE_R + 4 || cx > W - BADGE_R - 4 ||
+                cy < BADGE_R + 4 || cy > H - BADGE_R - 4) continue;
+            if (clearOfAllSlots(cx, cy)) { bx = cx; by = cy; break outer; }
+          }
+        }
+        if (bx < 0) continue;
+        const [lx, ly] = nearestPoint(spts, bx, by);
         c.lineWidth = 1.5; c.strokeStyle = '#8a948c';
-        c.beginPath(); c.moveTo(bx, by); c.lineTo(nx, ny); c.stroke();
+        c.beginPath(); c.moveTo(bx, by); c.lineTo(lx, ly); c.stroke();
         c.fillStyle = active ? ACCENT : '#d3d7d0';
         c.beginPath(); c.arc(bx, by, BADGE_R, 0, TAU); c.fill();
         c.fillStyle = active ? '#ffffff' : INK;
